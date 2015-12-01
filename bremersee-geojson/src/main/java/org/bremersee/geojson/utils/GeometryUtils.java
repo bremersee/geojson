@@ -105,6 +105,9 @@ public abstract class GeometryUtils {
      */
     public static final String MERCATOR_CRS_ALT = DEFAULT_SPATIAL_AUTHORITY + ":" + MERCATOR_SPATIAL_REFERENCE_ID_ALT;
     
+    /**
+     * Default geometry factory.
+     */
     private static final GeometryFactory DEFAULT_GEOMETRY_FACTORY = new GeometryFactory();
     
     /**

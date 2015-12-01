@@ -73,7 +73,7 @@ public class GeoJsonFeature implements Serializable {
     }
 
     /**
-     * Construct a GeoJSON feature with the specified parameters.
+     * Constructs a GeoJSON feature with the specified parameters.
      * 
      * @param id
      *            an optional id
@@ -104,7 +104,7 @@ public class GeoJsonFeature implements Serializable {
     }
 
     /**
-     * Construct a GeoJSON feature with the specified parameters.
+     * Constructs a GeoJSON feature with the specified parameters.
      * 
      * @param id
      *            an optional id

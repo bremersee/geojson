@@ -18,6 +18,7 @@ package org.bremersee.geojson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+//@formatter:off
 /**
  * <p>
  * A link to the coordinate reference system (CRS) of a GeoJSON object (see 
@@ -25,8 +26,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * ).
  * </p>
  * 
- * @author Christian Bremer <a href="mailto:christian@bremersee.org">christian@bremersee.org</a>
+ * @author Christian Bremer
  */
+//@formatter:on
 public class GeoJsonLinkedCrs extends AbstractGeoJsonCrs {
 
     private static final long serialVersionUID = 1L;
@@ -53,7 +55,7 @@ public class GeoJsonLinkedCrs extends AbstractGeoJsonCrs {
     }
 
     /**
-     * Construct the coordinate reference system (CRS) with the specified link.
+     * Constructs the coordinate reference system (CRS) with the specified link.
      * 
      * @param href
      *            the link to the coordinate reference system (CRS)
@@ -63,7 +65,7 @@ public class GeoJsonLinkedCrs extends AbstractGeoJsonCrs {
     }
 
     /**
-     * Construct the coordinate reference system (CRS) with the specified link
+     * Constructs the coordinate reference system (CRS) with the specified link
      * and type.
      * 
      * @param href

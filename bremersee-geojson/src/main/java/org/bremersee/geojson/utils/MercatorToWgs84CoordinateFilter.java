@@ -20,71 +20,116 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.CoordinateFilter;
 
 /**
+ * <p>
+ * A coordinate filter that transforms mercator coordinates into WGS84
+ * coordinates.
+ * </p>
+ * 
  * @author Christian Bremer
  */
 public class MercatorToWgs84CoordinateFilter implements CoordinateFilter {
 
-    private double earthRadiusInMeters = GeometryUtils.EARTH_RADIUS_METERS;
+	private double earthRadiusInMeters = GeometryUtils.EARTH_RADIUS_METERS;
 
-    private boolean removingZ = false;
+	private boolean removingZ = false;
 
-    public MercatorToWgs84CoordinateFilter() {
-    }
+	/**
+	 * Default constructor.
+	 */
+	public MercatorToWgs84CoordinateFilter() {
+	}
 
-    public MercatorToWgs84CoordinateFilter(double earthRadiusInMeters) {
-        this.earthRadiusInMeters = earthRadiusInMeters;
-    }
+	/**
+	 * Constructs a coordinate filter that uses the specified earth radius.
+	 * 
+	 * @param earthRadiusInMeters
+	 *            the earth radius in meters
+	 */
+	public MercatorToWgs84CoordinateFilter(double earthRadiusInMeters) {
+		this.earthRadiusInMeters = earthRadiusInMeters;
+	}
 
-    public MercatorToWgs84CoordinateFilter(boolean removingZ) {
-        this.removingZ = removingZ;
-    }
+	/**
+	 * Constructs a coordinate filter with the specified flag for removing the z
+	 * value.
+	 * 
+	 * @param removingZ
+	 *            if {@code true} the z value of the coordinate will be removed
+	 *            otherwise it will be untouched
+	 */
+	public MercatorToWgs84CoordinateFilter(boolean removingZ) {
+		this.removingZ = removingZ;
+	}
 
-    public MercatorToWgs84CoordinateFilter(double earthRadiusInMeters,
-            boolean removingZ) {
-        this.earthRadiusInMeters = earthRadiusInMeters;
-        this.removingZ = removingZ;
-    }
+	/**
+	 * Constructs a coordinate filter with the specified values.
+	 * 
+	 * @param earthRadiusInMeters
+	 *            the earth radius in meters
+	 * @param removingZ
+	 *            if {@code true} the z value of the coordinate will be removed
+	 *            otherwise it will be untouched
+	 */
+	public MercatorToWgs84CoordinateFilter(double earthRadiusInMeters, boolean removingZ) {
+		this.earthRadiusInMeters = earthRadiusInMeters;
+		this.removingZ = removingZ;
+	}
 
-    public double getEarthRadiusInMeters() {
-        return earthRadiusInMeters;
-    }
+	/**
+	 * Returns the earth radius that is used for the transformation.
+	 * 
+	 * @return the earth radius in meters
+	 */
+	public double getEarthRadiusInMeters() {
+		return earthRadiusInMeters;
+	}
 
-    public void setEarthRadiusInMeters(double earthRadiusInMeters) {
-        this.earthRadiusInMeters = earthRadiusInMeters;
-    }
+	/**
+	 * Sets the earth radius that is used for the transformation.
+	 * 
+	 * @param earthRadiusInMeters
+	 *            the earth radius in meters
+	 */
+	public void setEarthRadiusInMeters(double earthRadiusInMeters) {
+		this.earthRadiusInMeters = earthRadiusInMeters;
+	}
 
-    public boolean isRemovingZ() {
-        return removingZ;
-    }
+	/**
+	 * @return {@code true} if the z value of the coordinate will be removed
+	 *         otherwise {@code false}
+	 */
+	public boolean isRemovingZ() {
+		return removingZ;
+	}
 
-    public void setRemovingZ(boolean removingZ) {
-        this.removingZ = removingZ;
-    }
+	/**
+	 * @param removingZ
+	 *            if {@code true} the z value of the coordinate will be removed
+	 *            otherwise it will be untouched
+	 */
+	public void setRemovingZ(boolean removingZ) {
+		this.removingZ = removingZ;
+	}
 
-    //@formatter:off
+	//@formatter:off
     /* (non-Javadoc)
      * @see com.vividsolutions.jts.geom.CoordinateFilter#filter(com.vividsolutions.jts.geom.Coordinate)
      */
     //@formatter:on
-    @Override
-    public void filter(Coordinate coord) {
+	@Override
+	public void filter(Coordinate coord) {
 
-        if (coord != null) {
-            if (!Double.isNaN(coord.x)) {
-                coord.x = (coord.x * 180.)
-                        / (getEarthRadiusInMeters() * Math.PI);
-            }
-            if (!Double.isNaN(coord.y)) {
-                coord.y = Math
-                        .toDegrees(2
-                                * Math.atan(Math.exp(
-                                        coord.y / getEarthRadiusInMeters()))
-                        - Math.PI / 2);
-            }
-            if (removingZ) {
-                coord.z = Double.NaN;
-            }
-        }
-    }
+		if (coord != null) {
+			if (!Double.isNaN(coord.x)) {
+				coord.x = (coord.x * 180.) / (getEarthRadiusInMeters() * Math.PI);
+			}
+			if (!Double.isNaN(coord.y)) {
+				coord.y = Math.toDegrees(2 * Math.atan(Math.exp(coord.y / getEarthRadiusInMeters())) - Math.PI / 2);
+			}
+			if (removingZ) {
+				coord.z = Double.NaN;
+			}
+		}
+	}
 
 }

@@ -28,97 +28,100 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
+//@formatter:off
 /**
  * <p>
  * Abstract base class for the coordinate reference system (CRS) of a GeoJSON
- * object (see 
+ * object (see
  * <a href="http://geojson.org/geojson-spec.html#coordinate-reference-system-objects">http://geojson.org/geojson-spec.html#coordinate-reference-system-objects</a>
  * ).
  * </p>
  * 
- * @author Christian Bremer <a href="mailto:christian@bremersee.org">christian@bremersee.org</a>
+ * @author Christian Bremer
  */
 @JsonTypeInfo(use = Id.NAME, property = "type")
-@JsonSubTypes({ @Type(value = GeoJsonLinkedCrs.class, name = "link"),
-        @Type(value = GeoJsonNamedCrs.class, name = "name") })
+@JsonSubTypes({ 
+	@Type(value = GeoJsonLinkedCrs.class, name = "link"),
+	@Type(value = GeoJsonNamedCrs.class, name = "name") 
+})
+//@formatter:on
 public class AbstractGeoJsonCrs implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @JsonInclude(Include.ALWAYS)
-    @JsonProperty(value = "properties", required = true)
-    private Map<String, Object> properties = new LinkedHashMap<String, Object>();
+	@JsonInclude(Include.ALWAYS)
+	@JsonProperty(value = "properties", required = true)
+	private Map<String, Object> properties = new LinkedHashMap<String, Object>();
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + " [properties=" + properties + "]";
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + " [properties=" + properties + "]";
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((properties == null) ? 0 : properties.hashCode());
-        return result;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((properties == null) ? 0 : properties.hashCode());
+		return result;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        AbstractGeoJsonCrs other = (AbstractGeoJsonCrs) obj;
-        if (properties == null) {
-            if (other.properties != null)
-                return false;
-        } else if (!properties.equals(other.properties))
-            return false;
-        return true;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AbstractGeoJsonCrs other = (AbstractGeoJsonCrs) obj;
+		if (properties == null) {
+			if (other.properties != null)
+				return false;
+		} else if (!properties.equals(other.properties))
+			return false;
+		return true;
+	}
 
-    /**
-     * Properties that store information about the coordinate reference system
-     * (CRS).
-     * 
-     * @return the properties that store information about the coordinate
-     *         reference system (CRS)
-     */
-    protected final Map<String, Object> getProperties() {
-        return properties;
-    }
+	/**
+	 * Properties that store information about the coordinate reference system
+	 * (CRS).
+	 * 
+	 * @return the properties that store information about the coordinate
+	 *         reference system (CRS)
+	 */
+	protected final Map<String, Object> getProperties() {
+		return properties;
+	}
 
-    /**
-     * Set the properties the properties that store information about the
-     * coordinate reference system (CRS).
-     * 
-     * @param properties
-     *            the properties that store information about the coordinate
-     *            reference system (CRS)
-     */
-    protected final void setProperties(Map<String, Object> properties) {
-        if (properties == null) {
-            properties = new LinkedHashMap<String, Object>();
-        }
-        this.properties = properties;
-    }
+	/**
+	 * Set the properties the properties that store information about the
+	 * coordinate reference system (CRS).
+	 * 
+	 * @param properties
+	 *            the properties that store information about the coordinate
+	 *            reference system (CRS)
+	 */
+	protected final void setProperties(Map<String, Object> properties) {
+		if (properties == null) {
+			properties = new LinkedHashMap<String, Object>();
+		}
+		this.properties = properties;
+	}
 
 }

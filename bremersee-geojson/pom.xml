@@ -6,20 +6,13 @@
     <version>1.1.0-SNAPSHOT</version>
     <name>Bremersee GeoJSON</name>
     <description>This project contains classes for reading and writing GeoJSON with the Jackson JSON Processor.</description>
-    <url>https://github.com/bremersee/geojson</url>
+    <url>http://bremersee.github.io/geojson/</url>
 
     <properties>
+        <github.global.server>github</github.global.server>
         <java.version>1.7</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <product.vendor>bremersee.org</product.vendor>
-        
-        <github.global.server>github</github.global.server>
-        
-        <snapshotUrl>https://bremersee.org/svn/public/bremersee/${project.artifactId}/trunk</snapshotUrl>
-        <releaseTagBase>https://bremersee.org/svn/public/bremersee/${project.artifactId}/tags</releaseTagBase>
-
-        <resource.delimiter>@</resource.delimiter>
-        
         <jackson2.version>2.4.6</jackson2.version>
         <jts.version>1.13</jts.version>
         <junit.version>4.12</junit.version>
@@ -63,21 +56,10 @@
     </issueManagement>
 
     <distributionManagement>
-        <repository>
-            <id>bremersee-releases</id>
-            <name>bremersee releases</name>
-            <url>https://bremersee.org/nexus/content/repositories/releases/</url>
-        </repository>
         <snapshotRepository>
-            <id>bremersee-snapshots</id>
-            <name>bremersee snapshots</name>
-            <url>https://bremersee.org/nexus/content/repositories/snapshots/</url>
-            <uniqueVersion>false</uniqueVersion>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
-        <site>
-            <id>bremersee-sites</id>
-            <url>dav:${project.url}</url>
-        </site>
     </distributionManagement>
 
     <dependencies>
@@ -106,7 +88,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    
+
     <build>
         <resources>
             <resource>
@@ -130,25 +112,6 @@
         </resources>
 
         <plugins>
-            <plugin>
-                <groupId>com.github.github</groupId>
-                <artifactId>downloads-maven-plugin</artifactId>
-                <version>1.2.1</version>
-                <configuration>
-                    <description>Official ${project.name} build of the ${project.version} release</description>
-                    <override>true</override>
-                    <includeAttached>true</includeAttached>
-                    <server>github</server>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>upload</goal>
-                        </goals>
-                        <phase>install</phase>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>com.github.github</groupId>
                 <artifactId>site-maven-plugin</artifactId>
@@ -277,7 +240,7 @@
                 <executions>
                     <execution>
                         <id>attach-sources</id>
-                        <phase>deploy</phase>
+                        <!-- <phase>deploy</phase> -->
                         <goals>
                             <goal>jar-no-fork</goal>
                         </goals>
@@ -296,9 +259,34 @@
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
-                        <phase>deploy</phase>
+                        <!-- <phase>deploy</phase> -->
                         <goals>
                             <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.6</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
                         </goals>
                     </execution>
                 </executions>
