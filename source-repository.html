@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Bremersee GeoJSON &#x2013; </title>
+    <title>Bremersee GeoJSON &#x2013; Source Repository</title>
     <style type="text/css" media="all">
       @import url("./css/maven-base.css");
       @import url("./css/maven-theme.css");
@@ -56,8 +56,8 @@
                           <a href="distribution-management.html" title="Distribution Management">Distribution Management</a>
             </li>
                       <li class="none">
-            <strong>About</strong>
-          </li>
+                          <a href="index.html" title="About">About</a>
+            </li>
                       <li class="none">
                           <a href="issue-tracking.html" title="Issue Tracking">Issue Tracking</a>
             </li>
@@ -74,8 +74,8 @@
                           <a href="team-list.html" title="Project Team">Project Team</a>
             </li>
                       <li class="none">
-                          <a href="source-repository.html" title="Source Repository">Source Repository</a>
-            </li>
+            <strong>Source Repository</strong>
+          </li>
                       <li class="none">
                           <a href="project-summary.html" title="Project Summary">Project Summary</a>
             </li>
@@ -95,36 +95,26 @@
     <div id="bodyColumn">
       <div id="contentBox">
         <div class="section">
-<h2><a name="Bremersee_GeoJSON"></a>Bremersee GeoJSON</h2>
-<p>This project contains model classes for reading and writing GeoJSON with the Jackson JSON Processor (<a class="externalLink" href="http://wiki.fasterxml.com/JacksonHome">http://wiki.fasterxml.com/JacksonHome</a>).</p>
-<p>The GeoJSON format is specified here: <a class="externalLink" href="http://geojson.org/geojson-spec.html">http://geojson.org/geojson-spec.html</a>.</p>
-<p>It can be directly displayed on a map with OpenLayers (<a class="externalLink" href="http://openlayers.org/">http://openlayers.org/</a>).</p>
-<p>For example: <a class="externalLink" href="http://openlayers.org/en/v3.9.0/examples/geojson.html">http://openlayers.org/en/v3.9.0/examples/geojson.html</a></p>
+<h2><a name="Overview"></a>Overview</h2><a name="Overview"></a>
+<p>This project uses <a class="externalLink" href="http://git-scm.com/">Git</a> to manage its source code. Instructions on Git use can be found at <a class="externalLink" href="http://git-scm.com/documentation">http://git-scm.com/documentation</a>.</p></div>
 <div class="section">
-<h3><a name="Usage"></a>Usage</h3>
-<p>GeoJSON can be read or written with adding the GeoJsonObjectMapperModule to the ObjectMaper or without.</p>
+<h2><a name="Web_Browser_Access"></a>Web Browser Access</h2><a name="Web_Browser_Access"></a>
+<p>The following is a link to a browsable version of the source repository:</p>
+<div class="source">
+<pre><a class="externalLink" href="https://github.com/bremersee/geojson">https://github.com/bremersee/geojson</a></pre></div></div>
 <div class="section">
-<h4><a name="Without_adding_the_GeoJsonObjectMapperModule_to_the_ObjectMaper"></a>Without adding the GeoJsonObjectMapperModule to the ObjectMaper</h4>
-<p>If you do not add the GeoJsonObjectMapperModule to the ObjectMapper, you'll have to use the GeometryWrapper:</p>
+<h2><a name="Anonymous_Access"></a>Anonymous Access</h2><a name="Anonymous_Access"></a>
+<p>The source can be checked out anonymously from Git with this command (See <a class="externalLink" href="http://git-scm.com/docs/git-clone">http://git-scm.com/docs/git-clone</a>):</p>
 <div class="source">
-<pre>ObjectMapper om = new ObjectMapper();
-Point p = GeometryUtils.createPoint(10.2, 52.4);
-GeometryWrapper gw = new GeometryWrapper(p);
-String json = om.writeValueAsString(gw);</pre></div>
-<p>GeoJsonFeature and GeoJsonFeatureCollection can be used without adding the module to the object mapper, too.</p>
-<div class="source">
-<pre>ObjectMapper om = new ObjectMapper();
-Point p = GeometryUtils.createPoint(10.2, 52.4);
-GeoJsonFeature f = new GeoJsonFeature(&quot;id&quot;, GeometryUtils.WGS84_CRS, p, false, null);
-String json = om.writeValueAsString(f);</pre></div></div>
+<pre>$ git clone git://github.com/bremersee/geojson.git</pre></div></div>
 <div class="section">
-<h4><a name="With_adding_the_GeoJsonObjectMapperModule_to_the_ObjectMaper"></a>With adding the GeoJsonObjectMapperModule to the ObjectMaper</h4>
-<p>If you add the GeoJsonObjectMapperModule to the ObjectMapper, you'll be able to process the geometry object directly:</p>
+<h2><a name="Developer_Access"></a>Developer Access</h2><a name="Developer_Access"></a>
+<p>Only project developers can access the Git tree via this method (See <a class="externalLink" href="http://git-scm.com/docs/git-clone">http://git-scm.com/docs/git-clone</a>).</p>
 <div class="source">
-<pre>ObjectMapper om = new ObjectMapper();
-om.registerModule(new GeoJsonObjectMapperModule());
-Point p = GeometryUtils.createPoint(10.2, 52.4);
-String json = om.writeValueAsString(p);</pre></div></div></div></div>
+<pre>$ git clone git@github.com:bremersee/geojson.git</pre></div></div>
+<div class="section">
+<h2><a name="Access_from_Behind_a_Firewall"></a>Access from Behind a Firewall</h2><a name="Access_from_Behind_a_Firewall"></a>
+<p>Refer to the documentation of the SCM used for more information about access behind a firewall.</p></div>
       </div>
     </div>
     <div class="clear">

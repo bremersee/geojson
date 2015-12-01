@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Bremersee GeoJSON &#x2013; </title>
+    <title>Bremersee GeoJSON &#x2013; Project Build Plugins</title>
     <style type="text/css" media="all">
       @import url("./css/maven-base.css");
       @import url("./css/maven-theme.css");
@@ -56,8 +56,8 @@
                           <a href="distribution-management.html" title="Distribution Management">Distribution Management</a>
             </li>
                       <li class="none">
-            <strong>About</strong>
-          </li>
+                          <a href="index.html" title="About">About</a>
+            </li>
                       <li class="none">
                           <a href="issue-tracking.html" title="Issue Tracking">Issue Tracking</a>
             </li>
@@ -68,8 +68,8 @@
                           <a href="plugin-management.html" title="Plugin Management">Plugin Management</a>
             </li>
                       <li class="none">
-                          <a href="plugins.html" title="Project Plugins">Project Plugins</a>
-            </li>
+            <strong>Project Plugins</strong>
+          </li>
                       <li class="none">
                           <a href="team-list.html" title="Project Team">Project Team</a>
             </li>
@@ -95,36 +95,59 @@
     <div id="bodyColumn">
       <div id="contentBox">
         <div class="section">
-<h2><a name="Bremersee_GeoJSON"></a>Bremersee GeoJSON</h2>
-<p>This project contains model classes for reading and writing GeoJSON with the Jackson JSON Processor (<a class="externalLink" href="http://wiki.fasterxml.com/JacksonHome">http://wiki.fasterxml.com/JacksonHome</a>).</p>
-<p>The GeoJSON format is specified here: <a class="externalLink" href="http://geojson.org/geojson-spec.html">http://geojson.org/geojson-spec.html</a>.</p>
-<p>It can be directly displayed on a map with OpenLayers (<a class="externalLink" href="http://openlayers.org/">http://openlayers.org/</a>).</p>
-<p>For example: <a class="externalLink" href="http://openlayers.org/en/v3.9.0/examples/geojson.html">http://openlayers.org/en/v3.9.0/examples/geojson.html</a></p>
+<h2><a name="Project_Build_Plugins"></a>Project Build Plugins</h2><a name="Project_Build_Plugins"></a>
+<table border="0" class="bodyTable">
+<tr class="a">
+<th>GroupId</th>
+<th>ArtifactId</th>
+<th>Version</th></tr>
+<tr class="b">
+<td>com.github.github</td>
+<td><a class="externalLink" href="https://github.com/github/maven-plugins">site-maven-plugin</a></td>
+<td>0.12</td></tr>
+<tr class="a">
+<td>org.apache.maven.plugins</td>
+<td><a class="externalLink" href="http://maven.apache.org/plugins/maven-clean-plugin/">maven-clean-plugin</a></td>
+<td>2.5</td></tr>
+<tr class="b">
+<td>org.apache.maven.plugins</td>
+<td><a class="externalLink" href="http://maven.apache.org/plugins/maven-compiler-plugin/">maven-compiler-plugin</a></td>
+<td>3.1</td></tr>
+<tr class="a">
+<td>org.apache.maven.plugins</td>
+<td><a class="externalLink" href="http://maven.apache.org/plugins/maven-deploy-plugin/">maven-deploy-plugin</a></td>
+<td>2.7</td></tr>
+<tr class="b">
+<td>org.apache.maven.plugins</td>
+<td><a class="externalLink" href="http://maven.apache.org/plugins/maven-install-plugin/">maven-install-plugin</a></td>
+<td>2.4</td></tr>
+<tr class="a">
+<td>org.apache.maven.plugins</td>
+<td><a class="externalLink" href="http://maven.apache.org/plugins/maven-jar-plugin/">maven-jar-plugin</a></td>
+<td>2.4</td></tr>
+<tr class="b">
+<td>org.apache.maven.plugins</td>
+<td><a class="externalLink" href="http://maven.apache.org/plugins/maven-javadoc-plugin/">maven-javadoc-plugin</a></td>
+<td>2.10.3</td></tr>
+<tr class="a">
+<td>org.apache.maven.plugins</td>
+<td><a class="externalLink" href="http://maven.apache.org/plugins/maven-resources-plugin/">maven-resources-plugin</a></td>
+<td>2.6</td></tr>
+<tr class="b">
+<td>org.apache.maven.plugins</td>
+<td><a class="externalLink" href="http://maven.apache.org/plugins/maven-site-plugin/">maven-site-plugin</a></td>
+<td>3.4</td></tr>
+<tr class="a">
+<td>org.apache.maven.plugins</td>
+<td><a class="externalLink" href="http://maven.apache.org/plugins/maven-source-plugin/">maven-source-plugin</a></td>
+<td>2.4</td></tr>
+<tr class="b">
+<td>org.apache.maven.plugins</td>
+<td><a class="externalLink" href="http://maven.apache.org/surefire/maven-surefire-plugin">maven-surefire-plugin</a></td>
+<td>2.17</td></tr></table></div>
 <div class="section">
-<h3><a name="Usage"></a>Usage</h3>
-<p>GeoJSON can be read or written with adding the GeoJsonObjectMapperModule to the ObjectMaper or without.</p>
-<div class="section">
-<h4><a name="Without_adding_the_GeoJsonObjectMapperModule_to_the_ObjectMaper"></a>Without adding the GeoJsonObjectMapperModule to the ObjectMaper</h4>
-<p>If you do not add the GeoJsonObjectMapperModule to the ObjectMapper, you'll have to use the GeometryWrapper:</p>
-<div class="source">
-<pre>ObjectMapper om = new ObjectMapper();
-Point p = GeometryUtils.createPoint(10.2, 52.4);
-GeometryWrapper gw = new GeometryWrapper(p);
-String json = om.writeValueAsString(gw);</pre></div>
-<p>GeoJsonFeature and GeoJsonFeatureCollection can be used without adding the module to the object mapper, too.</p>
-<div class="source">
-<pre>ObjectMapper om = new ObjectMapper();
-Point p = GeometryUtils.createPoint(10.2, 52.4);
-GeoJsonFeature f = new GeoJsonFeature(&quot;id&quot;, GeometryUtils.WGS84_CRS, p, false, null);
-String json = om.writeValueAsString(f);</pre></div></div>
-<div class="section">
-<h4><a name="With_adding_the_GeoJsonObjectMapperModule_to_the_ObjectMaper"></a>With adding the GeoJsonObjectMapperModule to the ObjectMaper</h4>
-<p>If you add the GeoJsonObjectMapperModule to the ObjectMapper, you'll be able to process the geometry object directly:</p>
-<div class="source">
-<pre>ObjectMapper om = new ObjectMapper();
-om.registerModule(new GeoJsonObjectMapperModule());
-Point p = GeometryUtils.createPoint(10.2, 52.4);
-String json = om.writeValueAsString(p);</pre></div></div></div></div>
+<h2><a name="Project_Report_Plugins"></a>Project Report Plugins</h2><a name="Project_Report_Plugins"></a>
+<p>There are no plugins reports defined in the Reporting part of this project.</p></div>
       </div>
     </div>
     <div class="clear">

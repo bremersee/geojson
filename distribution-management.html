@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Bremersee GeoJSON &#x2013; </title>
+    <title>Bremersee GeoJSON &#x2013; Project Distribution Management</title>
     <style type="text/css" media="all">
       @import url("./css/maven-base.css");
       @import url("./css/maven-theme.css");
@@ -53,11 +53,11 @@
                           <a href="dependency-info.html" title="Dependency Information">Dependency Information</a>
             </li>
                       <li class="none">
-                          <a href="distribution-management.html" title="Distribution Management">Distribution Management</a>
-            </li>
-                      <li class="none">
-            <strong>About</strong>
+            <strong>Distribution Management</strong>
           </li>
+                      <li class="none">
+                          <a href="index.html" title="About">About</a>
+            </li>
                       <li class="none">
                           <a href="issue-tracking.html" title="Issue Tracking">Issue Tracking</a>
             </li>
@@ -95,36 +95,15 @@
     <div id="bodyColumn">
       <div id="contentBox">
         <div class="section">
-<h2><a name="Bremersee_GeoJSON"></a>Bremersee GeoJSON</h2>
-<p>This project contains model classes for reading and writing GeoJSON with the Jackson JSON Processor (<a class="externalLink" href="http://wiki.fasterxml.com/JacksonHome">http://wiki.fasterxml.com/JacksonHome</a>).</p>
-<p>The GeoJSON format is specified here: <a class="externalLink" href="http://geojson.org/geojson-spec.html">http://geojson.org/geojson-spec.html</a>.</p>
-<p>It can be directly displayed on a map with OpenLayers (<a class="externalLink" href="http://openlayers.org/">http://openlayers.org/</a>).</p>
-<p>For example: <a class="externalLink" href="http://openlayers.org/en/v3.9.0/examples/geojson.html">http://openlayers.org/en/v3.9.0/examples/geojson.html</a></p>
+<h2><a name="Overview"></a>Overview</h2><a name="Overview"></a>
+<p>The following is the distribution management information used by this project.</p>
 <div class="section">
-<h3><a name="Usage"></a>Usage</h3>
-<p>GeoJSON can be read or written with adding the GeoJsonObjectMapperModule to the ObjectMaper or without.</p>
+<h3><a name="Repository_-_bremersee-releases"></a>Repository - bremersee-releases</h3><a name="Repository_-_bremersee-releases"></a><a class="externalLink" href="https://bremersee.org/nexus/content/repositories/releases/">https://bremersee.org/nexus/content/repositories/releases/</a></div>
 <div class="section">
-<h4><a name="Without_adding_the_GeoJsonObjectMapperModule_to_the_ObjectMaper"></a>Without adding the GeoJsonObjectMapperModule to the ObjectMaper</h4>
-<p>If you do not add the GeoJsonObjectMapperModule to the ObjectMapper, you'll have to use the GeometryWrapper:</p>
-<div class="source">
-<pre>ObjectMapper om = new ObjectMapper();
-Point p = GeometryUtils.createPoint(10.2, 52.4);
-GeometryWrapper gw = new GeometryWrapper(p);
-String json = om.writeValueAsString(gw);</pre></div>
-<p>GeoJsonFeature and GeoJsonFeatureCollection can be used without adding the module to the object mapper, too.</p>
-<div class="source">
-<pre>ObjectMapper om = new ObjectMapper();
-Point p = GeometryUtils.createPoint(10.2, 52.4);
-GeoJsonFeature f = new GeoJsonFeature(&quot;id&quot;, GeometryUtils.WGS84_CRS, p, false, null);
-String json = om.writeValueAsString(f);</pre></div></div>
+<h3><a name="Snapshot_Repository_-_bremersee-snapshots"></a>Snapshot Repository - bremersee-snapshots</h3><a name="Snapshot_Repository_-_bremersee-snapshots"></a><a class="externalLink" href="https://bremersee.org/nexus/content/repositories/snapshots/">https://bremersee.org/nexus/content/repositories/snapshots/</a></div>
 <div class="section">
-<h4><a name="With_adding_the_GeoJsonObjectMapperModule_to_the_ObjectMaper"></a>With adding the GeoJsonObjectMapperModule to the ObjectMaper</h4>
-<p>If you add the GeoJsonObjectMapperModule to the ObjectMapper, you'll be able to process the geometry object directly:</p>
-<div class="source">
-<pre>ObjectMapper om = new ObjectMapper();
-om.registerModule(new GeoJsonObjectMapperModule());
-Point p = GeometryUtils.createPoint(10.2, 52.4);
-String json = om.writeValueAsString(p);</pre></div></div></div></div>
+<h3><a name="Site_-_bremersee-sites"></a>Site - bremersee-sites</h3><a name="Site_-_bremersee-sites"></a>
+<p>dav:https://github.com/bremersee/geojson</p></div></div>
       </div>
     </div>
     <div class="clear">

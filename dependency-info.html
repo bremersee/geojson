@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Bremersee GeoJSON &#x2013; </title>
+    <title>Bremersee GeoJSON &#x2013; Dependency Information</title>
     <style type="text/css" media="all">
       @import url("./css/maven-base.css");
       @import url("./css/maven-theme.css");
@@ -50,14 +50,14 @@
                           <a href="dependencies.html" title="Dependencies">Dependencies</a>
             </li>
                       <li class="none">
-                          <a href="dependency-info.html" title="Dependency Information">Dependency Information</a>
-            </li>
+            <strong>Dependency Information</strong>
+          </li>
                       <li class="none">
                           <a href="distribution-management.html" title="Distribution Management">Distribution Management</a>
             </li>
                       <li class="none">
-            <strong>About</strong>
-          </li>
+                          <a href="index.html" title="About">About</a>
+            </li>
                       <li class="none">
                           <a href="issue-tracking.html" title="Issue Tracking">Issue Tracking</a>
             </li>
@@ -95,36 +95,43 @@
     <div id="bodyColumn">
       <div id="contentBox">
         <div class="section">
-<h2><a name="Bremersee_GeoJSON"></a>Bremersee GeoJSON</h2>
-<p>This project contains model classes for reading and writing GeoJSON with the Jackson JSON Processor (<a class="externalLink" href="http://wiki.fasterxml.com/JacksonHome">http://wiki.fasterxml.com/JacksonHome</a>).</p>
-<p>The GeoJSON format is specified here: <a class="externalLink" href="http://geojson.org/geojson-spec.html">http://geojson.org/geojson-spec.html</a>.</p>
-<p>It can be directly displayed on a map with OpenLayers (<a class="externalLink" href="http://openlayers.org/">http://openlayers.org/</a>).</p>
-<p>For example: <a class="externalLink" href="http://openlayers.org/en/v3.9.0/examples/geojson.html">http://openlayers.org/en/v3.9.0/examples/geojson.html</a></p>
+<h2><a name="Dependency_Information"></a>Dependency Information</h2><a name="Dependency_Information"></a>
 <div class="section">
-<h3><a name="Usage"></a>Usage</h3>
-<p>GeoJSON can be read or written with adding the GeoJsonObjectMapperModule to the ObjectMaper or without.</p>
+<h3><a name="Apache_Maven"></a>Apache Maven</h3><a name="Apache_Maven"></a>
+<div class="source">
+<pre>&lt;dependency&gt;
+  &lt;groupId&gt;org.bremersee&lt;/groupId&gt;
+  &lt;artifactId&gt;bremersee-geojson&lt;/artifactId&gt;
+  &lt;version&gt;1.1.0-SNAPSHOT&lt;/version&gt;
+&lt;/dependency&gt;</pre></div></div>
 <div class="section">
-<h4><a name="Without_adding_the_GeoJsonObjectMapperModule_to_the_ObjectMaper"></a>Without adding the GeoJsonObjectMapperModule to the ObjectMaper</h4>
-<p>If you do not add the GeoJsonObjectMapperModule to the ObjectMapper, you'll have to use the GeometryWrapper:</p>
+<h3><a name="Apache_Buildr"></a>Apache Buildr</h3><a name="Apache_Buildr"></a>
 <div class="source">
-<pre>ObjectMapper om = new ObjectMapper();
-Point p = GeometryUtils.createPoint(10.2, 52.4);
-GeometryWrapper gw = new GeometryWrapper(p);
-String json = om.writeValueAsString(gw);</pre></div>
-<p>GeoJsonFeature and GeoJsonFeatureCollection can be used without adding the module to the object mapper, too.</p>
-<div class="source">
-<pre>ObjectMapper om = new ObjectMapper();
-Point p = GeometryUtils.createPoint(10.2, 52.4);
-GeoJsonFeature f = new GeoJsonFeature(&quot;id&quot;, GeometryUtils.WGS84_CRS, p, false, null);
-String json = om.writeValueAsString(f);</pre></div></div>
+<pre>'org.bremersee:bremersee-geojson:jar:1.1.0-SNAPSHOT'</pre></div></div>
 <div class="section">
-<h4><a name="With_adding_the_GeoJsonObjectMapperModule_to_the_ObjectMaper"></a>With adding the GeoJsonObjectMapperModule to the ObjectMaper</h4>
-<p>If you add the GeoJsonObjectMapperModule to the ObjectMapper, you'll be able to process the geometry object directly:</p>
+<h3><a name="Apache_Ivy"></a>Apache Ivy</h3><a name="Apache_Ivy"></a>
 <div class="source">
-<pre>ObjectMapper om = new ObjectMapper();
-om.registerModule(new GeoJsonObjectMapperModule());
-Point p = GeometryUtils.createPoint(10.2, 52.4);
-String json = om.writeValueAsString(p);</pre></div></div></div></div>
+<pre>&lt;dependency org=&quot;org.bremersee&quot; name=&quot;bremersee-geojson&quot; rev=&quot;1.1.0-SNAPSHOT&quot;&gt;
+  &lt;artifact name=&quot;bremersee-geojson&quot; type=&quot;jar&quot; /&gt;
+&lt;/dependency&gt;</pre></div></div>
+<div class="section">
+<h3><a name="Groovy_Grape"></a>Groovy Grape</h3><a name="Groovy_Grape"></a>
+<div class="source">
+<pre>@Grapes(
+@Grab(group='org.bremersee', module='bremersee-geojson', version='1.1.0-SNAPSHOT')
+)</pre></div></div>
+<div class="section">
+<h3><a name="Grails"></a>Grails</h3><a name="Grails"></a>
+<div class="source">
+<pre>compile 'org.bremersee:bremersee-geojson:1.1.0-SNAPSHOT'</pre></div></div>
+<div class="section">
+<h3><a name="Leiningen"></a>Leiningen</h3><a name="Leiningen"></a>
+<div class="source">
+<pre>[org.bremersee/bremersee-geojson &quot;1.1.0-SNAPSHOT&quot;]</pre></div></div>
+<div class="section">
+<h3><a name="SBT"></a>SBT</h3><a name="SBT"></a>
+<div class="source">
+<pre>libraryDependencies += &quot;org.bremersee&quot; % &quot;bremersee-geojson&quot; % &quot;1.1.0-SNAPSHOT&quot;</pre></div></div></div>
       </div>
     </div>
     <div class="clear">
