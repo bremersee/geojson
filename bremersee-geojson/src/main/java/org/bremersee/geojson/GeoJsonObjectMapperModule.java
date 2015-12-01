@@ -123,19 +123,18 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
 	}
 
 	private static Map<Class<?>, JsonDeserializer<?>> getDeserializers(GeometryFactory geometryFactory) {
-		HashMap<Class<?>, JsonDeserializer<?>> map = new HashMap<Class<?>, JsonDeserializer<?>>();
 		if (geometryFactory == null) {
-			map.put(Geometry.class, new GeometryDeserializer());
-		} else {
-			map.put(Geometry.class, new GeometryDeserializer(geometryFactory));
-			map.put(Point.class, new GeometryDeserializer(geometryFactory));
-			map.put(LineString.class, new GeometryDeserializer(geometryFactory));
-			map.put(Polygon.class, new GeometryDeserializer(geometryFactory));
-			map.put(MultiPoint.class, new GeometryDeserializer(geometryFactory));
-			map.put(MultiLineString.class, new GeometryDeserializer(geometryFactory));
-			map.put(MultiPolygon.class, new GeometryDeserializer(geometryFactory));
-			map.put(GeometryCollection.class, new GeometryDeserializer(geometryFactory));
+			geometryFactory = new GeometryFactory();
 		}
+		HashMap<Class<?>, JsonDeserializer<?>> map = new HashMap<Class<?>, JsonDeserializer<?>>();
+		map.put(Geometry.class, new GeometryDeserializer(geometryFactory));
+		map.put(Point.class, new GeometryDeserializer(geometryFactory));
+		map.put(LineString.class, new GeometryDeserializer(geometryFactory));
+		map.put(Polygon.class, new GeometryDeserializer(geometryFactory));
+		map.put(MultiPoint.class, new GeometryDeserializer(geometryFactory));
+		map.put(MultiLineString.class, new GeometryDeserializer(geometryFactory));
+		map.put(MultiPolygon.class, new GeometryDeserializer(geometryFactory));
+		map.put(GeometryCollection.class, new GeometryDeserializer(geometryFactory));
 		return map;
 	}
 
@@ -159,7 +158,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
 	 *            the geometry factory
 	 */
 	public GeoJsonObjectMapperModule(GeometryFactory geometryFactory) {
-		super("GeoJsonModule", getVersion(), getDeserializers(new GeometryFactory()), getSerializers());
+		super("GeoJsonModule", getVersion(), getDeserializers(geometryFactory), getSerializers());
 	}
 
 }
