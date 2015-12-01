@@ -1,0 +1,49 @@
+Bremersee GeoJSON
+
+  This project contains model classes for reading and writing GeoJSON with the Jackson JSON Processor ({{http://wiki.fasterxml.com/JacksonHome}}).
+  
+  The GeoJSON format is specified here: {{http://geojson.org/geojson-spec.html}}.
+  
+  It can be directly displayed on a map with OpenLayers ({{http://openlayers.org/}}).
+  
+  For example: {{http://openlayers.org/en/v3.9.0/examples/geojson.html}}
+  
+  
+* Usage
+
+  GeoJSON can be read or written with adding the GeoJsonObjectMapperModule to the ObjectMaper or without.
+
+  
+** Without adding the GeoJsonObjectMapperModule to the ObjectMaper
+
+  If you do not add the GeoJsonObjectMapperModule to the ObjectMapper, you'll have to use the GeometryWrapper:
+  
++----------------------------------------------------------------------+
+ObjectMapper om = new ObjectMapper();
+Point p = GeometryUtils.createPoint(10.2, 52.4);
+GeometryWrapper gw = new GeometryWrapper(p);
+String json = om.writeValueAsString(gw);
++----------------------------------------------------------------------+
+
+  GeoJsonFeature and GeoJsonFeatureCollection can be used without adding the module to the object mapper, too.
+  
++----------------------------------------------------------------------+
+ObjectMapper om = new ObjectMapper();
+Point p = GeometryUtils.createPoint(10.2, 52.4);
+GeoJsonFeature f = new GeoJsonFeature("id", GeometryUtils.WGS84_CRS, p, false, null);
+String json = om.writeValueAsString(f);
++----------------------------------------------------------------------+
+
+  
+** With adding the GeoJsonObjectMapperModule to the ObjectMaper
+
+  If you add the GeoJsonObjectMapperModule to the ObjectMapper, you'll be able to process the geometry object directly:
+  
++----------------------------------------------------------------------+
+ObjectMapper om = new ObjectMapper();
+om.registerModule(new GeoJsonObjectMapperModule());
+Point p = GeometryUtils.createPoint(10.2, 52.4);
+String json = om.writeValueAsString(p);
++----------------------------------------------------------------------+
+
+
