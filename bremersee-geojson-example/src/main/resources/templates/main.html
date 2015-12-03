@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="de">
+    <meta charset="UTF-8"/>
+    <title>Bremersee GeoJSON Example</title>
+    <link rel="stylesheet" type="text/css" 
+          href="../static/jquery-ui/jquery-ui.css" 
+          th:href="@{/jquery-ui/jquery-ui.css}"/>
+    <link rel="stylesheet" type="text/css" 
+          href="../static/bootstrap/css/bootstrap.css" 
+          th:href="@{/bootstrap/css/bootstrap.css}"/>
+    <link rel="stylesheet" type="text/css" 
+          href="../static/bootstrap/css/bootstrap-theme.css" 
+          th:href="@{/bootstrap/css/bootstrap-theme.css}"/>
+    <link rel="stylesheet" type="text/css" 
+          href="../static/css/application.css" 
+          th:href="@{/css/application.css}"/>
+    <link rel="stylesheet" type="text/css" 
+          href="../static/openlayers/ol.css" 
+          th:href="@{/openlayers/ol.css}"/>
+          
+    <script type="text/javascript" 
+            src="../static/js/json2.js"
+            th:src="@{/js/json2.js}"></script>
+    <script type="text/javascript" 
+            src="../static/jquery/jquery.js"
+            th:src="@{/jquery/jquery.js}"></script>
+    <script type="text/javascript" 
+            src="../static/jquery-ui/jquery-ui.js"
+            th:src="@{/jquery-ui/jquery-ui.js}"></script>
+    <script type="text/javascript" 
+            src="../static/jquery-ui/i18n/jquery-ui-i18n.js"
+            th:src="@{/jquery-ui/i18n/jquery-ui-i18n.js}"></script>
+    <script type="text/javascript" 
+            src="../static/bootstrap/js/bootstrap.js"
+            th:src="@{/bootstrap/js/bootstrap.js}"></script>
+    <script type="text/javascript" 
+            src="../static/openlayers/ol.js" 
+            th:src="@{/openlayers/ol.js}"></script>
+    <script type="text/javascript" 
+            src="../static/js/application.js" 
+            th:src="@{/js/application.js}"></script>
+</head>
+<body>
+<div id="content" class="content">
+    <h1>Bremersee GeoJSON Example</h1>
+    <div id="map" class="map">
+    </div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+var isDevel = false;
+var positionPollIntervalMillis = 1000;
+var center = [ 8.906718, 48.845660 ];
+var view = new ol.View({
+    center : ol.proj.transform(center, 'EPSG:4326', 'EPSG:3857'),
+    zoom : 16
+});
+var map;
+var positionLayer = null;
+var positionStyle = new ol.style.Style({
+	  image: new ol.style.Icon({
+	    anchor: [0.5, 46],
+	    anchorXUnits: 'fraction',
+	    anchorYUnits: 'pixels',
+	    opacity: 0.75,
+	    src: getImageLocation('position.png')
+	  })
+	});
+$(document).ready(
+    function() {
+    	map = new ol.Map({
+    		layers : [ 
+    		    new ol.layer.Tile({
+    		        source : new ol.source.OSM()
+    		    })
+    		],
+    		target : 'map',
+    		controls : ol.control.defaults({
+    			attributionOptions : /** @type {olx.control.AttributionOptions} */
+    			({
+    				collapsible : false
+    			})
+    		}),
+    		view : view
+    	});
+    	
+    	if (!isDevel) {
+            $.ajax("static-features.json", {
+                dataType: "json",
+                async: true,
+                success: function (featureCol) {
+                    var olFeatures = [];
+                    if (featureCol.features) {
+                        for (var i = 0; i < featureCol.features.length; i++) {
+                            var feature = featureCol.features[i];
+                            var olFeature = (new ol.format.GeoJSON()).readFeature(feature);
+                            olFeature.setStyle(getLineStyle(feature));
+                            olFeatures.push(olFeature);
+                        }
+                    }
+                    var featuresSource = new ol.source.Vector({
+                        features: olFeatures
+                    });
+                    var featuresLayer = new ol.layer.Vector({
+                        source: featuresSource
+                    });
+                    map.addLayer(featuresLayer);
+                }
+            });
+            displayCurrentPosition();
+    	}
+    }
+);
+
+function displayCurrentPosition() {
+    $.ajax("current-position.json", {
+        dataType: "json",
+        async: true,
+        success: function (feature) {
+        	var positionFeature = (new ol.format.GeoJSON()).readFeature(feature);
+        	positionFeature.setStyle(positionStyle);
+        	if (positionLayer != null) {
+        		map.removeLayer(positionLayer);
+        	}
+        	var positionSource = new ol.source.Vector({
+                features: [ positionFeature ]
+            });
+        	positionLayer = new ol.layer.Vector({
+                source: positionSource
+            });
+        	map.addLayer(positionLayer);
+        }
+    });
+    setTimeout(displayCurrentPosition, positionPollIntervalMillis);
+}
+
+function getImageLocation(name) {
+	if (isDevel) {
+		return "../static/images/" + name;
+	}
+	return "images/" + name;
+}
+
+function getLineStyle(feature) {
+	var color = 'green';
+	var width = 1;
+    if (feature.properties['color']) {
+        color = feature.properties['color'];
+        //console.log('color = ' + color);
+    }
+    if (feature.properties['width']) {
+        width = feature.properties['width'];
+        //console.log('width = ' + width);
+    }
+	return new ol.style.Style({
+	    stroke: new ol.style.Stroke({
+	        color: color,
+	        width: width
+	      })
+	    });
+} 
+//]]>
+</script>
+</body>
+</html>
