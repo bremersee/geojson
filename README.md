@@ -7,7 +7,7 @@ The generated maven site is committed to the [gh-pages branch](https://github.co
 Release 1.1.0 is build with Java 7 and the Jackson JSON Processor Version 2.46.
 
 It is available at Maven Central:
-```
+```xml
 <dependency>
     <groupId>org.bremersee</groupId>
     <artifactId>bremersee-geojson</artifactId>
