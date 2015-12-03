@@ -23,6 +23,43 @@
 		<java.version>1.7</java.version>
 	</properties>
 
+    <developers>
+        <developer>
+            <id>bremersee</id>
+            <name>Christian Bremer</name>
+            <organization>bremersee.org</organization>
+            <organizationUrl>http://bremersee.org</organizationUrl>
+            <email>christian@bremersee.org</email>
+            <timezone>+1</timezone>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <organization>
+        <name>bremersee.org</name>
+        <url>http://bremersee.org</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/bremersee/geojson</url>
+        <connection>scm:git:git://github.com/bremersee/geojson.git</connection>
+        <developerConnection>scm:git:git@github.com:bremersee/geojson.git</developerConnection>
+    </scm>
+
+    <issueManagement>
+        <url>https://github.com/bremersee/geojson/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+
 	<dependencies>
         <dependency>
             <groupId>org.bremersee</groupId>
@@ -50,6 +87,27 @@
 	</dependencies>
 	
 	<build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**</include>
+                </includes>
+                <excludes>
+                    <exclude>META-INF/**</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources/META-INF</directory>
+                <targetPath>META-INF</targetPath>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**</include>
+                </includes>
+            </resource>
+        </resources>
+
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
