@@ -756,7 +756,7 @@ public abstract class GeometryUtils {
 	 * collection will create an empty LineString. Consecutive points must not
 	 * be equal.
 	 * 
-	 * @param points
+	 * @param coordinates
 	 *            the coordinates of the {@link LineString}
 	 * @return the {@link LineString}
 	 */
@@ -769,7 +769,7 @@ public abstract class GeometryUtils {
 	 * collection will create an empty LineString. Consecutive points must not
 	 * be equal.
 	 * 
-	 * @param points
+	 * @param coordinates
 	 *            the coordinates of the {@link LineString}
 	 * @param geometryFactory
 	 *            the geometry factory to use
@@ -794,7 +794,7 @@ public abstract class GeometryUtils {
 	 * Creates a MultiLineString using the given LineStrings; a null or empty
 	 * collection will create an empty MultiLineString.
 	 * 
-	 * @param points
+	 * @param lineStrings
 	 *            the {@link LineString}s of the {@link MultiLineString}
 	 * @return the {@link MultiLineString}
 	 */
@@ -806,7 +806,7 @@ public abstract class GeometryUtils {
 	 * Creates a MultiLineString using the given LineStrings; a null or empty
 	 * collection will create an empty MultiLineString.
 	 * 
-	 * @param points
+	 * @param lineStrings
 	 *            the {@link LineString}s of the {@link MultiLineString}
 	 * @param geometryFactory
 	 *            the geometry factory to use
