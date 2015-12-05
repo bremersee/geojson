@@ -17,6 +17,7 @@
 package org.bremersee.geojson;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -45,9 +46,11 @@ import com.vividsolutions.jts.geom.Polygon;
  * 
  * @author Christian Bremer
  */
-public class GeometrySerializer extends StdSerializer<Geometry> {
+public class GeometrySerializer extends StdSerializer<Geometry> implements Serializable {
 
-    /**
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Default constructor.
      */
     public GeometrySerializer() {
