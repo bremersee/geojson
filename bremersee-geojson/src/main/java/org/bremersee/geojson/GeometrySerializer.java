@@ -47,7 +47,9 @@ import com.vividsolutions.jts.geom.Polygon;
  */
 public class GeometrySerializer extends StdSerializer<Geometry> {
 
-    /**
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Default constructor.
      */
     public GeometrySerializer() {
