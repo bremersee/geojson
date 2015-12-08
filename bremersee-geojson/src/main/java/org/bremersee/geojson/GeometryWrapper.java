@@ -95,8 +95,7 @@ public class GeometryWrapper implements Serializable, Cloneable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result
-                + ((geometry == null) ? 0 : geometry.hashCode());
+        result = prime * result + ((geometry == null) ? 0 : geometry.hashCode());
         return result;
     }
 
@@ -121,7 +120,7 @@ public class GeometryWrapper implements Serializable, Cloneable {
             return false;
         return true;
     }
-    
+
     //@formatter:off
     /* (non-Javadoc)
      * @see java.lang.Object#clone()
@@ -132,10 +131,9 @@ public class GeometryWrapper implements Serializable, Cloneable {
         if (geometry == null) {
             return new GeometryWrapper();
         } else {
-            return new GeometryWrapper((Geometry)geometry.clone());
+            return new GeometryWrapper((Geometry) geometry.clone());
         }
     }
-    
 
     /**
      * Gets the geometry.
@@ -173,9 +171,8 @@ public class GeometryWrapper implements Serializable, Cloneable {
          */
         //@formatter:on
         @Override
-        public void serializeWithType(GeometryWrapper value, JsonGenerator gen,
-                SerializerProvider provider, TypeSerializer typeSer)
-                        throws IOException, JsonProcessingException {
+        public void serializeWithType(GeometryWrapper value, JsonGenerator gen, SerializerProvider provider,
+                TypeSerializer typeSer) throws IOException, JsonProcessingException {
 
             serialize(value, gen, provider);
         }
@@ -186,9 +183,8 @@ public class GeometryWrapper implements Serializable, Cloneable {
          */
         //@formatter:on
         @Override
-        public void serialize(GeometryWrapper value, JsonGenerator jgen,
-                SerializerProvider prov)
-                        throws IOException, JsonProcessingException {
+        public void serialize(GeometryWrapper value, JsonGenerator jgen, SerializerProvider prov)
+                throws IOException, JsonProcessingException {
 
             if (value == null) {
                 jgen.writeNull();
@@ -205,8 +201,7 @@ public class GeometryWrapper implements Serializable, Cloneable {
      * 
      * @author Christian Bremer
      */
-    protected static class Deserializer
-            extends JsonDeserializer<GeometryWrapper> {
+    protected static class Deserializer extends JsonDeserializer<GeometryWrapper> {
 
         private GeometryDeserializer geometryDeserializer = new GeometryDeserializer();
 
@@ -216,9 +211,8 @@ public class GeometryWrapper implements Serializable, Cloneable {
          */
         //@formatter:on
         @Override
-        public GeometryWrapper deserializeWithType(JsonParser jp,
-                DeserializationContext ctxt, TypeDeserializer typeDeserializer)
-                        throws IOException, JsonProcessingException {
+        public GeometryWrapper deserializeWithType(JsonParser jp, DeserializationContext ctxt,
+                TypeDeserializer typeDeserializer) throws IOException, JsonProcessingException {
 
             return deserialize(jp, ctxt);
         }
@@ -229,9 +223,8 @@ public class GeometryWrapper implements Serializable, Cloneable {
          */
         //@formatter:on
         @Override
-        public GeometryWrapper deserialize(JsonParser jp,
-                DeserializationContext ctxt)
-                        throws IOException, JsonProcessingException {
+        public GeometryWrapper deserialize(JsonParser jp, DeserializationContext ctxt)
+                throws IOException, JsonProcessingException {
 
             Geometry geometry = geometryDeserializer.deserialize(jp, ctxt);
             return new GeometryWrapper(geometry);

@@ -31,114 +31,114 @@ import com.vividsolutions.jts.geom.CoordinateFilter;
  */
 public class Wgs84ToMercatorCoordinateFilter implements CoordinateFilter, Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private double earthRadiusInMeters = GeometryUtils.EARTH_RADIUS_METERS;
+    private double earthRadiusInMeters = GeometryUtils.EARTH_RADIUS_METERS;
 
-	private boolean removingZ = false;
+    private boolean removingZ = false;
 
-	/**
-	 * Default constructor.
-	 */
-	public Wgs84ToMercatorCoordinateFilter() {
-	}
+    /**
+     * Default constructor.
+     */
+    public Wgs84ToMercatorCoordinateFilter() {
+    }
 
-	/**
-	 * Constructs a coordinate filter that uses the specified earth radius.
-	 * 
-	 * @param earthRadiusInMeters
-	 *            the earth radius in meters
-	 */
-	public Wgs84ToMercatorCoordinateFilter(double earthRadiusInMeters) {
-		this.earthRadiusInMeters = earthRadiusInMeters;
-	}
+    /**
+     * Constructs a coordinate filter that uses the specified earth radius.
+     * 
+     * @param earthRadiusInMeters
+     *            the earth radius in meters
+     */
+    public Wgs84ToMercatorCoordinateFilter(double earthRadiusInMeters) {
+        this.earthRadiusInMeters = earthRadiusInMeters;
+    }
 
-	/**
-	 * Constructs a coordinate filter with the specified flag for removing the z
-	 * value.
-	 * 
-	 * @param removingZ
-	 *            if {@code true} the z value of the coordinate will be removed
-	 *            otherwise it will be untouched
-	 */
-	public Wgs84ToMercatorCoordinateFilter(boolean removingZ) {
-		this.removingZ = removingZ;
-	}
+    /**
+     * Constructs a coordinate filter with the specified flag for removing the z
+     * value.
+     * 
+     * @param removingZ
+     *            if {@code true} the z value of the coordinate will be removed
+     *            otherwise it will be untouched
+     */
+    public Wgs84ToMercatorCoordinateFilter(boolean removingZ) {
+        this.removingZ = removingZ;
+    }
 
-	/**
-	 * Constructs a coordinate filter with the specified values.
-	 * 
-	 * @param earthRadiusInMeters
-	 *            the earth radius in meters
-	 * @param removingZ
-	 *            if {@code true} the z value of the coordinate will be removed
-	 *            otherwise it will be untouched
-	 */
-	public Wgs84ToMercatorCoordinateFilter(double earthRadiusInMeters, boolean removingZ) {
-		this.earthRadiusInMeters = earthRadiusInMeters;
-		this.removingZ = removingZ;
-	}
+    /**
+     * Constructs a coordinate filter with the specified values.
+     * 
+     * @param earthRadiusInMeters
+     *            the earth radius in meters
+     * @param removingZ
+     *            if {@code true} the z value of the coordinate will be removed
+     *            otherwise it will be untouched
+     */
+    public Wgs84ToMercatorCoordinateFilter(double earthRadiusInMeters, boolean removingZ) {
+        this.earthRadiusInMeters = earthRadiusInMeters;
+        this.removingZ = removingZ;
+    }
 
-	/**
-	 * Returns the earth radius that is used for the transformation.
-	 * 
-	 * @return the earth radius in meters
-	 */
-	public double getEarthRadiusInMeters() {
-		return earthRadiusInMeters;
-	}
+    /**
+     * Returns the earth radius that is used for the transformation.
+     * 
+     * @return the earth radius in meters
+     */
+    public double getEarthRadiusInMeters() {
+        return earthRadiusInMeters;
+    }
 
-	/**
-	 * Sets the earth radius that is used for the transformation.
-	 * 
-	 * @param earthRadiusInMeters
-	 *            the earth radius in meters
-	 */
-	public void setEarthRadiusInMeters(double earthRadiusInMeters) {
-		this.earthRadiusInMeters = earthRadiusInMeters;
-	}
+    /**
+     * Sets the earth radius that is used for the transformation.
+     * 
+     * @param earthRadiusInMeters
+     *            the earth radius in meters
+     */
+    public void setEarthRadiusInMeters(double earthRadiusInMeters) {
+        this.earthRadiusInMeters = earthRadiusInMeters;
+    }
 
-	/**
-	 * @return {@code true} if the z value of the coordinate will be removed
-	 *         otherwise {@code false}
-	 */
-	public boolean isRemovingZ() {
-		return removingZ;
-	}
+    /**
+     * @return {@code true} if the z value of the coordinate will be removed
+     *         otherwise {@code false}
+     */
+    public boolean isRemovingZ() {
+        return removingZ;
+    }
 
-	/**
-	 * @param removingZ
-	 *            if {@code true} the z value of the coordinate will be removed
-	 *            otherwise it will be untouched
-	 */
-	public void setRemovingZ(boolean removingZ) {
-		this.removingZ = removingZ;
-	}
+    /**
+     * @param removingZ
+     *            if {@code true} the z value of the coordinate will be removed
+     *            otherwise it will be untouched
+     */
+    public void setRemovingZ(boolean removingZ) {
+        this.removingZ = removingZ;
+    }
 
-	//@formatter:off
+    //@formatter:off
     /* (non-Javadoc)
      * @see com.vividsolutions.jts.geom.CoordinateFilter#filter(com.vividsolutions.jts.geom.Coordinate)
      */
     //@formatter:on
-	@Override
-	public void filter(Coordinate coord) {
+    @Override
+    public void filter(Coordinate coord) {
 
-		if (coord != null) {
-			if (!Double.isNaN(coord.x)) {
-				coord.x = coord.x * getEarthRadiusInMeters() * Math.PI / 180.;
-			}
-			if (!Double.isNaN(coord.y)) {
-				if (coord.y > GeometryUtils.MERCATOR_MAX_LAT) {
-					coord.y = GeometryUtils.MERCATOR_MAX_LAT;
-				} else if (coord.y < GeometryUtils.MERCATOR_MIN_LAT) {
-					coord.y = GeometryUtils.MERCATOR_MIN_LAT;
-				}
-				coord.y = Math.log(Math.tan(Math.PI / 4 + Math.toRadians(coord.y) / 2)) * getEarthRadiusInMeters();
-			}
-			if (removingZ) {
-				coord.z = Double.NaN;
-			}
-		}
-	}
+        if (coord != null) {
+            if (!Double.isNaN(coord.x)) {
+                coord.x = coord.x * getEarthRadiusInMeters() * Math.PI / 180.;
+            }
+            if (!Double.isNaN(coord.y)) {
+                if (coord.y > GeometryUtils.MERCATOR_MAX_LAT) {
+                    coord.y = GeometryUtils.MERCATOR_MAX_LAT;
+                } else if (coord.y < GeometryUtils.MERCATOR_MIN_LAT) {
+                    coord.y = GeometryUtils.MERCATOR_MIN_LAT;
+                }
+                coord.y = Math.log(Math.tan(Math.PI / 4 + Math.toRadians(coord.y) / 2)) * getEarthRadiusInMeters();
+            }
+            if (removingZ) {
+                coord.z = Double.NaN;
+            }
+        }
+    }
 
 }

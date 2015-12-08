@@ -47,9 +47,9 @@ import com.vividsolutions.jts.geom.Polygon;
  */
 public class GeometrySerializer extends StdSerializer<Geometry> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
+    /**
      * Default constructor.
      */
     public GeometrySerializer() {
@@ -62,9 +62,8 @@ public class GeometrySerializer extends StdSerializer<Geometry> {
      */
     //@formatter:on
     @Override
-    public void serialize(Geometry value, JsonGenerator jgen,
-            SerializerProvider provider)
-                    throws IOException, JsonProcessingException {
+    public void serialize(Geometry value, JsonGenerator jgen, SerializerProvider provider)
+            throws IOException, JsonProcessingException {
 
         if (value == null) {
             jgen.writeNull();
@@ -154,12 +153,10 @@ public class GeometrySerializer extends StdSerializer<Geometry> {
         return map;
     }
 
-    private Map<String, Object> createGeometryCollection(
-            GeometryCollection geometryColllection) {
+    private Map<String, Object> createGeometryCollection(GeometryCollection geometryColllection) {
         LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 
-        List<Map<String, Object>> geoms = new ArrayList<Map<String, Object>>(
-                geometryColllection.getNumGeometries());
+        List<Map<String, Object>> geoms = new ArrayList<Map<String, Object>>(geometryColllection.getNumGeometries());
         for (int i = 0; i < geometryColllection.getNumGeometries(); i++) {
             geoms.add(create(geometryColllection.getGeometryN(i)));
         }
@@ -203,13 +200,11 @@ public class GeometrySerializer extends StdSerializer<Geometry> {
         return list;
     }
 
-    private List<List<Object>> createCoordinates(
-            CoordinateSequence coordinateSequence) {
+    private List<List<Object>> createCoordinates(CoordinateSequence coordinateSequence) {
         if (coordinateSequence == null || coordinateSequence.size() == 0) {
             return Collections.emptyList();
         }
-        List<List<Object>> list = new ArrayList<List<Object>>(
-                coordinateSequence.size());
+        List<List<Object>> list = new ArrayList<List<Object>>(coordinateSequence.size());
         for (int n = 0; n < coordinateSequence.size(); n++) {
             list.add(createCoordinates(coordinateSequence.getCoordinate(n)));
         }
@@ -218,26 +213,21 @@ public class GeometrySerializer extends StdSerializer<Geometry> {
 
     private List<List<List<Object>>> createCoordinates(Polygon polygon) {
         List<List<List<Object>>> list = new ArrayList<List<List<Object>>>();
-        list.add(createCoordinates(
-                polygon.getExteriorRing().getCoordinateSequence()));
+        list.add(createCoordinates(polygon.getExteriorRing().getCoordinateSequence()));
         for (int i = 0; i < polygon.getNumInteriorRing(); i++) {
-            list.add(createCoordinates(
-                    polygon.getInteriorRingN(i).getCoordinateSequence()));
+            list.add(createCoordinates(polygon.getInteriorRingN(i).getCoordinateSequence()));
         }
         return list;
     }
 
-    private List<Object> createCoordinates(
-            GeometryCollection geometryCollection) {
-        List<Object> list = new ArrayList<Object>(
-                geometryCollection.getNumGeometries());
+    private List<Object> createCoordinates(GeometryCollection geometryCollection) {
+        List<Object> list = new ArrayList<Object>(geometryCollection.getNumGeometries());
         for (int i = 0; i < geometryCollection.getNumGeometries(); i++) {
             Geometry g = geometryCollection.getGeometryN(i);
             if (g instanceof Polygon) {
                 list.add(createCoordinates((Polygon) g));
             } else if (g instanceof LineString) {
-                list.add(createCoordinates(
-                        ((LineString) g).getCoordinateSequence()));
+                list.add(createCoordinates(((LineString) g).getCoordinateSequence()));
             } else if (g instanceof Point) {
                 list.add(createCoordinates(((Point) g).getCoordinate()));
             }
