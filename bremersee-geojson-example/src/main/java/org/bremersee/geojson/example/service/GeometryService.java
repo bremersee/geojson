@@ -24,11 +24,11 @@ import com.vividsolutions.jts.geom.Polygon;
  * @author Christian Bremer
  */
 public interface GeometryService {
-	
-	Point getNextPosition();
-	
-	LinearRing getPositionsRing();
-	
-	Polygon getPositionsBoundingBox();
+
+    Point getNextPosition();
+
+    LinearRing getPositionsRing();
+
+    Polygon getPositionsBoundingBox();
 
 }

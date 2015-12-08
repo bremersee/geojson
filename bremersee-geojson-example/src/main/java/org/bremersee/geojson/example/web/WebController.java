@@ -42,27 +42,21 @@ import com.vividsolutions.jts.geom.Polygon;
  */
 @Controller
 public class WebController {
-	
-	@Autowired
-	protected GeometryService geometryService;
-	
-    @RequestMapping(
-            value = {"/index.html", "/main.html"},
+
+    @Autowired
+    protected GeometryService geometryService;
+
+    @RequestMapping(value = { "/index.html","/main.html" }, 
             method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public String displayMainPage(
-            HttpServletRequest request,
-            ModelMap model) {
-        
+    public String displayMainPage(HttpServletRequest request, ModelMap model) {
+
         return "main";
     }
-    
-    @RequestMapping(
-            value = "/static-features.json", 
-            method = RequestMethod.GET, 
-            produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody GeoJsonFeatureCollection getStaticFeatures() {
-    	
-    	//@formatter:off
+
+    @RequestMapping(value = "/static-features.json", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody GeoJsonFeatureCollection getStaticFeatures() {
+
+        //@formatter:off
     	LinearRing linearRing = geometryService.getPositionsRing();
     	Map<String, Object> linearRingProperties = new LinkedHashMap<>();
     	linearRingProperties.put("color", "blue");
@@ -90,15 +84,12 @@ public class WebController {
 		col.getFeatures().add(positionsBoundingBoxFeature);
 		return col;
     	//@formatter:on
-	}
+    }
 
-    @RequestMapping(
-            value = "/current-position.json", 
-            method = RequestMethod.GET, 
-            produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody GeoJsonFeature getCurrentPosition() {
-    	
-    	//@formatter:off
+    @RequestMapping(value = "/current-position.json", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody GeoJsonFeature getCurrentPosition() {
+
+        //@formatter:off
     	Point position = geometryService.getNextPosition();
     	return new GeoJsonFeature(
     			null, 
@@ -107,6 +98,6 @@ public class WebController {
     			false, 
     			null);
     	//@formatter:on
-	}
+    }
 
 }

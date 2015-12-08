@@ -34,21 +34,20 @@ import com.vividsolutions.jts.geom.Polygon;
  */
 @Service
 public class GeometryServiceImpl implements GeometryService {
-	
-	private final Long startMillis = System.currentTimeMillis();
-	
-	private Point[] positions;
-	
-	private long positionChangeInterval = 1000L;
-	
-	@PostConstruct
-	public void init() {
-		initPositions();
-	}
-	
-	private void initPositions() {
-        this.positions = new Point[] {
-                GeometryUtils.createPointWGS84(48.847509, 8.902958),
+
+    private final Long startMillis = System.currentTimeMillis();
+
+    private Point[] positions;
+
+    private long positionChangeInterval = 1000L;
+
+    @PostConstruct
+    public void init() {
+        initPositions();
+    }
+
+    private void initPositions() {
+        this.positions = new Point[] { GeometryUtils.createPointWGS84(48.847509, 8.902958),
                 GeometryUtils.createPointWGS84(48.847198, 8.903281),
                 GeometryUtils.createPointWGS84(48.846831, 8.903581),
                 GeometryUtils.createPointWGS84(48.846477, 8.903860),
@@ -91,32 +90,31 @@ public class GeometryServiceImpl implements GeometryService {
                 GeometryUtils.createPointWGS84(48.848900, 8.901462),
                 GeometryUtils.createPointWGS84(48.848593, 8.901888),
                 GeometryUtils.createPointWGS84(48.848270, 8.902294),
-                GeometryUtils.createPointWGS84(48.847890, 8.902701)
-        };
-	}
-	
-	@Override
-	public Point getNextPosition() {
-		synchronized (startMillis) {
-			long diff = Math.abs(System.currentTimeMillis() - startMillis);
-			int add = Double.valueOf(Math.floor(diff / Long.valueOf(positionChangeInterval).doubleValue())).intValue();
-			int index = (positions.length + add) % positions.length;
-			return positions[index];
-		}
-	}
-	
-	@Override
-	public LinearRing getPositionsRing() {
-		List<Coordinate> coords = new ArrayList<>(positions.length);
-		for (int i = 0; i < positions.length; i++) {
-			coords.add(positions[i].getCoordinate());
-		}
-		return GeometryUtils.createLinearRing(coords);
-	}
-	
-	@Override
-	public Polygon getPositionsBoundingBox() {
-		return GeometryUtils.getBoundingBoxAsPolygon2D(getPositionsRing());
-	}
+                GeometryUtils.createPointWGS84(48.847890, 8.902701) };
+    }
+
+    @Override
+    public Point getNextPosition() {
+        synchronized (startMillis) {
+            long diff = Math.abs(System.currentTimeMillis() - startMillis);
+            int add = Double.valueOf(Math.floor(diff / Long.valueOf(positionChangeInterval).doubleValue())).intValue();
+            int index = (positions.length + add) % positions.length;
+            return positions[index];
+        }
+    }
+
+    @Override
+    public LinearRing getPositionsRing() {
+        List<Coordinate> coords = new ArrayList<>(positions.length);
+        for (int i = 0; i < positions.length; i++) {
+            coords.add(positions[i].getCoordinate());
+        }
+        return GeometryUtils.createLinearRing(coords);
+    }
+
+    @Override
+    public Polygon getPositionsBoundingBox() {
+        return GeometryUtils.getBoundingBoxAsPolygon2D(getPositionsRing());
+    }
 
 }
