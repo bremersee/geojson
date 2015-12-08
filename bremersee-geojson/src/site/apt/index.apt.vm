@@ -11,10 +11,10 @@ Bremersee GeoJSON
   
 * Usage
 
-  GeoJSON can be read or written with adding the GeoJsonObjectMapperModule to the ObjectMaper or without.
+  GeoJSON can be read or written with adding the GeoJsonObjectMapperModule to the ObjectMapper or without.
 
   
-** Without adding the GeoJsonObjectMapperModule to the ObjectMaper
+** Without adding the GeoJsonObjectMapperModule to the ObjectMapper
 
   If you do not add the GeoJsonObjectMapperModule to the ObjectMapper, you'll have to use the GeometryWrapper:
   
@@ -35,7 +35,7 @@ String json = om.writeValueAsString(f);
 +----------------------------------------------------------------------+
 
   
-** With adding the GeoJsonObjectMapperModule to the ObjectMaper
+** With adding the GeoJsonObjectMapperModule to the ObjectMapper
 
   If you add the GeoJsonObjectMapperModule to the ObjectMapper, you'll be able to process the geometry object directly:
   
