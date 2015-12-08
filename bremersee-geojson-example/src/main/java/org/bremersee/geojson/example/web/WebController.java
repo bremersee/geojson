@@ -46,14 +46,18 @@ public class WebController {
     @Autowired
     protected GeometryService geometryService;
 
-    @RequestMapping(value = { "/index.html","/main.html" }, 
+    @RequestMapping(
+            value = { "/index.html","/main.html" }, 
             method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String displayMainPage(HttpServletRequest request, ModelMap model) {
 
         return "main";
     }
 
-    @RequestMapping(value = "/static-features.json", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(
+            value = "/static-features.json", 
+            method = RequestMethod.GET, 
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody GeoJsonFeatureCollection getStaticFeatures() {
 
         //@formatter:off
@@ -86,7 +90,10 @@ public class WebController {
     	//@formatter:on
     }
 
-    @RequestMapping(value = "/current-position.json", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(
+            value = "/current-position.json", 
+            method = RequestMethod.GET, 
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody GeoJsonFeature getCurrentPosition() {
 
         //@formatter:off
