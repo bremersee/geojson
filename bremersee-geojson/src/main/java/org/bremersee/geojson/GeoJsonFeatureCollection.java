@@ -91,9 +91,8 @@ public class GeoJsonFeatureCollection implements Serializable {
      *            a map with named objects that are associated with the GeoJSON
      *            feature collection
      */
-    public GeoJsonFeatureCollection(String id, AbstractGeoJsonCrs crs,
-            Collection<? extends GeoJsonFeature> features, boolean setBounds,
-            Map<String, Object> properties) {
+    public GeoJsonFeatureCollection(String id, AbstractGeoJsonCrs crs, Collection<? extends GeoJsonFeature> features,
+            boolean setBounds, Map<String, Object> properties) {
         if (id != null && id.trim().length() > 0) {
             setId(id);
         }
@@ -107,10 +106,8 @@ public class GeoJsonFeatureCollection implements Serializable {
                         glist.add(f.getGeometry());
                     }
                 }
-                Geometry[] geometries = glist
-                        .toArray(new Geometry[glist.size()]);
-                GeometryCollection gc = new GeometryCollection(geometries,
-                        new GeometryFactory());
+                Geometry[] geometries = glist.toArray(new Geometry[glist.size()]);
+                GeometryCollection gc = new GeometryCollection(geometries, new GeometryFactory());
                 setBbox(GeometryUtils.getBoundingBox(gc));
             }
         }
@@ -135,26 +132,26 @@ public class GeoJsonFeatureCollection implements Serializable {
      *            a map with named objects that are associated with the GeoJSON
      *            feature collection
      */
-    public GeoJsonFeatureCollection(String id, String crsName,
-            Collection<? extends GeoJsonFeature> features, boolean setBounds,
-            Map<String, Object> properties) {
-        this(id, crsName != null && crsName.trim().length() > 0
-                ? new GeoJsonNamedCrs(crsName) : null, features, setBounds,
-                properties);
+    public GeoJsonFeatureCollection(String id, String crsName, Collection<? extends GeoJsonFeature> features,
+            boolean setBounds, Map<String, Object> properties) {
+        this(id, crsName != null && crsName.trim().length() > 0 ? new GeoJsonNamedCrs(crsName) : null, features,
+                setBounds, properties);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
-        return String.format(
-                "%s [id = %s, crs = %s, bbox = %s, features = %s, properties = %s]",
-                getClass().getSimpleName(), id, crs, bbox, features,
-                properties);
+        return String.format("%s [id = %s, crs = %s, bbox = %s, features = %s, properties = %s]",
+                getClass().getSimpleName(), id, crs, bbox, features, properties);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -163,15 +160,15 @@ public class GeoJsonFeatureCollection implements Serializable {
         int result = 1;
         result = prime * result + Arrays.hashCode(bbox);
         result = prime * result + ((crs == null) ? 0 : crs.hashCode());
-        result = prime * result
-                + ((features == null) ? 0 : features.hashCode());
+        result = prime * result + ((features == null) ? 0 : features.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result
-                + ((properties == null) ? 0 : properties.hashCode());
+        result = prime * result + ((properties == null) ? 0 : properties.hashCode());
         return result;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override

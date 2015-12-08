@@ -126,9 +126,8 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
         }
     }
 
-    private void parseCoordinates(int depth, List<Object> coordinates,
-            JsonParser jp, DeserializationContext ctxt)
-                    throws IOException, JsonProcessingException {
+    private void parseCoordinates(int depth, List<Object> coordinates, JsonParser jp, DeserializationContext ctxt)
+            throws IOException, JsonProcessingException {
 
         JsonToken currentToken = null;
         while ((currentToken = jp.nextValue()) != null) {
@@ -148,12 +147,9 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
 
     private Coordinate createCoordinate(List<Object> coordinates) {
         Coordinate coordinate = new Coordinate();
-        coordinate.x = coordinates.size() > 0 ? (double) coordinates.get(0)
-                : Double.NaN;
-        coordinate.y = coordinates.size() > 1 ? (double) coordinates.get(1)
-                : Double.NaN;
-        coordinate.z = coordinates.size() > 2 ? (double) coordinates.get(2)
-                : Double.NaN;
+        coordinate.x = coordinates.size() > 0 ? (double) coordinates.get(0) : Double.NaN;
+        coordinate.y = coordinates.size() > 1 ? (double) coordinates.get(1) : Double.NaN;
+        coordinate.z = coordinates.size() > 2 ? (double) coordinates.get(2) : Double.NaN;
         return coordinate;
     }
 
@@ -174,8 +170,7 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
     }
 
     private LineString createLineString(List<Object> coordinates) { // List<List<Double>>
-        return getGeometryFactory()
-                .createLineString(createCoordinates(coordinates));
+        return getGeometryFactory().createLineString(createCoordinates(coordinates));
     }
 
     private Polygon createPolygon(List<Object> coordinates) { // List<List<List<Double>>>
@@ -233,17 +228,14 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
         return getGeometryFactory().createMultiPolygon(polygons);
     }
 
-    private GeometryCollection createGeometryCollection(
-            List<Geometry> geometries) {
+    private GeometryCollection createGeometryCollection(List<Geometry> geometries) {
         GeometryCollection geometryCollection = getGeometryFactory()
-                .createGeometryCollection(
-                        geometries.toArray(new Geometry[geometries.size()]));
+                .createGeometryCollection(geometries.toArray(new Geometry[geometries.size()]));
         return geometryCollection;
     }
 
-    private List<Geometry> parseGeometries(JsonParser jp,
-            DeserializationContext ctxt)
-                    throws IOException, JsonProcessingException {
+    private List<Geometry> parseGeometries(JsonParser jp, DeserializationContext ctxt)
+            throws IOException, JsonProcessingException {
 
         String type = null;
         List<Object> coordinates = new ArrayList<Object>();
@@ -291,8 +283,7 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
         if ("MultiPolygon".equals(type)) {
             return createMultiPolygon(coordinates);
         }
-        throw new RuntimeException(
-                "Geometry type [" + type + "] is unsupported.");
+        throw new RuntimeException("Geometry type [" + type + "] is unsupported.");
     }
 
 }

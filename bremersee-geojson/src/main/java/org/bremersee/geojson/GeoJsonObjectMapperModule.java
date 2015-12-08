@@ -58,107 +58,107 @@ import com.vividsolutions.jts.geom.Polygon;
 //@formatter:on
 public class GeoJsonObjectMapperModule extends SimpleModule {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Registers this module to the object mapper.
-	 * 
-	 * @param objectMapper
-	 *            the object mapper
-	 */
-	public static void configure(ObjectMapper objectMapper) {
-		configure(objectMapper, null);
-	}
+    /**
+     * Registers this module to the object mapper.
+     * 
+     * @param objectMapper
+     *            the object mapper
+     */
+    public static void configure(ObjectMapper objectMapper) {
+        configure(objectMapper, null);
+    }
 
-	/**
-	 * Registers this module to the object mapper.
-	 * 
-	 * @param objectMapper
-	 *            the object mapper
-	 * @param geometryFactory
-	 *            the geometry factory
-	 */
-	public static void configure(ObjectMapper objectMapper, GeometryFactory geometryFactory) {
-		if (objectMapper != null) {
-			objectMapper.registerModule(new GeoJsonObjectMapperModule(geometryFactory));
-		}
-	}
+    /**
+     * Registers this module to the object mapper.
+     * 
+     * @param objectMapper
+     *            the object mapper
+     * @param geometryFactory
+     *            the geometry factory
+     */
+    public static void configure(ObjectMapper objectMapper, GeometryFactory geometryFactory) {
+        if (objectMapper != null) {
+            objectMapper.registerModule(new GeoJsonObjectMapperModule(geometryFactory));
+        }
+    }
 
-	private static Version getVersion() {
+    private static Version getVersion() {
 
-		final int defaultMajor = 1;
-		final int defaultMinor = 1;
-		final int defaultPatchLevel = 0;
-		final String defaultSnapshotInfo = "SNAPSHOT";
+        final int defaultMajor = 1;
+        final int defaultMinor = 1;
+        final int defaultPatchLevel = 1;
+        final String defaultSnapshotInfo = "SNAPSHOT";
 
-		int major = defaultMajor;
-		int minor = defaultMinor;
-		int patchLevel = defaultPatchLevel;
-		String snapshotInfo = defaultSnapshotInfo;
+        int major = defaultMajor;
+        int minor = defaultMinor;
+        int patchLevel = defaultPatchLevel;
+        String snapshotInfo = defaultSnapshotInfo;
 
-		String version = GeoJsonObjectMapperModule.class.getPackage().getImplementationVersion();
-		if (version != null) {
-			// version = 1.1.0-SNAPSHOT
-			try {
-				int i = version.indexOf('-');
-				if (i < 0) {
-					snapshotInfo = null;
-				} else {
-					snapshotInfo = version.substring(i + 1);
-					String[] a = version.substring(0, i).split(".");
-					major = Integer.parseInt(a[0]);
-					minor = Integer.parseInt(a[1]);
-					patchLevel = Integer.parseInt(a[2]);
-				}
+        String version = GeoJsonObjectMapperModule.class.getPackage().getImplementationVersion();
+        if (version != null) {
+            // version = 1.1.0-SNAPSHOT
+            try {
+                int i = version.indexOf('-');
+                if (i < 0) {
+                    snapshotInfo = null;
+                } else {
+                    snapshotInfo = version.substring(i + 1);
+                    String[] a = version.substring(0, i).split(".");
+                    major = Integer.parseInt(a[0]);
+                    minor = Integer.parseInt(a[1]);
+                    patchLevel = Integer.parseInt(a[2]);
+                }
 
-			} catch (Exception e) {
-				major = defaultMajor;
-				minor = defaultMinor;
-				patchLevel = defaultPatchLevel;
-				snapshotInfo = defaultSnapshotInfo;
-			}
-		}
+            } catch (Exception e) {
+                major = defaultMajor;
+                minor = defaultMinor;
+                patchLevel = defaultPatchLevel;
+                snapshotInfo = defaultSnapshotInfo;
+            }
+        }
 
-		return new Version(major, minor, patchLevel, snapshotInfo, "org.bremersee", "bremersee-geojson");
-	}
+        return new Version(major, minor, patchLevel, snapshotInfo, "org.bremersee", "bremersee-geojson");
+    }
 
-	private static Map<Class<?>, JsonDeserializer<?>> getDeserializers(GeometryFactory geometryFactory) {
-		if (geometryFactory == null) {
-			geometryFactory = new GeometryFactory();
-		}
-		HashMap<Class<?>, JsonDeserializer<?>> map = new HashMap<Class<?>, JsonDeserializer<?>>();
-		map.put(Geometry.class, new GeometryDeserializer(geometryFactory));
-		map.put(Point.class, new GeometryDeserializer(geometryFactory));
-		map.put(LineString.class, new GeometryDeserializer(geometryFactory));
-		map.put(Polygon.class, new GeometryDeserializer(geometryFactory));
-		map.put(MultiPoint.class, new GeometryDeserializer(geometryFactory));
-		map.put(MultiLineString.class, new GeometryDeserializer(geometryFactory));
-		map.put(MultiPolygon.class, new GeometryDeserializer(geometryFactory));
-		map.put(GeometryCollection.class, new GeometryDeserializer(geometryFactory));
-		return map;
-	}
+    private static Map<Class<?>, JsonDeserializer<?>> getDeserializers(GeometryFactory geometryFactory) {
+        if (geometryFactory == null) {
+            geometryFactory = new GeometryFactory();
+        }
+        HashMap<Class<?>, JsonDeserializer<?>> map = new HashMap<Class<?>, JsonDeserializer<?>>();
+        map.put(Geometry.class, new GeometryDeserializer(geometryFactory));
+        map.put(Point.class, new GeometryDeserializer(geometryFactory));
+        map.put(LineString.class, new GeometryDeserializer(geometryFactory));
+        map.put(Polygon.class, new GeometryDeserializer(geometryFactory));
+        map.put(MultiPoint.class, new GeometryDeserializer(geometryFactory));
+        map.put(MultiLineString.class, new GeometryDeserializer(geometryFactory));
+        map.put(MultiPolygon.class, new GeometryDeserializer(geometryFactory));
+        map.put(GeometryCollection.class, new GeometryDeserializer(geometryFactory));
+        return map;
+    }
 
-	private static List<JsonSerializer<?>> getSerializers() {
-		ArrayList<JsonSerializer<?>> list = new ArrayList<JsonSerializer<?>>();
-		list.add(new GeometrySerializer());
-		return list;
-	}
+    private static List<JsonSerializer<?>> getSerializers() {
+        ArrayList<JsonSerializer<?>> list = new ArrayList<JsonSerializer<?>>();
+        list.add(new GeometrySerializer());
+        return list;
+    }
 
-	/**
-	 * Default constructor.
-	 */
-	public GeoJsonObjectMapperModule() {
-		this(null);
-	}
+    /**
+     * Default constructor.
+     */
+    public GeoJsonObjectMapperModule() {
+        this(null);
+    }
 
-	/**
-	 * Constructs a module with the specified geometry factory.
-	 * 
-	 * @param geometryFactory
-	 *            the geometry factory
-	 */
-	public GeoJsonObjectMapperModule(GeometryFactory geometryFactory) {
-		super("GeoJsonModule", getVersion(), getDeserializers(geometryFactory), getSerializers());
-	}
+    /**
+     * Constructs a module with the specified geometry factory.
+     * 
+     * @param geometryFactory
+     *            the geometry factory
+     */
+    public GeoJsonObjectMapperModule(GeometryFactory geometryFactory) {
+        super("GeoJsonModule", getVersion(), getDeserializers(geometryFactory), getSerializers());
+    }
 
 }
