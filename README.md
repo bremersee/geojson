@@ -39,6 +39,6 @@ or
 ```
 $ cd geojson/bremersee-geojson-example
 $ mvn clean package
-$ java -jar target/bremersee-geojson-example-1.1.0.jar
+$ java -jar target/bremersee-geojson-example-1.1.1.jar
 ```
 After the application is started you can open [http://localhost:8080/main.html](http://localhost:8080/main.html) in your favorite browser and have a look at the demonstration.
