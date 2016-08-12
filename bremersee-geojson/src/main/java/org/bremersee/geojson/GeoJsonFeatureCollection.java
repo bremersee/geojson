@@ -33,6 +33,8 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
+import io.swagger.annotations.ApiModel;
+
 //@formatter:off
 /**
  * <p>
@@ -44,6 +46,9 @@ import com.vividsolutions.jts.geom.GeometryFactory;
  * 
  * @author Christian Bremer
  */
+@ApiModel(
+        value = "GeoJsonFeatureCollection",
+        description = "A GeoJSON object with the type FeatureCollection is a feature collection object.")
 //@formatter:on
 public class GeoJsonFeatureCollection implements Serializable {
 
