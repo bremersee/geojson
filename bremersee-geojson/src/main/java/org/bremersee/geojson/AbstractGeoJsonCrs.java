@@ -28,6 +28,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
+import io.swagger.annotations.ApiModel;
+
 //@formatter:off
 /**
  * <p>
@@ -44,6 +46,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 	@Type(value = GeoJsonLinkedCrs.class, name = "link"),
 	@Type(value = GeoJsonNamedCrs.class, name = "name") 
 })
+@ApiModel(
+        description = "Abstract base class for the coordinate reference system (CRS) "
+                + "of a GeoJSON object.")
 //@formatter:on
 public class AbstractGeoJsonCrs implements Serializable {
 

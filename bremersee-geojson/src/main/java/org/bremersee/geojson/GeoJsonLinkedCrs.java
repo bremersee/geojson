@@ -18,6 +18,8 @@ package org.bremersee.geojson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.annotations.ApiModel;
+
 //@formatter:off
 /**
  * <p>
@@ -28,6 +30,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * 
  * @author Christian Bremer
  */
+@ApiModel(
+        value = "GeoJsonLinkedCrs",
+        description = "A link to the coordinate reference system (CRS) of a GeoJSON object.")
 //@formatter:on
 public class GeoJsonLinkedCrs extends AbstractGeoJsonCrs {
 

@@ -18,10 +18,12 @@ package org.bremersee.geojson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.annotations.ApiModel;
+
 //@formatter:off
 /**
  * <p>
- * A refernce to the coordinate reference system (CRS) of a GeoJSON object by
+ * A reference to the coordinate reference system (CRS) of a GeoJSON object by
  * it's name (see 
  * <a href="http://geojson.org/geojson-spec.html#named-crs">http://geojson.org/geojson-spec.html#named-crs</a>
  * ).
@@ -29,6 +31,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * 
  * @author Christian Bremer
  */
+@ApiModel(
+        value = "GeoJsonLinkedCrs",
+        description = "A reference to the coordinate reference system (CRS) of a GeoJSON object by it's name.")
 //@formatter:on
 public class GeoJsonNamedCrs extends AbstractGeoJsonCrs {
 

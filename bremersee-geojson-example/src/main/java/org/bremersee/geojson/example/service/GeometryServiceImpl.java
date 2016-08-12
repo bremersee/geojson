@@ -47,9 +47,7 @@ public class GeometryServiceImpl implements GeometryService {
     }
 
     private void initPositions() {
-        //@formatter:off
-        this.positions = new Point[] { 
-                GeometryUtils.createPointWGS84(48.847509, 8.902958),
+        this.positions = new Point[] { GeometryUtils.createPointWGS84(48.847509, 8.902958),
                 GeometryUtils.createPointWGS84(48.847198, 8.903281),
                 GeometryUtils.createPointWGS84(48.846831, 8.903581),
                 GeometryUtils.createPointWGS84(48.846477, 8.903860),
@@ -92,9 +90,7 @@ public class GeometryServiceImpl implements GeometryService {
                 GeometryUtils.createPointWGS84(48.848900, 8.901462),
                 GeometryUtils.createPointWGS84(48.848593, 8.901888),
                 GeometryUtils.createPointWGS84(48.848270, 8.902294),
-                GeometryUtils.createPointWGS84(48.847890, 8.902701) 
-            };
-        //@formatter:on
+                GeometryUtils.createPointWGS84(48.847890, 8.902701) };
     }
 
     @Override

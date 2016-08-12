@@ -30,6 +30,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.vividsolutions.jts.geom.Geometry;
 
+import io.swagger.annotations.ApiModel;
+
 //@formatter:off
 /**
  * <p>
@@ -40,6 +42,9 @@ import com.vividsolutions.jts.geom.Geometry;
  * 
  * @author Christian Bremer
  */
+@ApiModel(
+        value = "GeoJsonFeature",
+        description = "A GeoJSON object with the type Feature.")
 //@formatter:on
 public class GeoJsonFeature implements Serializable {
 

@@ -47,9 +47,8 @@ public class WebController {
     protected GeometryService geometryService;
 
     @RequestMapping(
-            value = { "/index.html", "/main.html" }, 
-            method = RequestMethod.GET, 
-            produces = MediaType.TEXT_HTML_VALUE)
+            value = { "/index.html","/main.html" }, 
+            method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String displayMainPage(HttpServletRequest request, ModelMap model) {
 
         return "main";
