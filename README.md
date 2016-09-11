@@ -3,6 +3,18 @@ This project contains Java classes for reading and writing GeoJSON with the Jack
 
 The generated maven site is committed to the [gh-pages branch](https://github.com/bremersee/geojson/tree/gh-pages) and visible [here](http://bremersee.github.io/geojson/). There you can find some examples, too.
 
+## Release 1.1.1
+Release 1.1.1 is build with Java 7 and the Jackson JSON Processor Version 2.6.6
+
+It is available at Maven Central:
+```xml
+<dependency>
+    <groupId>org.bremersee</groupId>
+    <artifactId>bremersee-geojson</artifactId>
+    <version>1.1.1</version>
+</dependency>
+```
+
 ## Release 1.1.0
 Release 1.1.0 is build with Java 7 and the Jackson JSON Processor Version 2.4.6
 
@@ -27,6 +39,6 @@ or
 ```
 $ cd geojson/bremersee-geojson-example
 $ mvn clean package
-$ java -jar target/bremersee-geojson-example-1.1.0.jar
+$ java -jar target/bremersee-geojson-example-1.1.1.jar
 ```
 After the application is started you can open [http://localhost:8080/main.html](http://localhost:8080/main.html) in your favorite browser and have a look at the demonstration.
