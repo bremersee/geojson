@@ -88,7 +88,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
 
         final int defaultMajor = 1;
         final int defaultMinor = 1;
-        final int defaultPatchLevel = 1;
+        final int defaultPatchLevel = 2;
         final String defaultSnapshotInfo = "SNAPSHOT";
 
         int major = defaultMajor;

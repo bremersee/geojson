@@ -33,7 +33,8 @@ import io.swagger.annotations.ApiModel;
  */
 @ApiModel(
         value = "GeoJsonLinkedCrs",
-        description = "A reference to the coordinate reference system (CRS) of a GeoJSON object by it's name.")
+        description = "A reference to the coordinate reference system (CRS) of a GeoJSON object by it's name.",
+        parent = AbstractGeoJsonCrs.class)
 //@formatter:on
 public class GeoJsonNamedCrs extends AbstractGeoJsonCrs {
 

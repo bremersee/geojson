@@ -18,6 +18,7 @@ package org.bremersee.geojson.test;
 
 import java.util.ArrayList;
 
+import org.bremersee.geojson.AbstractGeoJsonCrs;
 import org.bremersee.geojson.GeoJsonFeature;
 import org.bremersee.geojson.GeoJsonFeatureCollection;
 import org.bremersee.geojson.GeoJsonLinkedCrs;
@@ -126,229 +127,339 @@ public class GeoJsonTests {
     }
 
     @Test
-    public void testPoint() throws Exception {
-        Point geometry = createPoint();
-        System.out.println("Testing " + geometry.toText());
-        String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(geometry);
-        System.out.println(jsonStr);
-        Point readGeometry = getObjectMapper().readValue(jsonStr, Point.class);
-        TestCase.assertTrue(GeometryUtils.equals(geometry, readGeometry));
+    public void testPoint() {
+        try {
+            Point geometry = createPoint();
+            System.out.println("Testing " + geometry.toText());
+            String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(geometry);
+            System.out.println(jsonStr);
+            Point readGeometry = getObjectMapper().readValue(jsonStr, Point.class);
+            TestCase.assertTrue(GeometryUtils.equals(geometry, readGeometry));
 
-        GeometryWrapper gjg = new GeometryWrapper(geometry);
-        jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
-        System.out.println(jsonStr);
-        GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
-        TestCase.assertEquals(gjg, readGjg);
-        TestCase.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+            GeometryWrapper gjg = new GeometryWrapper(geometry);
+            jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
+            System.out.println(jsonStr);
+            GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
+            TestCase.assertEquals(gjg, readGjg);
+            TestCase.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+            
+        } catch (Exception e) {
+            if (e instanceof RuntimeException) {
+                throw (RuntimeException)e;
+            }
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
-    public void testLineString() throws Exception {
-        LineString geometry = createLineString();
-        System.out.println("Testing " + geometry.toText());
-        String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(geometry);
-        System.out.println(jsonStr);
-        LineString readGeometry = getObjectMapper().readValue(jsonStr, LineString.class);
-        TestCase.assertTrue(GeometryUtils.equals(geometry, readGeometry));
+    public void testLineString() {
+        try {
+            LineString geometry = createLineString();
+            System.out.println("Testing " + geometry.toText());
+            String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(geometry);
+            System.out.println(jsonStr);
+            LineString readGeometry = getObjectMapper().readValue(jsonStr, LineString.class);
+            TestCase.assertTrue(GeometryUtils.equals(geometry, readGeometry));
 
-        GeometryWrapper gjg = new GeometryWrapper(geometry);
-        jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
-        System.out.println(jsonStr);
-        GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
-        TestCase.assertEquals(gjg, readGjg);
-        TestCase.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+            GeometryWrapper gjg = new GeometryWrapper(geometry);
+            jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
+            System.out.println(jsonStr);
+            GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
+            TestCase.assertEquals(gjg, readGjg);
+            TestCase.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+            
+        } catch (Exception e) {
+            if (e instanceof RuntimeException) {
+                throw (RuntimeException)e;
+            }
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
-    public void testPolygon() throws Exception {
-        Polygon geometry = createPolygon();
-        System.out.println("Testing " + geometry.toText());
-        String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(geometry);
-        System.out.println(jsonStr);
-        Polygon readGeometry = getObjectMapper().readValue(jsonStr, Polygon.class);
-        TestCase.assertTrue(GeometryUtils.equals(geometry, readGeometry));
+    public void testPolygon() {
+        try {
+            Polygon geometry = createPolygon();
+            System.out.println("Testing " + geometry.toText());
+            String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(geometry);
+            System.out.println(jsonStr);
+            Polygon readGeometry = getObjectMapper().readValue(jsonStr, Polygon.class);
+            TestCase.assertTrue(GeometryUtils.equals(geometry, readGeometry));
 
-        GeometryWrapper gjg = new GeometryWrapper(geometry);
-        jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
-        System.out.println(jsonStr);
-        GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
-        TestCase.assertEquals(gjg, readGjg);
-        TestCase.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+            GeometryWrapper gjg = new GeometryWrapper(geometry);
+            jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
+            System.out.println(jsonStr);
+            GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
+            TestCase.assertEquals(gjg, readGjg);
+            TestCase.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+            
+        } catch (Exception e) {
+            if (e instanceof RuntimeException) {
+                throw (RuntimeException)e;
+            }
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
-    public void testPolygonWithHoles() throws Exception {
-        Polygon geometry = createPolygonWithHoles();
-        System.out.println("Testing with holes " + geometry.toText());
-        String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(geometry);
-        System.out.println(jsonStr);
-        Polygon readGeometry = getObjectMapper().readValue(jsonStr, Polygon.class);
-        TestCase.assertTrue(GeometryUtils.equals(geometry, readGeometry));
+    public void testPolygonWithHoles() {
+        try {
+            Polygon geometry = createPolygonWithHoles();
+            System.out.println("Testing with holes " + geometry.toText());
+            String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(geometry);
+            System.out.println(jsonStr);
+            Polygon readGeometry = getObjectMapper().readValue(jsonStr, Polygon.class);
+            TestCase.assertTrue(GeometryUtils.equals(geometry, readGeometry));
 
-        GeometryWrapper gjg = new GeometryWrapper(geometry);
-        jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
-        System.out.println(jsonStr);
-        GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
-        TestCase.assertEquals(gjg, readGjg);
-        TestCase.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+            GeometryWrapper gjg = new GeometryWrapper(geometry);
+            jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
+            System.out.println(jsonStr);
+            GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
+            TestCase.assertEquals(gjg, readGjg);
+            TestCase.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+            
+        } catch (Exception e) {
+            if (e instanceof RuntimeException) {
+                throw (RuntimeException)e;
+            }
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
-    public void testMultiPoint() throws Exception {
-        MultiPoint geometry = createMultiPoint();
-        System.out.println("Testing " + geometry.toText());
-        String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(geometry);
-        System.out.println(jsonStr);
-        MultiPoint readGeometry = getObjectMapper().readValue(jsonStr, MultiPoint.class);
-        TestCase.assertTrue(GeometryUtils.equals(geometry, readGeometry));
+    public void testMultiPoint() {
+        try {
+            MultiPoint geometry = createMultiPoint();
+            System.out.println("Testing " + geometry.toText());
+            String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(geometry);
+            System.out.println(jsonStr);
+            MultiPoint readGeometry = getObjectMapper().readValue(jsonStr, MultiPoint.class);
+            TestCase.assertTrue(GeometryUtils.equals(geometry, readGeometry));
 
-        GeometryWrapper gjg = new GeometryWrapper(geometry);
-        jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
-        System.out.println(jsonStr);
-        GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
-        TestCase.assertEquals(gjg, readGjg);
-        TestCase.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+            GeometryWrapper gjg = new GeometryWrapper(geometry);
+            jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
+            System.out.println(jsonStr);
+            GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
+            TestCase.assertEquals(gjg, readGjg);
+            TestCase.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+            
+        } catch (Exception e) {
+            if (e instanceof RuntimeException) {
+                throw (RuntimeException)e;
+            }
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
-    public void testMultiLineString() throws Exception {
-        MultiLineString geometry = createMultiLineString();
-        System.out.println("Testing " + geometry.toText());
-        String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(geometry);
-        System.out.println(jsonStr);
-        MultiLineString readGeometry = getObjectMapper().readValue(jsonStr, MultiLineString.class);
-        TestCase.assertTrue(GeometryUtils.equals(geometry, readGeometry));
+    public void testMultiLineString() {
+        try {
+            MultiLineString geometry = createMultiLineString();
+            System.out.println("Testing " + geometry.toText());
+            String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(geometry);
+            System.out.println(jsonStr);
+            MultiLineString readGeometry = getObjectMapper().readValue(jsonStr, MultiLineString.class);
+            TestCase.assertTrue(GeometryUtils.equals(geometry, readGeometry));
 
-        GeometryWrapper gjg = new GeometryWrapper(geometry);
-        jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
-        System.out.println(jsonStr);
-        GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
-        TestCase.assertEquals(gjg, readGjg);
-        TestCase.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+            GeometryWrapper gjg = new GeometryWrapper(geometry);
+            jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
+            System.out.println(jsonStr);
+            GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
+            TestCase.assertEquals(gjg, readGjg);
+            TestCase.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+            
+        } catch (Exception e) {
+            if (e instanceof RuntimeException) {
+                throw (RuntimeException)e;
+            }
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
-    public void testMultiPolygon() throws Exception {
-        MultiPolygon geometry = createMultiPolygon();
-        System.out.println("Testing " + geometry.toText());
-        String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(geometry);
-        System.out.println(jsonStr);
-        MultiPolygon readGeometry = getObjectMapper().readValue(jsonStr, MultiPolygon.class);
-        TestCase.assertTrue(GeometryUtils.equals(geometry, readGeometry));
+    public void testMultiPolygon() {
+        try {
+            MultiPolygon geometry = createMultiPolygon();
+            System.out.println("Testing " + geometry.toText());
+            String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(geometry);
+            System.out.println(jsonStr);
+            MultiPolygon readGeometry = getObjectMapper().readValue(jsonStr, MultiPolygon.class);
+            TestCase.assertTrue(GeometryUtils.equals(geometry, readGeometry));
 
-        GeometryWrapper gjg = new GeometryWrapper(geometry);
-        jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
-        System.out.println(jsonStr);
-        GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
-        TestCase.assertEquals(gjg, readGjg);
-        TestCase.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+            GeometryWrapper gjg = new GeometryWrapper(geometry);
+            jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
+            System.out.println(jsonStr);
+            GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
+            TestCase.assertEquals(gjg, readGjg);
+            TestCase.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+            
+        } catch (Exception e) {
+            if (e instanceof RuntimeException) {
+                throw (RuntimeException)e;
+            }
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
-    public void testGeometryCollection() throws Exception {
-        GeometryCollection geometry = new GeometryCollection(
-                new Geometry[] { createLineString(), createMultiLineString() }, getGeometryFactory());
-        System.out.println("Testing " + geometry.toText());
-        String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(geometry);
-        System.out.println(jsonStr);
-        GeometryCollection readGeometry = getObjectMapper().readValue(jsonStr, GeometryCollection.class);
-        TestCase.assertTrue(GeometryUtils.equals(geometry, readGeometry));
+    public void testGeometryCollection() {
+        try {
+            GeometryCollection geometry = new GeometryCollection(
+                    new Geometry[] { createLineString(), createMultiLineString() }, getGeometryFactory());
+            System.out.println("Testing " + geometry.toText());
+            String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(geometry);
+            System.out.println(jsonStr);
+            GeometryCollection readGeometry = getObjectMapper().readValue(jsonStr, GeometryCollection.class);
+            TestCase.assertTrue(GeometryUtils.equals(geometry, readGeometry));
 
-        GeometryWrapper gjg = new GeometryWrapper(geometry);
-        jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
-        System.out.println(jsonStr);
-        GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
-        TestCase.assertEquals(gjg, readGjg);
-        TestCase.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+            GeometryWrapper gjg = new GeometryWrapper(geometry);
+            jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
+            System.out.println(jsonStr);
+            GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
+            TestCase.assertEquals(gjg, readGjg);
+            TestCase.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+            
+        } catch (Exception e) {
+            if (e instanceof RuntimeException) {
+                throw (RuntimeException)e;
+            }
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
-    public void testGeoJsonLinkedCrs() throws Exception {
-
-        GeoJsonLinkedCrs crs = new GeoJsonLinkedCrs("http://example.com/crs/42", "proj4");
-        System.out.println("Testing " + crs);
-        String json = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(crs);
-        System.out.println(json);
-        GeoJsonLinkedCrs readCrs = getObjectMapper().readValue(json, GeoJsonLinkedCrs.class);
-        TestCase.assertEquals(crs, readCrs);
+    public void testGeoJsonLinkedCrs() {
+        try {
+            GeoJsonLinkedCrs crs = new GeoJsonLinkedCrs("http://example.com/crs/42", "proj4");
+            System.out.println("Testing " + crs);
+            String json = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(crs);
+            System.out.println(json);
+            GeoJsonLinkedCrs readCrs = getObjectMapper().readValue(json, GeoJsonLinkedCrs.class);
+            TestCase.assertEquals(crs, readCrs);
+            
+        } catch (Exception e) {
+            if (e instanceof RuntimeException) {
+                throw (RuntimeException)e;
+            }
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
-    public void testGeoJsonNamedCrs() throws Exception {
-
-        GeoJsonNamedCrs crs = new GeoJsonNamedCrs("urn:ogc:def:crs:OGC:1.3:CRS84");
-        System.out.println("Testing " + crs);
-        String json = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(crs);
-        System.out.println(json);
-        GeoJsonNamedCrs readCrs = getObjectMapper().readValue(json, GeoJsonNamedCrs.class);
-        TestCase.assertEquals(crs, readCrs);
+    public void testGeoJsonNamedCrs() {
+        try {
+            GeoJsonNamedCrs crs = new GeoJsonNamedCrs("urn:ogc:def:crs:OGC:1.3:CRS84");
+            System.out.println("Testing " + crs);
+            String json = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(crs);
+            System.out.println(json);
+            GeoJsonNamedCrs readCrs = getObjectMapper().readValue(json, GeoJsonNamedCrs.class);
+            TestCase.assertEquals(crs, readCrs);
+            
+        } catch (Exception e) {
+            if (e instanceof RuntimeException) {
+                throw (RuntimeException)e;
+            }
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
-    public void testGeoJsonFeature() throws Exception {
+    public void testGeoJsonFeature() {
+        try {
+            GeometryCollection geometry = new GeometryCollection(
+                    new Geometry[] { createLineString(), createMultiLineString() }, getGeometryFactory());
 
-        GeometryCollection geometry = new GeometryCollection(
-                new Geometry[] { createLineString(), createMultiLineString() }, getGeometryFactory());
+            GeoJsonFeature f = new GeoJsonFeature();
+            f.setGeometry(geometry);
+            f.setBbox(GeometryUtils.getBoundingBox(geometry));
+            f.setCrs(new GeoJsonNamedCrs("urn:ogc:def:crs:OGC:1.3:CRS84"));
+            f.setId("100");
+            f.getProperties().put("myKey", "myValue");
 
-        GeoJsonFeature f = new GeoJsonFeature();
-        f.setGeometry(geometry);
-        f.setBbox(GeometryUtils.getBoundingBox(geometry));
-        f.setCrs(new GeoJsonNamedCrs("urn:ogc:def:crs:OGC:1.3:CRS84"));
-        f.setId("100");
-        f.getProperties().put("myKey", "myValue");
+            System.out.println("Testing " + f);
 
-        System.out.println("Testing " + f);
+            String json = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(f);
 
-        String json = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(f);
+            System.out.println(json);
 
-        System.out.println(json);
+            GeoJsonFeature readF = getObjectMapper().readValue(json, GeoJsonFeature.class);
 
-        GeoJsonFeature readF = getObjectMapper().readValue(json, GeoJsonFeature.class);
+            System.out.println(getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(readF));
 
-        System.out.println(getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(readF));
-
-        TestCase.assertEquals(f, readF);
+            TestCase.assertEquals(f, readF);
+            
+        } catch (Exception e) {
+            if (e instanceof RuntimeException) {
+                throw (RuntimeException)e;
+            }
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
-    public void testGeoJsonFeatureCollection() throws Exception {
+    public void testGeoJsonFeatureCollection() {
+        try {
+            GeometryCollection geometry = new GeometryCollection(
+                    new Geometry[] { createLineString(), createMultiLineString() }, getGeometryFactory());
 
-        GeometryCollection geometry = new GeometryCollection(
-                new Geometry[] { createLineString(), createMultiLineString() }, getGeometryFactory());
+            GeoJsonFeature f1 = new GeoJsonFeature();
+            f1.setGeometry(geometry);
+            f1.setBbox(GeometryUtils.getBoundingBox(geometry));
+            f1.setCrs(new GeoJsonNamedCrs("urn:ogc:def:crs:OGC:1.3:CRS84"));
+            f1.setId("101");
+            f1.getProperties().put("myKey1", "myValue1");
 
-        GeoJsonFeature f1 = new GeoJsonFeature();
-        f1.setGeometry(geometry);
-        f1.setBbox(GeometryUtils.getBoundingBox(geometry));
-        f1.setCrs(new GeoJsonNamedCrs("urn:ogc:def:crs:OGC:1.3:CRS84"));
-        f1.setId("101");
-        f1.getProperties().put("myKey1", "myValue1");
+            GeoJsonFeature f2 = new GeoJsonFeature();
+            f2.setGeometry(createMultiPolygon());
+            f2.setBbox(GeometryUtils.getBoundingBox(geometry));
+            f2.setCrs(new GeoJsonNamedCrs("urn:ogc:def:crs:OGC:1.3:CRS84"));
+            f2.setId("102");
+            f2.getProperties().put("myKey2", "myValue2");
 
-        GeoJsonFeature f2 = new GeoJsonFeature();
-        f2.setGeometry(createMultiPolygon());
-        f2.setBbox(GeometryUtils.getBoundingBox(geometry));
-        f2.setCrs(new GeoJsonNamedCrs("urn:ogc:def:crs:OGC:1.3:CRS84"));
-        f2.setId("102");
-        f2.getProperties().put("myKey2", "myValue2");
+            ArrayList<GeoJsonFeature> features = new ArrayList<GeoJsonFeature>();
+            features.add(f1);
+            features.add(f2);
+            GeoJsonFeatureCollection fc = new GeoJsonFeatureCollection("200",
+                    new GeoJsonNamedCrs("urn:ogc:def:crs:OGC:1.3:CRS84"), features, true, null);
 
-        ArrayList<GeoJsonFeature> features = new ArrayList<GeoJsonFeature>();
-        features.add(f1);
-        features.add(f2);
-        GeoJsonFeatureCollection fc = new GeoJsonFeatureCollection("200",
-                new GeoJsonNamedCrs("urn:ogc:def:crs:OGC:1.3:CRS84"), features, true, null);
+            fc.getProperties().put("fcKey", "fcValue");
 
-        fc.getProperties().put("fcKey", "fcValue");
+            System.out.println("Testing " + fc);
 
-        System.out.println("Testing " + fc);
+            String json = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(fc);
 
-        String json = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(fc);
+            System.out.println(json);
 
-        System.out.println(json);
+            GeoJsonFeatureCollection readFc = getObjectMapper().readValue(json, GeoJsonFeatureCollection.class);
 
-        GeoJsonFeatureCollection readFc = getObjectMapper().readValue(json, GeoJsonFeatureCollection.class);
+            System.out.println(getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(readFc));
 
-        System.out.println(getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(readFc));
-
-        TestCase.assertEquals(fc, readFc);
+            TestCase.assertEquals(fc, readFc);
+            
+        } catch (Exception e) {
+            if (e instanceof RuntimeException) {
+                throw (RuntimeException)e;
+            }
+            throw new RuntimeException(e);
+        }
+    }
+    
+    @Test
+    public void testAbstractGeoJsonCrs() {
+        try {
+            System.out.println("Testing AbstractGeoJsonCrs...");
+            GeoJsonNamedCrs named = new GeoJsonNamedCrs("A_CRS_NAME");
+            String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(named);
+            System.out.println(jsonStr);
+            AbstractGeoJsonCrs crs = getObjectMapper().readValue(jsonStr, AbstractGeoJsonCrs.class);
+            TestCase.assertEquals(named, crs);
+            
+        } catch (Exception e) {
+            if (e instanceof RuntimeException) {
+                throw (RuntimeException)e;
+            }
+            throw new RuntimeException(e);
+        }
     }
 
 }

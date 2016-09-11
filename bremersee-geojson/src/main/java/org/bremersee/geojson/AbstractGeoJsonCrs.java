@@ -48,7 +48,9 @@ import io.swagger.annotations.ApiModel;
 })
 @ApiModel(
         description = "Abstract base class for the coordinate reference system (CRS) "
-                + "of a GeoJSON object.")
+                + "of a GeoJSON object.", 
+        subTypes = { GeoJsonNamedCrs.class, GeoJsonLinkedCrs.class }, 
+        discriminator = "type")
 //@formatter:on
 public class AbstractGeoJsonCrs implements Serializable {
 
