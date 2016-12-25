@@ -16,26 +16,15 @@
 
 package org.bremersee.geojson;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryCollection;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.LinearRing;
-import com.vividsolutions.jts.geom.MultiLineString;
-import com.vividsolutions.jts.geom.MultiPoint;
-import com.vividsolutions.jts.geom.MultiPolygon;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.geom.*;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -89,20 +78,18 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
         }
     }
 
-    //@formatter:off
     /* (non-Javadoc)
      * @see com.fasterxml.jackson.databind.JsonDeserializer#deserialize(com.fasterxml.jackson.core.JsonParser, com.fasterxml.jackson.databind.DeserializationContext)
      */
-    //@formatter:on
     @Override
-    public Geometry deserialize(JsonParser jp, DeserializationContext ctxt)
-            throws IOException, JsonProcessingException {
+    public Geometry deserialize(JsonParser jp, DeserializationContext ctxt) //NOSONAR
+            throws IOException {
 
         String type = null;
-        List<Object> coordinates = new ArrayList<Object>();
-        List<Geometry> geometries = new ArrayList<Geometry>();
+        List<Object> coordinates = new ArrayList<>();
+        List<Geometry> geometries = new ArrayList<>();
 
-        JsonToken currentToken = null;
+        JsonToken currentToken;
         while ((currentToken = jp.nextValue()) != null) {
             if (JsonToken.VALUE_STRING.equals(currentToken)) {
                 if ("type".equals(jp.getCurrentName())) {
@@ -127,29 +114,31 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
     }
 
     private void parseCoordinates(int depth, List<Object> coordinates, JsonParser jp, DeserializationContext ctxt)
-            throws IOException, JsonProcessingException {
+            throws IOException {
 
-        JsonToken currentToken = null;
+        JsonToken currentToken;
         while ((currentToken = jp.nextValue()) != null) {
             if (JsonToken.END_ARRAY.equals(currentToken)) {
                 break;
             } else if (JsonToken.START_ARRAY.equals(currentToken)) {
-                List<Object> list = new ArrayList<Object>();
+                List<Object> list = new ArrayList<>();
                 parseCoordinates(depth + 1, list, jp, ctxt);
                 coordinates.add(list);
             } else if (JsonToken.VALUE_NUMBER_FLOAT.equals(currentToken)) {
                 coordinates.add(jp.getDoubleValue());
             } else if (JsonToken.VALUE_NUMBER_INT.equals(currentToken)) {
-                coordinates.add(Long.valueOf(jp.getLongValue()).doubleValue());
+                final long v = jp.getLongValue();
+                final double d = (double)v;
+                coordinates.add(d);
             }
         }
     }
 
     private Coordinate createCoordinate(List<Object> coordinates) {
         Coordinate coordinate = new Coordinate();
-        coordinate.x = coordinates.size() > 0 ? (double) coordinates.get(0) : Double.NaN;
-        coordinate.y = coordinates.size() > 1 ? (double) coordinates.get(1) : Double.NaN;
-        coordinate.z = coordinates.size() > 2 ? (double) coordinates.get(2) : Double.NaN;
+        coordinate.x = (!coordinates.isEmpty()) ? (double) coordinates.get(0) : Double.NaN;
+        coordinate.y = (coordinates.size() > 1) ? (double) coordinates.get(1) : Double.NaN;
+        coordinate.z = (coordinates.size() > 2) ? (double) coordinates.get(2) : Double.NaN;
         return coordinate;
     }
 
@@ -174,7 +163,7 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
     }
 
     private Polygon createPolygon(List<Object> coordinates) { // List<List<List<Double>>>
-        List<Coordinate[]> list = new ArrayList<Coordinate[]>();
+        List<Coordinate[]> list = new ArrayList<>();
         for (Object obj : coordinates) {
             @SuppressWarnings("unchecked")
             List<Object> coords = (List<Object>) obj;
@@ -229,42 +218,58 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
     }
 
     private GeometryCollection createGeometryCollection(List<Geometry> geometries) {
-        GeometryCollection geometryCollection = getGeometryFactory()
-                .createGeometryCollection(geometries.toArray(new Geometry[geometries.size()]));
-        return geometryCollection;
+        final Geometry[] geoms;
+        if (geometries == null) {
+            geoms = new Geometry[0];
+        } else {
+            geoms = geometries.toArray(new Geometry[geometries.size()]);
+        }
+        GeometryFactory gf = getGeometryFactory();
+        return gf.createGeometryCollection(geoms);
     }
 
-    private List<Geometry> parseGeometries(JsonParser jp, DeserializationContext ctxt)
-            throws IOException, JsonProcessingException {
+    private List<Geometry> parseGeometries(JsonParser jsonParser, DeserializationContext deserializationContext)
+            throws IOException {
 
         String type = null;
-        List<Object> coordinates = new ArrayList<Object>();
-        List<Geometry> geometries = new ArrayList<Geometry>();
+        List<Object> coordinates = new ArrayList<>();
+        List<Geometry> geometries = new ArrayList<>();
 
-        JsonToken currentToken = null;
-        while ((currentToken = jp.nextValue()) != null) {
-            if (JsonToken.END_OBJECT.equals(currentToken)) {
-                if (type != null && !coordinates.isEmpty()) {
-                    geometries.add(createGeometry(type, coordinates));
-                    type = null;
-                    coordinates = new ArrayList<Object>();
-                }
-            } else if (JsonToken.VALUE_STRING.equals(currentToken)) {
-                if ("type".equals(jp.getCurrentName())) {
-                    type = jp.getText();
-                }
-            } else if (JsonToken.START_ARRAY.equals(currentToken)) {
-                if ("coordinates".equals(jp.getCurrentName())) {
-                    parseCoordinates(0, coordinates, jp, ctxt);
-                }
+        JsonToken currentToken;
+        while ((currentToken = jsonParser.nextValue()) != null) {
+            if (JsonToken.END_OBJECT.equals(currentToken)
+                    && type != null
+                    && !coordinates.isEmpty()) {
+
+                geometries.add(createGeometry(type, coordinates));
+                type = null;
+                coordinates = new ArrayList<>();
+
+            } else if (JsonToken.VALUE_STRING.equals(currentToken)
+                    && "type".equals(jsonParser.getCurrentName())) {
+
+                type = jsonParser.getText();
+
+            } else if (JsonToken.START_ARRAY.equals(currentToken)
+                    && "coordinates".equals(jsonParser.getCurrentName())) {
+
+                parseCoordinates(0, coordinates, jsonParser, deserializationContext);
+
             } else if (JsonToken.END_ARRAY.equals(currentToken)) {
+
                 break;
             }
         }
         return geometries;
     }
 
-    private Geometry createGeometry(String type, List<Object> coordinates) {
+    /**
+     * Creates a geometry by type and coordinates.
+     * @param type the geometry type
+     * @param coordinates the coordinates of the geometry
+     * @return the created geometry
+     */
+    private Geometry createGeometry(String type, List<Object> coordinates) { // NOSONAR
         if ("Point".equals(type)) {
             return createPoint(coordinates);
         }
@@ -283,7 +288,7 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
         if ("MultiPolygon".equals(type)) {
             return createMultiPolygon(coordinates);
         }
-        throw new RuntimeException("Geometry type [" + type + "] is unsupported.");
+        throw new IllegalArgumentException("Geometry type [" + type + "] is unsupported.");
     }
 
 }

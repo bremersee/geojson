@@ -42,22 +42,30 @@ public class GeoJsonLinkedCrs extends AbstractGeoJsonCrs {
     /**
      * The coordinate reference system (CRS) with type <code>proj4</code>.
      */
-    public static final String TYPE_PROJ4 = "proj4";
+    public static final String TYPE_PROJ4;
 
     /**
      * The coordinate reference system (CRS) with type <code>ogcwkt</code>.
      */
-    public static final String TYPE_OGC_WKT = "ogcwkt";
+    public static final String TYPE_OGC_WKT;
+
 
     /**
      * The coordinate reference system (CRS) with type <code>esriwkt</code>.
      */
-    public static final String TYPE_ESRI_WKT = "esriwkt";
+    public static final String TYPE_ESRI_WKT;
+
+    static {
+        TYPE_PROJ4 = "proj4";
+        TYPE_OGC_WKT = "ogcwkt";
+        TYPE_ESRI_WKT = "esriwkt";
+    }
 
     /**
      * Default constructor.
      */
     public GeoJsonLinkedCrs() {
+        super();
     }
 
     /**

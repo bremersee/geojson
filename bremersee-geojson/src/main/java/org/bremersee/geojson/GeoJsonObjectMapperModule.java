@@ -61,6 +61,23 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
     private static final long serialVersionUID = 1L;
 
     /**
+     * Default constructor.
+     */
+    public GeoJsonObjectMapperModule() {
+        this(null);
+    }
+
+    /**
+     * Constructs a module with the specified geometry factory.
+     *
+     * @param geometryFactory
+     *            the geometry factory
+     */
+    public GeoJsonObjectMapperModule(GeometryFactory geometryFactory) {
+        super("GeoJsonModule", getVersion(), getDeserializers(geometryFactory), getSerializers());
+    }
+
+    /**
      * Registers this module to the object mapper.
      * 
      * @param objectMapper
@@ -111,7 +128,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
                     patchLevel = Integer.parseInt(a[2]);
                 }
 
-            } catch (Exception e) {
+            } catch (@SuppressWarnings("SingleStatementInBlock") RuntimeException e) { //NOSONAR
                 major = defaultMajor;
                 minor = defaultMinor;
                 patchLevel = defaultPatchLevel;
@@ -124,9 +141,9 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
 
     private static Map<Class<?>, JsonDeserializer<?>> getDeserializers(GeometryFactory geometryFactory) {
         if (geometryFactory == null) {
-            geometryFactory = new GeometryFactory();
+            geometryFactory = new GeometryFactory(); // NOSONAR
         }
-        HashMap<Class<?>, JsonDeserializer<?>> map = new HashMap<Class<?>, JsonDeserializer<?>>();
+        HashMap<Class<?>, JsonDeserializer<?>> map = new HashMap<>();
         map.put(Geometry.class, new GeometryDeserializer(geometryFactory));
         map.put(Point.class, new GeometryDeserializer(geometryFactory));
         map.put(LineString.class, new GeometryDeserializer(geometryFactory));
@@ -139,26 +156,9 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
     }
 
     private static List<JsonSerializer<?>> getSerializers() {
-        ArrayList<JsonSerializer<?>> list = new ArrayList<JsonSerializer<?>>();
+        ArrayList<JsonSerializer<?>> list = new ArrayList<>();
         list.add(new GeometrySerializer());
         return list;
-    }
-
-    /**
-     * Default constructor.
-     */
-    public GeoJsonObjectMapperModule() {
-        this(null);
-    }
-
-    /**
-     * Constructs a module with the specified geometry factory.
-     * 
-     * @param geometryFactory
-     *            the geometry factory
-     */
-    public GeoJsonObjectMapperModule(GeometryFactory geometryFactory) {
-        super("GeoJsonModule", getVersion(), getDeserializers(geometryFactory), getSerializers());
     }
 
 }

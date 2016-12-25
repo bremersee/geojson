@@ -16,24 +16,17 @@
 
 package org.bremersee.geojson;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.bremersee.geojson.utils.GeometryUtils;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
 import com.vividsolutions.jts.geom.GeometryFactory;
-
 import io.swagger.annotations.ApiModel;
+import org.bremersee.geojson.utils.GeometryUtils;
+
+import java.io.Serializable;
+import java.util.*;
 
 //@formatter:off
 /**
@@ -55,29 +48,30 @@ public class GeoJsonFeatureCollection implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @JsonInclude(Include.NON_EMPTY)
-    @JsonProperty(required = false)
+    @JsonProperty
     private AbstractGeoJsonCrs crs = null;
 
     @JsonInclude(Include.NON_EMPTY)
-    @JsonProperty(required = false)
+    @JsonProperty
     private double[] bbox = null;
 
     @JsonInclude(Include.ALWAYS)
-    @JsonProperty(required = true)
-    private List<GeoJsonFeature> features = new ArrayList<GeoJsonFeature>();
+    @JsonProperty
+    private List<GeoJsonFeature> features = new ArrayList<>();
 
     @JsonInclude(Include.ALWAYS)
     @JsonProperty(required = true)
-    private Map<String, Object> properties = new LinkedHashMap<String, Object>();
+    private Map<String, Object> properties = new LinkedHashMap<>(); //NOSONAR
 
     @JsonInclude(Include.NON_EMPTY)
-    @JsonProperty(required = false)
+    @JsonProperty
     private String id = null;
 
     /**
      * Default constructor.
      */
     public GeoJsonFeatureCollection() {
+        super();
     }
 
     /**
@@ -105,11 +99,9 @@ public class GeoJsonFeatureCollection implements Serializable {
         if (features != null) {
             getFeatures().addAll(features);
             if (setBounds) {
-                List<Geometry> glist = new ArrayList<Geometry>();
+                List<Geometry> glist = new ArrayList<>();
                 for (GeoJsonFeature f : features) {
-                    if (f.getGeometry() != null) {
-                        glist.add(f.getGeometry());
-                    }
+                    glist.add(f.getGeometry());
                 }
                 Geometry[] geometries = glist.toArray(new Geometry[glist.size()]);
                 GeometryCollection gc = new GeometryCollection(geometries, new GeometryFactory());
@@ -151,7 +143,7 @@ public class GeoJsonFeatureCollection implements Serializable {
     @Override
     public String toString() {
         return String.format("%s [id = %s, crs = %s, bbox = %s, features = %s, properties = %s]",
-                getClass().getSimpleName(), id, crs, bbox, features, properties);
+                getClass().getSimpleName(), id, crs, Arrays.toString(bbox), features, properties);
     }
 
     /*
@@ -177,7 +169,7 @@ public class GeoJsonFeatureCollection implements Serializable {
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj) { //NOSONAR
         if (this == obj)
             return true;
         if (obj == null)
@@ -275,9 +267,10 @@ public class GeoJsonFeatureCollection implements Serializable {
      */
     public void setFeatures(List<GeoJsonFeature> features) {
         if (features == null) {
-            features = new ArrayList<GeoJsonFeature>();
+            this.features = new ArrayList<>();
+        } else {
+            this.features = features;
         }
-        this.features = features;
     }
 
     /**
@@ -302,9 +295,10 @@ public class GeoJsonFeatureCollection implements Serializable {
      */
     public void setProperties(Map<String, Object> properties) {
         if (properties == null) {
-            properties = new LinkedHashMap<String, Object>();
+            this.properties = new LinkedHashMap<>();
+        } else {
+            this.properties = properties;
         }
-        this.properties = properties;
     }
 
     /**

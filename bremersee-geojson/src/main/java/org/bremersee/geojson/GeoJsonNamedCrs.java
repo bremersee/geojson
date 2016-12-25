@@ -44,6 +44,7 @@ public class GeoJsonNamedCrs extends AbstractGeoJsonCrs {
      * Default constructor.
      */
     public GeoJsonNamedCrs() {
+        super();
     }
 
     /**

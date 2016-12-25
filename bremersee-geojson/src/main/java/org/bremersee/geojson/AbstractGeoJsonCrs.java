@@ -58,7 +58,7 @@ public class AbstractGeoJsonCrs implements Serializable {
 
     @JsonInclude(Include.ALWAYS)
     @JsonProperty(value = "properties", required = true)
-    private Map<String, Object> properties = new LinkedHashMap<String, Object>();
+    private Map<String, Object> properties = new LinkedHashMap<>(); // NOSONAR
 
     /*
      * (non-Javadoc)
@@ -126,9 +126,10 @@ public class AbstractGeoJsonCrs implements Serializable {
      */
     protected final void setProperties(Map<String, Object> properties) {
         if (properties == null) {
-            properties = new LinkedHashMap<String, Object>();
+            this.properties = new LinkedHashMap<>();
+        } else {
+            this.properties = properties;
         }
-        this.properties = properties;
     }
 
 }

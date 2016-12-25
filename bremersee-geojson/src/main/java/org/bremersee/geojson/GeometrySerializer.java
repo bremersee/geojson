@@ -18,14 +18,12 @@ package org.bremersee.geojson;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
+import java.util.*;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.vividsolutions.jts.geom.Coordinate;
@@ -50,6 +48,22 @@ public class GeometrySerializer extends StdSerializer<Geometry> implements Seria
 
     private static final long serialVersionUID = 1L;
 
+    private static final String TYPE_ATTRIBUTE_NAME = "type";
+
+    private static final String COORDINATES_ATTRIBUTE_NAME = "coordinates";
+
+    private static final String GEOMETRIES_ATTRIBUTE_NAME = "geometries";
+
+    private static final NumberFormat NUMBER_FORMAT = NumberFormat.getInstance(Locale.US);
+
+    static {
+        NUMBER_FORMAT.setMaximumFractionDigits(9);
+        NUMBER_FORMAT.setMaximumIntegerDigits(17);
+        NUMBER_FORMAT.setRoundingMode(RoundingMode.HALF_UP);
+        NUMBER_FORMAT.setGroupingUsed(false);
+    }
+
+
     /**
      * Default constructor.
      */
@@ -64,7 +78,7 @@ public class GeometrySerializer extends StdSerializer<Geometry> implements Seria
     //@formatter:on
     @Override
     public void serialize(Geometry value, JsonGenerator jgen, SerializerProvider provider)
-            throws IOException, JsonProcessingException {
+            throws IOException {
 
         if (value == null) {
             jgen.writeNull();
@@ -107,96 +121,89 @@ public class GeometrySerializer extends StdSerializer<Geometry> implements Seria
     }
 
     private Map<String, Object> createPoint(Point point) {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
-        map.put("type", "Point");
-        map.put("coordinates", createCoordinates(point.getCoordinate()));
+        map.put(TYPE_ATTRIBUTE_NAME, "Point");
+        map.put(COORDINATES_ATTRIBUTE_NAME, createCoordinates(point.getCoordinate()));
         return map;
     }
 
     private Map<String, Object> createLine(LineString line) {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
-        map.put("type", "LineString");
-        map.put("coordinates", createCoordinates(line.getCoordinateSequence()));
+        map.put(TYPE_ATTRIBUTE_NAME, "LineString");
+        map.put(COORDINATES_ATTRIBUTE_NAME, createCoordinates(line.getCoordinateSequence()));
         return map;
     }
 
     private Map<String, Object> createPolygon(Polygon polygon) {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
-        map.put("type", "Polygon");
-        map.put("coordinates", createCoordinates(polygon));
+        map.put(TYPE_ATTRIBUTE_NAME, "Polygon");
+        map.put(COORDINATES_ATTRIBUTE_NAME, createCoordinates(polygon));
         return map;
     }
 
     private Map<String, Object> createMultiPoint(MultiPoint multiPoint) {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
-        map.put("type", "MultiPoint");
-        map.put("coordinates", createCoordinates(multiPoint));
+        map.put(TYPE_ATTRIBUTE_NAME, "MultiPoint");
+        map.put(COORDINATES_ATTRIBUTE_NAME, createCoordinates(multiPoint));
         return map;
     }
 
     private Map<String, Object> createMultiLine(MultiLineString multiLine) {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
-        map.put("type", "MultiLineString");
-        map.put("coordinates", createCoordinates(multiLine));
+        map.put(TYPE_ATTRIBUTE_NAME, "MultiLineString");
+        map.put(COORDINATES_ATTRIBUTE_NAME, createCoordinates(multiLine));
         return map;
     }
 
     private Map<String, Object> createMultiPolygon(MultiPolygon multiPolygon) {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
-        map.put("type", "MultiPolygon");
-        map.put("coordinates", createCoordinates(multiPolygon));
+        map.put(TYPE_ATTRIBUTE_NAME, "MultiPolygon");
+        map.put(COORDINATES_ATTRIBUTE_NAME, createCoordinates(multiPolygon));
         return map;
     }
 
     private Map<String, Object> createGeometryCollection(GeometryCollection geometryColllection) {
-        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
-        List<Map<String, Object>> geoms = new ArrayList<Map<String, Object>>(geometryColllection.getNumGeometries());
+        List<Map<String, Object>> geometries = new ArrayList<>(geometryColllection.getNumGeometries());
         for (int i = 0; i < geometryColllection.getNumGeometries(); i++) {
-            geoms.add(create(geometryColllection.getGeometryN(i)));
+            geometries.add(create(geometryColllection.getGeometryN(i)));
         }
 
-        map.put("type", "GeometryCollection");
-        map.put("geometries", geoms);
+        map.put(TYPE_ATTRIBUTE_NAME, "GeometryCollection");
+        map.put(GEOMETRIES_ATTRIBUTE_NAME, geometries);
         return map;
+    }
+
+    private double round(double value) {
+        if (Double.isNaN(value)) {
+            return value;
+        }
+        final String strValue = NUMBER_FORMAT.format(value);
+        return new BigDecimal(strValue).doubleValue();
     }
 
     private List<Object> createCoordinates(Coordinate coordinate) {
         if (coordinate == null) {
             return Collections.emptyList();
         }
-        List<Object> list = new ArrayList<Object>(3);
+        final List<Object> list = new ArrayList<>(3);
 
-        double dx = coordinate.x;
-        long x = Double.valueOf(dx).longValue();
-        if (dx == x) {
-            list.add(x);
-        } else {
-            list.add(dx);
-        }
+        final double dx = coordinate.x;
+        list.add(round(dx));
 
-        double dy = coordinate.y;
-        long y = Double.valueOf(dy).longValue();
-        if (dy == y) {
-            list.add(y);
-        } else {
-            list.add(dy);
-        }
+        final double dy = coordinate.y;
+        list.add(round(dy));
 
         if (!Double.isNaN(coordinate.z)) {
-            double dz = coordinate.z;
-            long z = Double.valueOf(dz).longValue();
-            if (dz == z) {
-                list.add(z);
-            } else {
-                list.add(dz);
-            }
+            final double dz = coordinate.z;
+            list.add(round(dz));
         }
         return list;
     }
@@ -205,7 +212,7 @@ public class GeometrySerializer extends StdSerializer<Geometry> implements Seria
         if (coordinateSequence == null || coordinateSequence.size() == 0) {
             return Collections.emptyList();
         }
-        List<List<Object>> list = new ArrayList<List<Object>>(coordinateSequence.size());
+        List<List<Object>> list = new ArrayList<>(coordinateSequence.size());
         for (int n = 0; n < coordinateSequence.size(); n++) {
             list.add(createCoordinates(coordinateSequence.getCoordinate(n)));
         }
@@ -213,7 +220,7 @@ public class GeometrySerializer extends StdSerializer<Geometry> implements Seria
     }
 
     private List<List<List<Object>>> createCoordinates(Polygon polygon) {
-        List<List<List<Object>>> list = new ArrayList<List<List<Object>>>();
+        List<List<List<Object>>> list = new ArrayList<>();
         list.add(createCoordinates(polygon.getExteriorRing().getCoordinateSequence()));
         for (int i = 0; i < polygon.getNumInteriorRing(); i++) {
             list.add(createCoordinates(polygon.getInteriorRingN(i).getCoordinateSequence()));
@@ -222,7 +229,7 @@ public class GeometrySerializer extends StdSerializer<Geometry> implements Seria
     }
 
     private List<Object> createCoordinates(GeometryCollection geometryCollection) {
-        List<Object> list = new ArrayList<Object>(geometryCollection.getNumGeometries());
+        List<Object> list = new ArrayList<>(geometryCollection.getNumGeometries());
         for (int i = 0; i < geometryCollection.getNumGeometries(); i++) {
             Geometry g = geometryCollection.getGeometryN(i);
             if (g instanceof Polygon) {
@@ -230,7 +237,7 @@ public class GeometrySerializer extends StdSerializer<Geometry> implements Seria
             } else if (g instanceof LineString) {
                 list.add(createCoordinates(((LineString) g).getCoordinateSequence()));
             } else if (g instanceof Point) {
-                list.add(createCoordinates(((Point) g).getCoordinate()));
+                list.add(createCoordinates((g).getCoordinate()));
             }
         }
         return list;

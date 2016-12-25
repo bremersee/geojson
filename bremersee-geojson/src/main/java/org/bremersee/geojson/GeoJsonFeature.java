@@ -16,21 +16,19 @@
 
 package org.bremersee.geojson;
 
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import org.bremersee.geojson.utils.GeometryUtils;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.vividsolutions.jts.geom.Geometry;
-
 import io.swagger.annotations.ApiModel;
+import org.bremersee.geojson.utils.GeometryUtils;
+
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 //@formatter:off
 /**
@@ -51,11 +49,11 @@ public class GeoJsonFeature implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @JsonInclude(Include.NON_NULL)
-    @JsonProperty(required = false)
+    @JsonProperty
     private AbstractGeoJsonCrs crs = null;
 
     @JsonInclude(Include.NON_NULL)
-    @JsonProperty(required = false)
+    @JsonProperty
     private double[] bbox = null;
 
     @JsonInclude(Include.ALWAYS)
@@ -65,16 +63,17 @@ public class GeoJsonFeature implements Serializable {
     private Geometry geometry = null;
 
     @JsonProperty(required = true)
-    private Map<String, Object> properties = new LinkedHashMap<String, Object>();
+    private Map<String, Object> properties = new LinkedHashMap<>(); //NOSONAR
 
     @JsonInclude(Include.NON_EMPTY)
-    @JsonProperty(required = false)
+    @JsonProperty
     private String id = null;
 
     /**
      * Default constructor.
      */
     public GeoJsonFeature() {
+        super();
     }
 
     /**
@@ -138,7 +137,7 @@ public class GeoJsonFeature implements Serializable {
     @Override
     public String toString() {
         return String.format("%s [id = %s, crs = %s, bbox = %s, geometry = %s, properties = %s]",
-                getClass().getSimpleName(), id, crs, bbox, geometry, properties);
+                getClass().getSimpleName(), id, crs, Arrays.toString(bbox), geometry, properties);
     }
 
     /*
@@ -164,7 +163,7 @@ public class GeoJsonFeature implements Serializable {
      * @see org.bremersee.geojson.AbstractGeoJsonObject#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj) { //NOSONAR
         if (this == obj)
             return true;
         if (obj == null)
@@ -285,9 +284,10 @@ public class GeoJsonFeature implements Serializable {
      */
     public void setProperties(Map<String, Object> properties) {
         if (properties == null) {
-            properties = new LinkedHashMap<String, Object>();
+            this.properties = new LinkedHashMap<>();
+        } else {
+            this.properties = properties;
         }
-        this.properties = properties;
     }
 
     /**

@@ -416,7 +416,7 @@ public class GeoJsonTests {
             f2.setId("102");
             f2.getProperties().put("myKey2", "myValue2");
 
-            ArrayList<GeoJsonFeature> features = new ArrayList<GeoJsonFeature>();
+            ArrayList<GeoJsonFeature> features = new ArrayList<>();
             features.add(f1);
             features.add(f2);
             GeoJsonFeatureCollection fc = new GeoJsonFeatureCollection("200",
