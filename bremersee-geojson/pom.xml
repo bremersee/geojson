@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>bremersee-geojson</artifactId>
     <groupId>org.bremersee</groupId>
-    <version>1.1.3-SNAPSHOT</version>
+    <version>1.1.3</version>
     <name>Bremersee GeoJSON</name>
     <description>This project contains classes for reading and writing GeoJSON with the Jackson JSON Processor.</description>
     <url>http://bremersee.github.io/geojson/</url>
