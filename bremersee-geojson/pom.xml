@@ -13,7 +13,7 @@
         <java.version>1.7</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <product.vendor>bremersee.org</product.vendor>
-        <jackson2.version>2.8.2</jackson2.version>
+        <jackson2.version>2.8.3</jackson2.version>
         <jts.version>1.13</jts.version>
         <junit.version>4.12</junit.version>
         <swagger.version>1.5.9</swagger.version>
