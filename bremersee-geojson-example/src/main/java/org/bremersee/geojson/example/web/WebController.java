@@ -16,11 +16,9 @@
 
 package org.bremersee.geojson.example.web;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.vividsolutions.jts.geom.LinearRing;
+import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.geom.Polygon;
 import org.bremersee.geojson.GeoJsonFeature;
 import org.bremersee.geojson.GeoJsonFeatureCollection;
 import org.bremersee.geojson.example.service.GeometryService;
@@ -33,9 +31,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.vividsolutions.jts.geom.LinearRing;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
+import javax.servlet.http.HttpServletRequest;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author Christian Bremer
@@ -43,11 +41,15 @@ import com.vividsolutions.jts.geom.Polygon;
 @Controller
 public class WebController {
 
+    private final GeometryService geometryService;
+
     @Autowired
-    protected GeometryService geometryService;
+    public WebController(GeometryService geometryService) {
+        this.geometryService = geometryService;
+    }
 
     @RequestMapping(
-            value = { "/index.html","/main.html" }, 
+            value = {"/index.html", "/main.html"},
             method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String displayMainPage(HttpServletRequest request, ModelMap model) {
 
@@ -55,56 +57,58 @@ public class WebController {
     }
 
     @RequestMapping(
-            value = "/static-features.json", 
-            method = RequestMethod.GET, 
+            value = "/static-features.json",
+            method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody GeoJsonFeatureCollection getStaticFeatures() {
+    @ResponseBody
+    public GeoJsonFeatureCollection getStaticFeatures() {
 
         //@formatter:off
-    	LinearRing linearRing = geometryService.getPositionsRing();
-    	Map<String, Object> linearRingProperties = new LinkedHashMap<>();
-    	linearRingProperties.put("color", "blue");
-    	linearRingProperties.put("width", 2);
-    	GeoJsonFeature positionsRingFeature = new GeoJsonFeature(
-    			null, 
-    			GeometryUtils.MERCATOR_CRS, 
-    			GeometryUtils.transformWgs84ToMercator(linearRing, true), 
-    			false, 
-    			linearRingProperties);
-    	
-    	Polygon poly = geometryService.getPositionsBoundingBox();
-    	Map<String, Object> polyProperties = new LinkedHashMap<>();
-    	polyProperties.put("color", "red");
-    	polyProperties.put("width", 4);
-    	GeoJsonFeature positionsBoundingBoxFeature = new GeoJsonFeature(
-    			null, 
-    			GeometryUtils.MERCATOR_CRS, 
-    			GeometryUtils.transformWgs84ToMercator(poly, true), 
-    			false, 
-    			polyProperties);
-    	
-		GeoJsonFeatureCollection col = new GeoJsonFeatureCollection();
-		col.getFeatures().add(positionsRingFeature);
-		col.getFeatures().add(positionsBoundingBoxFeature);
-		return col;
-    	//@formatter:on
+        LinearRing linearRing = geometryService.getPositionsRing();
+        Map<String, Object> linearRingProperties = new LinkedHashMap<>();
+        linearRingProperties.put("color", "blue");
+        linearRingProperties.put("width", 2);
+        GeoJsonFeature positionsRingFeature = new GeoJsonFeature(
+                null,
+                GeometryUtils.MERCATOR_CRS,
+                GeometryUtils.transformWgs84ToMercator(linearRing, true),
+                false,
+                linearRingProperties);
+
+        Polygon poly = geometryService.getPositionsBoundingBox();
+        Map<String, Object> polyProperties = new LinkedHashMap<>();
+        polyProperties.put("color", "red");
+        polyProperties.put("width", 4);
+        GeoJsonFeature positionsBoundingBoxFeature = new GeoJsonFeature(
+                null,
+                GeometryUtils.MERCATOR_CRS,
+                GeometryUtils.transformWgs84ToMercator(poly, true),
+                false,
+                polyProperties);
+
+        GeoJsonFeatureCollection col = new GeoJsonFeatureCollection();
+        col.getFeatures().add(positionsRingFeature);
+        col.getFeatures().add(positionsBoundingBoxFeature);
+        return col;
+        //@formatter:on
     }
 
     @RequestMapping(
-            value = "/current-position.json", 
-            method = RequestMethod.GET, 
+            value = "/current-position.json",
+            method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody GeoJsonFeature getCurrentPosition() {
+    @ResponseBody
+    public GeoJsonFeature getCurrentPosition() {
 
         //@formatter:off
-    	Point position = geometryService.getNextPosition();
-    	return new GeoJsonFeature(
-    			null, 
-    			GeometryUtils.MERCATOR_CRS, 
-    			GeometryUtils.transformWgs84ToMercator(position, true), 
-    			false, 
-    			null);
-    	//@formatter:on
+        Point position = geometryService.getNextPosition();
+        return new GeoJsonFeature(
+                null,
+                GeometryUtils.MERCATOR_CRS,
+                GeometryUtils.transformWgs84ToMercator(position, true),
+                false,
+                null);
+        //@formatter:on
     }
 
 }

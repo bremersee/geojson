@@ -16,18 +16,16 @@
 
 package org.bremersee.geojson.example.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-
-import org.bremersee.geojson.utils.GeometryUtils;
-import org.springframework.stereotype.Service;
-
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
+import org.bremersee.geojson.utils.GeometryUtils;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Christian Bremer
@@ -35,10 +33,13 @@ import com.vividsolutions.jts.geom.Polygon;
 @Service
 public class GeometryServiceImpl implements GeometryService {
 
+    private final Object lock = new Object();
+
     private final Long startMillis = System.currentTimeMillis();
 
     private Point[] positions;
 
+    @SuppressWarnings("FieldCanBeLocal")
     private long positionChangeInterval = 1000L;
 
     @PostConstruct
@@ -47,7 +48,7 @@ public class GeometryServiceImpl implements GeometryService {
     }
 
     private void initPositions() {
-        this.positions = new Point[] { GeometryUtils.createPointWGS84(48.847509, 8.902958),
+        this.positions = new Point[]{GeometryUtils.createPointWGS84(48.847509, 8.902958),
                 GeometryUtils.createPointWGS84(48.847198, 8.903281),
                 GeometryUtils.createPointWGS84(48.846831, 8.903581),
                 GeometryUtils.createPointWGS84(48.846477, 8.903860),
@@ -90,14 +91,14 @@ public class GeometryServiceImpl implements GeometryService {
                 GeometryUtils.createPointWGS84(48.848900, 8.901462),
                 GeometryUtils.createPointWGS84(48.848593, 8.901888),
                 GeometryUtils.createPointWGS84(48.848270, 8.902294),
-                GeometryUtils.createPointWGS84(48.847890, 8.902701) };
+                GeometryUtils.createPointWGS84(48.847890, 8.902701)};
     }
 
     @Override
     public Point getNextPosition() {
-        synchronized (startMillis) {
+        synchronized (lock) {
             long diff = Math.abs(System.currentTimeMillis() - startMillis);
-            int add = Double.valueOf(Math.floor(diff / Long.valueOf(positionChangeInterval).doubleValue())).intValue();
+            int add = (int) (diff / positionChangeInterval);
             int index = (positions.length + add) % positions.length;
             return positions[index];
         }
@@ -106,8 +107,8 @@ public class GeometryServiceImpl implements GeometryService {
     @Override
     public LinearRing getPositionsRing() {
         List<Coordinate> coords = new ArrayList<>(positions.length);
-        for (int i = 0; i < positions.length; i++) {
-            coords.add(positions[i].getCoordinate());
+        for (Point position : positions) {
+            coords.add(position.getCoordinate());
         }
         return GeometryUtils.createLinearRing(coords);
     }
