@@ -60,21 +60,11 @@ public class AbstractGeoJsonCrs implements Serializable {
     @JsonProperty(value = "properties", required = true)
     private Map<String, Object> properties = new LinkedHashMap<>(); // NOSONAR
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         return getClass().getSimpleName() + " [properties=" + properties + "]";
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -83,13 +73,8 @@ public class AbstractGeoJsonCrs implements Serializable {
         return result;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -124,7 +109,7 @@ public class AbstractGeoJsonCrs implements Serializable {
      *            the properties that store information about the coordinate
      *            reference system (CRS)
      */
-    protected final void setProperties(Map<String, Object> properties) {
+    protected final void setProperties(final Map<String, Object> properties) {
         if (properties == null) {
             this.properties = new LinkedHashMap<>();
         } else {

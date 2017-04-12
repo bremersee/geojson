@@ -92,8 +92,8 @@ public class GeoJsonFeature implements Serializable {
      *            a map with named objects that are associated with the GeoJSON
      *            feature
      */
-    public GeoJsonFeature(String id, AbstractGeoJsonCrs crs, Geometry geometry, boolean setBounds,
-            Map<String, Object> properties) {
+    public GeoJsonFeature(final String id, final AbstractGeoJsonCrs crs, final Geometry geometry,
+                          final boolean setBounds, final Map<String, Object> properties) {
         if (id != null && id.trim().length() > 0) {
             setId(id);
         }
@@ -123,28 +123,18 @@ public class GeoJsonFeature implements Serializable {
      *            a map with named objects that are associated with the GeoJSON
      *            feature
      */
-    public GeoJsonFeature(String id, String crsName, Geometry geometry, boolean setBounds,
-            Map<String, Object> properties) {
+    public GeoJsonFeature(final String id, final String crsName, final Geometry geometry, final boolean setBounds,
+                          final Map<String, Object> properties) {
         this(id, crsName != null && crsName.trim().length() > 0 ? new GeoJsonNamedCrs(crsName) : null, geometry,
                 setBounds, properties);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         return String.format("%s [id = %s, crs = %s, bbox = %s, geometry = %s, properties = %s]",
                 getClass().getSimpleName(), id, crs, Arrays.toString(bbox), geometry, properties);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.bremersee.geojson.AbstractGeoJsonObject#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -157,13 +147,8 @@ public class GeoJsonFeature implements Serializable {
         return result;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.bremersee.geojson.AbstractGeoJsonObject#equals(java.lang.Object)
-     */
     @Override
-    public boolean equals(Object obj) { //NOSONAR
+    public boolean equals(final Object obj) { //NOSONAR
         if (this == obj)
             return true;
         if (obj == null)
@@ -216,7 +201,7 @@ public class GeoJsonFeature implements Serializable {
      * @param crs
      *            the crs to set
      */
-    public void setCrs(AbstractGeoJsonCrs crs) {
+    public void setCrs(final AbstractGeoJsonCrs crs) {
         this.crs = crs;
     }
 
@@ -240,7 +225,7 @@ public class GeoJsonFeature implements Serializable {
      * @param bbox
      *            the bounding box to set
      */
-    public void setBbox(double[] bbox) {
+    public void setBbox(final double[] bbox) {
         this.bbox = bbox;
     }
 
@@ -259,7 +244,7 @@ public class GeoJsonFeature implements Serializable {
      * @param geometry
      *            the geometry to set
      */
-    public void setGeometry(Geometry geometry) {
+    public void setGeometry(final Geometry geometry) {
         this.geometry = geometry;
     }
 
@@ -275,14 +260,14 @@ public class GeoJsonFeature implements Serializable {
 
     /**
      * Set a map of named objects that are associated with this GeoJSON feature.
-     * <br/>
+     * <br>
      * Be aware that each object must be serializable with the Jackson JSON
      * processor.
      * 
      * @param properties
      *            a map of named objects
      */
-    public void setProperties(Map<String, Object> properties) {
+    public void setProperties(final Map<String, Object> properties) {
         if (properties == null) {
             this.properties = new LinkedHashMap<>();
         } else {
@@ -306,7 +291,7 @@ public class GeoJsonFeature implements Serializable {
      * @param id
      *            the id of this GeoJSON feature
      */
-    public void setId(String id) {
+    public void setId(final String id) {
         this.id = id;
     }
 

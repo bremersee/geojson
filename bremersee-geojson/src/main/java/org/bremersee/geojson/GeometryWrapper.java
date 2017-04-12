@@ -37,7 +37,7 @@ import java.io.Serializable;
 /**
  * <p>
  * This class wraps a geometry and can be processed by the Jackson JSON
- * processor without registering the {@link GeoJsonObjectMapperModule}.</br>
+ * processor without registering the {@link GeoJsonObjectMapperModule}.<br>
  * The geometry is an instance of the JTS Topology Suite (see
  * <a href="http://www.vividsolutions.com/jts/JTSHome.htm">http://www.vividsolutions.com/jts/JTSHome.htm</a>
  * ).
@@ -71,25 +71,15 @@ public class GeometryWrapper implements Serializable, Cloneable {
      * @param geometry
      *            the geometry
      */
-    public GeometryWrapper(Geometry geometry) {
+    public GeometryWrapper(final Geometry geometry) {
         setGeometry(geometry);
     }
 
-    //@formatter:off
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
-    //@formatter:on
     @Override
     public String toString() {
         return "GeoJsonGeometry [geometry=" + geometry + "]";
     }
 
-    //@formatter:off
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
-    //@formatter:on
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -98,13 +88,8 @@ public class GeometryWrapper implements Serializable, Cloneable {
         return result;
     }
 
-    //@formatter:off
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    //@formatter:on
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -120,9 +105,6 @@ public class GeometryWrapper implements Serializable, Cloneable {
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#clone()
-     */
     @SuppressWarnings("MethodDoesntCallSuperMethod")
     @Override
     public GeometryWrapper clone() throws CloneNotSupportedException { // NOSONAR
@@ -148,7 +130,7 @@ public class GeometryWrapper implements Serializable, Cloneable {
      * @param geometry
      *            the geometry
      */
-    public void setGeometry(Geometry geometry) {
+    public void setGeometry(final Geometry geometry) {
         this.geometry = geometry;
     }
 
@@ -163,25 +145,16 @@ public class GeometryWrapper implements Serializable, Cloneable {
 
         private GeometrySerializer geometrySerializer = new GeometrySerializer();
 
-        //@formatter:off
-        /* (non-Javadoc)
-         * @see com.fasterxml.jackson.databind.JsonSerializer#serializeWithType(java.lang.Object, com.fasterxml.jackson.core.JsonGenerator, com.fasterxml.jackson.databind.SerializerProvider, com.fasterxml.jackson.databind.jsontype.TypeSerializer)
-         */
-        //@formatter:on
         @Override
-        public void serializeWithType(GeometryWrapper value, JsonGenerator gen, SerializerProvider provider,
-                TypeSerializer typeSer) throws IOException {
+        public void serializeWithType(final GeometryWrapper value, final JsonGenerator gen,
+                                      final SerializerProvider provider, final TypeSerializer typeSer)
+                throws IOException {
 
             serialize(value, gen, provider);
         }
 
-        //@formatter:off
-        /* (non-Javadoc)
-         * @see com.fasterxml.jackson.databind.JsonSerializer#serialize(java.lang.Object, com.fasterxml.jackson.core.JsonGenerator, com.fasterxml.jackson.databind.SerializerProvider)
-         */
-        //@formatter:on
         @Override
-        public void serialize(GeometryWrapper value, JsonGenerator jgen, SerializerProvider prov)
+        public void serialize(final GeometryWrapper value, final JsonGenerator jgen, final SerializerProvider prov)
                 throws IOException {
 
             if (value == null) {
@@ -203,25 +176,15 @@ public class GeometryWrapper implements Serializable, Cloneable {
 
         private GeometryDeserializer geometryDeserializer = new GeometryDeserializer();
 
-        //@formatter:off
-        /* (non-Javadoc)
-         * @see com.fasterxml.jackson.databind.JsonDeserializer#deserializeWithType(com.fasterxml.jackson.core.JsonParser, com.fasterxml.jackson.databind.DeserializationContext, com.fasterxml.jackson.databind.jsontype.TypeDeserializer)
-         */
-        //@formatter:on
         @Override
-        public GeometryWrapper deserializeWithType(JsonParser jp, DeserializationContext ctxt,
-                TypeDeserializer typeDeserializer) throws IOException {
+        public GeometryWrapper deserializeWithType(final JsonParser jp, final DeserializationContext ctxt,
+                final TypeDeserializer typeDeserializer) throws IOException {
 
             return deserialize(jp, ctxt);
         }
 
-        //@formatter:off
-        /* (non-Javadoc)
-         * @see com.fasterxml.jackson.databind.JsonDeserializer#deserialize(com.fasterxml.jackson.core.JsonParser, com.fasterxml.jackson.databind.DeserializationContext)
-         */
-        //@formatter:on
         @Override
-        public GeometryWrapper deserialize(JsonParser jp, DeserializationContext ctxt)
+        public GeometryWrapper deserialize(final JsonParser jp, final DeserializationContext ctxt)
                 throws IOException {
 
             Geometry geometry = geometryDeserializer.deserialize(jp, ctxt);

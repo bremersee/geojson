@@ -30,6 +30,7 @@ import io.swagger.annotations.ApiModel;
  * 
  * @author Christian Bremer
  */
+@SuppressWarnings("unused")
 @ApiModel(
         value = "GeoJsonLinkedCrs",
         description = "A link to the coordinate reference system (CRS) of a GeoJSON object.",
@@ -74,7 +75,7 @@ public class GeoJsonLinkedCrs extends AbstractGeoJsonCrs {
      * @param href
      *            the link to the coordinate reference system (CRS)
      */
-    public GeoJsonLinkedCrs(String href) {
+    public GeoJsonLinkedCrs(final String href) {
         setHref(href);
     }
 
@@ -87,7 +88,7 @@ public class GeoJsonLinkedCrs extends AbstractGeoJsonCrs {
      * @param type
      *            the type of the coordinate reference system (CRS)
      */
-    public GeoJsonLinkedCrs(String href, String type) {
+    public GeoJsonLinkedCrs(final String href, final String type) {
         setHref(href);
         setType(type);
     }
@@ -110,7 +111,7 @@ public class GeoJsonLinkedCrs extends AbstractGeoJsonCrs {
      *            the link to the coordinate reference system (CRS)
      */
     @JsonIgnore
-    public void setHref(String href) {
+    public void setHref(final String href) {
         if (href == null || href.trim().length() == 0) {
             getProperties().remove("href");
         } else {
@@ -136,7 +137,7 @@ public class GeoJsonLinkedCrs extends AbstractGeoJsonCrs {
      *            the type of the coordinate reference system (CRS)
      */
     @JsonIgnore
-    public void setType(String type) {
+    public void setType(final String type) {
         if (type == null || type.trim().length() == 0) {
             getProperties().remove("type");
         } else {

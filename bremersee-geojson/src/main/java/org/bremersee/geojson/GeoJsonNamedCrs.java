@@ -31,6 +31,7 @@ import io.swagger.annotations.ApiModel;
  * 
  * @author Christian Bremer
  */
+@SuppressWarnings("unused")
 @ApiModel(
         value = "GeoJsonLinkedCrs",
         description = "A reference to the coordinate reference system (CRS) of a GeoJSON object by it's name.",
@@ -75,7 +76,7 @@ public class GeoJsonNamedCrs extends AbstractGeoJsonCrs {
      *            the name
      */
     @JsonIgnore
-    public void setCrs(String crs) {
+    public void setCrs(final String crs) {
         if (crs == null || crs.trim().length() == 0) {
             getProperties().remove("name");
         } else {

@@ -38,7 +38,6 @@ import com.vividsolutions.jts.geom.Polygon;
 
 //@formatter:off
 /**
- * <p>
  * A Jackson JSON processor module that provides the processing (serialization
  * and deserialization) of the following types:
  * <ul>
@@ -51,8 +50,7 @@ import com.vividsolutions.jts.geom.Polygon;
  * <li>{@link MultiPolygon}</li>
  * <li>{@link GeometryCollection}</li>
  * </ul>
- * </p>
- * 
+ *
  * @author Christian Bremer
  */
 //@formatter:on
@@ -73,7 +71,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
      * @param geometryFactory
      *            the geometry factory
      */
-    public GeoJsonObjectMapperModule(GeometryFactory geometryFactory) {
+    public GeoJsonObjectMapperModule(final GeometryFactory geometryFactory) {
         super("GeoJsonModule", getVersion(), getDeserializers(geometryFactory), getSerializers());
     }
 
@@ -83,7 +81,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
      * @param objectMapper
      *            the object mapper
      */
-    public static void configure(ObjectMapper objectMapper) {
+    public static void configure(final ObjectMapper objectMapper) {
         configure(objectMapper, null);
     }
 
@@ -95,7 +93,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
      * @param geometryFactory
      *            the geometry factory
      */
-    public static void configure(ObjectMapper objectMapper, GeometryFactory geometryFactory) {
+    public static void configure(final ObjectMapper objectMapper, final GeometryFactory geometryFactory) {
         if (objectMapper != null) {
             objectMapper.registerModule(new GeoJsonObjectMapperModule(geometryFactory));
         }
@@ -105,7 +103,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
 
         final int defaultMajor = 1;
         final int defaultMinor = 1;
-        final int defaultPatchLevel = 2;
+        final int defaultPatchLevel = 4;
         final String defaultSnapshotInfo = "SNAPSHOT";
 
         int major = defaultMajor;
@@ -139,19 +137,17 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
         return new Version(major, minor, patchLevel, snapshotInfo, "org.bremersee", "bremersee-geojson");
     }
 
-    private static Map<Class<?>, JsonDeserializer<?>> getDeserializers(GeometryFactory geometryFactory) {
-        if (geometryFactory == null) {
-            geometryFactory = new GeometryFactory(); // NOSONAR
-        }
+    private static Map<Class<?>, JsonDeserializer<?>> getDeserializers(final GeometryFactory geometryFactory) {
+        final GeometryFactory gf = geometryFactory == null ? new GeometryFactory() : geometryFactory;
         HashMap<Class<?>, JsonDeserializer<?>> map = new HashMap<>();
-        map.put(Geometry.class, new GeometryDeserializer(geometryFactory));
-        map.put(Point.class, new GeometryDeserializer(geometryFactory));
-        map.put(LineString.class, new GeometryDeserializer(geometryFactory));
-        map.put(Polygon.class, new GeometryDeserializer(geometryFactory));
-        map.put(MultiPoint.class, new GeometryDeserializer(geometryFactory));
-        map.put(MultiLineString.class, new GeometryDeserializer(geometryFactory));
-        map.put(MultiPolygon.class, new GeometryDeserializer(geometryFactory));
-        map.put(GeometryCollection.class, new GeometryDeserializer(geometryFactory));
+        map.put(Geometry.class, new GeometryDeserializer(gf));
+        map.put(Point.class, new GeometryDeserializer(gf));
+        map.put(LineString.class, new GeometryDeserializer(gf));
+        map.put(Polygon.class, new GeometryDeserializer(gf));
+        map.put(MultiPoint.class, new GeometryDeserializer(gf));
+        map.put(MultiLineString.class, new GeometryDeserializer(gf));
+        map.put(MultiPolygon.class, new GeometryDeserializer(gf));
+        map.put(GeometryCollection.class, new GeometryDeserializer(gf));
         return map;
     }
 

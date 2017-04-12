@@ -71,13 +71,8 @@ public class GeometrySerializer extends StdSerializer<Geometry> implements Seria
         super(Geometry.class, false);
     }
 
-    //@formatter:off
-    /* (non-Javadoc)
-     * @see com.fasterxml.jackson.databind.ser.std.StdSerializer#serialize(java.lang.Object, com.fasterxml.jackson.core.JsonGenerator, com.fasterxml.jackson.databind.SerializerProvider)
-     */
-    //@formatter:on
     @Override
-    public void serialize(Geometry value, JsonGenerator jgen, SerializerProvider provider)
+    public void serialize(final Geometry value, final JsonGenerator jgen, final SerializerProvider provider)
             throws IOException {
 
         if (value == null) {
@@ -87,7 +82,7 @@ public class GeometrySerializer extends StdSerializer<Geometry> implements Seria
         }
     }
 
-    private Map<String, Object> create(Geometry geometry) {
+    private Map<String, Object> create(final Geometry geometry) {
         if (geometry instanceof Point) {
             return createPoint((Point) geometry);
         }
@@ -120,7 +115,7 @@ public class GeometrySerializer extends StdSerializer<Geometry> implements Seria
                 + "] is unsupported. It must be an instance of Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon or GeometryCollection.");
     }
 
-    private Map<String, Object> createPoint(Point point) {
+    private Map<String, Object> createPoint(final Point point) {
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
         map.put(TYPE_ATTRIBUTE_NAME, "Point");
@@ -128,7 +123,7 @@ public class GeometrySerializer extends StdSerializer<Geometry> implements Seria
         return map;
     }
 
-    private Map<String, Object> createLine(LineString line) {
+    private Map<String, Object> createLine(final LineString line) {
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
         map.put(TYPE_ATTRIBUTE_NAME, "LineString");
@@ -136,7 +131,7 @@ public class GeometrySerializer extends StdSerializer<Geometry> implements Seria
         return map;
     }
 
-    private Map<String, Object> createPolygon(Polygon polygon) {
+    private Map<String, Object> createPolygon(final Polygon polygon) {
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
         map.put(TYPE_ATTRIBUTE_NAME, "Polygon");
@@ -144,7 +139,7 @@ public class GeometrySerializer extends StdSerializer<Geometry> implements Seria
         return map;
     }
 
-    private Map<String, Object> createMultiPoint(MultiPoint multiPoint) {
+    private Map<String, Object> createMultiPoint(final MultiPoint multiPoint) {
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
         map.put(TYPE_ATTRIBUTE_NAME, "MultiPoint");
@@ -152,7 +147,7 @@ public class GeometrySerializer extends StdSerializer<Geometry> implements Seria
         return map;
     }
 
-    private Map<String, Object> createMultiLine(MultiLineString multiLine) {
+    private Map<String, Object> createMultiLine(final MultiLineString multiLine) {
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
         map.put(TYPE_ATTRIBUTE_NAME, "MultiLineString");
@@ -160,7 +155,7 @@ public class GeometrySerializer extends StdSerializer<Geometry> implements Seria
         return map;
     }
 
-    private Map<String, Object> createMultiPolygon(MultiPolygon multiPolygon) {
+    private Map<String, Object> createMultiPolygon(final MultiPolygon multiPolygon) {
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
         map.put(TYPE_ATTRIBUTE_NAME, "MultiPolygon");
@@ -168,7 +163,7 @@ public class GeometrySerializer extends StdSerializer<Geometry> implements Seria
         return map;
     }
 
-    private Map<String, Object> createGeometryCollection(GeometryCollection geometryColllection) {
+    private Map<String, Object> createGeometryCollection(final GeometryCollection geometryColllection) {
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
         List<Map<String, Object>> geometries = new ArrayList<>(geometryColllection.getNumGeometries());
@@ -181,7 +176,7 @@ public class GeometrySerializer extends StdSerializer<Geometry> implements Seria
         return map;
     }
 
-    private double round(double value) {
+    private double round(final double value) {
         if (Double.isNaN(value)) {
             return value;
         }
@@ -189,7 +184,7 @@ public class GeometrySerializer extends StdSerializer<Geometry> implements Seria
         return new BigDecimal(strValue).doubleValue();
     }
 
-    private List<Object> createCoordinates(Coordinate coordinate) {
+    private List<Object> createCoordinates(final Coordinate coordinate) {
         if (coordinate == null) {
             return Collections.emptyList();
         }
@@ -208,7 +203,7 @@ public class GeometrySerializer extends StdSerializer<Geometry> implements Seria
         return list;
     }
 
-    private List<List<Object>> createCoordinates(CoordinateSequence coordinateSequence) {
+    private List<List<Object>> createCoordinates(final CoordinateSequence coordinateSequence) {
         if (coordinateSequence == null || coordinateSequence.size() == 0) {
             return Collections.emptyList();
         }
@@ -219,7 +214,7 @@ public class GeometrySerializer extends StdSerializer<Geometry> implements Seria
         return list;
     }
 
-    private List<List<List<Object>>> createCoordinates(Polygon polygon) {
+    private List<List<List<Object>>> createCoordinates(final Polygon polygon) {
         List<List<List<Object>>> list = new ArrayList<>();
         list.add(createCoordinates(polygon.getExteriorRing().getCoordinateSequence()));
         for (int i = 0; i < polygon.getNumInteriorRing(); i++) {
@@ -228,7 +223,7 @@ public class GeometrySerializer extends StdSerializer<Geometry> implements Seria
         return list;
     }
 
-    private List<Object> createCoordinates(GeometryCollection geometryCollection) {
+    private List<Object> createCoordinates(final GeometryCollection geometryCollection) {
         List<Object> list = new ArrayList<>(geometryCollection.getNumGeometries());
         for (int i = 0; i < geometryCollection.getNumGeometries(); i++) {
             Geometry g = geometryCollection.getGeometryN(i);

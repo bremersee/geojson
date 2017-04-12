@@ -4,6 +4,7 @@
     <artifactId>bremersee-geojson</artifactId>
     <groupId>org.bremersee</groupId>
     <version>1.1.4-SNAPSHOT</version>
+    <!-- Change version in GeoJsonObjectMapperModule, too. -->
     <name>Bremersee GeoJSON</name>
     <description>This project contains classes for reading and writing GeoJSON with the Jackson JSON Processor.</description>
     <url>http://bremersee.github.io/geojson/</url>
@@ -132,6 +133,7 @@
                 <version>2.0</version>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>3.5</version>
                 <configuration>

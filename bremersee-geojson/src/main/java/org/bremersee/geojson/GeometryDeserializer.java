@@ -52,7 +52,7 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
      * @param geometryFactory
      *            the geometry factory
      */
-    public GeometryDeserializer(GeometryFactory geometryFactory) {
+    public GeometryDeserializer(final GeometryFactory geometryFactory) {
         this();
         setGeometryFactory(geometryFactory);
     }
@@ -72,17 +72,14 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
      * @param geometryFactory
      *            the geometry factory
      */
-    public void setGeometryFactory(GeometryFactory geometryFactory) {
+    public void setGeometryFactory(final GeometryFactory geometryFactory) {
         if (geometryFactory != null) {
             this.geometryFactory = geometryFactory;
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.fasterxml.jackson.databind.JsonDeserializer#deserialize(com.fasterxml.jackson.core.JsonParser, com.fasterxml.jackson.databind.DeserializationContext)
-     */
     @Override
-    public Geometry deserialize(JsonParser jp, DeserializationContext ctxt) //NOSONAR
+    public Geometry deserialize(final JsonParser jp, final DeserializationContext ctxt) //NOSONAR
             throws IOException {
 
         String type = null;
@@ -113,7 +110,8 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
         }
     }
 
-    private void parseCoordinates(int depth, List<Object> coordinates, JsonParser jp, DeserializationContext ctxt)
+    private void parseCoordinates(final int depth, final List<Object> coordinates, final JsonParser jp,
+                                  @SuppressWarnings("unused") final DeserializationContext ctxt)
             throws IOException {
 
         JsonToken currentToken;
@@ -134,7 +132,7 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
         }
     }
 
-    private Coordinate createCoordinate(List<Object> coordinates) {
+    private Coordinate createCoordinate(final List<Object> coordinates) {
         Coordinate coordinate = new Coordinate();
         coordinate.x = (!coordinates.isEmpty()) ? (double) coordinates.get(0) : Double.NaN;
         coordinate.y = (coordinates.size() > 1) ? (double) coordinates.get(1) : Double.NaN;
@@ -142,7 +140,7 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
         return coordinate;
     }
 
-    private Coordinate[] createCoordinates(List<Object> coordinates) {
+    private Coordinate[] createCoordinates(final List<Object> coordinates) {
         Coordinate[] coords = new Coordinate[coordinates.size()];
         int i = 0;
         for (Object obj : coordinates) {
@@ -154,15 +152,15 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
         return coords;
     }
 
-    private Point createPoint(List<Object> coordinates) {
+    private Point createPoint(final List<Object> coordinates) {
         return getGeometryFactory().createPoint(createCoordinate(coordinates));
     }
 
-    private LineString createLineString(List<Object> coordinates) { // List<List<Double>>
+    private LineString createLineString(final List<Object> coordinates) { // List<List<Double>>
         return getGeometryFactory().createLineString(createCoordinates(coordinates));
     }
 
-    private Polygon createPolygon(List<Object> coordinates) { // List<List<List<Double>>>
+    private Polygon createPolygon(final List<Object> coordinates) { // List<List<List<Double>>>
         List<Coordinate[]> list = new ArrayList<>();
         for (Object obj : coordinates) {
             @SuppressWarnings("unchecked")
@@ -181,7 +179,7 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
         }
     }
 
-    private MultiPoint createMultiPoint(List<Object> coordinates) {
+    private MultiPoint createMultiPoint(final List<Object> coordinates) {
         Point[] points = new Point[coordinates.size()];
         int i = 0;
         for (Object obj : coordinates) {
@@ -193,7 +191,7 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
         return getGeometryFactory().createMultiPoint(points);
     }
 
-    private MultiLineString createMultiLineString(List<Object> coordinates) {
+    private MultiLineString createMultiLineString(final List<Object> coordinates) {
         LineString[] lineStrings = new LineString[coordinates.size()];
         int i = 0;
         for (Object obj : coordinates) {
@@ -205,7 +203,7 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
         return getGeometryFactory().createMultiLineString(lineStrings);
     }
 
-    private MultiPolygon createMultiPolygon(List<Object> coordinates) {
+    private MultiPolygon createMultiPolygon(final List<Object> coordinates) {
         Polygon[] polygons = new Polygon[coordinates.size()];
         int i = 0;
         for (Object obj : coordinates) {
@@ -217,7 +215,7 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
         return getGeometryFactory().createMultiPolygon(polygons);
     }
 
-    private GeometryCollection createGeometryCollection(List<Geometry> geometries) {
+    private GeometryCollection createGeometryCollection(final List<Geometry> geometries) {
         final Geometry[] geoms;
         if (geometries == null) {
             geoms = new Geometry[0];
@@ -228,7 +226,8 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
         return gf.createGeometryCollection(geoms);
     }
 
-    private List<Geometry> parseGeometries(JsonParser jsonParser, DeserializationContext deserializationContext)
+    private List<Geometry> parseGeometries(final JsonParser jsonParser,
+                                           final DeserializationContext deserializationContext)
             throws IOException {
 
         String type = null;
@@ -269,7 +268,7 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
      * @param coordinates the coordinates of the geometry
      * @return the created geometry
      */
-    private Geometry createGeometry(String type, List<Object> coordinates) { // NOSONAR
+    private Geometry createGeometry(final String type, final List<Object> coordinates) { // NOSONAR
         if ("Point".equals(type)) {
             return createPoint(coordinates);
         }

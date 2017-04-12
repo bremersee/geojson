@@ -27,6 +27,7 @@ import com.vividsolutions.jts.geom.CoordinateFilter;
  * 
  * @author Christian Bremer
  */
+@SuppressWarnings("unused")
 public class MercatorToWgs84CoordinateFilter implements CoordinateFilter {
 
     private double earthRadiusInMeters = GeometryUtils.EARTH_RADIUS_METERS;
@@ -37,6 +38,7 @@ public class MercatorToWgs84CoordinateFilter implements CoordinateFilter {
      * Default constructor.
      */
     public MercatorToWgs84CoordinateFilter() {
+        super();
     }
 
     /**
@@ -45,7 +47,7 @@ public class MercatorToWgs84CoordinateFilter implements CoordinateFilter {
      * @param earthRadiusInMeters
      *            the earth radius in meters
      */
-    public MercatorToWgs84CoordinateFilter(double earthRadiusInMeters) {
+    public MercatorToWgs84CoordinateFilter(final double earthRadiusInMeters) {
         this.earthRadiusInMeters = earthRadiusInMeters;
     }
 
@@ -57,7 +59,7 @@ public class MercatorToWgs84CoordinateFilter implements CoordinateFilter {
      *            if {@code true} the z value of the coordinate will be removed
      *            otherwise it will be untouched
      */
-    public MercatorToWgs84CoordinateFilter(boolean removingZ) {
+    public MercatorToWgs84CoordinateFilter(final boolean removingZ) {
         this.removingZ = removingZ;
     }
 
@@ -70,7 +72,7 @@ public class MercatorToWgs84CoordinateFilter implements CoordinateFilter {
      *            if {@code true} the z value of the coordinate will be removed
      *            otherwise it will be untouched
      */
-    public MercatorToWgs84CoordinateFilter(double earthRadiusInMeters, boolean removingZ) {
+    public MercatorToWgs84CoordinateFilter(final double earthRadiusInMeters, final boolean removingZ) {
         this.earthRadiusInMeters = earthRadiusInMeters;
         this.removingZ = removingZ;
     }
@@ -90,7 +92,7 @@ public class MercatorToWgs84CoordinateFilter implements CoordinateFilter {
      * @param earthRadiusInMeters
      *            the earth radius in meters
      */
-    public void setEarthRadiusInMeters(double earthRadiusInMeters) {
+    public void setEarthRadiusInMeters(final double earthRadiusInMeters) {
         this.earthRadiusInMeters = earthRadiusInMeters;
     }
 
@@ -107,17 +109,12 @@ public class MercatorToWgs84CoordinateFilter implements CoordinateFilter {
      *            if {@code true} the z value of the coordinate will be removed
      *            otherwise it will be untouched
      */
-    public void setRemovingZ(boolean removingZ) {
+    public void setRemovingZ(final boolean removingZ) {
         this.removingZ = removingZ;
     }
 
-    //@formatter:off
-    /* (non-Javadoc)
-     * @see com.vividsolutions.jts.geom.CoordinateFilter#filter(com.vividsolutions.jts.geom.Coordinate)
-     */
-    //@formatter:on
     @Override
-    public void filter(Coordinate coord) {
+    public void filter(final Coordinate coord) {
 
         if (coord != null) {
             if (!Double.isNaN(coord.x)) {
