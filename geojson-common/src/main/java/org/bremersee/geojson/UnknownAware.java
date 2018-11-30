@@ -34,12 +34,12 @@ public abstract class UnknownAware {
   private Map<String, Object> unknown;
 
   /**
-   * Gets the unknown json properties.
+   * Gets the unknown json properties (can be {@code null}).
    *
    * @return the unknown
    */
   @JsonAnyGetter
-  public Map<String, Object> getUnknown() {
+  public Map<String, Object> unknown() {
     return unknown;
   }
 
@@ -48,8 +48,7 @@ public abstract class UnknownAware {
    *
    * @param unknown the unknown json properties
    */
-  @JsonIgnore
-  public void setUnknown(Map<String, Object> unknown) {
+  public void unknown(Map<String, Object> unknown) {
     if (unknown != null && !unknown.isEmpty()) {
       this.unknown = unknown;
     }
@@ -63,6 +62,9 @@ public abstract class UnknownAware {
    */
   @JsonAnySetter
   public void unknown(String name, Object value) {
+    if (name == null || name.trim().length() == 0) {
+      return;
+    }
     if (unknown == null) {
       unknown = new LinkedHashMap<>();
     }
