@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -16,6 +16,10 @@
     Processor.
   </description>
   <url>http://bremersee.github.io/geojson/</url>
+
+  <properties>
+    <jts.version>1.16.0</jts.version>
+  </properties>
 
   <!--
   <properties>
@@ -90,10 +94,9 @@
       <artifactId>jackson-databind</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.vividsolutions</groupId>
-      <artifactId>jts</artifactId>
+      <groupId>org.locationtech.jts</groupId>
+      <artifactId>jts-core</artifactId>
       <version>${jts.version}</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>io.swagger</groupId>

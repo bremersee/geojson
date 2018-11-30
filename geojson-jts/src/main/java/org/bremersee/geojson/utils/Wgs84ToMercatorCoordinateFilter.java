@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,9 @@
 
 package org.bremersee.geojson.utils;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.CoordinateFilter;
 import java.io.Serializable;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.CoordinateFilter;
 
 /**
  * A coordinate filter that transforms WGS84 coordinates into mercator coordinates.
@@ -28,7 +28,7 @@ import java.io.Serializable;
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class Wgs84ToMercatorCoordinateFilter implements CoordinateFilter, Serializable {
 
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 2L;
 
   private double earthRadiusInMeters = GeometryUtils.EARTH_RADIUS_METERS;
 
@@ -54,7 +54,7 @@ public class Wgs84ToMercatorCoordinateFilter implements CoordinateFilter, Serial
    * Constructs a coordinate filter with the specified flag for removing the z value.
    *
    * @param removingZ if {@code true} the z value of the coordinate will be removed otherwise it
-   *                  will be untouched
+   * will be untouched
    */
   public Wgs84ToMercatorCoordinateFilter(final boolean removingZ) {
     this.removingZ = removingZ;
@@ -64,8 +64,8 @@ public class Wgs84ToMercatorCoordinateFilter implements CoordinateFilter, Serial
    * Constructs a coordinate filter with the specified values.
    *
    * @param earthRadiusInMeters the earth radius in meters
-   * @param removingZ           if {@code true} the z value of the coordinate will be removed
-   *                            otherwise it will be untouched
+   * @param removingZ if {@code true} the z value of the coordinate will be removed otherwise it
+   * will be untouched
    */
   public Wgs84ToMercatorCoordinateFilter(final double earthRadiusInMeters,
       final boolean removingZ) {
@@ -100,7 +100,7 @@ public class Wgs84ToMercatorCoordinateFilter implements CoordinateFilter, Serial
 
   /**
    * @param removingZ if {@code true} the z value of the coordinate will be removed otherwise it
-   *                  will be untouched
+   * will be untouched
    */
   public void setRemovingZ(final boolean removingZ) {
     this.removingZ = removingZ;

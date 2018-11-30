@@ -1,4 +1,4 @@
-Bremersee GeoJSON ${project.version}
+Bremersee GeoJSON Common ${project.version}
 Copyright (c) 2015-2018 Christian Bremer
 
 This product is licensed to you under the Apache License, Version 2.0

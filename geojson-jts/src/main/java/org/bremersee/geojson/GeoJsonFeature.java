@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2018 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,11 @@
 
 package org.bremersee.geojson;
 
-import com.vividsolutions.jts.geom.Geometry;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.bremersee.geojson.utils.GeometryUtils;
+import org.locationtech.jts.geom.Geometry;
 
 /**
  * A GeoJSON object with the type {@code Feature} (see
@@ -43,11 +43,11 @@ public class GeoJsonFeature extends AbstractGeoJsonFeature<Geometry, Map<String,
   /**
    * Constructs a GeoJSON feature with the specified parameters.
    *
-   * @param id              an optional id
-   * @param geometry        the geometry of the GeoJson feature
-   * @param calculateBounds if <code>true</code> the bounding box will be calculated otherwise the
-   *                        bounding box will be <code>null</code>
-   * @param properties      a map with named objects that are associated with the GeoJSON feature
+   * @param id an optional id
+   * @param geometry the geometry of the GeoJson feature
+   * @param calculateBounds if {@code true} the bounding box will be calculated otherwise the
+   * bounding box will be {@code null}
+   * @param properties a map with named objects that are associated with the GeoJSON feature
    */
   public GeoJsonFeature(
       final String id,
@@ -76,11 +76,14 @@ public class GeoJsonFeature extends AbstractGeoJsonFeature<Geometry, Map<String,
   }
 
   @Override
-  boolean equals(Geometry g1, Object g2) {
-    if (g1 != null && g2 instanceof Geometry) {
+  boolean equals(final Geometry g1, final Object g2) {
+    if (g1 == g2) {
+      return true;
+    } else if (g1 != null && g2 instanceof Geometry) {
       return GeometryUtils.equals(g1, (Geometry) g2);
-    } else
-      return g1 == null && g2 == null;
+    } else {
+      return false;
+    }
   }
 
 }

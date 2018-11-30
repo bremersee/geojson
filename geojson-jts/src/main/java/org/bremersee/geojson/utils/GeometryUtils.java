@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,21 +16,7 @@
 
 package org.bremersee.geojson.utils;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.CoordinateSequence;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryCollection;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.LinearRing;
-import com.vividsolutions.jts.geom.MultiLineString;
-import com.vividsolutions.jts.geom.MultiPoint;
-import com.vividsolutions.jts.geom.MultiPolygon;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.geom.impl.CoordinateArraySequenceFactory;
-import com.vividsolutions.jts.io.ParseException;
-import com.vividsolutions.jts.io.WKTReader;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -38,6 +24,23 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
+import org.bremersee.geojson.GeoJsonFeature;
+import org.bremersee.geojson.GeoJsonObjectMapperModule;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.CoordinateSequence;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryCollection;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.LinearRing;
+import org.locationtech.jts.geom.MultiLineString;
+import org.locationtech.jts.geom.MultiPoint;
+import org.locationtech.jts.geom.MultiPolygon;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.geom.impl.CoordinateArraySequenceFactory;
+import org.locationtech.jts.io.ParseException;
+import org.locationtech.jts.io.WKTReader;
 
 /**
  * Utility methods for geometry objects.
@@ -46,6 +49,17 @@ import java.util.Collection;
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public abstract class GeometryUtils {
+
+  public static void main(String[] args) throws Exception {
+    ObjectMapper om = new ObjectMapper();
+    om = om.registerModule(new GeoJsonObjectMapperModule());
+    GeoJsonFeature f = new GeoJsonFeature();
+    f.setId("Hallo");
+    String json = om.writerWithDefaultPrettyPrinter().writeValueAsString(f);
+    System.out.println(json);
+
+    GeoJsonFeature fn = om.readValue(json, GeoJsonFeature.class);
+  }
 
   /**
    * Never construct.
@@ -120,7 +134,7 @@ public abstract class GeometryUtils {
    * @param g1 one geometry
    * @param g2 another geometry
    * @return <code>true</code> if the geometries are equal otherwise
-   *     <code>false</code>
+   * <code>false</code>
    */
   public static boolean equals(final Geometry g1, final Geometry g2) { // NOSONAR
     if (g1 == null && g2 == null) {
@@ -148,7 +162,7 @@ public abstract class GeometryUtils {
    * @param gc1 one geometry collection
    * @param gc2 another geometry collection
    * @return <code>true</code> if the geometry collections are equal otherwise
-   *     <code>false</code>
+   * <code>false</code>
    */
   private static boolean equals(final GeometryCollection gc1, final GeometryCollection gc2) {
     if (gc1 == null && gc2 == null) {
@@ -178,7 +192,7 @@ public abstract class GeometryUtils {
    *
    * @param geometry the geometry
    * @return <code>null</code> if the dimension can not be calculated,
-   *     otherwise the dimension of the geometry
+   * otherwise the dimension of the geometry
    */
   public static Integer getDimension(final Geometry geometry) {
     if (geometry == null) {
@@ -207,7 +221,7 @@ public abstract class GeometryUtils {
    *
    * @param geometry the geometry
    * @return <code>null</code> if the bounding box can not be calculated,
-   *     otherwise the bounding box of the geometry
+   * otherwise the bounding box of the geometry
    */
   public static double[] getBoundingBox(final Geometry geometry) {
     if (geometry == null) {
@@ -327,7 +341,7 @@ public abstract class GeometryUtils {
   /**
    * Returns the bounding box of the geometry as polygon.
    *
-   * @param geometry        the geometry
+   * @param geometry the geometry
    * @param geometryFactory the geometry factory to use
    * @return the bounding box of the geometry as polygon
    */
@@ -380,7 +394,7 @@ public abstract class GeometryUtils {
    * Reads a Well-Known Text representation of a Geometry from a {@link String}.
    *
    * @param wkt one or more strings (see the OpenGIS Simple Features Specification) separated by
-   *            whitespace
+   * whitespace
    * @return a Geometry specified by wellKnownText
    * @throws RuntimeException if a parsing problem occurs
    */
@@ -391,8 +405,8 @@ public abstract class GeometryUtils {
   /**
    * Reads a Well-Known Text representation of a Geometry from a {@link String}.
    *
-   * @param wkt             one or more strings (see the OpenGIS Simple Features Specification)
-   *                        separated by whitespace
+   * @param wkt one or more strings (see the OpenGIS Simple Features Specification) separated by
+   * whitespace
    * @param geometryFactory the geometry factory to use
    * @return a Geometry specified by wellKnownText
    * @throws RuntimeException if a parsing problem occurs
@@ -417,7 +431,7 @@ public abstract class GeometryUtils {
    * Reads a Well-Known Text representation of a Geometry from a {@link Reader}.
    *
    * @param reader a {@link Reader} which will return a string (see the OpenGIS Simple Features
-   *               Specification)
+   * Specification)
    * @return a Geometry read from reader
    * @throws RuntimeException if a parsing problem occurs
    */
@@ -428,8 +442,8 @@ public abstract class GeometryUtils {
   /**
    * Reads a Well-Known Text representation of a Geometry from a {@link Reader}.
    *
-   * @param reader          a {@link Reader} which will return a string (see the OpenGIS Simple
-   *                        Features Specification)
+   * @param reader a {@link Reader} which will return a string (see the OpenGIS Simple Features
+   * Specification)
    * @param geometryFactory the geometry factory to use
    * @return a Geometry read from reader
    * @throws RuntimeException if a parsing problem occurs
@@ -454,7 +468,7 @@ public abstract class GeometryUtils {
    * Reads a Well-Known Text representation of a Geometry from an {@link InputStream}.
    *
    * @param inputStream an {@link InputStream} which will return a string (see the OpenGIS Simple
-   *                    Features Specification)
+   * Features Specification)
    * @param charsetName the charset to use
    * @return a Geometry read from the input stream
    * @throws RuntimeException if a parsing problem occurs
@@ -467,9 +481,9 @@ public abstract class GeometryUtils {
   /**
    * Reads a Well-Known Text representation of a Geometry from an {@link InputStream}.
    *
-   * @param inputStream     an {@link InputStream} which will return a string (see the OpenGIS
-   *                        Simple Features Specification)
-   * @param charsetName     the charset to use
+   * @param inputStream an {@link InputStream} which will return a string (see the OpenGIS Simple
+   * Features Specification)
+   * @param charsetName the charset to use
    * @param geometryFactory the geometry factory to use
    * @return a Geometry read from the input stream
    * @throws RuntimeException if a parsing problem occurs
@@ -529,8 +543,8 @@ public abstract class GeometryUtils {
   /**
    * Creates a point.
    *
-   * @param x               the x value
-   * @param y               the y value
+   * @param x the x value
+   * @param y the y value
    * @param geometryFactory the geometry factory to use
    * @return the point
    */
@@ -554,9 +568,9 @@ public abstract class GeometryUtils {
   /**
    * Creates a point.
    *
-   * @param x               the x value
-   * @param y               the y value
-   * @param z               the z value
+   * @param x the x value
+   * @param y the y value
+   * @param z the z value
    * @param geometryFactory the geometry factory to use
    * @return the point
    */
@@ -571,7 +585,7 @@ public abstract class GeometryUtils {
    * Creates a point from WGS84 latitude and longitude.<br> Latitude becomes the y-value.<br>
    * Longitude becomes the x-value.<br>
    *
-   * @param latitude  the latitude in degrees
+   * @param latitude the latitude in degrees
    * @param longitude the longitude in degrees
    * @return the point
    */
@@ -583,8 +597,8 @@ public abstract class GeometryUtils {
    * Creates a point from WGS84 latitude and longitude.<br> Latitude becomes the y-value.<br>
    * Longitude becomes the x-value.<br>
    *
-   * @param latitude        the latitude in degrees
-   * @param longitude       the longitude in degrees
+   * @param latitude the latitude in degrees
+   * @param longitude the longitude in degrees
    * @param geometryFactory the geometry factory to use
    * @return the point
    */
@@ -599,9 +613,9 @@ public abstract class GeometryUtils {
    * <p>Latitude becomes the y-value.<br> Longitude becomes the x-value.<br> Altitude becomes the
    * z-value.
    *
-   * @param latitude  the latitude in degrees
+   * @param latitude the latitude in degrees
    * @param longitude the longitude in degrees
-   * @param altitude  the altitude
+   * @param altitude the altitude
    * @return the point
    */
   public static Point createPointWGS84(final double latitude, final double longitude,
@@ -615,9 +629,9 @@ public abstract class GeometryUtils {
    * <p>Latitude becomes the y-value.<br> Longitude becomes the x-value.<br> Altitude becomes the
    * z-value.
    *
-   * @param latitude        the latitude in degrees
-   * @param longitude       the longitude in degrees
-   * @param altitude        the altitude
+   * @param latitude the latitude in degrees
+   * @param longitude the longitude in degrees
+   * @param altitude the altitude
    * @param geometryFactory the geometry factory to use
    * @return the point
    */
@@ -640,7 +654,7 @@ public abstract class GeometryUtils {
   /**
    * Creates a Point using the given Coordinate; a null Coordinate will create an empty Geometry.
    *
-   * @param coordinate      the coordinate of the point
+   * @param coordinate the coordinate of the point
    * @param geometryFactory the geometry factory to use
    * @return the point
    */
@@ -666,7 +680,7 @@ public abstract class GeometryUtils {
    * Creates a MultiPoint using the given Points. A null or empty collection will create an empty
    * MultiPoint.
    *
-   * @param points          the points of the {@link MultiPoint}
+   * @param points the points of the {@link MultiPoint}
    * @param geometryFactory the geometry factory to use
    * @return the {@link MultiPoint}
    */
@@ -698,7 +712,7 @@ public abstract class GeometryUtils {
    * Creates a LineString using the given coordinates; a null or empty collection will create an
    * empty LineString. Consecutive points must not be equal.
    *
-   * @param coordinates     the coordinates of the {@link LineString}
+   * @param coordinates the coordinates of the {@link LineString}
    * @param geometryFactory the geometry factory to use
    * @return the {@link LineString}
    */
@@ -731,7 +745,7 @@ public abstract class GeometryUtils {
    * Creates a MultiLineString using the given LineStrings; a null or empty collection will create
    * an empty MultiLineString.
    *
-   * @param lineStrings     the {@link LineString}s of the {@link MultiLineString}
+   * @param lineStrings the {@link LineString}s of the {@link MultiLineString}
    * @param geometryFactory the geometry factory to use
    * @return the {@link MultiLineString}
    */
@@ -763,7 +777,7 @@ public abstract class GeometryUtils {
    * Creates a LinearRing using the given coordinates. A null or empty coordinates will create an
    * empty LinearRing.
    *
-   * @param coordinates     the coordinates
+   * @param coordinates the coordinates
    * @param geometryFactory the geometry factory
    * @return the created LinearRing
    */
@@ -792,7 +806,7 @@ public abstract class GeometryUtils {
    * Constructs a Polygon with the given exterior boundary.
    *
    * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the empty
-   *              geometry is to be created
+   * geometry is to be created
    * @return the created Polygon
    */
   public static Polygon createPolygon(final LinearRing shell) {
@@ -802,8 +816,8 @@ public abstract class GeometryUtils {
   /**
    * Constructs a Polygon with the given exterior boundary.
    *
-   * @param shell           the outer boundary of the new Polygon, or null or an empty LinearRing if
-   *                        the empty geometry is to be created
+   * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the empty
+   * geometry is to be created
    * @param geometryFactory the geometry factory
    * @return the created Polygon
    */
@@ -816,9 +830,9 @@ public abstract class GeometryUtils {
    * Constructs a Polygon with the given exterior boundary and interior boundaries.
    *
    * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the empty
-   *              geometry is to be created
+   * geometry is to be created
    * @param holes the inner boundaries of the new Polygon, or null or empty LinearRing s if the
-   *              empty geometry is to be created
+   * empty geometry is to be created
    * @return the created Polygon
    */
   public static Polygon createPolygon(final LinearRing shell,
@@ -829,10 +843,10 @@ public abstract class GeometryUtils {
   /**
    * Constructs a Polygon with the given exterior boundary and interior boundaries.
    *
-   * @param shell           the outer boundary of the new Polygon, or null or an empty LinearRing if
-   *                        the empty geometry is to be created
-   * @param holes           the inner boundaries of the new Polygon, or null or empty LinearRing s
-   *                        if the empty geometry is to be created
+   * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the empty
+   * geometry is to be created
+   * @param holes the inner boundaries of the new Polygon, or null or empty LinearRing s if the
+   * empty geometry is to be created
    * @param geometryFactory the geometry factory
    * @return the created Polygon
    */
@@ -864,7 +878,7 @@ public abstract class GeometryUtils {
    * Creates a MultiPolygon using the given Polygons; a null or empty array will create an empty
    * Polygon.
    *
-   * @param polygons        the polygons
+   * @param polygons the polygons
    * @param geometryFactory the geometry factory
    * @return the multi polygon
    */
@@ -884,7 +898,7 @@ public abstract class GeometryUtils {
    * Transforms the coordinates of the given geometry from WGS84 into mercator.
    *
    * @param geometry the geometry
-   * @param removeZ  remove z value flag
+   * @param removeZ remove z value flag
    * @return the transformed (cloned) geometry
    */
   public static Geometry transformWgs84ToMercator(final Geometry geometry,
@@ -901,7 +915,7 @@ public abstract class GeometryUtils {
    * Transforms the coordinates of the given geometry from mercator into WGS84.
    *
    * @param geometry the geometry
-   * @param removeZ  remove z value flag
+   * @param removeZ remove z value flag
    * @return the transformed (cloned) geometry
    */
   public static Geometry transformMercatorToWgs84(final Geometry geometry, final boolean removeZ) {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,17 +27,17 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
-import com.vividsolutions.jts.geom.Geometry;
 import java.io.IOException;
 import java.io.Serializable;
 import org.bremersee.geojson.utils.GeometryUtils;
+import org.locationtech.jts.geom.Geometry;
 
 /**
  * This class wraps a geometry and can be processed by the Jackson JSON processor without
- * registering the {@link GeoJsonObjectMapperModule}.<br> The geometry is an instance of the JTS
- * Topology Suite (see
- * <a href="http://www.vividsolutions.com/jts/JTSHome.htm">http://www.vividsolutions.com/jts/JTSHome.htm</a>
- * ).
+ * registering the {@link GeoJsonObjectMapperModule}.
+ *
+ * <p>The geometry is an instance of the JTS Topology Suite (see
+ * <a href="http://www.vividsolutions.com">http://www.vividsolutions.com</a>).
  *
  * @author Christian Bremer
  */
@@ -96,8 +96,9 @@ public class GeometryWrapper implements Serializable, Cloneable {
     GeometryWrapper other = (GeometryWrapper) obj;
     if (geometry == null) {
       return other.geometry == null;
-    } else
+    } else {
       return GeometryUtils.equals(geometry, other.geometry);
+    }
   }
 
   @SuppressWarnings("MethodDoesntCallSuperMethod")

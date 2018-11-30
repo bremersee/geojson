@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,19 +21,19 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryCollection;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.MultiLineString;
-import com.vividsolutions.jts.geom.MultiPoint;
-import com.vividsolutions.jts.geom.MultiPolygon;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryCollection;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.MultiLineString;
+import org.locationtech.jts.geom.MultiPoint;
+import org.locationtech.jts.geom.MultiPolygon;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.Polygon;
 
 /**
  * A Jackson JSON processor module that provides the processing (serialization and deserialization)
@@ -84,7 +84,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
   /**
    * Registers this module to the object mapper.
    *
-   * @param objectMapper    the object mapper
+   * @param objectMapper the object mapper
    * @param geometryFactory the geometry factory
    */
   public static void configure(final ObjectMapper objectMapper,
@@ -96,9 +96,9 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
 
   private static Version getVersion() {
 
-    final int defaultMajor = 1;
-    final int defaultMinor = 1;
-    final int defaultPatchLevel = 4;
+    final int defaultMajor = 2;
+    final int defaultMinor = 0;
+    final int defaultPatchLevel = 0;
     final String defaultSnapshotInfo = "SNAPSHOT";
 
     int major = defaultMajor;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 
 package org.bremersee.geojson.utils;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.CoordinateFilter;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.CoordinateFilter;
 
 /**
  * A coordinate filter that transforms mercator coordinates into WGS84 coordinates.
@@ -51,7 +51,7 @@ public class MercatorToWgs84CoordinateFilter implements CoordinateFilter {
    * Constructs a coordinate filter with the specified flag for removing the z value.
    *
    * @param removingZ if {@code true} the z value of the coordinate will be removed otherwise it
-   *                  will be untouched
+   * will be untouched
    */
   public MercatorToWgs84CoordinateFilter(final boolean removingZ) {
     this.removingZ = removingZ;
@@ -61,8 +61,8 @@ public class MercatorToWgs84CoordinateFilter implements CoordinateFilter {
    * Constructs a coordinate filter with the specified values.
    *
    * @param earthRadiusInMeters the earth radius in meters
-   * @param removingZ           if {@code true} the z value of the coordinate will be removed
-   *                            otherwise it will be untouched
+   * @param removingZ if {@code true} the z value of the coordinate will be removed otherwise it
+   * will be untouched
    */
   public MercatorToWgs84CoordinateFilter(final double earthRadiusInMeters,
       final boolean removingZ) {
@@ -97,7 +97,7 @@ public class MercatorToWgs84CoordinateFilter implements CoordinateFilter {
 
   /**
    * @param removingZ if {@code true} the z value of the coordinate will be removed otherwise it
-   *                  will be untouched
+   * will be untouched
    */
   public void setRemovingZ(final boolean removingZ) {
     this.removingZ = removingZ;
