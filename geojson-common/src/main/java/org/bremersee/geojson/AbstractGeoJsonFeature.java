@@ -37,7 +37,7 @@ import java.util.Objects;
 })
 @JsonTypeName("Feature")
 @SuppressWarnings({"WeakerAccess", "unused"})
-public abstract class AbstractGeoJsonFeature<G, P> {
+public abstract class AbstractGeoJsonFeature<G, P> extends UnknownAware {
 
   private String id = null;
 

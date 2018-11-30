@@ -40,7 +40,8 @@ import java.util.Objects;
 @JsonTypeName("FeatureCollection")
 @JsonSubTypes({
 })
-public abstract class AbstractGeoJsonFeatureCollection<F extends AbstractGeoJsonFeature, P> {
+public abstract class AbstractGeoJsonFeatureCollection<F extends AbstractGeoJsonFeature, P>
+    extends UnknownAware {
 
   @JsonProperty
   private String id = null;
