@@ -16,7 +16,6 @@
 
 package org.bremersee.geojson;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -35,7 +34,6 @@ import java.util.Objects;
  * @author Christian Bremer
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
-@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true)
 @JsonTypeName("FeatureCollection")
 @JsonSubTypes({

@@ -381,7 +381,7 @@ public class GeoJsonTests {
       GeoJsonFeature f = new GeoJsonFeature();
       f.setGeometry(geometry);
       f.setBbox(GeometryUtils.getBoundingBox(geometry));
-      //f.setCrs(new GeoJsonNamedCrs("urn:ogc:def:crs:OGC:1.3:CRS84"));
+      f.unknown("crs", new GeoJsonNamedCrs("urn:ogc:def:crs:OGC:1.3:CRS84"));
       f.setId("100");
       f.getProperties().put("myKey", "myValue");
 
