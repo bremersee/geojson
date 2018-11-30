@@ -62,7 +62,7 @@ public class AbstractGeoJsonCrs implements Serializable {
    * (CRS).
    *
    * @param properties the properties that store information about the coordinate reference system
-   *                   (CRS)
+   * (CRS)
    */
   protected final void setProperties(final Map<String, Object> properties) {
     if (properties == null) {
