@@ -98,11 +98,6 @@
       <artifactId>jts-core</artifactId>
       <version>${jts.version}</version>
     </dependency>
-    <dependency>
-      <groupId>io.swagger</groupId>
-      <artifactId>swagger-annotations</artifactId>
-      <version>${swagger.version}</version>
-    </dependency>
 
     <dependency>
       <groupId>junit</groupId>

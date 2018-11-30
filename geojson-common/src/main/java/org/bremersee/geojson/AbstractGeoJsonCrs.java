@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
-import io.swagger.annotations.ApiModel;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -42,11 +41,6 @@ import java.util.Objects;
     @Type(value = GeoJsonLinkedCrs.class, name = "link"),
     @Type(value = GeoJsonNamedCrs.class, name = "name")
 })
-@ApiModel(
-    description = "Abstract base class for the coordinate reference system (CRS) "
-        + "of a GeoJSON object.",
-    subTypes = {GeoJsonNamedCrs.class, GeoJsonLinkedCrs.class},
-    discriminator = "type")
 public class AbstractGeoJsonCrs implements Serializable {
 
   private static final long serialVersionUID = 1L;
