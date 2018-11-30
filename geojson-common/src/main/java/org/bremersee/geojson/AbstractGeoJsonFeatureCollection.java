@@ -18,6 +18,9 @@ package org.bremersee.geojson;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,17 +30,23 @@ import java.util.Objects;
  * A GeoJSON object with the type {@code FeatureCollection} is a feature collection object (see
  * <a href="https://tools.ietf.org/html/rfc7946#section-3.3">rfc7946 section 3.3</a>).
  *
+ * @param <F> the type parameter
+ * @param <P> the type parameter
  * @author Christian Bremer
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true)
+@JsonTypeName("FeatureCollection")
+@JsonSubTypes({
+})
 public abstract class AbstractGeoJsonFeatureCollection<F extends AbstractGeoJsonFeature, P> {
 
   @JsonProperty
   private String id = null;
 
   @JsonProperty
-  private List<F> features = new ArrayList<>();
+  private List<F> features;
 
   @JsonProperty
   private double[] bbox = null;
@@ -45,19 +54,34 @@ public abstract class AbstractGeoJsonFeatureCollection<F extends AbstractGeoJson
   @JsonProperty
   private P properties = null;
 
-  public AbstractGeoJsonFeatureCollection() {
-  }
-
-  public AbstractGeoJsonFeatureCollection(String id, List<F> features, double[] bbox,
-      P properties) {
-    this.id = id;
-    this.features = features;
-    this.bbox = bbox;
-    this.properties = properties;
+  /**
+   * Instantiates a new abstract geo json feature collection.
+   */
+  protected AbstractGeoJsonFeatureCollection() {
   }
 
   /**
-   * Return the id of this GeoJSON feature or <code>null</code> if there is no id available.
+   * Instantiates a new abstract geo json feature collection.
+   *
+   * @param id the id
+   * @param features the features
+   * @param bbox the bbox
+   * @param properties the properties
+   */
+  protected AbstractGeoJsonFeatureCollection(
+      final String id,
+      final List<F> features,
+      final double[] bbox,
+      final P properties) {
+
+    setId(id);
+    setFeatures(features);
+    setBbox(bbox);
+    setProperties(properties);
+  }
+
+  /**
+   * Return the id of this GeoJSON feature or {@code null} if there is no id available.
    *
    * @return the id of this GeoJSON feature
    */
@@ -74,23 +98,30 @@ public abstract class AbstractGeoJsonFeatureCollection<F extends AbstractGeoJson
     this.id = id;
   }
 
+  /**
+   * Return the features of this collection.
+   *
+   * @return the features of this collection
+   */
   public List<F> getFeatures() {
+    if (features == null) {
+      features = new ArrayList<>();
+    }
     return features;
   }
 
+  /**
+   * Set the faetures of this collection.
+   *
+   * @param features the feature
+   */
   public void setFeatures(List<F> features) {
-    if (features == null) {
-      this.features = new ArrayList<>();
-    } else {
-      this.features = features;
-    }
+    this.features = features;
   }
 
   /**
-   * Return the bounding box of the GeoJSON object or <code>null</code> if there is no such object
-   * (see
-   * <a href="http://geojson.org/geojson-spec.html#bounding-boxes">http://geojson.org/geojson-spec.html#bounding-boxes</a>
-   * ).
+   * Return the bounding box of the GeoJSON object or {@code null} if there is no such object (see
+   * <a href="https://tools.ietf.org/html/rfc7946#section-5">Bounding Box</a>).
    *
    * @return the bounding box
    */
@@ -108,20 +139,21 @@ public abstract class AbstractGeoJsonFeatureCollection<F extends AbstractGeoJson
   }
 
   /**
-   * Return a map of named objects that are associated with this GeoJSON feature.
+   * Return the properties that are associated with this GeoJSON feature collection or {@code null}
+   * if there are no properties.
    *
-   * @return a map of named objects
+   * @return the properties of this feature collection
    */
   public P getProperties() {
     return properties;
   }
 
   /**
-   * Set a map of named objects that are associated with this GeoJSON feature.
-   * <p>
-   * Be aware that each object must be serializable with the Jackson JSON processor.
+   * Set the properties that are associated with this GeoJSON feature collection.
    *
-   * @param properties a map of named objects
+   * <p>Be aware that each object must be serializable with the Jackson JSON processor.
+   *
+   * @param properties the properties of this feature collection
    */
   public void setProperties(final P properties) {
     this.properties = properties;
