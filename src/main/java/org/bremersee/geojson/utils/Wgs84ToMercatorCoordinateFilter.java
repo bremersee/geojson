@@ -32,7 +32,7 @@ public class Wgs84ToMercatorCoordinateFilter implements CoordinateFilter, Serial
 
   private double earthRadiusInMeters = GeometryUtils.EARTH_RADIUS_METERS;
 
-  private boolean removingZ = false;
+  private boolean removingZ = true; // z is deprecated
 
   /**
    * Default constructor.

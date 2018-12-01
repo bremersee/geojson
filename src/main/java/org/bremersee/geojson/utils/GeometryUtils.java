@@ -906,7 +906,7 @@ public abstract class GeometryUtils {
     if (geometry == null) {
       return null;
     }
-    Geometry result = (Geometry) geometry.clone();
+    Geometry result = geometry.copy();
     result.apply(new Wgs84ToMercatorCoordinateFilter(removeZ));
     return result;
   }
@@ -922,7 +922,7 @@ public abstract class GeometryUtils {
     if (geometry == null) {
       return null;
     }
-    Geometry result = (Geometry) geometry.clone();
+    Geometry result = geometry.copy();
     result.apply(new MercatorToWgs84CoordinateFilter(removeZ));
     return result;
   }

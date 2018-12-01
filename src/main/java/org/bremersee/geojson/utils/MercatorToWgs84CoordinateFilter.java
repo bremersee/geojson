@@ -29,7 +29,7 @@ public class MercatorToWgs84CoordinateFilter implements CoordinateFilter {
 
   private double earthRadiusInMeters = GeometryUtils.EARTH_RADIUS_METERS;
 
-  private boolean removingZ = false;
+  private boolean removingZ = true; // z is deprecated
 
   /**
    * Default constructor.
@@ -64,7 +64,8 @@ public class MercatorToWgs84CoordinateFilter implements CoordinateFilter {
    * @param removingZ if {@code true} the z value of the coordinate will be removed otherwise it
    * will be untouched
    */
-  public MercatorToWgs84CoordinateFilter(final double earthRadiusInMeters,
+  public MercatorToWgs84CoordinateFilter(
+      final double earthRadiusInMeters,
       final boolean removingZ) {
     this.earthRadiusInMeters = earthRadiusInMeters;
     this.removingZ = removingZ;
