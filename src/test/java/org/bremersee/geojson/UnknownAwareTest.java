@@ -57,6 +57,7 @@ public class UnknownAwareTest {
     Optional<Map> actualMap = unknown.findUnknown("$.test", Map.class);
     Assert.assertTrue(actualMap.isPresent());
     Assert.assertEquals(expected, actualMap.get());
+    Assert.assertEquals("expected", actualMap.get().get("sub"));
 
     Optional<String> actual = unknown.findUnknown("$.test.sub", String.class);
     Assert.assertTrue(actual.isPresent());
