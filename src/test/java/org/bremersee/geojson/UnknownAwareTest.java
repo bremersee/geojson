@@ -62,6 +62,11 @@ public class UnknownAwareTest {
     Optional<String> actual = unknown.findUnknown("$.test.sub", String.class);
     Assert.assertTrue(actual.isPresent());
     Assert.assertEquals("expected", actual.get());
+
+    Assert.assertFalse(unknown.findUnknown("$.test.foo", Map.class).isPresent());
+    Assert.assertFalse(unknown.findUnknown("$.test.sub.foo", Map.class).isPresent());
+
+    Assert.assertFalse(unknown.findUnknown("$.test", String.class).isPresent());
   }
 
   private static class ConcreteUnknown extends UnknownAware {
