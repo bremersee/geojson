@@ -23,7 +23,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test unkown aware class.
+ * Test unknown aware class.
  *
  * @author Christian Bremer
  */
