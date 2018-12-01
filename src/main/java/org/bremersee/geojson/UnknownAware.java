@@ -21,13 +21,15 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.StringTokenizer;
 
 /**
  * This base class allows to keep unknown json properties.
  *
  * @author Christian Bremer
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 public abstract class UnknownAware {
 
   @JsonIgnore
@@ -69,6 +71,59 @@ public abstract class UnknownAware {
       unknown = new LinkedHashMap<>();
     }
     unknown.put(name, value);
+  }
+
+  /**
+   * Returns {@code true} if there are unknown properties, otherwise {@code false}.
+   *
+   * @return {@code true} if there are unknown properties, otherwise {@code false}
+   */
+  public boolean hasUnknown() {
+    return unknown != null && !unknown.isEmpty();
+  }
+
+  /**
+   * Find a value from the unknown map.
+   *
+   * @param jsonPath the json path, e. g. {@code $.firstKey.secondKey.thirdKey}
+   * @param clazz the expected result class
+   * @param <T> the class type
+   * @return an empty optional if the value was not found or can not be casted, otherwise the value
+   */
+  public <T> Optional<T> findUnknown(final String jsonPath, final Class<T> clazz) {
+    if (!hasUnknown() || !isJsonPath(jsonPath) || clazz == null) {
+      return Optional.empty();
+    }
+    Object value = null;
+    Map<String, Object> tmpUnknown = unknown;
+    final StringTokenizer tokenizer = new StringTokenizer(jsonPath.substring(2), ".");
+    while (tokenizer.hasMoreTokens()) {
+      final String token = tokenizer.nextToken();
+      value = tmpUnknown.get(token);
+      if (value == null) {
+        break;
+      }
+      if ((value instanceof Map) && tokenizer.hasMoreTokens()) {
+        try {
+          //noinspection unchecked
+          tmpUnknown = (Map) value;
+        } catch (Exception e) {
+          return Optional.empty();
+        }
+      }
+    }
+    if (value == null) {
+      return Optional.empty();
+    }
+    try {
+      return Optional.of(clazz.cast(value));
+    } catch (Exception e) {
+      return Optional.empty();
+    }
+  }
+
+  private boolean isJsonPath(final String jsonPath) {
+    return jsonPath != null && jsonPath.startsWith("$.") && jsonPath.length() > 2;
   }
 
 }
