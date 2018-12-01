@@ -16,6 +16,7 @@
 
 package org.bremersee.geojson;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -32,6 +33,12 @@ public class GeoJsonFeature extends AbstractGeoJsonFeature<Geometry, Map<String,
     implements Serializable {
 
   private static final long serialVersionUID = 2L;
+
+  @JsonIgnore
+  private String id;
+
+  @JsonIgnore
+  private Geometry geometry;
 
   /**
    * Default constructor.
@@ -68,6 +75,26 @@ public class GeoJsonFeature extends AbstractGeoJsonFeature<Geometry, Map<String,
   }
 
   @Override
+  public String getId() {
+    return id;
+  }
+
+  @Override
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  @Override
+  public Geometry getGeometry() {
+    return geometry;
+  }
+
+  @Override
+  public void setGeometry(final Geometry geometry) {
+    this.geometry = geometry;
+  }
+
+  @Override
   public Map<String, Object> getProperties() {
     if (super.getProperties() == null) {
       super.setProperties(new LinkedHashMap<>());
@@ -76,7 +103,7 @@ public class GeoJsonFeature extends AbstractGeoJsonFeature<Geometry, Map<String,
   }
 
   @Override
-  boolean equals(final Geometry g1, final Object g2) {
+  protected boolean equals(final Geometry g1, final Object g2) {
     if (g1 == g2) {
       return true;
     } else if (g1 != null && g2 instanceof Geometry) {

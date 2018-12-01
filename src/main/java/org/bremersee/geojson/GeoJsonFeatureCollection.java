@@ -16,6 +16,7 @@
 
 package org.bremersee.geojson;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,6 +39,9 @@ public class GeoJsonFeatureCollection
     implements Serializable {
 
   private static final long serialVersionUID = 2L;
+
+  @JsonProperty
+  private String id = null;
 
   /**
    * Default constructor.
@@ -80,6 +84,16 @@ public class GeoJsonFeatureCollection
     if (properties != null) {
       getProperties().putAll(properties);
     }
+  }
+
+  @Override
+  public String getId() {
+    return id;
+  }
+
+  @Override
+  public void setId(String id) {
+    this.id = id;
   }
 
   @Override

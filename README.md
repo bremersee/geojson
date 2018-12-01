@@ -1,7 +1,9 @@
 # Bremersee GeoJSON
-This project contains Java classes for reading and writing GeoJSON with the Jackson JSON Processor.
+This project contains modules for reading and writing GeoJSON with the Jackson JSON Processor.
 
-The generated maven site is committed to the [gh-pages branch](https://github.com/bremersee/geojson/tree/gh-pages) and visible [here](http://bremersee.github.io/geojson/). There you can find some examples, too.
+The generated maven site is committed to the 
+[gh-pages branch](https://github.com/bremersee/geojson/tree/gh-pages) and visible 
+[here](http://bremersee.github.io/geojson/). There you can find some examples, too.
 
 ## Release 1.1.3
 Release 1.1.3 is build with Java 7 and the Jackson JSON Processor Version 2.8.2

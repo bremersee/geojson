@@ -14,18 +14,11 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson.test;
+package org.bremersee.geojson;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import junit.framework.TestCase;
-import org.bremersee.geojson.AbstractGeoJsonCrs;
-import org.bremersee.geojson.GeoJsonFeature;
-import org.bremersee.geojson.GeoJsonFeatureCollection;
-import org.bremersee.geojson.GeoJsonLinkedCrs;
-import org.bremersee.geojson.GeoJsonNamedCrs;
-import org.bremersee.geojson.GeoJsonObjectMapperModule;
-import org.bremersee.geojson.GeometryWrapper;
 import org.bremersee.geojson.utils.GeometryUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
