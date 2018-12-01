@@ -26,6 +26,7 @@ import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TreeMap;
 
 /**
  * Abstract base class for the coordinate reference system (CRS) of a GeoJSON object.
@@ -89,17 +90,27 @@ public class AbstractGeoJsonCrs implements Serializable {
       return false;
     }
     AbstractGeoJsonCrs that = (AbstractGeoJsonCrs) o;
-    return Objects.equals(properties, that.properties);
+    if (!Objects.equals(type, that.type)) {
+      return false;
+    }
+    if (properties == that.properties) {
+      return true;
+    }
+    if (properties == null || that.properties == null) {
+      return false;
+    }
+    return Objects.equals(new TreeMap<>(properties), new TreeMap<>(that.properties));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(properties);
+    return Objects.hash(type, properties);
   }
 
   @Override
   public String toString() {
     return "AbstractGeoJsonCrs {" +
+        "type=" + type +
         "properties=" + properties +
         '}';
   }

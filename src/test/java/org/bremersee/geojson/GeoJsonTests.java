@@ -309,6 +309,8 @@ public class GeoJsonTests {
         .println(getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(readF));
 
     Assert.assertEquals(f, readF);
+    Assert.assertEquals(f.findUnknown("crs", GeoJsonNamedCrs.class),
+        readF.findUnknown("crs", GeoJsonNamedCrs.class));
   }
 
   @Test
