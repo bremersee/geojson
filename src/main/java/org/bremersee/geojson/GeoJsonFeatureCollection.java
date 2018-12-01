@@ -16,7 +16,7 @@
 
 package org.bremersee.geojson;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,7 +40,7 @@ public class GeoJsonFeatureCollection
 
   private static final long serialVersionUID = 2L;
 
-  @JsonProperty
+  @JsonIgnore
   private String id = null;
 
   /**
