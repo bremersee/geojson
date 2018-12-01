@@ -36,7 +36,7 @@ public class GeoJsonNamedCrs extends AbstractGeoJsonCrs {
    * Default constructor.
    */
   public GeoJsonNamedCrs() {
-    super();
+    super("name");
   }
 
   /**
@@ -45,6 +45,7 @@ public class GeoJsonNamedCrs extends AbstractGeoJsonCrs {
    * @param crsName the name of the coordinate reference system (CRS)
    */
   public GeoJsonNamedCrs(String crsName) {
+    super("name");
     setCrs(crsName);
   }
 

@@ -17,10 +17,10 @@
 package org.bremersee.geojson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -32,10 +32,8 @@ import java.util.Objects;
  * @param <P> the properties type parameter
  * @author Christian Bremer
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true)
-@JsonSubTypes({
-})
-@JsonTypeName("Feature")
+@JsonInclude(Include.NON_EMPTY)
+@JsonPropertyOrder({"type", "id", "bbox", "geometry", "properties"})
 public abstract class AbstractGeoJsonFeature<G, P> extends UnknownAware {
 
   @JsonIgnore
@@ -68,6 +66,16 @@ public abstract class AbstractGeoJsonFeature<G, P> extends UnknownAware {
     setGeometry(geometry);
     setBbox(bbox);
     setProperties(properties);
+  }
+
+  @JsonProperty("type")
+  private String getType() {
+    return "Feature";
+  }
+
+  @JsonProperty("type")
+  private void setType(String type) {
+    // ignored
   }
 
   /**

@@ -52,7 +52,7 @@ public class GeoJsonLinkedCrs extends AbstractGeoJsonCrs {
    * Default constructor.
    */
   public GeoJsonLinkedCrs() {
-    super();
+    super("link");
   }
 
   /**
@@ -61,6 +61,7 @@ public class GeoJsonLinkedCrs extends AbstractGeoJsonCrs {
    * @param href the link to the coordinate reference system (CRS)
    */
   public GeoJsonLinkedCrs(final String href) {
+    super("link");
     setHref(href);
   }
 
@@ -71,6 +72,7 @@ public class GeoJsonLinkedCrs extends AbstractGeoJsonCrs {
    * @param type the type of the coordinate reference system (CRS)
    */
   public GeoJsonLinkedCrs(final String href, final String type) {
+    super("link");
     setHref(href);
     setType(type);
   }

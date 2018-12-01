@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
@@ -36,7 +37,7 @@ import java.util.Objects;
  * @author Christian Bremer
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
-@JsonTypeInfo(use = Id.NAME, property = "type")
+@JsonTypeInfo(use = Id.NAME, property = "type", include = As.EXISTING_PROPERTY)
 @JsonSubTypes({
     @Type(value = GeoJsonLinkedCrs.class, name = "link"),
     @Type(value = GeoJsonNamedCrs.class, name = "name")
@@ -45,8 +46,15 @@ public class AbstractGeoJsonCrs implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  @JsonProperty("type")
+  protected String type;
+
   @JsonProperty(value = "properties")
   private Map<String, Object> properties = new LinkedHashMap<>(); // NOSONAR
+
+  protected AbstractGeoJsonCrs(String type) {
+    this.type = type;
+  }
 
   /**
    * Properties that store information about the coordinate reference system (CRS).
