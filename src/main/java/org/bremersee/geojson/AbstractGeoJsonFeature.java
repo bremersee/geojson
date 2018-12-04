@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.Arrays;
 import java.util.Objects;
+import org.bremersee.plain.model.UnknownAware;
 
 /**
  * A GeoJSON object with the type {@code Feature} (see

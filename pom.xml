@@ -20,6 +20,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <product.vendor>bremersee.org</product.vendor>
     <spring-boot.version>2.1.1.RELEASE</spring-boot.version>
+    <common-model-plain.version>1.0.0-SNAPSHOT</common-model-plain.version>
     <jts.version>1.16.0</jts.version>
   </properties>
 
@@ -81,12 +82,9 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-annotations</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
+      <groupId>org.bremersee</groupId>
+      <artifactId>common-model-plain</artifactId>
+      <version>${common-model-plain.version}</version>
     </dependency>
     <dependency>
       <groupId>org.locationtech.jts</groupId>

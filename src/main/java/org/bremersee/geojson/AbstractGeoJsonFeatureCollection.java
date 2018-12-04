@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import org.bremersee.plain.model.UnknownAware;
 
 /**
  * A GeoJSON object with the type {@code FeatureCollection} is a feature collection object (see
