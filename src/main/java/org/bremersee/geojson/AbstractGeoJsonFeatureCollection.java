@@ -75,12 +75,12 @@ public abstract class AbstractGeoJsonFeatureCollection<F extends AbstractGeoJson
     setProperties(properties);
   }
 
-  @JsonProperty("type")
+  @JsonProperty(value = "type", required = true)
   private String getType() {
     return "FeatureCollection";
   }
 
-  @JsonProperty("type")
+  @JsonProperty(value = "type", required = true)
   private void setType(String type) {
     if (!getType().equalsIgnoreCase(type)) {
       throw new IllegalArgumentException("Type [" + type + "] must be " + getType());

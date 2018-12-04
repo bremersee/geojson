@@ -69,12 +69,12 @@ public abstract class AbstractGeoJsonFeature<G, P> extends UnknownAware {
     setProperties(properties);
   }
 
-  @JsonProperty("type")
+  @JsonProperty(value = "type", required = true)
   private String getType() {
     return "Feature";
   }
 
-  @JsonProperty("type")
+  @JsonProperty(value = "type", required = true)
   private void setType(String type) {
     if (!getType().equalsIgnoreCase(type)) {
       throw new IllegalArgumentException("Type [" + type + "] must be " + getType());
