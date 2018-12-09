@@ -32,8 +32,6 @@ public class Wgs84ToMercatorCoordinateFilter implements CoordinateFilter, Serial
 
   private double earthRadiusInMeters = GeometryUtils.EARTH_RADIUS_METERS;
 
-  private boolean removingZ = true; // z is deprecated
-
   /**
    * Default constructor.
    */
@@ -48,29 +46,6 @@ public class Wgs84ToMercatorCoordinateFilter implements CoordinateFilter, Serial
    */
   public Wgs84ToMercatorCoordinateFilter(final double earthRadiusInMeters) {
     this.earthRadiusInMeters = earthRadiusInMeters;
-  }
-
-  /**
-   * Constructs a coordinate filter with the specified flag for removing the z value.
-   *
-   * @param removingZ if {@code true} the z value of the coordinate will be removed otherwise it
-   * will be untouched
-   */
-  public Wgs84ToMercatorCoordinateFilter(final boolean removingZ) {
-    this.removingZ = removingZ;
-  }
-
-  /**
-   * Constructs a coordinate filter with the specified values.
-   *
-   * @param earthRadiusInMeters the earth radius in meters
-   * @param removingZ if {@code true} the z value of the coordinate will be removed otherwise it
-   * will be untouched
-   */
-  public Wgs84ToMercatorCoordinateFilter(final double earthRadiusInMeters,
-      final boolean removingZ) {
-    this.earthRadiusInMeters = earthRadiusInMeters;
-    this.removingZ = removingZ;
   }
 
   /**
@@ -91,21 +66,6 @@ public class Wgs84ToMercatorCoordinateFilter implements CoordinateFilter, Serial
     this.earthRadiusInMeters = earthRadiusInMeters;
   }
 
-  /**
-   * @return {@code true} if the z value of the coordinate will be removed otherwise {@code false}
-   */
-  public boolean isRemovingZ() {
-    return removingZ;
-  }
-
-  /**
-   * @param removingZ if {@code true} the z value of the coordinate will be removed otherwise it
-   * will be untouched
-   */
-  public void setRemovingZ(final boolean removingZ) {
-    this.removingZ = removingZ;
-  }
-
   @Override
   public void filter(final Coordinate coord) {
 
@@ -121,9 +81,6 @@ public class Wgs84ToMercatorCoordinateFilter implements CoordinateFilter, Serial
         }
         coord.y = Math.log(Math.tan(Math.PI / 4 + Math.toRadians(coord.y) / 2))
             * getEarthRadiusInMeters();
-      }
-      if (removingZ) {
-        coord.z = Double.NaN;
       }
     }
   }

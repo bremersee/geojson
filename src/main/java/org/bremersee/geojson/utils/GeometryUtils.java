@@ -185,37 +185,6 @@ public abstract class GeometryUtils {
   }
 
   /**
-   * Calculates the dimension of the specified geometry.
-   *
-   * <p>Because some geometry objects (e. g. {@link Polygon#getDimension()} return a static value,
-   * this method is used in {@link GeometryUtils#getBoundingBox(Geometry)}.
-   *
-   * @param geometry the geometry
-   * @return <code>null</code> if the dimension can not be calculated,
-   * otherwise the dimension of the geometry
-   */
-  public static Integer getDimension(final Geometry geometry) {
-    if (geometry == null) {
-      return null;
-    }
-    Coordinate[] coords = geometry.getCoordinates();
-    if (coords == null || coords.length == 0) {
-      return null;
-    }
-    int maxDim = -1;
-    for (Coordinate c : coords) {
-      if (maxDim < 2 && !Double.isNaN(c.z)) {
-        maxDim = 2;
-      } else if (maxDim < 1 && !Double.isNaN(c.y)) {
-        maxDim = 1;
-      } else if (maxDim < 0 && !Double.isNaN(c.x)) {
-        maxDim = 0;
-      }
-    }
-    return maxDim > -1 ? maxDim : null;
-  }
-
-  /**
    * Calculate the bounding box of the specified geometry (see
    * <a href="https://tools.ietf.org/html/rfc7946#section-5">bounding-boxes</a>).
    *
@@ -227,11 +196,7 @@ public abstract class GeometryUtils {
     if (geometry == null) {
       return null;
     }
-    // geometry.getDimension() = 0 || 1 || 2 (Polygon has always a dimension = 2)
-    Integer dimension = getDimension(geometry);
-    if (dimension == null) {
-      return null;
-    }
+    final int dimension = 2;
     double[] values = new double[2 * (dimension + 1)];
     Coordinate[] coords = geometry.getCoordinates();
     if (coords == null || coords.length == 0) {
@@ -898,16 +863,14 @@ public abstract class GeometryUtils {
    * Transforms the coordinates of the given geometry from WGS84 into mercator.
    *
    * @param geometry the geometry
-   * @param removeZ remove z value flag
    * @return the transformed (cloned) geometry
    */
-  public static Geometry transformWgs84ToMercator(final Geometry geometry,
-      @SuppressWarnings("SameParameterValue") final boolean removeZ) {
+  public static Geometry transformWgs84ToMercator(final Geometry geometry) {
     if (geometry == null) {
       return null;
     }
     Geometry result = geometry.copy();
-    result.apply(new Wgs84ToMercatorCoordinateFilter(removeZ));
+    result.apply(new Wgs84ToMercatorCoordinateFilter());
     return result;
   }
 
@@ -915,15 +878,14 @@ public abstract class GeometryUtils {
    * Transforms the coordinates of the given geometry from mercator into WGS84.
    *
    * @param geometry the geometry
-   * @param removeZ remove z value flag
    * @return the transformed (cloned) geometry
    */
-  public static Geometry transformMercatorToWgs84(final Geometry geometry, final boolean removeZ) {
+  public static Geometry transformMercatorToWgs84(final Geometry geometry) {
     if (geometry == null) {
       return null;
     }
     Geometry result = geometry.copy();
-    result.apply(new MercatorToWgs84CoordinateFilter(removeZ));
+    result.apply(new MercatorToWgs84CoordinateFilter());
     return result;
   }
 
