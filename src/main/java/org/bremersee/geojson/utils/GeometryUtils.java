@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
@@ -479,7 +480,7 @@ public abstract class GeometryUtils {
    * @return the coordinate
    */
   public static Coordinate createCoordinate(final double x, final double y) {
-    return createCoordinate(x, y, null);
+    return new Coordinate(x, y);
   }
 
   /**
@@ -487,11 +488,17 @@ public abstract class GeometryUtils {
    *
    * @param x the x value
    * @param y the y value
-   * @param z the z value
    * @return the coordinate
+   * @throws IllegalArgumentException if x or y is {@code null}
    */
-  public static Coordinate createCoordinate(final double x, final double y, final Double z) {
-    return z == null || z.isNaN() ? new Coordinate(x, y) : new Coordinate(x, y, z);
+  public static Coordinate createCoordinate(final BigDecimal x, final BigDecimal y) {
+    if (x == null) {
+      throw new IllegalArgumentException("X must not be null.");
+    }
+    if (y == null) {
+      throw new IllegalArgumentException("Y must not be null.");
+    }
+    return new Coordinate(x.doubleValue(), y.doubleValue());
   }
 
   /**
@@ -502,7 +509,7 @@ public abstract class GeometryUtils {
    * @return the point
    */
   public static Point createPoint(final double x, final double y) {
-    return createPoint(x, y, null, null);
+    return createPoint(createCoordinate(x, y), null);
   }
 
   /**
@@ -515,7 +522,7 @@ public abstract class GeometryUtils {
    */
   public static Point createPoint(final double x, final double y,
       final GeometryFactory geometryFactory) {
-    return createPoint(x, y, null, geometryFactory);
+    return createPoint(createCoordinate(x, y), geometryFactory);
   }
 
   /**
@@ -523,11 +530,10 @@ public abstract class GeometryUtils {
    *
    * @param x the x value
    * @param y the y value
-   * @param z the z value
    * @return the point
    */
-  public static Point createPoint(final double x, final double y, final Double z) {
-    return createPoint(x, y, z, null);
+  public static Point createPoint(final BigDecimal x, final BigDecimal y) {
+    return createPoint(createCoordinate(x, y), null);
   }
 
   /**
@@ -535,15 +541,12 @@ public abstract class GeometryUtils {
    *
    * @param x the x value
    * @param y the y value
-   * @param z the z value
    * @param geometryFactory the geometry factory to use
    * @return the point
    */
-  public static Point createPoint(final double x, final double y, final Double z,
+  public static Point createPoint(final BigDecimal x, final BigDecimal y,
       final GeometryFactory geometryFactory) {
-    Coordinate coordinate = createCoordinate(x, y, z);
-    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;
-    return gf.createPoint(coordinate);
+    return createPoint(createCoordinate(x, y), geometryFactory);
   }
 
   /**
@@ -555,7 +558,19 @@ public abstract class GeometryUtils {
    * @return the point
    */
   public static Point createPointWGS84(final double latitude, final double longitude) {
-    return createPoint(longitude, latitude, null, null);
+    return createPoint(longitude, latitude, null);
+  }
+
+  /**
+   * Creates a point from WGS84 latitude and longitude.<br> Latitude becomes the y-value.<br>
+   * Longitude becomes the x-value.<br>
+   *
+   * @param latitude the latitude in degrees
+   * @param longitude the longitude in degrees
+   * @return the point
+   */
+  public static Point createPointWGS84(final BigDecimal latitude, final BigDecimal longitude) {
+    return createPoint(longitude, latitude, null);
   }
 
   /**
@@ -569,41 +584,21 @@ public abstract class GeometryUtils {
    */
   public static Point createPointWGS84(final double latitude, final double longitude,
       final GeometryFactory geometryFactory) {
-    return createPoint(longitude, latitude, null, geometryFactory);
+    return createPoint(longitude, latitude, geometryFactory);
   }
 
   /**
-   * Creates a point from WGS84 latitude, longitude and optional altitude.
-   *
-   * <p>Latitude becomes the y-value.<br> Longitude becomes the x-value.<br> Altitude becomes the
-   * z-value.
+   * Creates a point from WGS84 latitude and longitude.<br> Latitude becomes the y-value.<br>
+   * Longitude becomes the x-value.<br>
    *
    * @param latitude the latitude in degrees
    * @param longitude the longitude in degrees
-   * @param altitude the altitude
-   * @return the point
-   */
-  public static Point createPointWGS84(final double latitude, final double longitude,
-      final Double altitude) {
-    return createPoint(longitude, latitude, altitude);
-  }
-
-  /**
-   * Creates a point from WGS84 latitude, longitude and optional altitude.
-   *
-   * <p>Latitude becomes the y-value.<br> Longitude becomes the x-value.<br> Altitude becomes the
-   * z-value.
-   *
-   * @param latitude the latitude in degrees
-   * @param longitude the longitude in degrees
-   * @param altitude the altitude
    * @param geometryFactory the geometry factory to use
    * @return the point
    */
-  public static Point createPointWGS84(final double latitude, final double longitude,
-      final Double altitude,
-      GeometryFactory geometryFactory) {
-    return createPoint(longitude, latitude, altitude, geometryFactory);
+  public static Point createPointWGS84(final BigDecimal latitude, final BigDecimal longitude,
+      final GeometryFactory geometryFactory) {
+    return createPoint(longitude, latitude, geometryFactory);
   }
 
   /**
