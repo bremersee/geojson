@@ -104,8 +104,6 @@ public class ConvertHelper implements Serializable {
         (!coordinates.isEmpty()) ? toPrimitiveDoubleValue(coordinates.get(0)) : Double.NaN;
     coordinate.y =
         (coordinates.size() > 1) ? toPrimitiveDoubleValue(coordinates.get(1)) : Double.NaN;
-    coordinate.z =
-        (coordinates.size() > 2) ? toPrimitiveDoubleValue(coordinates.get(2)) : Double.NaN;
     return coordinate;
   }
 
@@ -359,10 +357,6 @@ public class ConvertHelper implements Serializable {
     final double dy = coordinate.y;
     list.add(round(dy));
 
-    if (!Double.isNaN(coordinate.z)) {
-      final double dz = coordinate.z;
-      list.add(round(dz));
-    }
     return list;
   }
 
