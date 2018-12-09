@@ -502,6 +502,36 @@ public abstract class GeometryUtils {
   }
 
   /**
+   * Creates a coordinate.
+   *
+   * @param latitude the latitude value
+   * @param longitude the longitude value
+   * @return the coordinate
+   */
+  public static Coordinate createCoordinateWGS84(final double latitude, final double longitude) {
+    return new Coordinate(longitude, latitude);
+  }
+
+  /**
+   * Creates a coordinate.
+   *
+   * @param latitude the latitude value
+   * @param longitude the longitude value
+   * @return the coordinate
+   * @throws IllegalArgumentException if latitude or longitude is {@code null}
+   */
+  public static Coordinate createCoordinateWGS84(
+      final BigDecimal latitude, final BigDecimal longitude) {
+    if (latitude == null) {
+      throw new IllegalArgumentException("Latitude must not be null.");
+    }
+    if (longitude == null) {
+      throw new IllegalArgumentException("Longitude must not be null.");
+    }
+    return new Coordinate(longitude.doubleValue(), latitude.doubleValue());
+  }
+
+  /**
    * Creates a point.
    *
    * @param x the x value
