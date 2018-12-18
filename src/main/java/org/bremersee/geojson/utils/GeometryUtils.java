@@ -295,6 +295,47 @@ public abstract class GeometryUtils {
   }
 
   /**
+   * Returns a polygon from the bounding box.
+   *
+   * @param boundingBox the bounding bos
+   * @return the polygon or {@code null} if the bounding box is {@code null} or empty
+   */
+  public static Polygon getBoundingBoxAsPolygon2D(final double[] boundingBox) {
+    return getBoundingBoxAsPolygon2D(boundingBox, null);
+  }
+
+  /**
+   * Returns a polygon from the bounding box.
+   *
+   * @param boundingBox the bounding bos
+   * @param geometryFactory the geometry factory
+   * @return the polygon or {@code null} if the bounding box is {@code null} or empty
+   */
+  public static Polygon getBoundingBoxAsPolygon2D(final double[] boundingBox,
+      final GeometryFactory geometryFactory) {
+    final Coordinate sw = getSouthWest(boundingBox);
+    final Coordinate se = getSouthEast(boundingBox);
+    final Coordinate ne = getNorthEast(boundingBox);
+    final Coordinate nw = getNorthWest(boundingBox);
+    if (sw == null || se == null || ne == null || nw == null) {
+      return null;
+    }
+    float x1 = (float) sw.getX();
+    float x2 = (float) se.getX();
+    if (x1 == x2) {
+      return null;
+    }
+    float y1 = (float) sw.getY();
+    float y2 = (float) nw.getY();
+    if (y1 == y2) {
+      return null;
+    }
+    return createPolygon(
+        createLinearRing(Arrays.asList(sw, se, ne, nw, sw), geometryFactory),
+        geometryFactory);
+  }
+
+  /**
    * Returns the bounding box of the geometry as polygon.
    *
    * @param geometry the geometry
