@@ -3,7 +3,7 @@
 This project contains modules for reading and writing GeoJSON with the Jackson JSON Processor.
 The GeoJSON format is specified in [rfc7946](https://tools.ietf.org/html/rfc7946).
 
-- [Documentation](https://nexus.bremersee.org/repository/maven-sites/geojson/index.html)
+- [Documentation](https://nexus.bremersee.org/repository/maven-sites/geojson/2.0.0-SNAPSHOT/index.html)
 
 ### Maven
 
