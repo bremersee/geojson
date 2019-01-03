@@ -51,6 +51,12 @@ import org.locationtech.jts.io.WKTReader;
 @SuppressWarnings({"unused", "WeakerAccess"})
 public abstract class GeometryUtils {
 
+  /**
+   * The entry point of application.
+   *
+   * @param args the input arguments
+   * @throws Exception the exception
+   */
   public static void main(String[] args) throws Exception {
     ObjectMapper om = new ObjectMapper();
     om = om.registerModule(new GeoJsonObjectMapperModule());
@@ -134,8 +140,7 @@ public abstract class GeometryUtils {
    *
    * @param g1 one geometry
    * @param g2 another geometry
-   * @return <code>true</code> if the geometries are equal otherwise
-   * <code>false</code>
+   * @return <code>true</code> if the geometries are equal otherwise <code>false</code>
    */
   public static boolean equals(final Geometry g1, final Geometry g2) { // NOSONAR
     if (g1 == null && g2 == null) {
@@ -190,8 +195,8 @@ public abstract class GeometryUtils {
    * <a href="https://tools.ietf.org/html/rfc7946#section-5">bounding-boxes</a>).
    *
    * @param geometry the geometry
-   * @return <code>null</code> if the bounding box can not be calculated,
-   * otherwise the bounding box of the geometry
+   * @return <code>null</code> if the bounding box can not be calculated, otherwise the bounding box
+   * of the geometry
    */
   public static double[] getBoundingBox(final Geometry geometry) {
     if (geometry == null) {

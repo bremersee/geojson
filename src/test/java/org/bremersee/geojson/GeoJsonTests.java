@@ -55,6 +55,9 @@ public class GeoJsonTests {
     return objectMapper;
   }
 
+  /**
+   * Init class.
+   */
   @BeforeClass
   public static void initClass() {
     getObjectMapper().registerModule(new GeoJsonObjectMapperModule(getGeometryFactory()));
@@ -119,6 +122,11 @@ public class GeoJsonTests {
     return new MultiPolygon(polygons, getGeometryFactory());
   }
 
+  /**
+   * Test point.
+   *
+   * @throws Exception the exception
+   */
   @Test
   public void testPoint() throws Exception {
     Point geometry = createPoint();
@@ -137,6 +145,11 @@ public class GeoJsonTests {
     Assert.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
   }
 
+  /**
+   * Test line string.
+   *
+   * @throws Exception the exception
+   */
   @Test
   public void testLineString() throws Exception {
     LineString geometry = createLineString();
@@ -155,6 +168,11 @@ public class GeoJsonTests {
     Assert.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
   }
 
+  /**
+   * Test polygon.
+   *
+   * @throws Exception the exception
+   */
   @Test
   public void testPolygon() throws Exception {
     Polygon geometry = createPolygon();
@@ -173,6 +191,11 @@ public class GeoJsonTests {
     Assert.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
   }
 
+  /**
+   * Test polygon with holes.
+   *
+   * @throws Exception the exception
+   */
   @Test
   public void testPolygonWithHoles() throws Exception {
     Polygon geometry = createPolygonWithHoles();
@@ -191,6 +214,11 @@ public class GeoJsonTests {
     Assert.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
   }
 
+  /**
+   * Test multi point.
+   *
+   * @throws Exception the exception
+   */
   @Test
   public void testMultiPoint() throws Exception {
     MultiPoint geometry = createMultiPoint();
@@ -209,6 +237,11 @@ public class GeoJsonTests {
     Assert.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
   }
 
+  /**
+   * Test multi line string.
+   *
+   * @throws Exception the exception
+   */
   @Test
   public void testMultiLineString() throws Exception {
     MultiLineString geometry = createMultiLineString();
@@ -227,6 +260,11 @@ public class GeoJsonTests {
     Assert.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
   }
 
+  /**
+   * Test multi polygon.
+   *
+   * @throws Exception the exception
+   */
   @Test
   public void testMultiPolygon() throws Exception {
     MultiPolygon geometry = createMultiPolygon();
@@ -245,6 +283,11 @@ public class GeoJsonTests {
     Assert.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
   }
 
+  /**
+   * Test geometry collection.
+   *
+   * @throws Exception the exception
+   */
   @Test
   public void testGeometryCollection() throws Exception {
     GeometryCollection geometry = new GeometryCollection(
@@ -265,6 +308,11 @@ public class GeoJsonTests {
     Assert.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
   }
 
+  /**
+   * Test geo json linked crs.
+   *
+   * @throws Exception the exception
+   */
   @Test
   public void testGeoJsonLinkedCrs() throws Exception {
     GeoJsonLinkedCrs crs = new GeoJsonLinkedCrs("http://example.com/crs/42", "proj4");
@@ -275,6 +323,11 @@ public class GeoJsonTests {
     Assert.assertEquals(crs, readCrs);
   }
 
+  /**
+   * Test geo json named crs.
+   *
+   * @throws Exception the exception
+   */
   @Test
   public void testGeoJsonNamedCrs() throws Exception {
     GeoJsonNamedCrs crs = new GeoJsonNamedCrs("urn:ogc:def:crs:OGC:1.3:CRS84");
@@ -285,6 +338,11 @@ public class GeoJsonTests {
     Assert.assertEquals(crs, readCrs);
   }
 
+  /**
+   * Test geo json feature.
+   *
+   * @throws Exception the exception
+   */
   @Test
   public void testGeoJsonFeature() throws Exception {
     GeometryCollection geometry = new GeometryCollection(
@@ -313,6 +371,11 @@ public class GeoJsonTests {
         readF.findUnknown("crs", GeoJsonNamedCrs.class));
   }
 
+  /**
+   * Test geo json feature collection.
+   *
+   * @throws Exception the exception
+   */
   @Test
   public void testGeoJsonFeatureCollection() throws Exception {
     GeometryCollection geometry = new GeometryCollection(
@@ -354,6 +417,11 @@ public class GeoJsonTests {
     Assert.assertEquals(fc, readFc);
   }
 
+  /**
+   * Test abstract geo json crs.
+   *
+   * @throws Exception the exception
+   */
   @Test
   public void testAbstractGeoJsonCrs() throws Exception {
     System.out.println("Testing AbstractGeoJsonCrs...");

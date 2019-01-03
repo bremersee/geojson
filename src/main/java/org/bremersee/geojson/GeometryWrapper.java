@@ -69,6 +69,24 @@ public class GeometryWrapper implements Serializable, Cloneable {
     setGeometry(geometry);
   }
 
+  /**
+   * Gets the geometry.
+   *
+   * @return the geometry
+   */
+  public Geometry getGeometry() {
+    return geometry;
+  }
+
+  /**
+   * Sets the geometry.
+   *
+   * @param geometry the geometry
+   */
+  public void setGeometry(final Geometry geometry) {
+    this.geometry = geometry;
+  }
+
   @Override
   public String toString() {
     return "GeoJsonGeometry [geometry=" + geometry + "]";
@@ -103,30 +121,12 @@ public class GeometryWrapper implements Serializable, Cloneable {
 
   @SuppressWarnings("MethodDoesntCallSuperMethod")
   @Override
-  public GeometryWrapper clone() { // NOSONAR
+  public GeometryWrapper clone() {
     if (geometry == null) {
       return new GeometryWrapper();
     } else {
-      return new GeometryWrapper((Geometry) geometry.clone());
+      return new GeometryWrapper(geometry.copy());
     }
-  }
-
-  /**
-   * Gets the geometry.
-   *
-   * @return the geometry
-   */
-  public Geometry getGeometry() {
-    return geometry;
-  }
-
-  /**
-   * Sets the geometry.
-   *
-   * @param geometry the geometry
-   */
-  public void setGeometry(final Geometry geometry) {
-    this.geometry = geometry;
   }
 
   /**

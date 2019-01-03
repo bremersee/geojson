@@ -17,6 +17,8 @@
 package org.bremersee.geojson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -84,11 +86,13 @@ public class GeoJsonFeature extends AbstractGeoJsonFeature<Geometry, Map<String,
     this.id = id;
   }
 
+  @JsonSerialize(using = GeometrySerializer.class)
   @Override
   public Geometry getGeometry() {
     return geometry;
   }
 
+  @JsonDeserialize(using = GeometryDeserializer.class)
   @Override
   public void setGeometry(final Geometry geometry) {
     this.geometry = geometry;

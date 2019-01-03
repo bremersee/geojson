@@ -77,7 +77,7 @@ public class ConvertHelper implements Serializable {
    *
    * @param geometryFactory the geometry factory
    */
-  public ConvertHelper(GeometryFactory geometryFactory) {
+  public ConvertHelper(final GeometryFactory geometryFactory) {
     this.geometryFactory = geometryFactory != null ? geometryFactory : new GeometryFactory();
   }
 
@@ -92,10 +92,13 @@ public class ConvertHelper implements Serializable {
   }
 
   private double toPrimitiveDoubleValue(Object value) {
-    if (!(value instanceof Number)) {
+    if (value == null) {
       throw new IllegalArgumentException("Argument must be a Number.");
     }
-    return ((Number) value).doubleValue();
+    if (value instanceof Number) {
+      return ((Number) value).doubleValue();
+    }
+    return new BigDecimal(String.valueOf(value)).doubleValue();
   }
 
   private Coordinate createCoordinate(final List<Object> coordinates) {
@@ -135,7 +138,7 @@ public class ConvertHelper implements Serializable {
    * @param coordinates the coordinates
    * @return the line string
    */
-  public LineString createLineString(final List<Object> coordinates) { // List<List<Double>>
+  public LineString createLineString(final List<Object> coordinates) {
     return getGeometryFactory().createLineString(createCoordinates(coordinates));
   }
 
@@ -145,7 +148,7 @@ public class ConvertHelper implements Serializable {
    * @param coordinates the coordinates
    * @return the polygon
    */
-  public Polygon createPolygon(final List<Object> coordinates) { // List<List<List<Double>>>
+  public Polygon createPolygon(final List<Object> coordinates) {
     List<Coordinate[]> list = new ArrayList<>();
     for (Object obj : coordinates) {
       @SuppressWarnings("unchecked")

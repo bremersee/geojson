@@ -47,12 +47,20 @@ public class AbstractGeoJsonCrs implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  /**
+   * The Type.
+   */
   @JsonProperty("type")
   protected String type;
 
   @JsonProperty(value = "properties")
   private Map<String, Object> properties = new LinkedHashMap<>(); // NOSONAR
 
+  /**
+   * Instantiates a new abstract geo json crs.
+   *
+   * @param type the type
+   */
   protected AbstractGeoJsonCrs(String type) {
     this.type = type;
   }
