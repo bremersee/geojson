@@ -89,7 +89,7 @@ public class GeoJsonLinkedCrs extends AbstractGeoJsonCrs {
   }
 
   /**
-   * Set the link to the coordinate reference system (CRS)
+   * Set the link to the coordinate reference system (CRS).
    *
    * @param href the link to the coordinate reference system (CRS)
    */
@@ -103,7 +103,7 @@ public class GeoJsonLinkedCrs extends AbstractGeoJsonCrs {
   }
 
   /**
-   * Return the type of the coordinate reference system (CRS)
+   * Return the type of the coordinate reference system (CRS).
    *
    * @return the type of the coordinate reference system (CRS)
    */
@@ -114,7 +114,7 @@ public class GeoJsonLinkedCrs extends AbstractGeoJsonCrs {
   }
 
   /**
-   * Set the type of the coordinate reference system (CRS)
+   * Set the type of the coordinate reference system (CRS).
    *
    * @param type the type of the coordinate reference system (CRS)
    */

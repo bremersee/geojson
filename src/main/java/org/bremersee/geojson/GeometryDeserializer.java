@@ -150,7 +150,7 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
   /**
    * Creates a geometry by type and coordinates.
    *
-   * @param type the geometry type
+   * @param type        the geometry type
    * @param coordinates the coordinates of the geometry
    * @return the created geometry
    */

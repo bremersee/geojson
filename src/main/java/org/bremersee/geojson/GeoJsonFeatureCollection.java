@@ -53,12 +53,12 @@ public class GeoJsonFeatureCollection
   /**
    * Constructs a GeoJSON feature collection with the specified parameters.
    *
-   * @param id an optional id
-   * @param features the GeoJSON features of the collection
+   * @param id              an optional id
+   * @param features        the GeoJSON features of the collection
    * @param calculateBounds if <code>true</code> the bounding box will be calculated otherwise the
-   * bounding box will be <code>null</code>
-   * @param properties a map with named objects that are associated with the GeoJSON feature
-   * collection
+   *                        bounding box will be <code>null</code>
+   * @param properties      a map with named objects that are associated with the GeoJSON feature
+   *                        collection
    */
   public GeoJsonFeatureCollection(
       final String id,

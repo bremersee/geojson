@@ -52,9 +52,9 @@ public abstract class AbstractGeoJsonFeature<G, P> extends UnknownAware {
   /**
    * Instantiates a new abstract geo json feature.
    *
-   * @param id the id
-   * @param geometry the geometry
-   * @param bbox the bbox
+   * @param id         the id
+   * @param geometry   the geometry
+   * @param bbox       the bbox
    * @param properties the properties
    */
   protected AbstractGeoJsonFeature(
@@ -160,12 +160,12 @@ public abstract class AbstractGeoJsonFeature<G, P> extends UnknownAware {
 
   @Override
   public String toString() {
-    return "GeoJsonFeature {" +
-        "id='" + getId() + '\'' +
-        ", geometry=" + getGeometry() +
-        ", bbox=" + Arrays.toString(getBbox()) +
-        ", properties=" + getProperties() +
-        '}';
+    return "GeoJsonFeature {"
+        + "id='" + getId() + '\''
+        + ", geometry=" + getGeometry()
+        + ", bbox=" + Arrays.toString(getBbox())
+        + ", properties=" + getProperties()
+        + '}';
   }
 
   @Override
@@ -184,10 +184,10 @@ public abstract class AbstractGeoJsonFeature<G, P> extends UnknownAware {
       return false;
     }
     AbstractGeoJsonFeature<?, ?> that = (AbstractGeoJsonFeature<?, ?>) o;
-    return Objects.equals(getId(), that.getId()) &&
-        equals(getGeometry(), that.getGeometry()) &&
-        Arrays.equals(getBbox(), that.getBbox()) &&
-        Objects.equals(getProperties(), that.getProperties());
+    return Objects.equals(getId(), that.getId())
+        && equals(getGeometry(), that.getGeometry())
+        && Arrays.equals(getBbox(), that.getBbox())
+        && Objects.equals(getProperties(), that.getProperties());
   }
 
   /**

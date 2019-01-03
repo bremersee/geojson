@@ -52,11 +52,11 @@ public class GeoJsonFeature extends AbstractGeoJsonFeature<Geometry, Map<String,
   /**
    * Constructs a GeoJSON feature with the specified parameters.
    *
-   * @param id an optional id
-   * @param geometry the geometry of the GeoJson feature
+   * @param id              an optional id
+   * @param geometry        the geometry of the GeoJson feature
    * @param calculateBounds if {@code true} the bounding box will be calculated otherwise the
-   * bounding box will be {@code null}
-   * @param properties a map with named objects that are associated with the GeoJSON feature
+   *                        bounding box will be {@code null}
+   * @param properties      a map with named objects that are associated with the GeoJSON feature
    */
   public GeoJsonFeature(
       final String id,

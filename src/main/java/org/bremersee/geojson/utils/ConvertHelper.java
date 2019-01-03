@@ -104,13 +104,13 @@ public class ConvertHelper implements Serializable {
   private Coordinate createCoordinate(final List<Object> coordinates) {
     Coordinate coordinate = new Coordinate();
     coordinate.x =
-        (!coordinates.isEmpty()) ? toPrimitiveDoubleValue(coordinates.get(0)) : Double.NaN;
+        !coordinates.isEmpty() ? toPrimitiveDoubleValue(coordinates.get(0)) : Double.NaN;
     coordinate.y =
-        (coordinates.size() > 1) ? toPrimitiveDoubleValue(coordinates.get(1)) : Double.NaN;
+        coordinates.size() > 1 ? toPrimitiveDoubleValue(coordinates.get(1)) : Double.NaN;
     return coordinate;
   }
 
-  private Coordinate[] createCoordinates(final List<Object> coordinates) {
+  private Coordinate[] coordinatesToArray(final List<Object> coordinates) {
     Coordinate[] coords = new Coordinate[coordinates.size()];
     int i = 0;
     for (Object obj : coordinates) {
@@ -139,7 +139,7 @@ public class ConvertHelper implements Serializable {
    * @return the line string
    */
   public LineString createLineString(final List<Object> coordinates) {
-    return getGeometryFactory().createLineString(createCoordinates(coordinates));
+    return getGeometryFactory().createLineString(coordinatesToArray(coordinates));
   }
 
   /**
@@ -153,7 +153,7 @@ public class ConvertHelper implements Serializable {
     for (Object obj : coordinates) {
       @SuppressWarnings("unchecked")
       List<Object> coords = (List<Object>) obj;
-      list.add(createCoordinates(coords));
+      list.add(coordinatesToArray(coords));
     }
     if (list.size() == 1) {
       return getGeometryFactory().createPolygon(list.get(0));
@@ -246,31 +246,31 @@ public class ConvertHelper implements Serializable {
    */
   public Map<String, Object> create(final Geometry geometry) {
     if (geometry instanceof Point) {
-      return createPoint((Point) geometry);
+      return pointToJsonMap((Point) geometry);
     }
 
     if (geometry instanceof LineString) {
-      return createLine((LineString) geometry);
+      return lineToJsonMap((LineString) geometry);
     }
 
     if (geometry instanceof Polygon) {
-      return createPolygon((Polygon) geometry);
+      return polygonToJsonMap((Polygon) geometry);
     }
 
     if (geometry instanceof MultiPoint) {
-      return createMultiPoint((MultiPoint) geometry);
+      return multiPointToJsonMap((MultiPoint) geometry);
     }
 
     if (geometry instanceof MultiLineString) {
-      return createMultiLine((MultiLineString) geometry);
+      return multiLineToJsonMap((MultiLineString) geometry);
     }
 
     if (geometry instanceof MultiPolygon) {
-      return createMultiPolygon((MultiPolygon) geometry);
+      return multiPolygonToJsonMap((MultiPolygon) geometry);
     }
 
     if (geometry instanceof GeometryCollection) {
-      return createGeometryCollection((GeometryCollection) geometry);
+      return geometryCollectionToJsonMap((GeometryCollection) geometry);
     }
 
     throw new IllegalArgumentException("Geometry [" + geometry + "] is unsupported. It must be "
@@ -278,56 +278,57 @@ public class ConvertHelper implements Serializable {
         + "or GeometryCollection.");
   }
 
-  private Map<String, Object> createPoint(final Point point) {
+  private Map<String, Object> pointToJsonMap(final Point point) {
     LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
     map.put(TYPE_ATTRIBUTE_NAME, "Point");
-    map.put(COORDINATES_ATTRIBUTE_NAME, createCoordinates(point.getCoordinate()));
+    map.put(COORDINATES_ATTRIBUTE_NAME, coordinateToList(point.getCoordinate()));
     return map;
   }
 
-  private Map<String, Object> createLine(final LineString line) {
+  private Map<String, Object> lineToJsonMap(final LineString line) {
     LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
     map.put(TYPE_ATTRIBUTE_NAME, "LineString");
-    map.put(COORDINATES_ATTRIBUTE_NAME, createCoordinates(line.getCoordinateSequence()));
+    map.put(COORDINATES_ATTRIBUTE_NAME, coordinatesToList(line.getCoordinateSequence()));
     return map;
   }
 
-  private Map<String, Object> createPolygon(final Polygon polygon) {
+  private Map<String, Object> polygonToJsonMap(final Polygon polygon) {
     LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
     map.put(TYPE_ATTRIBUTE_NAME, "Polygon");
-    map.put(COORDINATES_ATTRIBUTE_NAME, createCoordinates(polygon));
+    map.put(COORDINATES_ATTRIBUTE_NAME, polygonToList(polygon));
     return map;
   }
 
-  private Map<String, Object> createMultiPoint(final MultiPoint multiPoint) {
+  private Map<String, Object> multiPointToJsonMap(final MultiPoint multiPoint) {
     LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
     map.put(TYPE_ATTRIBUTE_NAME, "MultiPoint");
-    map.put(COORDINATES_ATTRIBUTE_NAME, createCoordinates(multiPoint));
+    map.put(COORDINATES_ATTRIBUTE_NAME, geometryCollectionToList(multiPoint));
     return map;
   }
 
-  private Map<String, Object> createMultiLine(final MultiLineString multiLine) {
+  private Map<String, Object> multiLineToJsonMap(final MultiLineString multiLine) {
     LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
     map.put(TYPE_ATTRIBUTE_NAME, "MultiLineString");
-    map.put(COORDINATES_ATTRIBUTE_NAME, createCoordinates(multiLine));
+    map.put(COORDINATES_ATTRIBUTE_NAME, geometryCollectionToList(multiLine));
     return map;
   }
 
-  private Map<String, Object> createMultiPolygon(final MultiPolygon multiPolygon) {
+  private Map<String, Object> multiPolygonToJsonMap(final MultiPolygon multiPolygon) {
     LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
     map.put(TYPE_ATTRIBUTE_NAME, "MultiPolygon");
-    map.put(COORDINATES_ATTRIBUTE_NAME, createCoordinates(multiPolygon));
+    map.put(COORDINATES_ATTRIBUTE_NAME, geometryCollectionToList(multiPolygon));
     return map;
   }
 
-  private Map<String, Object> createGeometryCollection(
+  private Map<String, Object> geometryCollectionToJsonMap(
       final GeometryCollection geometryColllection) {
+
     LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
     List<Map<String, Object>> geometries = new ArrayList<>(geometryColllection.getNumGeometries());
@@ -348,7 +349,7 @@ public class ConvertHelper implements Serializable {
     return new BigDecimal(strValue).doubleValue();
   }
 
-  private List<Object> createCoordinates(final Coordinate coordinate) {
+  private List<Object> coordinateToList(final Coordinate coordinate) {
     if (coordinate == null) {
       return Collections.emptyList();
     }
@@ -363,36 +364,36 @@ public class ConvertHelper implements Serializable {
     return list;
   }
 
-  private List<List<Object>> createCoordinates(final CoordinateSequence coordinateSequence) {
+  private List<List<Object>> coordinatesToList(final CoordinateSequence coordinateSequence) {
     if (coordinateSequence == null || coordinateSequence.size() == 0) {
       return Collections.emptyList();
     }
     List<List<Object>> list = new ArrayList<>(coordinateSequence.size());
     for (int n = 0; n < coordinateSequence.size(); n++) {
-      list.add(createCoordinates(coordinateSequence.getCoordinate(n)));
+      list.add(coordinateToList(coordinateSequence.getCoordinate(n)));
     }
     return list;
   }
 
-  private List<List<List<Object>>> createCoordinates(final Polygon polygon) {
+  private List<List<List<Object>>> polygonToList(final Polygon polygon) {
     List<List<List<Object>>> list = new ArrayList<>();
-    list.add(createCoordinates(polygon.getExteriorRing().getCoordinateSequence()));
+    list.add(coordinatesToList(polygon.getExteriorRing().getCoordinateSequence()));
     for (int i = 0; i < polygon.getNumInteriorRing(); i++) {
-      list.add(createCoordinates(polygon.getInteriorRingN(i).getCoordinateSequence()));
+      list.add(coordinatesToList(polygon.getInteriorRingN(i).getCoordinateSequence()));
     }
     return list;
   }
 
-  private List<Object> createCoordinates(final GeometryCollection geometryCollection) {
+  private List<Object> geometryCollectionToList(final GeometryCollection geometryCollection) {
     List<Object> list = new ArrayList<>(geometryCollection.getNumGeometries());
     for (int i = 0; i < geometryCollection.getNumGeometries(); i++) {
       Geometry g = geometryCollection.getGeometryN(i);
       if (g instanceof Polygon) {
-        list.add(createCoordinates((Polygon) g));
+        list.add(polygonToList((Polygon) g));
       } else if (g instanceof LineString) {
-        list.add(createCoordinates(((LineString) g).getCoordinateSequence()));
+        list.add(coordinatesToList(((LineString) g).getCoordinateSequence()));
       } else if (g instanceof Point) {
-        list.add(createCoordinates((g).getCoordinate()));
+        list.add(coordinateToList(g.getCoordinate()));
       }
     }
     return list;

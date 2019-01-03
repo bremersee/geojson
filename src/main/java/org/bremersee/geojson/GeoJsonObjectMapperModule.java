@@ -37,7 +37,7 @@ import org.locationtech.jts.geom.Polygon;
 
 /**
  * A Jackson JSON processor module that provides the processing (serialization and deserialization)
- * of the following types:
+ * of the following types.
  * <ul>
  * <li>{@link Geometry}</li>
  * <li>{@link Point}</li>
@@ -84,7 +84,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
   /**
    * Registers this module to the object mapper.
    *
-   * @param objectMapper the object mapper
+   * @param objectMapper    the object mapper
    * @param geometryFactory the geometry factory
    */
   public static void configure(final ObjectMapper objectMapper,

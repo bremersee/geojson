@@ -58,9 +58,9 @@ public abstract class AbstractGeoJsonFeatureCollection<F extends AbstractGeoJson
   /**
    * Instantiates a new abstract geo json feature collection.
    *
-   * @param id the id
-   * @param features the features
-   * @param bbox the bbox
+   * @param id         the id
+   * @param features   the features
+   * @param bbox       the bbox
    * @param properties the properties
    */
   protected AbstractGeoJsonFeatureCollection(
@@ -180,10 +180,10 @@ public abstract class AbstractGeoJsonFeatureCollection<F extends AbstractGeoJson
       return false;
     }
     AbstractGeoJsonFeatureCollection that = (AbstractGeoJsonFeatureCollection) o;
-    return Arrays.equals(getBbox(), that.getBbox()) &&
-        Objects.equals(getProperties(), that.getProperties()) &&
-        Objects.equals(getId(), that.getId()) &&
-        Objects.equals(getFeatures(), that.getFeatures());
+    return Arrays.equals(getBbox(), that.getBbox())
+        && Objects.equals(getProperties(), that.getProperties())
+        && Objects.equals(getId(), that.getId())
+        && Objects.equals(getFeatures(), that.getFeatures());
   }
 
   @Override
@@ -195,11 +195,11 @@ public abstract class AbstractGeoJsonFeatureCollection<F extends AbstractGeoJson
 
   @Override
   public String toString() {
-    return "GeoJsonFeatureCollection {" +
-        "id='" + getId() + '\'' +
-        ", features=" + getFeatures() +
-        ", bbox=" + Arrays.toString(getBbox()) +
-        ", properties=" + getProperties() +
-        '}';
+    return "GeoJsonFeatureCollection {"
+        + "id='" + getId() + '\''
+        + ", features=" + getFeatures()
+        + ", bbox=" + Arrays.toString(getBbox())
+        + ", properties=" + getProperties()
+        + '}';
   }
 }
