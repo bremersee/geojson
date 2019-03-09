@@ -22,7 +22,6 @@
     <product.vendor>bremersee.org</product.vendor>
     <inceptionYear>2019</inceptionYear>
 
-    <spring-boot.version>2.1.1.RELEASE</spring-boot.version>
     <common-model-plain.version>1.0.0-SNAPSHOT</common-model-plain.version>
     <jts.version>1.16.0</jts.version>
 
@@ -113,18 +112,6 @@
     </repository>
   </repositories>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-dependencies</artifactId>
-        <version>${spring-boot.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
   <dependencies>
     <dependency>
       <groupId>org.bremersee</groupId>
@@ -140,6 +127,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
