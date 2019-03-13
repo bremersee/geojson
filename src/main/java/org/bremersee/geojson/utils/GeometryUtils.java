@@ -578,6 +578,32 @@ public abstract class GeometryUtils {
   }
 
   /**
+   * Gets latitude value of WGS84.
+   *
+   * @param coordinate the coordinate
+   * @return the latitude
+   */
+  public static double getLatitudeWGS84(Coordinate coordinate) {
+    if (coordinate == null) {
+      throw new IllegalArgumentException("Coordinate must not be null.");
+    }
+    return coordinate.getY();
+  }
+
+  /**
+   * Gets longitude value of WGS84.
+   *
+   * @param coordinate the coordinate
+   * @return the longitude
+   */
+  public static double getLongitudeWGS84(final Coordinate coordinate) {
+    if (coordinate == null) {
+      throw new IllegalArgumentException("Coordinate must not be null.");
+    }
+    return coordinate.getX();
+  }
+
+  /**
    * Creates a point.
    *
    * @param x the x value
