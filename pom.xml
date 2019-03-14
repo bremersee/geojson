@@ -30,7 +30,7 @@
     <wagon-ssh-external.version>3.0.0</wagon-ssh-external.version>
 
     <check-style-location>google_checks.xml</check-style-location>
-    <checkstyle.version>8.15</checkstyle.version>
+    <checkstyle.version>8.18</checkstyle.version>
   </properties>
 
   <developers>
