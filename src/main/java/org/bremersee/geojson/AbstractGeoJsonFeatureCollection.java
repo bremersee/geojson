@@ -37,6 +37,7 @@ import org.bremersee.plain.model.UnknownAware;
  */
 @JsonInclude(Include.NON_EMPTY)
 @JsonPropertyOrder({"type", "id", "bbox", "features", "properties"})
+@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class AbstractGeoJsonFeatureCollection<F extends AbstractGeoJsonFeature, P>
     extends UnknownAware {
 
@@ -133,7 +134,6 @@ public abstract class AbstractGeoJsonFeatureCollection<F extends AbstractGeoJson
    * @return the bounding box
    */
   @JsonProperty("bbox")
-  @SuppressWarnings("WeakerAccess")
   public double[] getBbox() {
     return bbox;
   }

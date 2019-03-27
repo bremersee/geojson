@@ -35,6 +35,7 @@ import org.bremersee.plain.model.UnknownAware;
  */
 @JsonInclude(Include.NON_EMPTY)
 @JsonPropertyOrder({"type", "id", "bbox", "geometry", "properties"})
+@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class AbstractGeoJsonFeature<G, P> extends UnknownAware {
 
   @JsonIgnore
