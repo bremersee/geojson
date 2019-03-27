@@ -16,7 +16,6 @@
 
 package org.bremersee.geojson.utils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -25,8 +24,6 @@ import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
-import org.bremersee.geojson.GeoJsonFeature;
-import org.bremersee.geojson.GeoJsonObjectMapperModule;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateSequence;
 import org.locationtech.jts.geom.Geometry;
@@ -50,23 +47,6 @@ import org.locationtech.jts.io.WKTReader;
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public abstract class GeometryUtils {
-
-  /**
-   * The entry point of application.
-   *
-   * @param args the input arguments
-   * @throws Exception the exception
-   */
-  public static void main(String[] args) throws Exception {
-    ObjectMapper om = new ObjectMapper();
-    om = om.registerModule(new GeoJsonObjectMapperModule());
-    GeoJsonFeature f = new GeoJsonFeature();
-    f.setId("Hallo");
-    String json = om.writerWithDefaultPrettyPrinter().writeValueAsString(f);
-    System.out.println(json);
-
-    GeoJsonFeature fn = om.readValue(json, GeoJsonFeature.class);
-  }
 
   /**
    * Never construct.
