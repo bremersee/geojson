@@ -652,6 +652,30 @@ public abstract class GeometryUtils {
   }
 
   /**
+   * Creates a Point using the given Coordinate; a null Coordinate will create an empty Geometry.
+   *
+   * @param coordinate the coordinate of the point
+   * @return the point
+   */
+  public static Point createPoint(final Coordinate coordinate) {
+    return createPoint(coordinate, null);
+  }
+
+  /**
+   * Creates a Point using the given Coordinate; a null Coordinate will create an empty Geometry.
+   *
+   * @param coordinate      the coordinate of the point
+   * @param geometryFactory the geometry factory to use
+   * @return the point
+   */
+  @SuppressWarnings("SameParameterValue")
+  public static Point createPoint(final Coordinate coordinate,
+      final GeometryFactory geometryFactory) {
+    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;
+    return gf.createPoint(coordinate);
+  }
+
+  /**
    * Creates a point from WGS84 latitude and longitude.<br> Latitude becomes the y-value.<br>
    * Longitude becomes the x-value.<br>
    *
@@ -701,30 +725,6 @@ public abstract class GeometryUtils {
   public static Point createPointWGS84(final BigDecimal latitude, final BigDecimal longitude,
       final GeometryFactory geometryFactory) {
     return createPoint(longitude, latitude, geometryFactory);
-  }
-
-  /**
-   * Creates a Point using the given Coordinate; a null Coordinate will create an empty Geometry.
-   *
-   * @param coordinate the coordinate of the point
-   * @return the point
-   */
-  public static Point createPoint(final Coordinate coordinate) {
-    return createPoint(coordinate, null);
-  }
-
-  /**
-   * Creates a Point using the given Coordinate; a null Coordinate will create an empty Geometry.
-   *
-   * @param coordinate      the coordinate of the point
-   * @param geometryFactory the geometry factory to use
-   * @return the point
-   */
-  @SuppressWarnings("SameParameterValue")
-  public static Point createPoint(final Coordinate coordinate,
-      final GeometryFactory geometryFactory) {
-    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;
-    return gf.createPoint(coordinate);
   }
 
   /**
