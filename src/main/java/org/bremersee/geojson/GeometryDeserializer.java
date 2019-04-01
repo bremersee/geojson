@@ -57,7 +57,7 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
   }
 
   @Override
-  public Geometry deserialize(final JsonParser jp, final DeserializationContext ctxt) //NOSONAR
+  public Geometry deserialize(final JsonParser jp, final DeserializationContext ctxt)
       throws IOException {
 
     String type = null;
@@ -154,7 +154,7 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
    * @param coordinates the coordinates of the geometry
    * @return the created geometry
    */
-  private Geometry createGeometry(final String type, final List<Object> coordinates) { // NOSONAR
+  private Geometry createGeometry(final String type, final List<Object> coordinates) {
     if ("Point".equals(type)) {
       return convertHelper.createPoint(coordinates);
     }
