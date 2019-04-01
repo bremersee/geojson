@@ -17,10 +17,11 @@
 package org.bremersee.geojson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.Arrays;
 import java.util.Objects;
 import org.bremersee.plain.model.UnknownAware;
@@ -33,8 +34,11 @@ import org.bremersee.plain.model.UnknownAware;
  * @param <P> the properties type parameter
  * @author Christian Bremer
  */
-@JsonInclude(Include.NON_EMPTY)
-@JsonPropertyOrder({"type", "id", "bbox", "geometry", "properties"})
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true)
+@JsonSubTypes({
+})
+@JsonTypeName("Feature")
+@JsonPropertyOrder({"id", "bbox", "geometry", "properties"})
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class AbstractGeoJsonFeature<G, P> extends UnknownAware {
 
@@ -68,18 +72,6 @@ public abstract class AbstractGeoJsonFeature<G, P> extends UnknownAware {
     setGeometry(geometry);
     setBbox(bbox);
     setProperties(properties);
-  }
-
-  @JsonProperty(value = "type", required = true)
-  private String getType() {
-    return "Feature";
-  }
-
-  @JsonProperty(value = "type", required = true)
-  private void setType(String type) {
-    if (!getType().equalsIgnoreCase(type)) {
-      throw new IllegalArgumentException("Type [" + type + "] must be " + getType());
-    }
   }
 
   /**

@@ -398,9 +398,7 @@ public class GeoJsonTests {
     ArrayList<GeoJsonFeature> features = new ArrayList<>();
     features.add(f1);
     features.add(f2);
-    GeoJsonFeatureCollection fc = new GeoJsonFeatureCollection("200", features, true, null);
-
-    fc.getProperties().put("fcKey", "fcValue");
+    GeoJsonFeatureCollection fc = new GeoJsonFeatureCollection(features, true);
 
     System.out.println("Testing " + fc);
 
@@ -430,6 +428,41 @@ public class GeoJsonTests {
     System.out.println(jsonStr);
     AbstractGeoJsonCrs crs = getObjectMapper().readValue(jsonStr, AbstractGeoJsonCrs.class);
     Assert.assertEquals(named, crs);
+  }
+
+  /**
+   * Test bounding box.
+   */
+  @Test
+  public void testBoundingBox() {
+    //noinspection ConstantConditions
+    double[] actual = GeometryUtils.getBoundingBox((Geometry) null);
+    //noinspection ConstantConditions
+    Assert.assertNull(actual);
+
+    Point point = createPoint(0.1, 0.2);
+    actual = GeometryUtils.getBoundingBox(point);
+    Assert.assertNotNull(actual);
+    Assert.assertEquals(4, actual.length);
+    Assert.assertArrayEquals(new double[]{0.1, 0.2, 0.1, 0.2}, actual, 0.);
+
+    point = GeometryUtils.createPoint(new Coordinate(0.1, 0.2, 0.3));
+    actual = GeometryUtils.getBoundingBox(point);
+    Assert.assertNotNull(actual);
+    Assert.assertEquals(6, actual.length);
+    Assert.assertArrayEquals(new double[]{0.1, 0.2, 0.3, 0.1, 0.2, 0.3}, actual, 0.);
+
+    LineString lineString = (LineString) GeometryUtils.fromWKT("LINESTRING (3 2, 0.1 5.5)");
+    actual = GeometryUtils.getBoundingBox(lineString);
+    Assert.assertNotNull(actual);
+    Assert.assertEquals(4, actual.length);
+    Assert.assertArrayEquals(new double[]{0.1, 2., 3., 5.5}, actual, 0.);
+
+    lineString = (LineString) GeometryUtils.fromWKT("LINESTRING (3 2 4, 0.1 5.5 1)");
+    actual = GeometryUtils.getBoundingBox(lineString);
+    Assert.assertNotNull(actual);
+    Assert.assertEquals(6, actual.length);
+    Assert.assertArrayEquals(new double[]{0.1, 2., 1., 3., 5.5, 4.}, actual, 0.);
   }
 
 }

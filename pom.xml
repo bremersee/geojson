@@ -22,7 +22,7 @@
     <product.vendor>bremersee.org</product.vendor>
     <inceptionYear>2019</inceptionYear>
 
-    <common-model-plain.version>1.0.0-SNAPSHOT</common-model-plain.version>
+    <common-model.version>1.0.0-SNAPSHOT</common-model.version>
     <jts.version>1.16.0</jts.version>
 
     <plantuml.version>1.2018.11</plantuml.version>
@@ -116,7 +116,7 @@
     <dependency>
       <groupId>org.bremersee</groupId>
       <artifactId>common-model-plain</artifactId>
-      <version>${common-model-plain.version}</version>
+      <version>${common-model.version}</version>
     </dependency>
     <dependency>
       <groupId>org.locationtech.jts</groupId>

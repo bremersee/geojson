@@ -17,10 +17,11 @@
 package org.bremersee.geojson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,23 +33,22 @@ import org.bremersee.plain.model.UnknownAware;
  * <a href="https://tools.ietf.org/html/rfc7946#section-3.3">rfc7946 section 3.3</a>).
  *
  * @param <F> the feature type parameter
- * @param <P> the properties type parameter
  * @author Christian Bremer
  */
-@JsonInclude(Include.NON_EMPTY)
-@JsonPropertyOrder({"type", "id", "bbox", "features", "properties"})
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true)
+@JsonSubTypes({
+})
+@JsonTypeName("FeatureCollection")
+@JsonPropertyOrder({"bbox", "features"})
 @SuppressWarnings({"WeakerAccess", "unused"})
-public abstract class AbstractGeoJsonFeatureCollection<F extends AbstractGeoJsonFeature, P>
+public abstract class AbstractGeoJsonFeatureCollection<F extends AbstractGeoJsonFeature>
     extends UnknownAware {
 
   @JsonIgnore
-  private double[] bbox = null;
+  private double[] bbox;
 
   @JsonIgnore
   private List<F> features;
-
-  @JsonIgnore
-  private P properties = null;
 
   /**
    * Instantiates a new abstract geo json feature collection.
@@ -59,50 +59,16 @@ public abstract class AbstractGeoJsonFeatureCollection<F extends AbstractGeoJson
   /**
    * Instantiates a new abstract geo json feature collection.
    *
-   * @param id         the id
-   * @param features   the features
-   * @param bbox       the bbox
-   * @param properties the properties
+   * @param features the features
+   * @param bbox     the bbox
    */
   protected AbstractGeoJsonFeatureCollection(
-      final String id,
       final List<F> features,
-      final double[] bbox,
-      final P properties) {
+      final double[] bbox) {
 
-    setId(id);
     setFeatures(features);
     setBbox(bbox);
-    setProperties(properties);
   }
-
-  @JsonProperty(value = "type", required = true)
-  private String getType() {
-    return "FeatureCollection";
-  }
-
-  @JsonProperty(value = "type", required = true)
-  private void setType(String type) {
-    if (!getType().equalsIgnoreCase(type)) {
-      throw new IllegalArgumentException("Type [" + type + "] must be " + getType());
-    }
-  }
-
-  /**
-   * Return the id of this GeoJSON feature or {@code null} if there is no id available.
-   *
-   * @return the id of this GeoJSON feature
-   */
-  @JsonProperty("id")
-  public abstract String getId();
-
-  /**
-   * Set the id of this GeoJSON feature.
-   *
-   * @param id the id of this GeoJSON feature
-   */
-  @JsonProperty("id")
-  public abstract void setId(String id);
 
   /**
    * Return the features of this collection.
@@ -148,29 +114,6 @@ public abstract class AbstractGeoJsonFeatureCollection<F extends AbstractGeoJson
     this.bbox = bbox;
   }
 
-  /**
-   * Return the properties that are associated with this GeoJSON feature collection or {@code null}
-   * if there are no properties.
-   *
-   * @return the properties of this feature collection
-   */
-  @JsonProperty("properties")
-  public P getProperties() {
-    return properties;
-  }
-
-  /**
-   * Set the properties that are associated with this GeoJSON feature collection.
-   *
-   * <p>Be aware that each object must be serializable with the Jackson JSON processor.
-   *
-   * @param properties the properties of this feature collection
-   */
-  @JsonProperty("properties")
-  public void setProperties(final P properties) {
-    this.properties = properties;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -181,14 +124,12 @@ public abstract class AbstractGeoJsonFeatureCollection<F extends AbstractGeoJson
     }
     AbstractGeoJsonFeatureCollection that = (AbstractGeoJsonFeatureCollection) o;
     return Arrays.equals(getBbox(), that.getBbox())
-        && Objects.equals(getProperties(), that.getProperties())
-        && Objects.equals(getId(), that.getId())
         && Objects.equals(getFeatures(), that.getFeatures());
   }
 
   @Override
   public int hashCode() {
-    int result = Objects.hash(getProperties(), getId(), getFeatures());
+    int result = Objects.hash(getFeatures());
     result = 31 * result + Arrays.hashCode(getBbox());
     return result;
   }
@@ -196,10 +137,8 @@ public abstract class AbstractGeoJsonFeatureCollection<F extends AbstractGeoJson
   @Override
   public String toString() {
     return "GeoJsonFeatureCollection {"
-        + "id='" + getId() + '\''
         + ", features=" + getFeatures()
         + ", bbox=" + Arrays.toString(getBbox())
-        + ", properties=" + getProperties()
         + '}';
   }
 }

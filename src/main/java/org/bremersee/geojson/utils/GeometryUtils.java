@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateSequence;
 import org.locationtech.jts.geom.Geometry;
@@ -174,33 +175,85 @@ public abstract class GeometryUtils {
    * Calculate the bounding box of the specified geometry (see
    * <a href="https://tools.ietf.org/html/rfc7946#section-5">bounding-boxes</a>).
    *
+   * A GeoJSON object MAY have a member named "bbox" to include information on the coordinate range
+   * for its Geometries, Features, or FeatureCollections.  The value of the bbox member MUST be an
+   * array of length 2*n where n is the number of dimensions represented in thecontained geometries,
+   * with all axes of the most southwesterly point followed by all axes of the more northeasterly
+   * point. The axes order of a bbox follows the axes order of geometries.
+   *
    * @param geometry the geometry
-   * @return <code>null</code> if the bounding box can not be calculated, otherwise the bounding box
-   * of the geometry
+   * @return {@code null} if the bounding box can not be calculated, otherwise the bounding box
    */
   public static double[] getBoundingBox(final Geometry geometry) {
     if (geometry == null) {
       return null;
     }
-    final int dimension = 2;
-    double[] values = new double[2 * (dimension + 1)];
-    Coordinate[] coords = geometry.getCoordinates();
-    if (coords == null || coords.length == 0) {
+    return getBoundingBox(Collections.singletonList(geometry));
+  }
+
+  /**
+   * Calculate the bounding box of the specified geometries.
+   *
+   * @param geometries the geometries
+   * @return {@code null} if the bounding box can not be calculated, otherwise the bounding box
+   */
+  public static double[] getBoundingBox(final Collection<? extends Geometry> geometries) {
+    if (geometries == null
+        || geometries.isEmpty()) {
       return null;
     }
-    Coordinate c0 = coords[0];
-    for (int dim = 0; dim <= dimension; dim++) {
-      values[dim] = c0.getOrdinate(dim);
-      values[dim + dimension + 1] = c0.getOrdinate(dim);
-    }
-    for (int i = 1; i < coords.length; i++) {
-      for (int dim = 0; dim <= dimension; dim++) {
-        double value = coords[i].getOrdinate(dim);
-        values[dim] = Math.min(value, values[dim]);
-        values[dim + dimension + 1] = Math.max(value, values[dim + dimension + 1]);
+    double minX = Double.NaN;
+    double minY = Double.NaN;
+    double minZ = Double.NaN;
+    double maxX = Double.NaN;
+    double maxY = Double.NaN;
+    double maxZ = Double.NaN;
+    for (final Geometry geometry : geometries) {
+      if (geometry != null && geometry.getCoordinates() != null) {
+        final Coordinate[] coords = geometry.getCoordinates();
+        //noinspection ForLoopReplaceableByForEach
+        for (int i = 0; i < coords.length; i++) {
+          if (Double.isNaN(minX)) {
+            minX = coords[i].getX();
+          } else if (!Double.isNaN(coords[i].getX())) {
+            minX = Math.min(minX, coords[i].getX());
+          }
+          if (Double.isNaN(minY)) {
+            minY = coords[i].getY();
+          } else if (!Double.isNaN(coords[i].getY())) {
+            minY = Math.min(minY, coords[i].getY());
+          }
+          if (Double.isNaN(minZ)) {
+            minZ = coords[i].getZ();
+          } else if (!Double.isNaN(coords[i].getZ())) {
+            minZ = Math.min(minZ, coords[i].getZ());
+          }
+
+          if (Double.isNaN(maxX)) {
+            maxX = coords[i].getX();
+          } else if (!Double.isNaN(coords[i].getX())) {
+            maxX = Math.max(maxX, coords[i].getX());
+          }
+          if (Double.isNaN(maxY)) {
+            maxY = coords[i].getY();
+          } else if (!Double.isNaN(coords[i].getY())) {
+            maxY = Math.max(maxY, coords[i].getY());
+          }
+          if (Double.isNaN(maxZ)) {
+            maxZ = coords[i].getZ();
+          } else if (!Double.isNaN(coords[i].getZ())) {
+            maxZ = Math.max(maxZ, coords[i].getZ());
+          }
+        }
       }
     }
-    return values;
+    if (!Double.isNaN(minX) && !Double.isNaN(maxX) && !Double.isNaN(minY) && !Double.isNaN(maxY)) {
+      if (!Double.isNaN(minZ) && !Double.isNaN(maxZ)) {
+        return new double[]{minX, minY, minZ, maxX, maxY, maxZ};
+      }
+      return new double[]{minX, minY, maxX, maxY};
+    }
+    return null;
   }
 
   /**
