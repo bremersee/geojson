@@ -34,7 +34,7 @@ import org.bremersee.plain.model.UnknownAware;
  * @param <P> the properties type parameter
  * @author Christian Bremer
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
 })
 @JsonTypeName("Feature")

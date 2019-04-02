@@ -19,6 +19,7 @@ package org.bremersee.geojson;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -39,6 +40,7 @@ public class GeoJsonFeature extends AbstractGeoJsonFeature<Geometry, Map<String,
   @JsonIgnore
   private String id;
 
+  @ApiModelProperty(dataType = "org.bremersee.geojson.model.Geometry")
   @JsonIgnore
   private Geometry geometry;
 

@@ -17,7 +17,13 @@
 package org.bremersee.geojson;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.TimeZone;
 import org.bremersee.geojson.utils.GeometryUtils;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -60,7 +66,15 @@ public class GeoJsonTests {
    */
   @BeforeClass
   public static void initClass() {
-    getObjectMapper().registerModule(new GeoJsonObjectMapperModule(getGeometryFactory()));
+    getObjectMapper().registerModules(
+        new Jdk8Module(),
+        new JavaTimeModule(),
+        new GeoJsonObjectMapperModule(getGeometryFactory()));
+    getObjectMapper().disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    getObjectMapper().enable(SerializationFeature.WRITE_DATES_WITH_ZONE_ID);
+    getObjectMapper().setDateFormat(new StdDateFormat());
+    getObjectMapper().setTimeZone(TimeZone.getTimeZone("GMT"));
+    getObjectMapper().setLocale(Locale.GERMANY);
   }
 
   private static LineString createLineString(Coordinate[] coordinates) {

@@ -37,33 +37,18 @@ import java.util.TreeMap;
  *
  * @author Christian Bremer
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
-@JsonTypeInfo(use = Id.NAME, property = "type", include = As.EXISTING_PROPERTY)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
     @Type(value = GeoJsonLinkedCrs.class, name = "link"),
     @Type(value = GeoJsonNamedCrs.class, name = "name")
 })
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class AbstractGeoJsonCrs implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  /**
-   * The type.
-   */
-  @JsonProperty("type")
-  protected String type;
-
   @JsonProperty(value = "properties")
   private Map<String, Object> properties = new LinkedHashMap<>();
-
-  /**
-   * Instantiates a new abstract geo json crs.
-   *
-   * @param type the type
-   */
-  protected AbstractGeoJsonCrs(String type) {
-    this.type = type;
-  }
 
   /**
    * Properties that store information about the coordinate reference system (CRS).
@@ -97,9 +82,6 @@ public class AbstractGeoJsonCrs implements Serializable {
       return false;
     }
     AbstractGeoJsonCrs that = (AbstractGeoJsonCrs) o;
-    if (!Objects.equals(type, that.type)) {
-      return false;
-    }
     if (properties == that.properties) {
       return true;
     }
@@ -111,13 +93,12 @@ public class AbstractGeoJsonCrs implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, properties);
+    return Objects.hash(properties);
   }
 
   @Override
   public String toString() {
-    return "AbstractGeoJsonCrs {"
-        + "type=" + type
+    return getClass().getSimpleName() + " {"
         + "properties=" + properties
         + '}';
   }
