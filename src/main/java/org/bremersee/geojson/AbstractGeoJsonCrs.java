@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -47,6 +48,7 @@ public class AbstractGeoJsonCrs implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  @ApiModelProperty
   @JsonProperty(value = "properties")
   private Map<String, Object> properties = new LinkedHashMap<>();
 

@@ -40,7 +40,6 @@ public class GeoJsonFeature extends AbstractGeoJsonFeature<Geometry, Map<String,
   @JsonIgnore
   private String id;
 
-  @ApiModelProperty(dataType = "org.bremersee.geojson.model.Geometry")
   @JsonIgnore
   private Geometry geometry;
 
@@ -88,12 +87,14 @@ public class GeoJsonFeature extends AbstractGeoJsonFeature<Geometry, Map<String,
     this.id = id;
   }
 
+  @ApiModelProperty(value = "GeoJSON", dataType = "org.bremersee.geojson.model.Geometry")
   @JsonSerialize(using = GeometrySerializer.class)
   @Override
   public Geometry getGeometry() {
     return geometry;
   }
 
+  @ApiModelProperty(value = "GeoJSON", dataType = "org.bremersee.geojson.model.Geometry")
   @JsonDeserialize(using = GeometryDeserializer.class)
   @Override
   public void setGeometry(final Geometry geometry) {
