@@ -108,7 +108,6 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
 
     String version = GeoJsonObjectMapperModule.class.getPackage().getImplementationVersion();
     if (version != null) {
-      // version = 1.1.0-SNAPSHOT
       try {
         int i = version.indexOf('-');
         if (i < 0) {
@@ -121,7 +120,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
           patchLevel = Integer.parseInt(a[2]);
         }
 
-      } catch (@SuppressWarnings("SingleStatementInBlock") RuntimeException e) { //NOSONAR
+      } catch (RuntimeException e) {
         major = defaultMajor;
         minor = defaultMinor;
         patchLevel = defaultPatchLevel;
