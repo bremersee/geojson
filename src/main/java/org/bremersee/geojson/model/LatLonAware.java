@@ -74,6 +74,30 @@ public interface LatLonAware {
   }
 
   /**
+   * To comma separated latitude longitude string.
+   *
+   * @return the string
+   */
+  default String toLatLonString() {
+    if (hasValues()) {
+      return getLatitude().toPlainString() + "," + getLongitude().toPlainString();
+    }
+    return "";
+  }
+
+  /**
+   * To comma separated longitude latitude string.
+   *
+   * @return the string
+   */
+  default String toLonLatString() {
+    if (hasValues()) {
+      return getLongitude().toPlainString() + "," + getLatitude().toPlainString();
+    }
+    return "";
+  }
+
+  /**
    * Builder builder.
    *
    * @return the builder
