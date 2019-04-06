@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import org.bremersee.plain.model.UnknownAware;
@@ -63,10 +64,13 @@ public abstract class AbstractGeoJsonFeatureCollection<F extends AbstractGeoJson
    * @param bbox     the bbox
    */
   protected AbstractGeoJsonFeatureCollection(
-      final List<F> features,
+      final Collection<? extends F> features,
       final double[] bbox) {
 
-    setFeatures(features);
+    if (features != null) {
+      this.features = new ArrayList<>();
+      this.features.addAll(features);
+    }
     setBbox(bbox);
   }
 
