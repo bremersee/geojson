@@ -17,6 +17,8 @@
 package org.bremersee.geojson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -79,6 +81,7 @@ public abstract class AbstractGeoJsonFeature<G, P> extends UnknownAware {
    *
    * @return the id of this GeoJSON feature
    */
+  @JsonInclude(Include.NON_NULL)
   @JsonProperty("id")
   public abstract String getId();
 
@@ -112,6 +115,7 @@ public abstract class AbstractGeoJsonFeature<G, P> extends UnknownAware {
    *
    * @return the bounding box
    */
+  @JsonInclude(Include.NON_EMPTY)
   @JsonProperty("bbox")
   @SuppressWarnings("WeakerAccess")
   public double[] getBbox() {
@@ -134,6 +138,7 @@ public abstract class AbstractGeoJsonFeature<G, P> extends UnknownAware {
    *
    * @return the properties of this feature
    */
+  @JsonInclude(Include.NON_EMPTY)
   @JsonProperty("properties")
   public P getProperties() {
     return properties;
