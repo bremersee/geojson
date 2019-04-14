@@ -129,7 +129,12 @@ public abstract class AbstractGeoJsonFeature<G, P> extends UnknownAware {
    */
   @JsonProperty("bbox")
   public void setBbox(double[] bbox) {
-    this.bbox = bbox;
+    if (bbox == null || bbox.length == 4 || bbox.length == 6) {
+      this.bbox = bbox;
+    } else {
+      throw new IllegalArgumentException(
+          "Bounding box must be null or must have a length of four or six.");
+    }
   }
 
   /**
