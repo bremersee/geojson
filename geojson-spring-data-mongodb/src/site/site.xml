@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/DECORATION/1.8.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/DECORATION/1.8.0 http://maven.apache.org/xsd/decoration-1.8.0.xsd"
-	name="GeoJSON parent"
+	name="GeoJSON for Spring Data MongoDB"
 	combine.self="override">
 	<skin>
 		<groupId>org.apache.maven.skins</groupId>
@@ -43,7 +43,9 @@
         <item name="Maven" href="https://maven.apache.org"/>
     </links>
     -->
-		<menu ref="modules"/>
+		<menu name="Parent">
+			<item name="${project.parent.artifactId}" href="../index.html" />
+		</menu>
 		<menu ref="reports"/>
 		<footer><![CDATA[<p>&copy;${project.inceptionYear} ${project.organization.name}</p>]]></footer>
 	</body>

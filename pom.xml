@@ -3,62 +3,32 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.bremersee</groupId>
-  <artifactId>bremersee-geojson</artifactId>
-  <version>2.0.0-SNAPSHOT</version>
-  <!-- Change version in GeoJsonObjectMapperModule, too. -->
+  <parent>
+    <groupId>org.bremersee</groupId>
+    <artifactId>common-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath/>
+  </parent>
 
-  <name>Bremersee GeoJSON</name>
+  <artifactId>bremersee-geojson-parent</artifactId>
+  <version>2.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>Bremersee GeoJSON Parent Module</name>
   <description>
-    This project contains classes for reading and writing GeoJSON with the Jackson JSON Processor.
+    This project contains modules for reading and writing GeoJSON.
   </description>
   <url>http://bremersee.github.io/geojson/</url>
 
+  <modules>
+    <module>geojson</module>
+    <module>geojson-spring-data-mongodb</module>
+  </modules>
+
   <properties>
-    <github.global.server>github</github.global.server>
-    <java.version>1.8</java.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <product.vendor>bremersee.org</product.vendor>
-    <inceptionYear>2019</inceptionYear>
-
-    <common-model.version>1.0.0-SNAPSHOT</common-model.version>
+    <common-model.version>1.1.0-SNAPSHOT</common-model.version>
     <jts.version>1.16.0</jts.version>
-    <lombok.version>1.18.6</lombok.version>
-
-    <plantuml.version>1.2018.11</plantuml.version>
-    <wagon-webdav-jackrabbit.version>3.0.0</wagon-webdav-jackrabbit.version>
-    <wagon-ssh-external.version>3.0.0</wagon-ssh-external.version>
-
-    <check-style-location>google_checks.xml</check-style-location>
-    <checkstyle.version>8.18</checkstyle.version>
   </properties>
-
-  <developers>
-    <developer>
-      <id>bremersee</id>
-      <name>Christian Bremer</name>
-      <organization>bremersee.org</organization>
-      <organizationUrl>http://bremersee.org</organizationUrl>
-      <email>christian@bremersee.org</email>
-      <timezone>+1</timezone>
-      <roles>
-        <role>Developer</role>
-      </roles>
-    </developer>
-  </developers>
-
-  <organization>
-    <name>bremersee.org</name>
-    <url>http://bremersee.org</url>
-  </organization>
-
-  <licenses>
-    <license>
-      <name>Apache License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-    </license>
-  </licenses>
 
   <scm>
     <url>https://github.com/bremersee/geojson</url>
@@ -72,20 +42,10 @@
   </issueManagement>
 
   <distributionManagement>
-    <repository>
-      <id>bremersee-releases</id>
-      <url>https://nexus.bremersee.org/repository/maven-releases</url>
-    </repository>
-    <snapshotRepository>
-      <id>bremersee-snapshots</id>
-      <url>https://nexus.bremersee.org/repository/maven-snapshots</url>
-    </snapshotRepository>
-    <!--
     <snapshotRepository>
       <id>ossrh</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
-    -->
     <site>
       <id>bremersee-sites</id>
       <url>
@@ -94,366 +54,19 @@
     </site>
   </distributionManagement>
 
-  <repositories>
-    <repository>
-      <id>bremersee-releases</id>
-      <name>Bremersee Releases</name>
-      <url>https://nexus.bremersee.org/repository/maven-releases</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>bremersee-snapshots</id>
-      <name>Bremersee Snapshots</name>
-      <url>https://nexus.bremersee.org/repository/maven-snapshots</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.bremersee</groupId>
+        <artifactId>common-model</artifactId>
+        <version>${common-model.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.locationtech.jts</groupId>
+        <artifactId>jts-core</artifactId>
+        <version>${jts.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.bremersee</groupId>
-      <artifactId>common-model-plain</artifactId>
-      <version>${common-model.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.locationtech.jts</groupId>
-      <artifactId>jts-core</artifactId>
-      <version>${jts.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <version>${lombok.version}</version>
-      <optional>true</optional>
-    </dependency>
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-
-  <build>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>false</filtering>
-        <includes>
-          <include>**</include>
-        </includes>
-        <excludes>
-          <exclude>META-INF/**</exclude>
-        </excludes>
-      </resource>
-      <resource>
-        <directory>src/main/resources/META-INF</directory>
-        <targetPath>META-INF</targetPath>
-        <filtering>true</filtering>
-        <includes>
-          <include>**</include>
-        </includes>
-      </resource>
-    </resources>
-
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <configuration>
-            <source>${java.version}</source>
-            <target>${java.version}</target>
-            <encoding>${project.build.sourceEncoding}</encoding>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>3.0.0</version>
-          <dependencies>
-            <dependency>
-              <groupId>com.puppycrawl.tools</groupId>
-              <artifactId>checkstyle</artifactId>
-              <version>${checkstyle.version}</version>
-            </dependency>
-          </dependencies>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>2.4</version>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <goals>
-              <goal>jar-no-fork</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.1.0</version>
-        <configuration>
-          <archive>
-            <addMavenDescriptor>true</addMavenDescriptor>
-            <index>true</index>
-            <manifest>
-              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-            </manifest>
-            <manifestEntries>
-              <Product-Name>${project.artifactId}</Product-Name>
-              <Product-Version>${project.version}</Product-Version>
-              <Product-Vendor>${product.vendor}</Product-Vendor>
-            </manifestEntries>
-          </archive>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M3</version>
-        <configuration>
-          <includes>
-            <include>**/*Test.java</include>
-            <include>**/*Tests.java</include>
-          </includes>
-          <excludes>
-            <exclude>**/Abstract*.java</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.0.1</version>
-        <configuration>
-          <show>protected</show>
-          <quiet>true</quiet>
-          <failOnError>false</failOnError>
-        </configuration>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>3.7.1</version>
-        <configuration>
-          <generateReports>true</generateReports>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>net.sourceforge.plantuml</groupId>
-            <artifactId>plantuml</artifactId>
-            <version>${plantuml.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.apache.maven.wagon</groupId>
-            <artifactId>wagon-ssh-external</artifactId>
-            <version>${wagon-ssh-external.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.apache.maven.wagon</groupId>
-            <artifactId>wagon-webdav-jackrabbit</artifactId>
-            <version>${wagon-webdav-jackrabbit.version}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <configuration>
-          <destFile>${project.build.directory}/coverage-reports/jacoco.exec</destFile>
-          <dataFile>${project.build.directory}/coverage-reports/jacoco.exec</dataFile>
-        </configuration>
-        <executions>
-          <execution>
-            <id>jacoco-initialize</id>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>jacoco-site</id>
-            <phase>package</phase>
-            <goals>
-              <goal>report</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <!--
-      <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
-        <version>1.6.6</version>
-        <extensions>true</extensions>
-        <configuration>
-          <serverId>ossrh</serverId>
-          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-          <autoReleaseAfterClose>true</autoReleaseAfterClose>
-        </configuration>
-      </plugin>
-      -->
-    </plugins>
-  </build>
-
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>3.0.0</version>
-        <configuration>
-          <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <show>protected</show>
-          <quiet>true</quiet>
-          <failOnError>false</failOnError>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-report-plugin</artifactId>
-        <version>3.0.0-M3</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jxr-plugin</artifactId>
-        <version>3.0.0</version>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>jdepend-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.10.0</version>
-        <configuration>
-          <format>xml</format>
-          <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
-          <minimumTokens>100</minimumTokens>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <configuration>
-          <dataFile>${project.build.directory}/coverage-reports/jacoco.exec</dataFile>
-        </configuration>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>report</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <configuration>
-          <configLocation>${check-style-location}</configLocation>
-          <encoding>UTF-8</encoding>
-          <inputEncoding>UTF-8</inputEncoding>
-          <includeTestSourceDirectory>true</includeTestSourceDirectory>
-          <consoleOutput>true</consoleOutput>
-          <failOnViolation>false</failOnViolation>
-          <failsOnError>true</failsOnError>
-          <enableRulesSummary>true</enableRulesSummary>
-          <enableFilesSummary>true</enableFilesSummary>
-          <enableSeveritySummary>true</enableSeveritySummary>
-          <lineLength>100</lineLength>
-          <outputFileFormat>xml</outputFileFormat>
-        </configuration>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>checkstyle</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-    </plugins>
-  </reporting>
-
-  <!--
-  <profiles>
-    <profile>
-      <id>deploy</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.6</version>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-                <configuration>
-                  <keyname>${gpg.keyname}</keyname>
-                  <passphrase>${gpg.passphrase}</passphrase>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>site-deploy</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>com.github.github</groupId>
-            <artifactId>site-maven-plugin</artifactId>
-            <version>0.12</version>
-            <configuration>
-              <message>Building site for ${project.version}</message>
-              <server>github</server>
-            </configuration>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>site</goal>
-                </goals>
-                <phase>site</phase>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
-  -->
 </project>

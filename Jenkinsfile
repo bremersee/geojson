@@ -21,7 +21,7 @@ pipeline {
         }
       }
       steps {
-        sh 'mvn deploy'
+        sh 'mvn -P deploy deploy'
       }
     }
     stage('Site') {

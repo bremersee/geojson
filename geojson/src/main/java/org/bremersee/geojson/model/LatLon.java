@@ -22,7 +22,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.bremersee.plain.model.UnknownAware;
+import org.bremersee.common.model.UnknownAware;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Point;
 

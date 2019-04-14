@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.Arrays;
 import java.util.Objects;
-import org.bremersee.plain.model.UnknownAware;
+import org.bremersee.common.model.UnknownAware;
 
 /**
  * A GeoJSON object with the type {@code Feature} (see
