@@ -48,6 +48,8 @@ public class ConvertHelper implements Serializable {
 
   private static final long serialVersionUID = 2L;
 
+  private static final int MAXIMUM_FRACTION_DIGITS = 9;
+
   private static final String TYPE_ATTRIBUTE_NAME = "type";
 
   private static final String COORDINATES_ATTRIBUTE_NAME = "coordinates";
@@ -57,7 +59,7 @@ public class ConvertHelper implements Serializable {
   private static final NumberFormat NUMBER_FORMAT = NumberFormat.getInstance(Locale.US);
 
   static {
-    NUMBER_FORMAT.setMaximumFractionDigits(9);
+    NUMBER_FORMAT.setMaximumFractionDigits(MAXIMUM_FRACTION_DIGITS);
     NUMBER_FORMAT.setMaximumIntegerDigits(17);
     NUMBER_FORMAT.setRoundingMode(RoundingMode.HALF_UP);
     NUMBER_FORMAT.setGroupingUsed(false);
@@ -86,7 +88,6 @@ public class ConvertHelper implements Serializable {
    *
    * @return the geometry factory
    */
-  @SuppressWarnings("WeakerAccess")
   public GeometryFactory getGeometryFactory() {
     return geometryFactory;
   }
@@ -341,12 +342,12 @@ public class ConvertHelper implements Serializable {
     return map;
   }
 
-  private double round(final double value) {
+  private BigDecimal round(final double value) {
     if (Double.isNaN(value)) {
-      return value;
+      return null;
     }
     final String strValue = NUMBER_FORMAT.format(value);
-    return new BigDecimal(strValue).doubleValue();
+    return new BigDecimal(strValue);
   }
 
   private List<Object> coordinateToList(final Coordinate coordinate) {
