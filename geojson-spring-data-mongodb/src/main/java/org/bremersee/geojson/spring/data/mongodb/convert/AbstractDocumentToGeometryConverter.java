@@ -46,7 +46,7 @@ abstract class AbstractDocumentToGeometryConverter<G extends Geometry>
    * @param geometryFactory the geometry factory
    */
   AbstractDocumentToGeometryConverter(final GeometryFactory geometryFactory) {
-    this.convertHelper = new ConvertHelper(geometryFactory);
+    this.convertHelper = new ConvertHelper(geometryFactory, false);
   }
 
   /**

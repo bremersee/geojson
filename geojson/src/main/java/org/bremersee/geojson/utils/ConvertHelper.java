@@ -26,6 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Pattern;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateSequence;
 import org.locationtech.jts.geom.Geometry;
@@ -48,6 +49,8 @@ public class ConvertHelper implements Serializable {
 
   private static final long serialVersionUID = 2L;
 
+  private static final int MAXIMUM_INTEGER_DIGITS = 17;
+
   private static final int MAXIMUM_FRACTION_DIGITS = 9;
 
   private static final String TYPE_ATTRIBUTE_NAME = "type";
@@ -58,14 +61,23 @@ public class ConvertHelper implements Serializable {
 
   private static final NumberFormat NUMBER_FORMAT = NumberFormat.getInstance(Locale.US);
 
+  private static final NumberFormat TEST_NUMBER_FORMAT = NumberFormat.getInstance(Locale.US);
+
   static {
     NUMBER_FORMAT.setMaximumFractionDigits(MAXIMUM_FRACTION_DIGITS);
-    NUMBER_FORMAT.setMaximumIntegerDigits(17);
+    NUMBER_FORMAT.setMaximumIntegerDigits(MAXIMUM_INTEGER_DIGITS);
     NUMBER_FORMAT.setRoundingMode(RoundingMode.HALF_UP);
     NUMBER_FORMAT.setGroupingUsed(false);
+
+    TEST_NUMBER_FORMAT.setMaximumFractionDigits(MAXIMUM_FRACTION_DIGITS + 1);
+    TEST_NUMBER_FORMAT.setMaximumIntegerDigits(MAXIMUM_INTEGER_DIGITS + 1);
+    TEST_NUMBER_FORMAT.setRoundingMode(RoundingMode.HALF_UP);
+    TEST_NUMBER_FORMAT.setGroupingUsed(false);
   }
 
   private final GeometryFactory geometryFactory;
+
+  private final boolean useBigDecimal;
 
   /**
    * Instantiates a new convert helper.
@@ -77,10 +89,31 @@ public class ConvertHelper implements Serializable {
   /**
    * Instantiates a new convert helper.
    *
+   * @param useBigDecimal use {@link BigDecimal} (recommended for JSON, set to false for MongoDB)
+   */
+  @SuppressWarnings("unused")
+  public ConvertHelper(boolean useBigDecimal) {
+    this(null, useBigDecimal);
+  }
+
+  /**
+   * Instantiates a new convert helper.
+   *
    * @param geometryFactory the geometry factory
    */
   public ConvertHelper(final GeometryFactory geometryFactory) {
+    this(geometryFactory, true);
+  }
+
+  /**
+   * Instantiates a new convert helper.
+   *
+   * @param geometryFactory the geometry factory
+   * @param useBigDecimal   use {@link BigDecimal} (recommended for JSON, set to false for MongoDB)
+   */
+  public ConvertHelper(final GeometryFactory geometryFactory, boolean useBigDecimal) {
     this.geometryFactory = geometryFactory != null ? geometryFactory : new GeometryFactory();
+    this.useBigDecimal = useBigDecimal;
   }
 
   /**
@@ -342,12 +375,21 @@ public class ConvertHelper implements Serializable {
     return map;
   }
 
-  private BigDecimal round(final double value) {
+  private Number round(final double value) {
     if (Double.isNaN(value)) {
       return null;
     }
-    final String strValue = NUMBER_FORMAT.format(value);
-    return new BigDecimal(strValue);
+    if (formatValue(value)) {
+      final String strValue = NUMBER_FORMAT.format(value);
+      return useBigDecimal ? new BigDecimal(strValue) : new BigDecimal(strValue).doubleValue();
+    }
+    return useBigDecimal ? BigDecimal.valueOf(value) : value;
+  }
+
+  private boolean formatValue(final double value) {
+    final String[] testValues = TEST_NUMBER_FORMAT.format(value).split(Pattern.quote("."));
+    return testValues[0].length() > MAXIMUM_INTEGER_DIGITS
+        || (testValues.length > 1 && testValues[1].length() > MAXIMUM_FRACTION_DIGITS);
   }
 
   private List<Object> coordinateToList(final Coordinate coordinate) {
