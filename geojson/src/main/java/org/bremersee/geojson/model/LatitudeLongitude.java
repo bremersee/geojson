@@ -16,13 +16,12 @@
 
 package org.bremersee.geojson.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.bremersee.common.model.UnknownAware;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Point;
 
@@ -31,17 +30,23 @@ import org.locationtech.jts.geom.Point;
  *
  * @author Christian Bremer
  */
-@Getter
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
 @NoArgsConstructor
-@AllArgsConstructor
 @SuppressWarnings("unused")
-public class LatitudeLongitude extends UnknownAware implements LatLonAware {
+public class LatitudeLongitude implements LatLonAware {
 
   private BigDecimal latitude;
 
   private BigDecimal longitude;
+
+  @JsonCreator
+  public LatitudeLongitude(
+      @JsonProperty("latitude") BigDecimal latitude,
+      @JsonProperty("longitude") BigDecimal longitude) {
+    this.latitude = latitude;
+    this.longitude = longitude;
+  }
 
   /**
    * Instantiates a new latitude longitude.
@@ -79,4 +84,15 @@ public class LatitudeLongitude extends UnknownAware implements LatLonAware {
     }
   }
 
+  @JsonProperty("latitude")
+  @Override
+  public BigDecimal getLatitude() {
+    return latitude;
+  }
+
+  @JsonProperty("longitude")
+  @Override
+  public BigDecimal getLongitude() {
+    return longitude;
+  }
 }

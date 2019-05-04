@@ -396,12 +396,12 @@ public class ConvertHelper implements Serializable {
     if (coordinate == null) {
       return Collections.emptyList();
     }
-    final List<Object> list = new ArrayList<>(3);
+    final List<Object> list = new ArrayList<>(2);
 
-    final double dx = coordinate.x;
+    final double dx = coordinate.getX();
     list.add(round(dx));
 
-    final double dy = coordinate.y;
+    final double dy = coordinate.getY();
     list.add(round(dy));
 
     return list;
