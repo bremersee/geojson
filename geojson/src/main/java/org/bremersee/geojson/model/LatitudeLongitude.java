@@ -17,6 +17,7 @@
 package org.bremersee.geojson.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import lombok.EqualsAndHashCode;
@@ -30,6 +31,7 @@ import org.locationtech.jts.geom.Point;
  *
  * @author Christian Bremer
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
 @NoArgsConstructor
