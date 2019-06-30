@@ -175,11 +175,11 @@ public abstract class GeometryUtils {
    * Calculate the bounding box of the specified geometry (see
    * <a href="https://tools.ietf.org/html/rfc7946#section-5">bounding-boxes</a>).
    *
-   * A GeoJSON object MAY have a member named "bbox" to include information on the coordinate range
-   * for its Geometries, Features, or FeatureCollections.  The value of the bbox member MUST be an
-   * array of length 2*n where n is the number of dimensions represented in thecontained geometries,
-   * with all axes of the most southwesterly point followed by all axes of the more northeasterly
-   * point. The axes order of a bbox follows the axes order of geometries.
+   * <p>A GeoJSON object MAY have a member named "bbox" to include information on the coordinate
+   * range for its Geometries, Features, or FeatureCollections.  The value of the bbox member MUST
+   * be an array of length 2*n where n is the number of dimensions represented in the contained
+   * geometries, with all axes of the most southwesterly point followed by all axes of the more
+   * northeasterly point. The axes order of a bbox follows the axes order of geometries.
    *
    * @param geometry the geometry
    * @return {@code null} if the bounding box can not be calculated, otherwise the bounding box

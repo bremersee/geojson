@@ -6,19 +6,19 @@
   <parent>
     <groupId>org.bremersee</groupId>
     <artifactId>common-parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <relativePath/>
   </parent>
 
   <artifactId>bremersee-geojson-parent</artifactId>
-  <version>2.0.0-SNAPSHOT</version>
+  <version>2.0.0</version>
   <packaging>pom</packaging>
 
   <name>Bremersee GeoJSON Parent Module</name>
   <description>
     This project contains modules for reading and writing GeoJSON.
   </description>
-  <url>http://bremersee.github.io/geojson/</url>
+  <url>https://github.com/bremersee/geojson</url>
 
   <modules>
     <module>geojson</module>
@@ -26,7 +26,7 @@
   </modules>
 
   <properties>
-    <common-model.version>1.1.0-SNAPSHOT</common-model.version>
+    <common-model.version>1.1.0</common-model.version>
     <jts.version>1.16.0</jts.version>
   </properties>
 
