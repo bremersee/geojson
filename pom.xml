@@ -1,0 +1,72 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.bremersee</groupId>
+    <artifactId>common-parent</artifactId>
+    <version>1.0.0</version>
+    <relativePath/>
+  </parent>
+
+  <artifactId>bremersee-geojson-parent</artifactId>
+  <version>2.0.0</version>
+  <packaging>pom</packaging>
+
+  <name>Bremersee GeoJSON Parent Module</name>
+  <description>
+    This project contains modules for reading and writing GeoJSON.
+  </description>
+  <url>https://github.com/bremersee/geojson</url>
+
+  <modules>
+    <module>geojson</module>
+    <module>geojson-spring-data-mongodb</module>
+  </modules>
+
+  <properties>
+    <common-model.version>1.1.0</common-model.version>
+    <jts.version>1.16.0</jts.version>
+  </properties>
+
+  <scm>
+    <url>https://github.com/bremersee/geojson</url>
+    <connection>scm:git:git://github.com/bremersee/geojson.git</connection>
+    <developerConnection>scm:git:git@github.com:bremersee/geojson.git</developerConnection>
+  </scm>
+
+  <issueManagement>
+    <url>https://github.com/bremersee/geojson/issues</url>
+    <system>GitHub Issues</system>
+  </issueManagement>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <site>
+      <id>bremersee-sites</id>
+      <url>
+        dav:https://nexus.bremersee.org/repository/maven-sites/geojson/${project.version}
+      </url>
+    </site>
+  </distributionManagement>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.bremersee</groupId>
+        <artifactId>common-model</artifactId>
+        <version>${common-model.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.locationtech.jts</groupId>
+        <artifactId>jts-core</artifactId>
+        <version>${jts.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+</project>
