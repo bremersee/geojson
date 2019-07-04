@@ -10,11 +10,11 @@
     <relativePath/>
   </parent>
 
-  <artifactId>bremersee-geojson-parent</artifactId>
+  <artifactId>geojson-parent</artifactId>
   <version>2.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>Bremersee GeoJSON Parent Module</name>
+  <name>GeoJSON Parent Module</name>
   <description>
     This project contains modules for reading and writing GeoJSON.
   </description>

@@ -129,7 +129,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
     }
 
     return new Version(major, minor, patchLevel, snapshotInfo, "org.bremersee",
-        "bremersee-geojson");
+        "geojson");
   }
 
   private static Map<Class<?>, JsonDeserializer<?>> getDeserializers(

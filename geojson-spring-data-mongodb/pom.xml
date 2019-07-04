@@ -5,13 +5,13 @@
 
   <parent>
     <groupId>org.bremersee</groupId>
-    <artifactId>bremersee-geojson-parent</artifactId>
+    <artifactId>geojson-parent</artifactId>
     <version>2.0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>bremersee-geojson-spring-data-mongodb</artifactId>
+  <artifactId>geojson-spring-data-mongodb</artifactId>
 
-  <name>Bremersee GeoJSON for Spring Data MongoDB</name>
+  <name>GeoJSON for Spring Data MongoDB</name>
   <description>
     This project contains converters for reading and writing GeoJSON from and into a MongoDB with
     Spring Data.
@@ -20,7 +20,7 @@
   <dependencies>
     <dependency>
       <groupId>org.bremersee</groupId>
-      <artifactId>bremersee-geojson</artifactId>
+      <artifactId>geojson</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
