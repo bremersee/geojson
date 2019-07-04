@@ -98,7 +98,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
 
     final int defaultMajor = 2;
     final int defaultMinor = 0;
-    final int defaultPatchLevel = 0;
+    final int defaultPatchLevel = 1;
     final String defaultSnapshotInfo = "SNAPSHOT";
 
     int major = defaultMajor;
@@ -129,7 +129,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
     }
 
     return new Version(major, minor, patchLevel, snapshotInfo, "org.bremersee",
-        "bremersee-geojson");
+        "geojson");
   }
 
   private static Map<Class<?>, JsonDeserializer<?>> getDeserializers(
