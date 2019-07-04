@@ -3,7 +3,7 @@
 This project contains modules for reading and writing GeoJSON.
 The GeoJSON format is specified in [rfc7946](https://tools.ietf.org/html/rfc7946).
 
-- [Maven Site](https://nexus.bremersee.org/repository/maven-sites/geojson/2.0.1-SNAPSHOT/index.html)
+- [Maven Site](https://nexus.bremersee.org/repository/maven-sites/geojson/2.0.1/index.html)
 
 ### Usage
 
