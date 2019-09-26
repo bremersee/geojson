@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractGeoJsonFeatureCollection.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson</a> &gt; <span class="el_source">AbstractGeoJsonFeatureCollection.java</span></div><h1>AbstractGeoJsonFeatureCollection.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2015-2018 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.bremersee.geojson;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import org.bremersee.common.model.UnknownAware;
+
+/**
+ * A GeoJSON object with the type {@code FeatureCollection} is a feature collection object (see
+ * &lt;a href=&quot;https://tools.ietf.org/html/rfc7946#section-3.3&quot;&gt;rfc7946 section 3.3&lt;/a&gt;).
+ *
+ * @param &lt;F&gt; the feature type parameter
+ * @author Christian Bremer
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = &quot;type&quot;)
+@JsonSubTypes({
+})
+@JsonTypeName(&quot;FeatureCollection&quot;)
+@JsonPropertyOrder({&quot;bbox&quot;, &quot;features&quot;})
+@SuppressWarnings({&quot;WeakerAccess&quot;, &quot;unused&quot;})
+public abstract class AbstractGeoJsonFeatureCollection&lt;F extends AbstractGeoJsonFeature&gt;
+    extends UnknownAware {
+
+  @JsonIgnore
+  private double[] bbox;
+
+  @JsonIgnore
+  private List&lt;F&gt; features;
+
+  /**
+   * Instantiates a new abstract geo json feature collection.
+   */
+<span class="fc" id="L57">  protected AbstractGeoJsonFeatureCollection() {</span>
+<span class="fc" id="L58">  }</span>
+
+  /**
+   * Instantiates a new abstract geo json feature collection.
+   *
+   * @param features the features
+   * @param bbox     the bbox
+   */
+  protected AbstractGeoJsonFeatureCollection(
+      final Collection&lt;? extends F&gt; features,
+<span class="nc" id="L68">      final double[] bbox) {</span>
+
+<span class="nc bnc" id="L70" title="All 2 branches missed.">    if (features != null) {</span>
+<span class="nc" id="L71">      this.features = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L72">      this.features.addAll(features);</span>
+    }
+<span class="nc" id="L74">    setBbox(bbox);</span>
+<span class="nc" id="L75">  }</span>
+
+  /**
+   * Return the features of this collection.
+   *
+   * @return the features of this collection
+   */
+  @JsonProperty(&quot;features&quot;)
+  public List&lt;F&gt; getFeatures() {
+<span class="fc bfc" id="L84" title="All 2 branches covered.">    if (features == null) {</span>
+<span class="fc" id="L85">      features = new ArrayList&lt;&gt;();</span>
+    }
+<span class="fc" id="L87">    return features;</span>
+  }
+
+  /**
+   * Set the faetures of this collection.
+   *
+   * @param features the feature
+   */
+  @JsonProperty(&quot;features&quot;)
+  public void setFeatures(List&lt;F&gt; features) {
+<span class="fc" id="L97">    this.features = features;</span>
+<span class="fc" id="L98">  }</span>
+
+  /**
+   * Return the bounding box of the GeoJSON object or {@code null} if there is no such object (see
+   * &lt;a href=&quot;https://tools.ietf.org/html/rfc7946#section-5&quot;&gt;Bounding Box&lt;/a&gt;).
+   *
+   * @return the bounding box
+   */
+  @JsonProperty(&quot;bbox&quot;)
+  public double[] getBbox() {
+<span class="fc" id="L108">    return bbox;</span>
+  }
+
+  /**
+   * Set the bounding box of the GeoJSON object.
+   *
+   * @param bbox the bounding box to set
+   */
+  @JsonProperty(&quot;bbox&quot;)
+  public void setBbox(double[] bbox) {
+<span class="fc" id="L118">    this.bbox = bbox;</span>
+<span class="fc" id="L119">  }</span>
+
+  @Override
+  public boolean equals(Object o) {
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L124">      return true;</span>
+    }
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">    if (!(o instanceof AbstractGeoJsonFeatureCollection)) {</span>
+<span class="nc" id="L127">      return false;</span>
+    }
+<span class="fc" id="L129">    AbstractGeoJsonFeatureCollection that = (AbstractGeoJsonFeatureCollection) o;</span>
+<span class="pc bpc" id="L130" title="1 of 2 branches missed.">    return Arrays.equals(getBbox(), that.getBbox())</span>
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(getFeatures(), that.getFeatures());</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L136">    int result = Objects.hash(getFeatures());</span>
+<span class="nc" id="L137">    result = 31 * result + Arrays.hashCode(getBbox());</span>
+<span class="nc" id="L138">    return result;</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="fc" id="L143">    return &quot;GeoJsonFeatureCollection {&quot;</span>
+<span class="fc" id="L144">        + &quot;, features=&quot; + getFeatures()</span>
+<span class="fc" id="L145">        + &quot;, bbox=&quot; + Arrays.toString(getBbox())</span>
+        + '}';
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

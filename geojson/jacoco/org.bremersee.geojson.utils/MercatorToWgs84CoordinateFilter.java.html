@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MercatorToWgs84CoordinateFilter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson.utils</a> &gt; <span class="el_source">MercatorToWgs84CoordinateFilter.java</span></div><h1>MercatorToWgs84CoordinateFilter.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2015-2018 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.bremersee.geojson.utils;
+
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.CoordinateFilter;
+
+/**
+ * A coordinate filter that transforms mercator coordinates into WGS84 coordinates.
+ *
+ * @author Christian Bremer
+ */
+@SuppressWarnings({&quot;unused&quot;, &quot;WeakerAccess&quot;})
+public class MercatorToWgs84CoordinateFilter implements CoordinateFilter {
+
+<span class="nc" id="L30">  private double earthRadiusInMeters = GeometryUtils.EARTH_RADIUS_METERS;</span>
+
+  /**
+   * Default constructor.
+   */
+  public MercatorToWgs84CoordinateFilter() {
+<span class="nc" id="L36">    super();</span>
+<span class="nc" id="L37">  }</span>
+
+  /**
+   * Constructs a coordinate filter that uses the specified earth radius.
+   *
+   * @param earthRadiusInMeters the earth radius in meters
+   */
+<span class="nc" id="L44">  public MercatorToWgs84CoordinateFilter(final double earthRadiusInMeters) {</span>
+<span class="nc" id="L45">    this.earthRadiusInMeters = earthRadiusInMeters;</span>
+<span class="nc" id="L46">  }</span>
+
+  /**
+   * Returns the earth radius that is used for the transformation.
+   *
+   * @return the earth radius in meters
+   */
+  public double getEarthRadiusInMeters() {
+<span class="nc" id="L54">    return earthRadiusInMeters;</span>
+  }
+
+  /**
+   * Sets the earth radius that is used for the transformation.
+   *
+   * @param earthRadiusInMeters the earth radius in meters
+   */
+  public void setEarthRadiusInMeters(final double earthRadiusInMeters) {
+<span class="nc" id="L63">    this.earthRadiusInMeters = earthRadiusInMeters;</span>
+<span class="nc" id="L64">  }</span>
+
+  @Override
+  public void filter(final Coordinate coord) {
+
+<span class="nc bnc" id="L69" title="All 2 branches missed.">    if (coord != null) {</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">      if (!Double.isNaN(coord.x)) {</span>
+<span class="nc" id="L71">        coord.x = (coord.x * 180.) / (getEarthRadiusInMeters() * Math.PI);</span>
+      }
+<span class="nc bnc" id="L73" title="All 2 branches missed.">      if (!Double.isNaN(coord.y)) {</span>
+<span class="nc" id="L74">        coord.y = Math</span>
+<span class="nc" id="L75">            .toDegrees(2 * Math.atan(Math.exp(coord.y / getEarthRadiusInMeters())) - Math.PI / 2);</span>
+      }
+    }
+<span class="nc" id="L78">  }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

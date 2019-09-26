@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GeoJsonFeatureCollection.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson</a> &gt; <span class="el_source">GeoJsonFeatureCollection.java</span></div><h1>GeoJsonFeatureCollection.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2015-2018 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.bremersee.geojson;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import org.bremersee.geojson.utils.GeometryUtils;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryCollection;
+import org.locationtech.jts.geom.GeometryFactory;
+
+/**
+ * A GeoJSON object with the type {@code FeatureCollection} is a feature collection object (see
+ * &lt;a href=&quot;https://tools.ietf.org/html/rfc7946#section-3.3&quot;&gt;rfc7946 section 3.3&lt;/a&gt;).
+ *
+ * @author Christian Bremer
+ */
+public class GeoJsonFeatureCollection
+    extends AbstractGeoJsonFeatureCollection&lt;GeoJsonFeature&gt;
+    implements Serializable {
+
+  private static final long serialVersionUID = 2L;
+
+  /**
+   * Default constructor.
+   */
+  public GeoJsonFeatureCollection() {
+<span class="fc" id="L44">    super();</span>
+<span class="fc" id="L45">  }</span>
+
+  /**
+   * Constructs a GeoJSON feature collection with the specified parameters.
+   *
+   * @param features        the GeoJSON features of the collection
+   * @param calculateBounds if &lt;code&gt;true&lt;/code&gt; the bounding box will be calculated otherwise the
+   *                        bounding box will be &lt;code&gt;null&lt;/code&gt;
+   */
+  public GeoJsonFeatureCollection(
+      final Collection&lt;? extends GeoJsonFeature&gt; features,
+<span class="fc" id="L56">      final boolean calculateBounds) {</span>
+
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">    if (features != null) {</span>
+<span class="fc" id="L59">      getFeatures().addAll(features);</span>
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">      if (calculateBounds) {</span>
+<span class="fc" id="L61">        List&lt;Geometry&gt; glist = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        for (GeoJsonFeature f : features) {</span>
+<span class="fc" id="L63">          glist.add(f.getGeometry());</span>
+<span class="fc" id="L64">        }</span>
+<span class="fc" id="L65">        Geometry[] geometries = glist.toArray(new Geometry[0]);</span>
+<span class="fc" id="L66">        GeometryCollection gc = new GeometryCollection(geometries, new GeometryFactory());</span>
+<span class="fc" id="L67">        setBbox(GeometryUtils.getBoundingBox(gc));</span>
+      }
+    }
+<span class="fc" id="L70">  }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

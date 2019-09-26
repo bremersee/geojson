@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LatLonAware.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson.model</a> &gt; <span class="el_source">LatLonAware.java</span></div><h1>LatLonAware.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2018 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.bremersee.geojson.model;
+
+import java.math.BigDecimal;
+import org.bremersee.geojson.utils.GeometryUtils;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Point;
+
+/**
+ * The interface lat lon aware.
+ *
+ * @author Christian Bremer
+ */
+@SuppressWarnings(&quot;unused&quot;)
+public interface LatLonAware {
+
+  /**
+   * Gets latitude.
+   *
+   * @return the latitude
+   */
+  BigDecimal getLatitude();
+
+  /**
+   * Gets longitude.
+   *
+   * @return the longitude
+   */
+  BigDecimal getLongitude();
+
+  /**
+   * Determines whether latitude and longitude have values.
+   *
+   * @return {@code true} if latitude and longitude is not {@code null}, otherwise {@code false}
+   */
+  default boolean hasValues() {
+<span class="nc bnc" id="L52" title="All 4 branches missed.">    return getLatitude() != null &amp;&amp; getLongitude() != null;</span>
+  }
+
+  /**
+   * To GeoJSON point (x is longitude, y is latitude).
+   *
+   * @return the point
+   */
+  default Point toPoint() {
+<span class="nc bnc" id="L61" title="All 2 branches missed.">    if (hasValues()) {</span>
+<span class="nc" id="L62">      return GeometryUtils.createPoint(getLongitude(), getLatitude());</span>
+    }
+<span class="nc" id="L64">    return null;</span>
+  }
+
+  /**
+   * To GeoJSON coordinate (x is longitude, y is latitude).
+   *
+   * @return the coordinate
+   */
+  default Coordinate toCoordinate() {
+<span class="nc" id="L73">    return GeometryUtils.createCoordinate(getLongitude(), getLatitude());</span>
+  }
+
+  /**
+   * To comma separated latitude longitude string.
+   *
+   * @return the string
+   */
+  default String toLatLonString() {
+<span class="nc bnc" id="L82" title="All 2 branches missed.">    if (hasValues()) {</span>
+<span class="nc" id="L83">      return getLatitude().toPlainString() + &quot;,&quot; + getLongitude().toPlainString();</span>
+    }
+<span class="nc" id="L85">    return &quot;&quot;;</span>
+  }
+
+  /**
+   * To comma separated longitude latitude string.
+   *
+   * @return the string
+   */
+  default String toLonLatString() {
+<span class="nc bnc" id="L94" title="All 2 branches missed.">    if (hasValues()) {</span>
+<span class="nc" id="L95">      return getLongitude().toPlainString() + &quot;,&quot; + getLatitude().toPlainString();</span>
+    }
+<span class="nc" id="L97">    return &quot;&quot;;</span>
+  }
+
+  /**
+   * Builder builder.
+   *
+   * @return the builder
+   */
+  static Builder builder() {
+<span class="nc" id="L106">    return new BuilderImpl();</span>
+  }
+
+  /**
+   * The interface Builder.
+   */
+  @SuppressWarnings(&quot;unused&quot;)
+  interface Builder {
+
+    /**
+     * Latitude builder.
+     *
+     * @param latitude the latitude
+     * @return the builder
+     */
+    Builder latitude(BigDecimal latitude);
+
+    /**
+     * Latitude builder.
+     *
+     * @param latitude the latitude
+     * @return the builder
+     */
+    Builder latitude(double latitude);
+
+    /**
+     * Longitude builder.
+     *
+     * @param longitude the longitude
+     * @return the builder
+     */
+    Builder longitude(BigDecimal longitude);
+
+    /**
+     * Longitude builder.
+     *
+     * @param longitude the longitude
+     * @return the builder
+     */
+    Builder longitude(double longitude);
+
+    /**
+     * Build lat lon aware.
+     *
+     * @return the lat lon aware
+     */
+    LatLonAware build();
+  }
+
+  /**
+   * The builder implementation.
+   */
+<span class="nc" id="L158">  class BuilderImpl implements Builder {</span>
+
+    private BigDecimal latitude;
+
+    private BigDecimal longitude;
+
+    @Override
+    public Builder latitude(BigDecimal latitude) {
+<span class="nc" id="L166">      this.latitude = latitude;</span>
+<span class="nc" id="L167">      return this;</span>
+    }
+
+    @Override
+    public Builder latitude(double latitude) {
+<span class="nc" id="L172">      this.latitude = BigDecimal.valueOf(latitude);</span>
+<span class="nc" id="L173">      return this;</span>
+    }
+
+    @Override
+    public Builder longitude(BigDecimal longitude) {
+<span class="nc" id="L178">      this.longitude = longitude;</span>
+<span class="nc" id="L179">      return this;</span>
+    }
+
+    @Override
+    public Builder longitude(double longitude) {
+<span class="nc" id="L184">      this.longitude = BigDecimal.valueOf(longitude);</span>
+<span class="nc" id="L185">      return this;</span>
+    }
+
+    @Override
+    public LatLonAware build() {
+<span class="nc" id="L190">      return new LatLon(latitude, longitude);</span>
+    }
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

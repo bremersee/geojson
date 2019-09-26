@@ -1,2 +1,4 @@
 org.bremersee.geojson
+org.bremersee.geojson.model
+org.bremersee.geojson.spring.data.mongodb.convert
 org.bremersee.geojson.utils
