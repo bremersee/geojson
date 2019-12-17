@@ -7,7 +7,7 @@ The GeoJSON format is specified in [rfc7946](https://tools.ietf.org/html/rfc7946
 
 - [Release](https://bremersee.github.io/geojson/index.html)
 
-- [Snapshot](https://nexus.bremersee.org/repository/maven-sites/geojson/2.0.4-SNAPSHOT/index.html)
+- [Snapshot](https://nexus.bremersee.org/repository/maven-sites/geojson/2.0.5-SNAPSHOT/index.html)
 
 ### Usage
 
