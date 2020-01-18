@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.CoordinateFilter;
 import org.locationtech.jts.geom.CoordinateSequence;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryCollection;
@@ -1005,19 +1006,36 @@ public abstract class GeometryUtils {
   }
 
   /**
+   * Copy and apply filters.
+   *
+   * @param geometry the geometry
+   * @param filters the filters
+   * @return the copied and filtered geometry
+   */
+  public static Geometry copyAndApplyFilters(
+      final Geometry geometry,
+      final CoordinateFilter... filters) {
+    return Optional.ofNullable(geometry)
+        .map(g -> {
+          final Geometry result = g.copy();
+          if (filters != null) {
+            for (CoordinateFilter filter : filters) {
+              result.apply(filter);
+            }
+          }
+          return result;
+        })
+        .orElse(null);
+  }
+
+  /**
    * Transforms the coordinates of the given geometry from WGS84 into mercator.
    *
    * @param geometry the geometry
    * @return the transformed (cloned) geometry
    */
   public static Geometry transformWgs84ToMercator(final Geometry geometry) {
-    return Optional.ofNullable(geometry)
-        .map(g -> {
-          final Geometry result = g.copy();
-          result.apply(new Wgs84ToMercatorCoordinateFilter());
-          return result;
-        })
-        .orElse(null);
+    return copyAndApplyFilters(geometry, new Wgs84ToMercatorCoordinateFilter());
   }
 
   /**
@@ -1027,13 +1045,7 @@ public abstract class GeometryUtils {
    * @return the transformed (cloned) geometry
    */
   public static Geometry transformMercatorToWgs84(final Geometry geometry) {
-    return Optional.ofNullable(geometry)
-        .map(g -> {
-          final Geometry result = g.copy();
-          result.apply(new MercatorToWgs84CoordinateFilter());
-          return result;
-        })
-        .orElse(null);
+    return copyAndApplyFilters(geometry, new MercatorToWgs84CoordinateFilter());
   }
 
   /**
@@ -1043,13 +1055,7 @@ public abstract class GeometryUtils {
    * @return the geometry with swapped coordinates
    */
   public static Geometry swapCoordinates(final Geometry geometry) {
-    return Optional.ofNullable(geometry)
-        .map(g -> {
-          final Geometry result = g.copy();
-          result.apply(new SwapCoordinateFilter());
-          return result;
-        })
-        .orElse(null);
+    return copyAndApplyFilters(geometry, new SwapCoordinateFilter());
   }
 
 }

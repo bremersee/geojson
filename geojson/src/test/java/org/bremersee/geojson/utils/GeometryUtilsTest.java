@@ -503,6 +503,17 @@ class GeometryUtilsTest {
   }
 
   /**
+   * Copy and apply filters.
+   */
+  @Test
+  void copyAndApplyFilters() {
+    assertNull(GeometryUtils.copyAndApplyFilters(null, new SwapCoordinateFilter()));
+
+    Geometry geometry = GeometryUtils.createPoint(8., 9.);
+    assertTrue(GeometryUtils.equals(geometry, GeometryUtils.copyAndApplyFilters(geometry)));
+  }
+
+  /**
    * Transform wgs 84 to mercator and back.
    */
   @Test
