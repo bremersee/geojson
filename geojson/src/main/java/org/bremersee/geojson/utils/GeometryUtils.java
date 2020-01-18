@@ -19,7 +19,6 @@ package org.bremersee.geojson.utils;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -28,7 +27,6 @@ import java.util.Collections;
 import java.util.Optional;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateFilter;
-import org.locationtech.jts.geom.CoordinateSequence;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryCollection;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -39,7 +37,6 @@ import org.locationtech.jts.geom.MultiPoint;
 import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
-import org.locationtech.jts.geom.impl.CoordinateArraySequence;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
 
@@ -406,10 +403,9 @@ public abstract class GeometryUtils {
    * @return the Well-known Text representation of this Geometry
    */
   public static String toWKT(final Geometry geometry) {
-    if (geometry == null) {
-      return null;
-    }
-    return geometry.toText();
+    return Optional.ofNullable(geometry)
+        .map(Geometry::toText)
+        .orElse(null);
   }
 
   /**
@@ -436,12 +432,10 @@ public abstract class GeometryUtils {
   public static Geometry fromWKT(final String wkt, final GeometryFactory geometryFactory)
       throws RuntimeException {
 
-    if (wkt == null || wkt.trim().length() == 0) {
-      return null;
-    }
-    WKTReader wktReader = new WKTReader(geometryFactory(geometryFactory));
     try {
-      return wktReader.read(wkt);
+      return new WKTReader(geometryFactory(geometryFactory)).read(wkt);
+    } catch (NullPointerException n) {
+      return null;
     } catch (ParseException e) {
       throw new RuntimeException("Parsing WKT [" + wkt + "] failed.", e);
     }
@@ -471,14 +465,12 @@ public abstract class GeometryUtils {
   public static Geometry fromWKT(final Reader reader, final GeometryFactory geometryFactory)
       throws RuntimeException {
 
-    if (reader == null) {
+    try (Reader r = reader) {
+      return new WKTReader(geometryFactory(geometryFactory)).read(r);
+    } catch (NullPointerException n) {
       return null;
-    }
-    WKTReader wktReader = new WKTReader(geometryFactory(geometryFactory));
-    try {
-      return wktReader.read(reader);
-    } catch (ParseException e) {
-      throw new RuntimeException("Parsing WKT failed.", e);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
   }
 
@@ -512,16 +504,14 @@ public abstract class GeometryUtils {
       final GeometryFactory geometryFactory)
       throws RuntimeException {
 
-    if (inputStream == null) {
+    final String cs = charsetName == null ? StandardCharsets.UTF_8.name() : charsetName;
+    try (InputStreamReader reader = new InputStreamReader(inputStream, cs)) {
+      return fromWKT(reader, geometryFactory);
+
+    } catch (NullPointerException n) {
       return null;
-    }
-    final String cn = charsetName == null || charsetName.trim().length() == 0
-        ? StandardCharsets.UTF_8.name()
-        : charsetName;
-    try {
-      return fromWKT(new InputStreamReader(inputStream, cn), geometryFactory(geometryFactory));
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException("Parsing WKT failed.", e);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
   }
 
@@ -545,13 +535,12 @@ public abstract class GeometryUtils {
    * @throws IllegalArgumentException if x or y is {@code null}
    */
   public static Coordinate createCoordinate(final BigDecimal x, final BigDecimal y) {
-    if (x == null) {
-      throw new IllegalArgumentException("X must not be null.");
-    }
-    if (y == null) {
-      throw new IllegalArgumentException("Y must not be null.");
-    }
-    return new Coordinate(x.doubleValue(), y.doubleValue());
+
+    return Optional.ofNullable(x)
+        .map(xx -> Optional.ofNullable(y)
+            .map(yy -> new Coordinate(xx.doubleValue(), yy.doubleValue()))
+            .orElseThrow(() -> new IllegalArgumentException("Y must not be null.")))
+        .orElseThrow(() -> new IllegalArgumentException("X must not be null."));
   }
 
   /**
@@ -575,13 +564,12 @@ public abstract class GeometryUtils {
    */
   public static Coordinate createCoordinateWGS84(
       final BigDecimal latitude, final BigDecimal longitude) {
-    if (latitude == null) {
-      throw new IllegalArgumentException("Latitude must not be null.");
-    }
-    if (longitude == null) {
-      throw new IllegalArgumentException("Longitude must not be null.");
-    }
-    return new Coordinate(longitude.doubleValue(), latitude.doubleValue());
+
+    return Optional.ofNullable(latitude)
+        .map(lat -> Optional.ofNullable(longitude)
+            .map(lon -> new Coordinate(lon.doubleValue(), lat.doubleValue()))
+            .orElseThrow(() -> new IllegalArgumentException("Longitude must not be null.")))
+        .orElseThrow(() -> new IllegalArgumentException("Latitude must not be null."));
   }
 
   /**
@@ -591,10 +579,9 @@ public abstract class GeometryUtils {
    * @return the latitude
    */
   public static double getLatitudeWGS84(Coordinate coordinate) {
-    if (coordinate == null) {
-      throw new IllegalArgumentException("Coordinate must not be null.");
-    }
-    return coordinate.getY();
+    return Optional.ofNullable(coordinate)
+        .map(Coordinate::getY)
+        .orElseThrow(() -> new IllegalArgumentException("Coordinate must not be null."));
   }
 
   /**
@@ -604,10 +591,9 @@ public abstract class GeometryUtils {
    * @return the longitude
    */
   public static double getLongitudeWGS84(final Coordinate coordinate) {
-    if (coordinate == null) {
-      throw new IllegalArgumentException("Coordinate must not be null.");
-    }
-    return coordinate.getX();
+    return Optional.ofNullable(coordinate)
+        .map(Coordinate::getX)
+        .orElseThrow(() -> new IllegalArgumentException("Coordinate must not be null."));
   }
 
   /**
@@ -763,13 +749,11 @@ public abstract class GeometryUtils {
   public static MultiPoint createMultiPoint(
       final Collection<? extends Point> points,
       final GeometryFactory geometryFactory) {
-    Point[] ps;
-    if (points == null) {
-      ps = null;
-    } else {
-      ps = points.toArray(new Point[0]);
-    }
-    return geometryFactory(geometryFactory).createMultiPoint(ps);
+
+    return Optional.ofNullable(points)
+        .map(c -> c.toArray(new Point[0]))
+        .map(a -> geometryFactory(geometryFactory).createMultiPoint(a))
+        .orElseGet(() -> geometryFactory(geometryFactory).createMultiPoint());
   }
 
   /**
@@ -795,14 +779,10 @@ public abstract class GeometryUtils {
       final Collection<? extends Coordinate> coordinates,
       final GeometryFactory geometryFactory) {
 
-    CoordinateSequence points;
-    if (coordinates == null) {
-      points = null;
-    } else {
-      Coordinate[] coords = coordinates.toArray(new Coordinate[0]);
-      points = new CoordinateArraySequence(coords);
-    }
-    return geometryFactory(geometryFactory).createLineString(points);
+    return Optional.ofNullable(coordinates)
+        .map(c -> c.toArray(new Coordinate[0]))
+        .map(a -> geometryFactory(geometryFactory).createLineString(a))
+        .orElseGet(() -> geometryFactory(geometryFactory).createLineString());
   }
 
   /**
@@ -828,13 +808,11 @@ public abstract class GeometryUtils {
   public static MultiLineString createMultiLineString(
       final Collection<? extends LineString> lineStrings,
       final GeometryFactory geometryFactory) {
-    LineString[] lines;
-    if (lineStrings == null) {
-      lines = null;
-    } else {
-      lines = lineStrings.toArray(new LineString[0]);
-    }
-    return geometryFactory(geometryFactory).createMultiLineString(lines);
+
+    return Optional.ofNullable(lineStrings)
+        .map(c -> c.toArray(new LineString[0]))
+        .map(a -> geometryFactory(geometryFactory).createMultiLineString(a))
+        .orElseGet(() -> geometryFactory(geometryFactory).createMultiLineString());
   }
 
   /**
@@ -860,11 +838,10 @@ public abstract class GeometryUtils {
       final Collection<? extends Coordinate> coordinates,
       final GeometryFactory geometryFactory) {
 
-    final GeometryFactory gf = geometryFactory(geometryFactory);
-    if (coordinates == null || coordinates.isEmpty()) {
-      return gf.createLinearRing(new CoordinateArraySequence(new Coordinate[0]));
-    }
-    return gf.createLinearRing(new CoordinateArraySequence(coordinates.toArray(new Coordinate[0])));
+    return Optional.ofNullable(coordinates)
+        .map(c -> c.toArray(new Coordinate[0]))
+        .map(a -> geometryFactory(geometryFactory).createLinearRing(a))
+        .orElseGet(() -> geometryFactory(geometryFactory).createLinearRing());
   }
 
   /**
@@ -922,13 +899,12 @@ public abstract class GeometryUtils {
       final Collection<? extends LinearRing> holes,
       final GeometryFactory geometryFactory) {
 
-    LinearRing[] hs;
-    if (holes == null) {
-      hs = null;
-    } else {
-      hs = holes.toArray(new LinearRing[0]);
-    }
-    return geometryFactory(geometryFactory).createPolygon(shell, hs);
+    return Optional.ofNullable(shell)
+        .map(s -> Optional.ofNullable(holes)
+            .map(c -> c.toArray(new LinearRing[0]))
+            .map(a -> geometryFactory(geometryFactory).createPolygon(s, a))
+            .orElseGet(() -> geometryFactory(geometryFactory).createPolygon(s)))
+        .orElseGet(() -> geometryFactory(geometryFactory).createPolygon());
   }
 
   /**
@@ -954,13 +930,10 @@ public abstract class GeometryUtils {
       final Collection<? extends Polygon> polygons,
       final GeometryFactory geometryFactory) {
 
-    Polygon[] ps;
-    if (polygons == null) {
-      ps = null;
-    } else {
-      ps = polygons.toArray(new Polygon[0]);
-    }
-    return geometryFactory(geometryFactory).createMultiPolygon(ps);
+    return Optional.ofNullable(polygons)
+        .map(c -> c.toArray(new Polygon[0]))
+        .map(a -> geometryFactory(geometryFactory).createMultiPolygon(a))
+        .orElseGet(() -> geometryFactory(geometryFactory).createMultiPolygon());
   }
 
   /**
@@ -970,10 +943,9 @@ public abstract class GeometryUtils {
    * @return the geometry collection
    */
   public static GeometryCollection createGeometryCollection(final Geometry... geometries) {
-    if (geometries == null) {
-      return new GeometryCollection(new Geometry[0], DEFAULT_GEOMETRY_FACTORY);
-    }
-    return new GeometryCollection(geometries, DEFAULT_GEOMETRY_FACTORY);
+    return Optional.ofNullable(geometries)
+        .map(DEFAULT_GEOMETRY_FACTORY::createGeometryCollection)
+        .orElseGet(DEFAULT_GEOMETRY_FACTORY::createGeometryCollection);
   }
 
   /**
@@ -998,11 +970,10 @@ public abstract class GeometryUtils {
       final Collection<? extends Geometry> geometries,
       final GeometryFactory geometryFactory) {
 
-    final GeometryFactory factory = geometryFactory(geometryFactory);
-    if (geometries == null || geometries.isEmpty()) {
-      return new GeometryCollection(new Geometry[0], factory);
-    }
-    return new GeometryCollection(geometries.toArray(new Geometry[0]), factory);
+    return Optional.ofNullable(geometries)
+        .map(g -> g.toArray(new Geometry[0]))
+        .map(a -> geometryFactory(geometryFactory).createGeometryCollection(a))
+        .orElseGet(() -> geometryFactory(geometryFactory).createGeometryCollection());
   }
 
   /**
