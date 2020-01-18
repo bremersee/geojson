@@ -56,26 +56,6 @@ public abstract class AbstractGeoJsonFeature<G, P> extends UnknownAware {
   }
 
   /**
-   * Instantiates a new abstract geo json feature.
-   *
-   * @param id the id
-   * @param geometry the geometry
-   * @param bbox the bbox
-   * @param properties the properties
-   */
-  protected AbstractGeoJsonFeature(
-      final String id,
-      final G geometry,
-      final double[] bbox,
-      final P properties) {
-
-    setId(id);
-    setGeometry(geometry);
-    setBbox(bbox);
-    setProperties(properties);
-  }
-
-  /**
    * Return the id of this GeoJSON feature or {@code null} if there is no id available.
    *
    * @return the id of this GeoJSON feature
@@ -116,7 +96,6 @@ public abstract class AbstractGeoJsonFeature<G, P> extends UnknownAware {
    */
   @JsonInclude(Include.NON_EMPTY)
   @JsonProperty("bbox")
-  @SuppressWarnings("WeakerAccess")
   public double[] getBbox() {
     return bbox;
   }
