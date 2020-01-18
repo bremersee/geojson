@@ -29,7 +29,7 @@ import org.springframework.core.convert.converter.Converter;
  * @author Christian Bremer
  */
 abstract class AbstractDocumentToGeometryConverter<G extends Geometry>
-    implements Converter<org.bson.Document, G> {
+    implements Converter<Document, G> {
 
   private final ConvertHelper convertHelper;
 
