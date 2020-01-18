@@ -96,7 +96,7 @@ public interface LatLonAware {
   }
 
   /**
-   * Builder builder.
+   * Returns a new builder.
    *
    * @return the builder
    */
@@ -105,9 +105,8 @@ public interface LatLonAware {
   }
 
   /**
-   * The interface Builder.
+   * The builder interface.
    */
-  @SuppressWarnings("unused")
   interface Builder {
 
     /**

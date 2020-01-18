@@ -42,6 +42,12 @@ public class LatLon implements LatLonAware, Serializable {
 
   private BigDecimal lon;
 
+  /**
+   * Instantiates a new lat lon.
+   *
+   * @param lat the lat
+   * @param lon the lon
+   */
   @JsonCreator
   public LatLon(@JsonProperty("lat") BigDecimal lat, @JsonProperty("lon") BigDecimal lon) {
     this.lat = lat;

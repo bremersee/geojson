@@ -42,6 +42,12 @@ public class LatitudeLongitude implements LatLonAware, Serializable {
 
   private BigDecimal longitude;
 
+  /**
+   * Instantiates a new latitude longitude.
+   *
+   * @param latitude the latitude
+   * @param longitude the longitude
+   */
   @JsonCreator
   public LatitudeLongitude(
       @JsonProperty("latitude") BigDecimal latitude,
