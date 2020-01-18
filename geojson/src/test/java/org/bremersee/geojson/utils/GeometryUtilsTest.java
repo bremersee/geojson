@@ -539,4 +539,16 @@ class GeometryUtilsTest {
     }
   }
 
+  /**
+   * Swap coordinates.
+   */
+  @Test
+  void swapCoordinates() {
+    assertNull(GeometryUtils.swapCoordinates(null));
+    Point geometry = GeometryUtils.createPoint(4., 5.);
+    Point actual = (Point) GeometryUtils.swapCoordinates(geometry);
+    assertEquals(geometry.getX(), actual.getY());
+    assertEquals(geometry.getY(), actual.getX());
+  }
+
 }

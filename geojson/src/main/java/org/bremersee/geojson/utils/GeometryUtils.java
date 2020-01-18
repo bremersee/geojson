@@ -25,6 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateSequence;
 import org.locationtech.jts.geom.Geometry;
@@ -1010,12 +1011,13 @@ public abstract class GeometryUtils {
    * @return the transformed (cloned) geometry
    */
   public static Geometry transformWgs84ToMercator(final Geometry geometry) {
-    if (geometry == null) {
-      return null;
-    }
-    Geometry result = geometry.copy();
-    result.apply(new Wgs84ToMercatorCoordinateFilter());
-    return result;
+    return Optional.ofNullable(geometry)
+        .map(g -> {
+          final Geometry result = g.copy();
+          result.apply(new Wgs84ToMercatorCoordinateFilter());
+          return result;
+        })
+        .orElse(null);
   }
 
   /**
@@ -1025,12 +1027,29 @@ public abstract class GeometryUtils {
    * @return the transformed (cloned) geometry
    */
   public static Geometry transformMercatorToWgs84(final Geometry geometry) {
-    if (geometry == null) {
-      return null;
-    }
-    Geometry result = geometry.copy();
-    result.apply(new MercatorToWgs84CoordinateFilter());
-    return result;
+    return Optional.ofNullable(geometry)
+        .map(g -> {
+          final Geometry result = g.copy();
+          result.apply(new MercatorToWgs84CoordinateFilter());
+          return result;
+        })
+        .orElse(null);
+  }
+
+  /**
+   * Swap coordinates.
+   *
+   * @param geometry the geometry
+   * @return the geometry with swapped coordinates
+   */
+  public static Geometry swapCoordinates(final Geometry geometry) {
+    return Optional.ofNullable(geometry)
+        .map(g -> {
+          final Geometry result = g.copy();
+          result.apply(new SwapCoordinateFilter());
+          return result;
+        })
+        .orElse(null);
   }
 
 }
