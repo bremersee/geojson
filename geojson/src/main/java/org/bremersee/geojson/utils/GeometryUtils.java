@@ -138,11 +138,7 @@ public abstract class GeometryUtils {
     if (g1 instanceof GeometryCollection && g2 instanceof GeometryCollection) {
       return equals((GeometryCollection) g1, (GeometryCollection) g2);
     }
-    try {
-      return g1.equals(g2);
-    } catch (Exception t) {
-      return false;
-    }
+    return g1.equals(g2);
   }
 
   /**
@@ -153,12 +149,6 @@ public abstract class GeometryUtils {
    * @return {@code true} if the geometry collections are equal otherwise {@code false}
    */
   private static boolean equals(final GeometryCollection gc1, final GeometryCollection gc2) {
-    if (gc1 == null && gc2 == null) {
-      return true;
-    }
-    if (gc1 == null || gc2 == null) {
-      return false;
-    }
     if (gc1.getNumGeometries() != gc2.getNumGeometries()) {
       return false;
     }
@@ -186,7 +176,9 @@ public abstract class GeometryUtils {
    * @return {@code null} if the bounding box can not be calculated, otherwise the bounding box
    */
   public static double[] getBoundingBox(final Geometry geometry) {
-    return geometry != null ? getBoundingBox(Collections.singletonList(geometry)) : null;
+    return Optional.ofNullable(geometry)
+        .map(g -> getBoundingBox(Collections.singletonList(g)))
+        .orElse(null);
   }
 
   /**
@@ -414,9 +406,9 @@ public abstract class GeometryUtils {
    * @param wkt one or more strings (see the OpenGIS Simple Features Specification) separated by
    *     whitespace
    * @return a Geometry specified by wellKnownText
-   * @throws RuntimeException if a parsing problem occurs
+   * @throws IllegalArgumentException if a parsing problem occurs
    */
-  public static Geometry fromWKT(final String wkt) throws RuntimeException {
+  public static Geometry fromWKT(final String wkt) throws IllegalArgumentException {
     return fromWKT(wkt, null);
   }
 
@@ -427,17 +419,17 @@ public abstract class GeometryUtils {
    *     whitespace
    * @param geometryFactory the geometry factory to use
    * @return a Geometry specified by wellKnownText
-   * @throws RuntimeException if a parsing problem occurs
+   * @throws IllegalArgumentException if a parsing problem occurs
    */
   public static Geometry fromWKT(final String wkt, final GeometryFactory geometryFactory)
-      throws RuntimeException {
+      throws IllegalArgumentException {
 
     try {
       return new WKTReader(geometryFactory(geometryFactory)).read(wkt);
     } catch (NullPointerException n) {
       return null;
     } catch (ParseException e) {
-      throw new RuntimeException("Parsing WKT [" + wkt + "] failed.", e);
+      throw new IllegalArgumentException("Parsing WKT [" + wkt + "] failed.", e);
     }
   }
 
@@ -447,9 +439,9 @@ public abstract class GeometryUtils {
    * @param reader a {@link Reader} which will return a string (see the OpenGIS Simple Features
    *     Specification)
    * @return a Geometry read from reader
-   * @throws RuntimeException if a parsing problem occurs
+   * @throws IllegalArgumentException if a parsing problem occurs
    */
-  public static Geometry fromWKT(final Reader reader) throws RuntimeException {
+  public static Geometry fromWKT(final Reader reader) throws IllegalArgumentException {
     return fromWKT(reader, null);
   }
 
@@ -460,17 +452,17 @@ public abstract class GeometryUtils {
    *     Specification)
    * @param geometryFactory the geometry factory to use
    * @return a Geometry read from reader
-   * @throws RuntimeException if a parsing problem occurs
+   * @throws IllegalArgumentException if a parsing problem occurs
    */
   public static Geometry fromWKT(final Reader reader, final GeometryFactory geometryFactory)
-      throws RuntimeException {
+      throws IllegalArgumentException {
 
     try (Reader r = reader) {
       return new WKTReader(geometryFactory(geometryFactory)).read(r);
     } catch (NullPointerException n) {
       return null;
     } catch (Exception e) {
-      throw new RuntimeException(e);
+      throw new IllegalArgumentException(e);
     }
   }
 
@@ -481,10 +473,10 @@ public abstract class GeometryUtils {
    *     Simple Features Specification)
    * @param charsetName the charset to use
    * @return a Geometry read from the input stream
-   * @throws RuntimeException if a parsing problem occurs
+   * @throws IllegalArgumentException if a parsing problem occurs
    */
   public static Geometry fromWKT(final InputStream inputStream, final String charsetName)
-      throws RuntimeException {
+      throws IllegalArgumentException {
     return fromWKT(inputStream, charsetName, null);
   }
 
@@ -496,13 +488,13 @@ public abstract class GeometryUtils {
    * @param charsetName the charset to use
    * @param geometryFactory the geometry factory to use
    * @return a Geometry read from the input stream
-   * @throws RuntimeException if a parsing problem occurs
+   * @throws IllegalArgumentException if a parsing problem occurs
    */
   public static Geometry fromWKT(
       final InputStream inputStream,
       final String charsetName,
       final GeometryFactory geometryFactory)
-      throws RuntimeException {
+      throws IllegalArgumentException {
 
     final String cs = charsetName == null ? StandardCharsets.UTF_8.name() : charsetName;
     try (InputStreamReader reader = new InputStreamReader(inputStream, cs)) {
@@ -511,7 +503,7 @@ public abstract class GeometryUtils {
     } catch (NullPointerException n) {
       return null;
     } catch (Exception e) {
-      throw new RuntimeException(e);
+      throw new IllegalArgumentException(e);
     }
   }
 

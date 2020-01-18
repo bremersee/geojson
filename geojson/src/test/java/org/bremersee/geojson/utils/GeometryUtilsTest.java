@@ -66,9 +66,11 @@ class GeometryUtilsTest {
     GeometryCollection gc1 = GeometryUtils.createGeometryCollection(g1, g3);
     GeometryCollection gc2 = GeometryUtils.createGeometryCollection(g1, g3);
     GeometryCollection gc3 = GeometryUtils.createGeometryCollection(g1, g2);
+    GeometryCollection gc4 = GeometryUtils.createGeometryCollection(g1, g2, g3);
     assertTrue(GeometryUtils.equals(gc1, gc1));
     assertTrue(GeometryUtils.equals(gc1, gc2));
     assertFalse(GeometryUtils.equals(gc1, gc3));
+    assertFalse(GeometryUtils.equals(gc1, gc4));
 
     assertTrue(GeometryUtils.equals(null, null));
     assertFalse(GeometryUtils.equals(gc1, null));
@@ -172,6 +174,12 @@ class GeometryUtilsTest {
     assertNull(GeometryUtils.fromWKT((String) null));
     assertNull(GeometryUtils.fromWKT((Reader) null));
     assertNull(GeometryUtils.fromWKT(null, StandardCharsets.UTF_8.name()));
+
+    assertThrows(IllegalArgumentException.class, () -> GeometryUtils.fromWKT("nonsense"));
+    assertThrows(IllegalArgumentException.class, () -> GeometryUtils
+        .fromWKT(new StringReader("nonsense")));
+    assertThrows(IllegalArgumentException.class, () -> GeometryUtils
+        .fromWKT(new ByteArrayInputStream("nonsense".getBytes(StandardCharsets.UTF_8)), null));
 
     Geometry geometry = GeometryUtils.createPoint(1.1, 2.2);
     String wkt = GeometryUtils.toWKT(geometry);
