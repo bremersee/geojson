@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2018 the original author or authors.
+ * Copyright 2015-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ import org.locationtech.jts.geom.MultiPoint;
 import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
-import org.locationtech.jts.geom.impl.CoordinateArraySequenceFactory;
+import org.locationtech.jts.geom.impl.CoordinateArraySequence;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
 
@@ -46,7 +46,6 @@ import org.locationtech.jts.io.WKTReader;
  *
  * @author Christian Bremer
  */
-@SuppressWarnings({"unused", "WeakerAccess"})
 public abstract class GeometryUtils {
 
   /**
@@ -113,6 +112,10 @@ public abstract class GeometryUtils {
    */
   private static final GeometryFactory DEFAULT_GEOMETRY_FACTORY = new GeometryFactory();
 
+  private static GeometryFactory geometryFactory(GeometryFactory geometryFactory) {
+    return geometryFactory != null ? geometryFactory : DEFAULT_GEOMETRY_FACTORY;
+  }
+
   /**
    * Checks whether two geometry objects are equal.
    *
@@ -121,9 +124,9 @@ public abstract class GeometryUtils {
    *
    * @param g1 one geometry
    * @param g2 another geometry
-   * @return <code>true</code> if the geometries are equal otherwise <code>false</code>
+   * @return {@code true} if the geometries are equal otherwise {@code false}
    */
-  public static boolean equals(final Geometry g1, final Geometry g2) { // NOSONAR
+  public static boolean equals(final Geometry g1, final Geometry g2) {
     if (g1 == null && g2 == null) {
       return true;
     }
@@ -138,7 +141,7 @@ public abstract class GeometryUtils {
     }
     try {
       return g1.equals(g2);
-    } catch (Throwable t) { // NOSONAR
+    } catch (Exception t) {
       return false;
     }
   }
@@ -148,8 +151,7 @@ public abstract class GeometryUtils {
    *
    * @param gc1 one geometry collection
    * @param gc2 another geometry collection
-   * @return <code>true</code> if the geometry collections are equal otherwise
-   * <code>false</code>
+   * @return {@code true} if the geometry collections are equal otherwise {@code false}
    */
   private static boolean equals(final GeometryCollection gc1, final GeometryCollection gc2) {
     if (gc1 == null && gc2 == null) {
@@ -185,10 +187,7 @@ public abstract class GeometryUtils {
    * @return {@code null} if the bounding box can not be calculated, otherwise the bounding box
    */
   public static double[] getBoundingBox(final Geometry geometry) {
-    if (geometry == null) {
-      return null;
-    }
-    return getBoundingBox(Collections.singletonList(geometry));
+    return geometry != null ? getBoundingBox(Collections.singletonList(geometry)) : null;
   }
 
   /**
@@ -198,8 +197,7 @@ public abstract class GeometryUtils {
    * @return {@code null} if the bounding box can not be calculated, otherwise the bounding box
    */
   public static double[] getBoundingBox(final Collection<? extends Geometry> geometries) {
-    if (geometries == null
-        || geometries.isEmpty()) {
+    if (geometries == null || geometries.isEmpty()) {
       return null;
     }
     double minX = Double.NaN;
@@ -266,7 +264,7 @@ public abstract class GeometryUtils {
     if (boundingBox == null || !(boundingBox.length == 4 || boundingBox.length == 6)) {
       return null;
     }
-    return createCoordinate(boundingBox[0], boundingBox[1]); // southWest
+    return createCoordinate(boundingBox[0], boundingBox[1]);
   }
 
   /**
@@ -280,11 +278,11 @@ public abstract class GeometryUtils {
       return null;
     }
     if (boundingBox.length == 6) {
-      // 0 1 2 3 4 5
+      // 0   1   2   3   4   5
       // x0, y0, z0, x1, y1, z1
       return createCoordinate(boundingBox[0], boundingBox[4]);
     } else {
-      // 0 1 2 3
+      // 0   1   2   3
       // x0, y0, x1, y1
       return createCoordinate(boundingBox[0], boundingBox[3]);
     }
@@ -301,11 +299,11 @@ public abstract class GeometryUtils {
       return null;
     }
     if (boundingBox.length == 6) {
-      // 0 1 2 3 4 5
+      // 0   1   2   3   4   5
       // x0, y0, z0, x1, y1, z1
       return createCoordinate(boundingBox[3], boundingBox[4]);
     } else {
-      // 0 1 2 3
+      // 0   1   2   3
       // x0, y0, x1, y1
       return createCoordinate(boundingBox[2], boundingBox[3]);
     }
@@ -322,11 +320,11 @@ public abstract class GeometryUtils {
       return null;
     }
     if (boundingBox.length == 6) {
-      // 0 1 2 3 4 5
+      // 0   1   2   3   4   5
       // x0, y0, z0, x1, y1, z1
       return createCoordinate(boundingBox[3], boundingBox[1]);
     } else {
-      // 0 1 2 3
+      // 0   1   2   3
       // x0, y0, x1, y1
       return createCoordinate(boundingBox[2], boundingBox[1]);
     }
@@ -345,12 +343,14 @@ public abstract class GeometryUtils {
   /**
    * Returns a polygon from the bounding box.
    *
-   * @param boundingBox     the bounding bos
+   * @param boundingBox the bounding bos
    * @param geometryFactory the geometry factory
    * @return the polygon or {@code null} if the bounding box is {@code null} or empty
    */
-  public static Polygon getBoundingBoxAsPolygon2D(final double[] boundingBox,
+  public static Polygon getBoundingBoxAsPolygon2D(
+      final double[] boundingBox,
       final GeometryFactory geometryFactory) {
+
     final Coordinate sw = getSouthWest(boundingBox);
     final Coordinate se = getSouthEast(boundingBox);
     final Coordinate ne = getNorthEast(boundingBox);
@@ -386,39 +386,14 @@ public abstract class GeometryUtils {
   /**
    * Returns the bounding box of the geometry as polygon.
    *
-   * @param geometry        the geometry
+   * @param geometry the geometry
    * @param geometryFactory the geometry factory to use
    * @return the bounding box of the geometry as polygon
    */
-  @SuppressWarnings("SameParameterValue")
   public static Polygon getBoundingBoxAsPolygon2D(
       final Geometry geometry,
       final GeometryFactory geometryFactory) {
-
-    final double[] bbox = getBoundingBox(geometry);
-    if (bbox == null || !(bbox.length == 4 || bbox.length == 6)) {
-      return null;
-    }
-
-    int add = bbox.length == 6 ? 1 : 0;
-    Double a = bbox[0];
-    Double b = bbox[2 + add];
-    Double c = bbox[1];
-    Double d = bbox[3 + add];
-    if (a.equals(b) || c.equals(d)) {
-      return null;
-    }
-
-    Coordinate c0 = getSouthWest(bbox);
-    if (c0 == null) {
-      throw new IllegalArgumentException("South west coordinate is null.");
-    }
-    Coordinate c1 = getNorthWest(bbox);
-    Coordinate c2 = getNorthEast(bbox);
-    Coordinate c3 = getSouthEast(bbox);
-
-    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;
-    return gf.createPolygon(new Coordinate[]{c0, c1, c2, c3, (Coordinate) c0.clone()});
+    return getBoundingBoxAsPolygon2D(getBoundingBox(geometry), geometryFactory);
   }
 
   /**
@@ -439,7 +414,7 @@ public abstract class GeometryUtils {
    * Reads a Well-Known Text representation of a Geometry from a {@link String}.
    *
    * @param wkt one or more strings (see the OpenGIS Simple Features Specification) separated by
-   *            whitespace
+   *     whitespace
    * @return a Geometry specified by wellKnownText
    * @throws RuntimeException if a parsing problem occurs
    */
@@ -450,21 +425,19 @@ public abstract class GeometryUtils {
   /**
    * Reads a Well-Known Text representation of a Geometry from a {@link String}.
    *
-   * @param wkt             one or more strings (see the OpenGIS Simple Features Specification)
-   *                        separated by whitespace
+   * @param wkt one or more strings (see the OpenGIS Simple Features Specification) separated by
+   *     whitespace
    * @param geometryFactory the geometry factory to use
    * @return a Geometry specified by wellKnownText
    * @throws RuntimeException if a parsing problem occurs
    */
-  @SuppressWarnings("SameParameterValue")
   public static Geometry fromWKT(final String wkt, final GeometryFactory geometryFactory)
       throws RuntimeException {
 
     if (wkt == null || wkt.trim().length() == 0) {
       return null;
     }
-    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;
-    WKTReader wktReader = new WKTReader(gf);
+    WKTReader wktReader = new WKTReader(geometryFactory(geometryFactory));
     try {
       return wktReader.read(wkt);
     } catch (ParseException e) {
@@ -476,7 +449,7 @@ public abstract class GeometryUtils {
    * Reads a Well-Known Text representation of a Geometry from a {@link Reader}.
    *
    * @param reader a {@link Reader} which will return a string (see the OpenGIS Simple Features
-   *               Specification)
+   *     Specification)
    * @return a Geometry read from reader
    * @throws RuntimeException if a parsing problem occurs
    */
@@ -487,21 +460,19 @@ public abstract class GeometryUtils {
   /**
    * Reads a Well-Known Text representation of a Geometry from a {@link Reader}.
    *
-   * @param reader          a {@link Reader} which will return a string (see the OpenGIS Simple
-   *                        Features Specification)
+   * @param reader a {@link Reader} which will return a string (see the OpenGIS Simple Features
+   *     Specification)
    * @param geometryFactory the geometry factory to use
    * @return a Geometry read from reader
    * @throws RuntimeException if a parsing problem occurs
    */
-  @SuppressWarnings("SameParameterValue")
   public static Geometry fromWKT(final Reader reader, final GeometryFactory geometryFactory)
       throws RuntimeException {
 
     if (reader == null) {
       return null;
     }
-    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;
-    WKTReader wktReader = new WKTReader(gf);
+    WKTReader wktReader = new WKTReader(geometryFactory(geometryFactory));
     try {
       return wktReader.read(reader);
     } catch (ParseException e) {
@@ -512,8 +483,8 @@ public abstract class GeometryUtils {
   /**
    * Reads a Well-Known Text representation of a Geometry from an {@link InputStream}.
    *
-   * @param inputStream an {@link InputStream} which will return a string (see the OpenGIS Simple
-   *                    Features Specification)
+   * @param inputStream an {@link InputStream} which will return a string (see the OpenGIS
+   *     Simple Features Specification)
    * @param charsetName the charset to use
    * @return a Geometry read from the input stream
    * @throws RuntimeException if a parsing problem occurs
@@ -526,26 +497,27 @@ public abstract class GeometryUtils {
   /**
    * Reads a Well-Known Text representation of a Geometry from an {@link InputStream}.
    *
-   * @param inputStream     an {@link InputStream} which will return a string (see the OpenGIS
-   *                        Simple Features Specification)
-   * @param charsetName     the charset to use
+   * @param inputStream an {@link InputStream} which will return a string (see the OpenGIS
+   *     Simple Features Specification)
+   * @param charsetName the charset to use
    * @param geometryFactory the geometry factory to use
    * @return a Geometry read from the input stream
    * @throws RuntimeException if a parsing problem occurs
    */
-  @SuppressWarnings("SameParameterValue")
-  public static Geometry fromWKT(final InputStream inputStream, final String charsetName,
+  public static Geometry fromWKT(
+      final InputStream inputStream,
+      final String charsetName,
       final GeometryFactory geometryFactory)
       throws RuntimeException {
+
     if (inputStream == null) {
       return null;
     }
-    final String cn =
-        charsetName == null || charsetName.trim().length() == 0 ? StandardCharsets.UTF_8.name()
-            : charsetName;
-    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;
+    final String cn = charsetName == null || charsetName.trim().length() == 0
+        ? StandardCharsets.UTF_8.name()
+        : charsetName;
     try {
-      return fromWKT(new InputStreamReader(inputStream, cn), gf);
+      return fromWKT(new InputStreamReader(inputStream, cn), geometryFactory(geometryFactory));
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException("Parsing WKT failed.", e);
     }
@@ -583,7 +555,7 @@ public abstract class GeometryUtils {
   /**
    * Creates a coordinate.
    *
-   * @param latitude  the latitude value
+   * @param latitude the latitude value
    * @param longitude the longitude value
    * @return the coordinate
    */
@@ -594,7 +566,7 @@ public abstract class GeometryUtils {
   /**
    * Creates a coordinate.
    *
-   * @param latitude  the latitude value
+   * @param latitude the latitude value
    * @param longitude the longitude value
    * @return the coordinate
    * @throws IllegalArgumentException if latitude or longitude is {@code null}
@@ -650,12 +622,14 @@ public abstract class GeometryUtils {
   /**
    * Creates a point.
    *
-   * @param x               the x value
-   * @param y               the y value
+   * @param x the x value
+   * @param y the y value
    * @param geometryFactory the geometry factory to use
    * @return the point
    */
-  public static Point createPoint(final double x, final double y,
+  public static Point createPoint(
+      final double x,
+      final double y,
       final GeometryFactory geometryFactory) {
     return createPoint(createCoordinate(x, y), geometryFactory);
   }
@@ -674,12 +648,14 @@ public abstract class GeometryUtils {
   /**
    * Creates a point.
    *
-   * @param x               the x value
-   * @param y               the y value
+   * @param x the x value
+   * @param y the y value
    * @param geometryFactory the geometry factory to use
    * @return the point
    */
-  public static Point createPoint(final BigDecimal x, final BigDecimal y,
+  public static Point createPoint(
+      final BigDecimal x,
+      final BigDecimal y,
       final GeometryFactory geometryFactory) {
     return createPoint(createCoordinate(x, y), geometryFactory);
   }
@@ -697,22 +673,21 @@ public abstract class GeometryUtils {
   /**
    * Creates a Point using the given Coordinate; a null Coordinate will create an empty Geometry.
    *
-   * @param coordinate      the coordinate of the point
+   * @param coordinate the coordinate of the point
    * @param geometryFactory the geometry factory to use
    * @return the point
    */
-  @SuppressWarnings("SameParameterValue")
-  public static Point createPoint(final Coordinate coordinate,
+  public static Point createPoint(
+      final Coordinate coordinate,
       final GeometryFactory geometryFactory) {
-    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;
-    return gf.createPoint(coordinate);
+    return geometryFactory(geometryFactory).createPoint(coordinate);
   }
 
   /**
    * Creates a point from WGS84 latitude and longitude.<br> Latitude becomes the y-value.<br>
    * Longitude becomes the x-value.<br>
    *
-   * @param latitude  the latitude in degrees
+   * @param latitude the latitude in degrees
    * @param longitude the longitude in degrees
    * @return the point
    */
@@ -724,7 +699,7 @@ public abstract class GeometryUtils {
    * Creates a point from WGS84 latitude and longitude.<br> Latitude becomes the y-value.<br>
    * Longitude becomes the x-value.<br>
    *
-   * @param latitude  the latitude in degrees
+   * @param latitude the latitude in degrees
    * @param longitude the longitude in degrees
    * @return the point
    */
@@ -736,12 +711,14 @@ public abstract class GeometryUtils {
    * Creates a point from WGS84 latitude and longitude.<br> Latitude becomes the y-value.<br>
    * Longitude becomes the x-value.<br>
    *
-   * @param latitude        the latitude in degrees
-   * @param longitude       the longitude in degrees
+   * @param latitude the latitude in degrees
+   * @param longitude the longitude in degrees
    * @param geometryFactory the geometry factory to use
    * @return the point
    */
-  public static Point createPointWGS84(final double latitude, final double longitude,
+  public static Point createPointWGS84(
+      final double latitude,
+      final double longitude,
       final GeometryFactory geometryFactory) {
     return createPoint(longitude, latitude, geometryFactory);
   }
@@ -750,12 +727,14 @@ public abstract class GeometryUtils {
    * Creates a point from WGS84 latitude and longitude.<br> Latitude becomes the y-value.<br>
    * Longitude becomes the x-value.<br>
    *
-   * @param latitude        the latitude in degrees
-   * @param longitude       the longitude in degrees
+   * @param latitude the latitude in degrees
+   * @param longitude the longitude in degrees
    * @param geometryFactory the geometry factory to use
    * @return the point
    */
-  public static Point createPointWGS84(final BigDecimal latitude, final BigDecimal longitude,
+  public static Point createPointWGS84(
+      final BigDecimal latitude,
+      final BigDecimal longitude,
       final GeometryFactory geometryFactory) {
     return createPoint(longitude, latitude, geometryFactory);
   }
@@ -775,12 +754,12 @@ public abstract class GeometryUtils {
    * Creates a MultiPoint using the given Points. A null or empty collection will create an empty
    * MultiPoint.
    *
-   * @param points          the points of the {@link MultiPoint}
+   * @param points the points of the {@link MultiPoint}
    * @param geometryFactory the geometry factory to use
    * @return the {@link MultiPoint}
    */
-  @SuppressWarnings("SameParameterValue")
-  public static MultiPoint createMultiPoint(final Collection<? extends Point> points,
+  public static MultiPoint createMultiPoint(
+      final Collection<? extends Point> points,
       final GeometryFactory geometryFactory) {
     Point[] ps;
     if (points == null) {
@@ -788,8 +767,7 @@ public abstract class GeometryUtils {
     } else {
       ps = points.toArray(new Point[0]);
     }
-    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;
-    return gf.createMultiPoint(ps);
+    return geometryFactory(geometryFactory).createMultiPoint(ps);
   }
 
   /**
@@ -807,21 +785,22 @@ public abstract class GeometryUtils {
    * Creates a LineString using the given coordinates; a null or empty collection will create an
    * empty LineString. Consecutive points must not be equal.
    *
-   * @param coordinates     the coordinates of the {@link LineString}
+   * @param coordinates the coordinates of the {@link LineString}
    * @param geometryFactory the geometry factory to use
    * @return the {@link LineString}
    */
-  public static LineString createLineString(final Collection<? extends Coordinate> coordinates,
-      @SuppressWarnings("SameParameterValue") final GeometryFactory geometryFactory) {
+  public static LineString createLineString(
+      final Collection<? extends Coordinate> coordinates,
+      final GeometryFactory geometryFactory) {
+
     CoordinateSequence points;
     if (coordinates == null) {
       points = null;
     } else {
       Coordinate[] coords = coordinates.toArray(new Coordinate[0]);
-      points = CoordinateArraySequenceFactory.instance().create(coords);
+      points = new CoordinateArraySequence(coords);
     }
-    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;
-    return gf.createLineString(points);
+    return geometryFactory(geometryFactory).createLineString(points);
   }
 
   /**
@@ -840,21 +819,20 @@ public abstract class GeometryUtils {
    * Creates a MultiLineString using the given LineStrings; a null or empty collection will create
    * an empty MultiLineString.
    *
-   * @param lineStrings     the {@link LineString}s of the {@link MultiLineString}
+   * @param lineStrings the {@link LineString}s of the {@link MultiLineString}
    * @param geometryFactory the geometry factory to use
    * @return the {@link MultiLineString}
    */
   public static MultiLineString createMultiLineString(
       final Collection<? extends LineString> lineStrings,
-      @SuppressWarnings("SameParameterValue") final GeometryFactory geometryFactory) {
+      final GeometryFactory geometryFactory) {
     LineString[] lines;
     if (lineStrings == null) {
       lines = null;
     } else {
       lines = lineStrings.toArray(new LineString[0]);
     }
-    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;
-    return gf.createMultiLineString(lines);
+    return geometryFactory(geometryFactory).createMultiLineString(lines);
   }
 
   /**
@@ -872,36 +850,26 @@ public abstract class GeometryUtils {
    * Creates a LinearRing using the given coordinates. A null or empty coordinates will create an
    * empty LinearRing.
    *
-   * @param coordinates     the coordinates
+   * @param coordinates the coordinates
    * @param geometryFactory the geometry factory
    * @return the created LinearRing
    */
-  public static LinearRing createLinearRing(final Collection<? extends Coordinate> coordinates,
-      @SuppressWarnings("SameParameterValue") final GeometryFactory geometryFactory) {
-    CoordinateSequence points;
-    if (coordinates == null) {
-      points = null;
-    } else {
-      Coordinate[] coords = coordinates.toArray(new Coordinate[0]);
-      if (coords.length > 0) {
-        Coordinate coord0 = coords[0];
-        Coordinate coordN = coords[coords.length - 1];
-        if (!coord0.equals3D(coordN)) {
-          coords = Arrays.copyOf(coords, coords.length + 1);
-          coords[coords.length - 1] = (Coordinate) coord0.clone();
-        }
-      }
-      points = CoordinateArraySequenceFactory.instance().create(coords);
+  public static LinearRing createLinearRing(
+      final Collection<? extends Coordinate> coordinates,
+      final GeometryFactory geometryFactory) {
+
+    final GeometryFactory gf = geometryFactory(geometryFactory);
+    if (coordinates == null || coordinates.isEmpty()) {
+      return gf.createLinearRing(new CoordinateArraySequence(new Coordinate[0]));
     }
-    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;
-    return gf.createLinearRing(points);
+    return gf.createLinearRing(new CoordinateArraySequence(coordinates.toArray(new Coordinate[0])));
   }
 
   /**
    * Constructs a Polygon with the given exterior boundary.
    *
-   * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the empty
-   *              geometry is to be created
+   * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the
+   *     empty geometry is to be created
    * @return the created Polygon
    */
   public static Polygon createPolygon(final LinearRing shell) {
@@ -911,12 +879,13 @@ public abstract class GeometryUtils {
   /**
    * Constructs a Polygon with the given exterior boundary.
    *
-   * @param shell           the outer boundary of the new Polygon, or null or an empty LinearRing if
-   *                        the empty geometry is to be created
+   * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the
+   *     empty geometry is to be created
    * @param geometryFactory the geometry factory
    * @return the created Polygon
    */
-  public static Polygon createPolygon(final LinearRing shell,
+  public static Polygon createPolygon(
+      final LinearRing shell,
       final GeometryFactory geometryFactory) {
     return createPolygon(shell, null, geometryFactory);
   }
@@ -924,13 +893,14 @@ public abstract class GeometryUtils {
   /**
    * Constructs a Polygon with the given exterior boundary and interior boundaries.
    *
-   * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the empty
-   *              geometry is to be created
+   * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the
+   *     empty geometry is to be created
    * @param holes the inner boundaries of the new Polygon, or null or empty LinearRing s if the
-   *              empty geometry is to be created
+   *     empty geometry is to be created
    * @return the created Polygon
    */
-  public static Polygon createPolygon(final LinearRing shell,
+  public static Polygon createPolygon(
+      final LinearRing shell,
       final Collection<? extends LinearRing> holes) {
     return createPolygon(shell, holes, null);
   }
@@ -938,24 +908,25 @@ public abstract class GeometryUtils {
   /**
    * Constructs a Polygon with the given exterior boundary and interior boundaries.
    *
-   * @param shell           the outer boundary of the new Polygon, or null or an empty LinearRing if
-   *                        the empty geometry is to be created
-   * @param holes           the inner boundaries of the new Polygon, or null or empty LinearRing s
-   *                        if the empty geometry is to be created
+   * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the
+   *     empty geometry is to be created
+   * @param holes the inner boundaries of the new Polygon, or null or empty LinearRing s if the
+   *     empty geometry is to be created
    * @param geometryFactory the geometry factory
    * @return the created Polygon
    */
-  public static Polygon createPolygon(final LinearRing shell,
+  public static Polygon createPolygon(
+      final LinearRing shell,
       final Collection<? extends LinearRing> holes,
       final GeometryFactory geometryFactory) {
+
     LinearRing[] hs;
     if (holes == null) {
       hs = null;
     } else {
       hs = holes.toArray(new LinearRing[0]);
     }
-    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;
-    return gf.createPolygon(shell, hs);
+    return geometryFactory(geometryFactory).createPolygon(shell, hs);
   }
 
   /**
@@ -973,20 +944,63 @@ public abstract class GeometryUtils {
    * Creates a MultiPolygon using the given Polygons; a null or empty array will create an empty
    * Polygon.
    *
-   * @param polygons        the polygons
+   * @param polygons the polygons
    * @param geometryFactory the geometry factory
    * @return the multi polygon
    */
-  public static MultiPolygon createMultiPolygon(final Collection<? extends Polygon> polygons,
-      @SuppressWarnings("SameParameterValue") final GeometryFactory geometryFactory) {
+  public static MultiPolygon createMultiPolygon(
+      final Collection<? extends Polygon> polygons,
+      final GeometryFactory geometryFactory) {
+
     Polygon[] ps;
     if (polygons == null) {
       ps = null;
     } else {
       ps = polygons.toArray(new Polygon[0]);
     }
-    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;
-    return gf.createMultiPolygon(ps);
+    return geometryFactory(geometryFactory).createMultiPolygon(ps);
+  }
+
+  /**
+   * Create geometry collection geometry collection.
+   *
+   * @param geometries the geometries
+   * @return the geometry collection
+   */
+  public static GeometryCollection createGeometryCollection(final Geometry... geometries) {
+    if (geometries == null) {
+      return new GeometryCollection(new Geometry[0], DEFAULT_GEOMETRY_FACTORY);
+    }
+    return new GeometryCollection(geometries, DEFAULT_GEOMETRY_FACTORY);
+  }
+
+  /**
+   * Create geometry collection geometry collection.
+   *
+   * @param geometries the geometries
+   * @return the geometry collection
+   */
+  public static GeometryCollection createGeometryCollection(
+      final Collection<? extends Geometry> geometries) {
+    return createGeometryCollection(geometries, DEFAULT_GEOMETRY_FACTORY);
+  }
+
+  /**
+   * Create geometry collection geometry collection.
+   *
+   * @param geometries the geometries
+   * @param geometryFactory the geometry factory
+   * @return the geometry collection
+   */
+  public static GeometryCollection createGeometryCollection(
+      final Collection<? extends Geometry> geometries,
+      final GeometryFactory geometryFactory) {
+
+    final GeometryFactory factory = geometryFactory(geometryFactory);
+    if (geometries == null || geometries.isEmpty()) {
+      return new GeometryCollection(new Geometry[0], factory);
+    }
+    return new GeometryCollection(geometries.toArray(new Geometry[0]), factory);
   }
 
   /**

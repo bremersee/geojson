@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,13 @@
 
 package org.bremersee.geojson;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
@@ -25,9 +32,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.TimeZone;
 import org.bremersee.geojson.utils.GeometryUtils;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateSequence;
 import org.locationtech.jts.geom.Geometry;
@@ -47,7 +53,7 @@ import org.locationtech.jts.geom.impl.CoordinateArraySequence;
  *
  * @author Christian Bremer
  */
-public class GeoJsonTests {
+class GeoJsonTests {
 
   private static GeometryFactory geometryFactory = new GeometryFactory();
 
@@ -64,8 +70,8 @@ public class GeoJsonTests {
   /**
    * Init class.
    */
-  @BeforeClass
-  public static void initClass() {
+  @BeforeAll
+  static void initClass() {
     getObjectMapper().registerModules(
         new Jdk8Module(),
         new JavaTimeModule(),
@@ -137,26 +143,50 @@ public class GeoJsonTests {
   }
 
   /**
+   * Configure GeoJSON object mapper module.
+   */
+  @Test
+  void configureGeoJsonObjectMapperModule() {
+    ObjectMapper om = new ObjectMapper();
+    GeoJsonObjectMapperModule.configure(om);
+    assertTrue(om.getRegisteredModuleIds().stream()
+        .anyMatch(module -> GeoJsonObjectMapperModule.class.getName()
+            .equals(String.valueOf(module))));
+
+    om = new ObjectMapper();
+    om.registerModule(new GeoJsonObjectMapperModule());
+    assertTrue(om.getRegisteredModuleIds().stream()
+        .anyMatch(module -> GeoJsonObjectMapperModule.class.getName()
+            .equals(String.valueOf(module))));
+
+    om = new ObjectMapper();
+    om.registerModule(new GeoJsonObjectMapperModule(new GeometryFactory()));
+    assertTrue(om.getRegisteredModuleIds().stream()
+        .anyMatch(module -> GeoJsonObjectMapperModule.class.getName()
+            .equals(String.valueOf(module))));
+  }
+
+  /**
    * Test point.
    *
    * @throws Exception the exception
    */
   @Test
-  public void testPoint() throws Exception {
+  void testPoint() throws Exception {
     Point geometry = createPoint();
     System.out.println("Testing " + geometry.toText());
     String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter()
         .writeValueAsString(geometry);
     System.out.println(jsonStr);
     Point readGeometry = getObjectMapper().readValue(jsonStr, Point.class);
-    Assert.assertTrue(GeometryUtils.equals(geometry, readGeometry));
+    assertTrue(GeometryUtils.equals(geometry, readGeometry));
 
     GeometryWrapper gjg = new GeometryWrapper(geometry);
     jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
     System.out.println(jsonStr);
     GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
-    Assert.assertEquals(gjg, readGjg);
-    Assert.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+    assertEquals(gjg, readGjg);
+    assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
   }
 
   /**
@@ -165,21 +195,21 @@ public class GeoJsonTests {
    * @throws Exception the exception
    */
   @Test
-  public void testLineString() throws Exception {
+  void testLineString() throws Exception {
     LineString geometry = createLineString();
     System.out.println("Testing " + geometry.toText());
     String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter()
         .writeValueAsString(geometry);
     System.out.println(jsonStr);
     LineString readGeometry = getObjectMapper().readValue(jsonStr, LineString.class);
-    Assert.assertTrue(GeometryUtils.equals(geometry, readGeometry));
+    assertTrue(GeometryUtils.equals(geometry, readGeometry));
 
     GeometryWrapper gjg = new GeometryWrapper(geometry);
     jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
     System.out.println(jsonStr);
     GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
-    Assert.assertEquals(gjg, readGjg);
-    Assert.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+    assertEquals(gjg, readGjg);
+    assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
   }
 
   /**
@@ -188,21 +218,21 @@ public class GeoJsonTests {
    * @throws Exception the exception
    */
   @Test
-  public void testPolygon() throws Exception {
+  void testPolygon() throws Exception {
     Polygon geometry = createPolygon();
     System.out.println("Testing " + geometry.toText());
     String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter()
         .writeValueAsString(geometry);
     System.out.println(jsonStr);
     Polygon readGeometry = getObjectMapper().readValue(jsonStr, Polygon.class);
-    Assert.assertTrue(GeometryUtils.equals(geometry, readGeometry));
+    assertTrue(GeometryUtils.equals(geometry, readGeometry));
 
     GeometryWrapper gjg = new GeometryWrapper(geometry);
     jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
     System.out.println(jsonStr);
     GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
-    Assert.assertEquals(gjg, readGjg);
-    Assert.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+    assertEquals(gjg, readGjg);
+    assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
   }
 
   /**
@@ -211,21 +241,21 @@ public class GeoJsonTests {
    * @throws Exception the exception
    */
   @Test
-  public void testPolygonWithHoles() throws Exception {
+  void testPolygonWithHoles() throws Exception {
     Polygon geometry = createPolygonWithHoles();
     System.out.println("Testing with holes " + geometry.toText());
     String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter()
         .writeValueAsString(geometry);
     System.out.println(jsonStr);
     Polygon readGeometry = getObjectMapper().readValue(jsonStr, Polygon.class);
-    Assert.assertTrue(GeometryUtils.equals(geometry, readGeometry));
+    assertTrue(GeometryUtils.equals(geometry, readGeometry));
 
     GeometryWrapper gjg = new GeometryWrapper(geometry);
     jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
     System.out.println(jsonStr);
     GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
-    Assert.assertEquals(gjg, readGjg);
-    Assert.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+    assertEquals(gjg, readGjg);
+    assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
   }
 
   /**
@@ -234,21 +264,21 @@ public class GeoJsonTests {
    * @throws Exception the exception
    */
   @Test
-  public void testMultiPoint() throws Exception {
+  void testMultiPoint() throws Exception {
     MultiPoint geometry = createMultiPoint();
     System.out.println("Testing " + geometry.toText());
     String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter()
         .writeValueAsString(geometry);
     System.out.println(jsonStr);
     MultiPoint readGeometry = getObjectMapper().readValue(jsonStr, MultiPoint.class);
-    Assert.assertTrue(GeometryUtils.equals(geometry, readGeometry));
+    assertTrue(GeometryUtils.equals(geometry, readGeometry));
 
     GeometryWrapper gjg = new GeometryWrapper(geometry);
     jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
     System.out.println(jsonStr);
     GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
-    Assert.assertEquals(gjg, readGjg);
-    Assert.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+    assertEquals(gjg, readGjg);
+    assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
   }
 
   /**
@@ -257,21 +287,21 @@ public class GeoJsonTests {
    * @throws Exception the exception
    */
   @Test
-  public void testMultiLineString() throws Exception {
+  void testMultiLineString() throws Exception {
     MultiLineString geometry = createMultiLineString();
     System.out.println("Testing " + geometry.toText());
     String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter()
         .writeValueAsString(geometry);
     System.out.println(jsonStr);
     MultiLineString readGeometry = getObjectMapper().readValue(jsonStr, MultiLineString.class);
-    Assert.assertTrue(GeometryUtils.equals(geometry, readGeometry));
+    assertTrue(GeometryUtils.equals(geometry, readGeometry));
 
     GeometryWrapper gjg = new GeometryWrapper(geometry);
     jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
     System.out.println(jsonStr);
     GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
-    Assert.assertEquals(gjg, readGjg);
-    Assert.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+    assertEquals(gjg, readGjg);
+    assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
   }
 
   /**
@@ -280,21 +310,21 @@ public class GeoJsonTests {
    * @throws Exception the exception
    */
   @Test
-  public void testMultiPolygon() throws Exception {
+  void testMultiPolygon() throws Exception {
     MultiPolygon geometry = createMultiPolygon();
     System.out.println("Testing " + geometry.toText());
     String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter()
         .writeValueAsString(geometry);
     System.out.println(jsonStr);
     MultiPolygon readGeometry = getObjectMapper().readValue(jsonStr, MultiPolygon.class);
-    Assert.assertTrue(GeometryUtils.equals(geometry, readGeometry));
+    assertTrue(GeometryUtils.equals(geometry, readGeometry));
 
     GeometryWrapper gjg = new GeometryWrapper(geometry);
     jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
     System.out.println(jsonStr);
     GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
-    Assert.assertEquals(gjg, readGjg);
-    Assert.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+    assertEquals(gjg, readGjg);
+    assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
   }
 
   /**
@@ -303,7 +333,7 @@ public class GeoJsonTests {
    * @throws Exception the exception
    */
   @Test
-  public void testGeometryCollection() throws Exception {
+  void testGeometryCollection() throws Exception {
     GeometryCollection geometry = new GeometryCollection(
         new Geometry[]{createLineString(), createMultiLineString()}, getGeometryFactory());
     System.out.println("Testing " + geometry.toText());
@@ -312,14 +342,55 @@ public class GeoJsonTests {
     System.out.println(jsonStr);
     GeometryCollection readGeometry = getObjectMapper()
         .readValue(jsonStr, GeometryCollection.class);
-    Assert.assertTrue(GeometryUtils.equals(geometry, readGeometry));
+    assertTrue(GeometryUtils.equals(geometry, readGeometry));
 
     GeometryWrapper gjg = new GeometryWrapper(geometry);
     jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(gjg);
     System.out.println(jsonStr);
     GeometryWrapper readGjg = getObjectMapper().readValue(jsonStr, GeometryWrapper.class);
-    Assert.assertEquals(gjg, readGjg);
-    Assert.assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+    assertEquals(gjg, readGjg);
+    assertTrue(GeometryUtils.equals(geometry, readGjg.getGeometry()));
+  }
+
+  /**
+   * Test geometry wrapper holder.
+   *
+   * @throws Exception the exception
+   */
+  @Test
+  void testGeometryWrapperHolder() throws Exception {
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    Geometry geometry = GeometryUtils.createPoint(1., 2.);
+    GeometryWrapper wrapper = new GeometryWrapper(geometry);
+    GeometryWrapperHolder holder = new GeometryWrapperHolder();
+    holder.id = "test";
+    holder.geometry = wrapper;
+    String jsonStr = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(holder);
+    System.out.println(jsonStr);
+
+    GeometryWrapperHolder readHolder = objectMapper
+        .readValue(jsonStr, GeometryWrapperHolder.class);
+    assertEquals(holder.geometry, readHolder.geometry);
+
+    geometry = GeometryUtils.createLineString(null);
+    wrapper = new GeometryWrapper(geometry);
+    holder.geometry = wrapper;
+    jsonStr = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(holder);
+    System.out.println(jsonStr);
+
+    readHolder = objectMapper
+        .readValue(jsonStr, GeometryWrapperHolder.class);
+    assertEquals(holder.geometry.getGeometry(), readHolder.geometry.getGeometry());
+
+    holder.geometry = null;
+    jsonStr = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(holder);
+    System.out.println(jsonStr);
+
+    readHolder = objectMapper
+        .readValue(jsonStr, GeometryWrapperHolder.class);
+    assertNull(readHolder.geometry);
+
   }
 
   /**
@@ -328,13 +399,13 @@ public class GeoJsonTests {
    * @throws Exception the exception
    */
   @Test
-  public void testGeoJsonLinkedCrs() throws Exception {
+  void testGeoJsonLinkedCrs() throws Exception {
     GeoJsonLinkedCrs crs = new GeoJsonLinkedCrs("http://example.com/crs/42", "proj4");
     System.out.println("Testing " + crs);
     String json = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(crs);
     System.out.println(json);
     GeoJsonLinkedCrs readCrs = getObjectMapper().readValue(json, GeoJsonLinkedCrs.class);
-    Assert.assertEquals(crs, readCrs);
+    assertEquals(crs, readCrs);
   }
 
   /**
@@ -343,13 +414,13 @@ public class GeoJsonTests {
    * @throws Exception the exception
    */
   @Test
-  public void testGeoJsonNamedCrs() throws Exception {
+  void testGeoJsonNamedCrs() throws Exception {
     GeoJsonNamedCrs crs = new GeoJsonNamedCrs("urn:ogc:def:crs:OGC:1.3:CRS84");
     System.out.println("Testing " + crs);
     String json = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(crs);
     System.out.println(json);
     GeoJsonNamedCrs readCrs = getObjectMapper().readValue(json, GeoJsonNamedCrs.class);
-    Assert.assertEquals(crs, readCrs);
+    assertEquals(crs, readCrs);
   }
 
   /**
@@ -358,7 +429,7 @@ public class GeoJsonTests {
    * @throws Exception the exception
    */
   @Test
-  public void testGeoJsonFeature() throws Exception {
+  void testGeoJsonFeature() throws Exception {
     GeometryCollection geometry = new GeometryCollection(
         new Geometry[]{createLineString(), createMultiLineString()}, getGeometryFactory());
 
@@ -380,8 +451,8 @@ public class GeoJsonTests {
     System.out
         .println(getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(readF));
 
-    Assert.assertEquals(f, readF);
-    Assert.assertEquals(f.findUnknown("crs", GeoJsonNamedCrs.class),
+    assertEquals(f, readF);
+    assertEquals(f.findUnknown("crs", GeoJsonNamedCrs.class),
         readF.findUnknown("crs", GeoJsonNamedCrs.class));
   }
 
@@ -391,7 +462,7 @@ public class GeoJsonTests {
    * @throws Exception the exception
    */
   @Test
-  public void testGeoJsonFeatureCollection() throws Exception {
+  void testGeoJsonFeatureCollection() throws Exception {
     GeometryCollection geometry = new GeometryCollection(
         new Geometry[]{createLineString(), createMultiLineString()}, getGeometryFactory());
 
@@ -426,7 +497,7 @@ public class GeoJsonTests {
     System.out
         .println(getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(readFc));
 
-    Assert.assertEquals(fc, readFc);
+    assertEquals(fc, readFc);
   }
 
   /**
@@ -435,48 +506,66 @@ public class GeoJsonTests {
    * @throws Exception the exception
    */
   @Test
-  public void testAbstractGeoJsonCrs() throws Exception {
+  void testAbstractGeoJsonCrs() throws Exception {
     System.out.println("Testing AbstractGeoJsonCrs...");
     GeoJsonNamedCrs named = new GeoJsonNamedCrs("A_CRS_NAME");
     String jsonStr = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(named);
     System.out.println(jsonStr);
     AbstractGeoJsonCrs crs = getObjectMapper().readValue(jsonStr, AbstractGeoJsonCrs.class);
-    Assert.assertEquals(named, crs);
+    assertEquals(named, crs);
   }
 
   /**
    * Test bounding box.
    */
   @Test
-  public void testBoundingBox() {
+  void testBoundingBox() {
     //noinspection ConstantConditions
     double[] actual = GeometryUtils.getBoundingBox((Geometry) null);
     //noinspection ConstantConditions
-    Assert.assertNull(actual);
+    assertNull(actual);
 
     Point point = createPoint(0.1, 0.2);
     actual = GeometryUtils.getBoundingBox(point);
-    Assert.assertNotNull(actual);
-    Assert.assertEquals(4, actual.length);
-    Assert.assertArrayEquals(new double[]{0.1, 0.2, 0.1, 0.2}, actual, 0.);
+    assertNotNull(actual);
+    assertEquals(4, actual.length);
+    assertArrayEquals(new double[]{0.1, 0.2, 0.1, 0.2}, actual, 0.);
 
     point = GeometryUtils.createPoint(new Coordinate(0.1, 0.2, 0.3));
     actual = GeometryUtils.getBoundingBox(point);
-    Assert.assertNotNull(actual);
-    Assert.assertEquals(6, actual.length);
-    Assert.assertArrayEquals(new double[]{0.1, 0.2, 0.3, 0.1, 0.2, 0.3}, actual, 0.);
+    assertNotNull(actual);
+    assertEquals(6, actual.length);
+    assertArrayEquals(new double[]{0.1, 0.2, 0.3, 0.1, 0.2, 0.3}, actual, 0.);
 
     LineString lineString = (LineString) GeometryUtils.fromWKT("LINESTRING (3 2, 0.1 5.5)");
     actual = GeometryUtils.getBoundingBox(lineString);
-    Assert.assertNotNull(actual);
-    Assert.assertEquals(4, actual.length);
-    Assert.assertArrayEquals(new double[]{0.1, 2., 3., 5.5}, actual, 0.);
+    assertNotNull(actual);
+    assertEquals(4, actual.length);
+    assertArrayEquals(new double[]{0.1, 2., 3., 5.5}, actual, 0.);
 
     lineString = (LineString) GeometryUtils.fromWKT("LINESTRING (3 2 4, 0.1 5.5 1)");
     actual = GeometryUtils.getBoundingBox(lineString);
-    Assert.assertNotNull(actual);
-    Assert.assertEquals(6, actual.length);
-    Assert.assertArrayEquals(new double[]{0.1, 2., 1., 3., 5.5, 4.}, actual, 0.);
+    assertNotNull(actual);
+    assertEquals(6, actual.length);
+    assertArrayEquals(new double[]{0.1, 2., 1., 3., 5.5, 4.}, actual, 0.);
+  }
+
+  /**
+   * The geometry wrapper holder.
+   */
+  static class GeometryWrapperHolder {
+
+    /**
+     * The Id.
+     */
+    @JsonProperty("id")
+    String id;
+
+    /**
+     * The Geometry.
+     */
+    @JsonProperty("geometry")
+    GeometryWrapper geometry;
   }
 
 }

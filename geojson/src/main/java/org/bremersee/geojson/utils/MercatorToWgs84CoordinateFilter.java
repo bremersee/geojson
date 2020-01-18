@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2018 the original author or authors.
+ * Copyright 2015-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package org.bremersee.geojson.utils;
 
+import java.util.Objects;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateFilter;
 
@@ -24,7 +25,6 @@ import org.locationtech.jts.geom.CoordinateFilter;
  *
  * @author Christian Bremer
  */
-@SuppressWarnings({"unused", "WeakerAccess"})
 public class MercatorToWgs84CoordinateFilter implements CoordinateFilter {
 
   private double earthRadiusInMeters = GeometryUtils.EARTH_RADIUS_METERS;
@@ -77,4 +77,27 @@ public class MercatorToWgs84CoordinateFilter implements CoordinateFilter {
     }
   }
 
+  @Override
+  public String toString() {
+    return "MercatorToWgs84CoordinateFilter{"
+        + "earthRadiusInMeters=" + earthRadiusInMeters
+        + '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    MercatorToWgs84CoordinateFilter that = (MercatorToWgs84CoordinateFilter) o;
+    return Double.compare(that.earthRadiusInMeters, earthRadiusInMeters) == 0;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(earthRadiusInMeters);
+  }
 }

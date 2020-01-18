@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 the original author or authors.
+ * Copyright 2018-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import org.locationtech.jts.geom.Point;
  *
  * @author Christian Bremer
  */
-@SuppressWarnings("unused")
 public interface LatLonAware {
 
   /**
@@ -58,10 +57,9 @@ public interface LatLonAware {
    * @return the point
    */
   default Point toPoint() {
-    if (hasValues()) {
-      return GeometryUtils.createPoint(getLongitude(), getLatitude());
-    }
-    return null;
+    return hasValues()
+        ? GeometryUtils.createPoint(getLongitude(), getLatitude())
+        : null;
   }
 
   /**
@@ -70,7 +68,9 @@ public interface LatLonAware {
    * @return the coordinate
    */
   default Coordinate toCoordinate() {
-    return GeometryUtils.createCoordinate(getLongitude(), getLatitude());
+    return hasValues()
+        ? GeometryUtils.createCoordinate(getLongitude(), getLatitude())
+        : null;
   }
 
   /**
@@ -79,10 +79,9 @@ public interface LatLonAware {
    * @return the string
    */
   default String toLatLonString() {
-    if (hasValues()) {
-      return getLatitude().toPlainString() + "," + getLongitude().toPlainString();
-    }
-    return "";
+    return hasValues()
+        ? getLatitude().toPlainString() + "," + getLongitude().toPlainString()
+        : "";
   }
 
   /**
@@ -91,10 +90,9 @@ public interface LatLonAware {
    * @return the string
    */
   default String toLonLatString() {
-    if (hasValues()) {
-      return getLongitude().toPlainString() + "," + getLatitude().toPlainString();
-    }
-    return "";
+    return hasValues()
+        ? getLongitude().toPlainString() + "," + getLatitude().toPlainString()
+        : "";
   }
 
   /**
@@ -113,7 +111,15 @@ public interface LatLonAware {
   interface Builder {
 
     /**
-     * Latitude builder.
+     * Sets latitude and longitude from the given object.
+     *
+     * @param latLonAware the latitude and longitude aware object
+     * @return the builder
+     */
+    Builder from(LatLonAware latLonAware);
+
+    /**
+     * Sets latitude.
      *
      * @param latitude the latitude
      * @return the builder
@@ -121,7 +127,7 @@ public interface LatLonAware {
     Builder latitude(BigDecimal latitude);
 
     /**
-     * Latitude builder.
+     * Sets latitude.
      *
      * @param latitude the latitude
      * @return the builder
@@ -129,7 +135,7 @@ public interface LatLonAware {
     Builder latitude(double latitude);
 
     /**
-     * Longitude builder.
+     * Sets longitude.
      *
      * @param longitude the longitude
      * @return the builder
@@ -137,7 +143,7 @@ public interface LatLonAware {
     Builder longitude(BigDecimal longitude);
 
     /**
-     * Longitude builder.
+     * Sets longitude.
      *
      * @param longitude the longitude
      * @return the builder
@@ -145,7 +151,7 @@ public interface LatLonAware {
     Builder longitude(double longitude);
 
     /**
-     * Build lat lon aware.
+     * Build latitude and longitude aware.
      *
      * @return the lat lon aware
      */
@@ -160,6 +166,15 @@ public interface LatLonAware {
     private BigDecimal latitude;
 
     private BigDecimal longitude;
+
+    @Override
+    public Builder from(LatLonAware latLonAware) {
+      if (latLonAware != null) {
+        latitude = latLonAware.getLatitude();
+        longitude = latLonAware.getLongitude();
+      }
+      return this;
+    }
 
     @Override
     public Builder latitude(BigDecimal latitude) {

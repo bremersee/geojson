@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 the original author or authors.
+ * Copyright 2018-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,8 @@
  */
 
 /**
- * This package contains geometry utilities.
+ * This package contains additional models.
  *
  * @author Christian Bremer
  */
-package org.bremersee.geojson.utils;
+package org.bremersee.geojson.model;

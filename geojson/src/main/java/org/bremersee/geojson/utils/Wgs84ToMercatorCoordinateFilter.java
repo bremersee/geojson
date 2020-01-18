@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2018 the original author or authors.
+ * Copyright 2015-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package org.bremersee.geojson.utils;
 
 import java.io.Serializable;
+import java.util.Objects;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateFilter;
 
@@ -25,7 +26,6 @@ import org.locationtech.jts.geom.CoordinateFilter;
  *
  * @author Christian Bremer
  */
-@SuppressWarnings({"unused", "WeakerAccess"})
 public class Wgs84ToMercatorCoordinateFilter implements CoordinateFilter, Serializable {
 
   private static final long serialVersionUID = 2L;
@@ -85,4 +85,27 @@ public class Wgs84ToMercatorCoordinateFilter implements CoordinateFilter, Serial
     }
   }
 
+  @Override
+  public String toString() {
+    return "Wgs84ToMercatorCoordinateFilter{"
+        + "earthRadiusInMeters=" + earthRadiusInMeters
+        + '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Wgs84ToMercatorCoordinateFilter that = (Wgs84ToMercatorCoordinateFilter) o;
+    return Double.compare(that.earthRadiusInMeters, earthRadiusInMeters) == 0;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(earthRadiusInMeters);
+  }
 }

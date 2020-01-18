@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2018 the original author or authors.
+ * Copyright 2015-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,7 +51,6 @@ import org.locationtech.jts.geom.Polygon;
  *
  * @author Christian Bremer
  */
-@SuppressWarnings({"unused", "WeakerAccess"})
 public class GeoJsonObjectMapperModule extends SimpleModule {
 
   private static final long serialVersionUID = 1L;
@@ -84,10 +83,11 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
   /**
    * Registers this module to the object mapper.
    *
-   * @param objectMapper    the object mapper
+   * @param objectMapper the object mapper
    * @param geometryFactory the geometry factory
    */
-  public static void configure(final ObjectMapper objectMapper,
+  public static void configure(
+      final ObjectMapper objectMapper,
       final GeometryFactory geometryFactory) {
     if (objectMapper != null) {
       objectMapper.registerModule(new GeoJsonObjectMapperModule(geometryFactory));
@@ -98,7 +98,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
 
     final int defaultMajor = 2;
     final int defaultMinor = 0;
-    final int defaultPatchLevel = 1;
+    final int defaultPatchLevel = 6;
     final String defaultSnapshotInfo = "SNAPSHOT";
 
     int major = defaultMajor;

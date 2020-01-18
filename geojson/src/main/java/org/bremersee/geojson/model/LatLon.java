@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 the original author or authors.
+ * Copyright 2018-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,11 @@
 package org.bremersee.geojson.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Point;
@@ -34,17 +33,16 @@ import org.locationtech.jts.geom.Point;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EqualsAndHashCode(callSuper = false)
-@ToString(callSuper = true)
-@NoArgsConstructor
-@SuppressWarnings("unused")
-public class LatLon implements LatLonAware {
+@ToString
+public class LatLon implements LatLonAware, Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   private BigDecimal lat;
 
   private BigDecimal lon;
 
   @JsonCreator
-  @SuppressWarnings("WeakerAccess")
   public LatLon(@JsonProperty("lat") BigDecimal lat, @JsonProperty("lon") BigDecimal lon) {
     this.lat = lat;
     this.lon = lon;
@@ -93,7 +91,6 @@ public class LatLon implements LatLonAware {
   }
 
   @JsonProperty("lon")
-  @JsonIgnore
   @Override
   public BigDecimal getLongitude() {
     return lon;
