@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 the original author or authors.
+ * Copyright 2018-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package org.bremersee.geojson.spring.data.mongodb.convert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.bson.Document;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryCollection;
@@ -35,10 +36,13 @@ import org.springframework.util.ObjectUtils;
 class DocumentToGeometryCollectionConverter
     extends AbstractDocumentToGeometryConverter<GeometryCollection> {
 
+  private DocumentToGeometryConverter converter;
+
   /**
    * Instantiates a new Document to geometry collection converter.
    */
   DocumentToGeometryCollectionConverter() {
+    this(null);
   }
 
   /**
@@ -48,6 +52,7 @@ class DocumentToGeometryCollectionConverter
    */
   DocumentToGeometryCollectionConverter(final GeometryFactory geometryFactory) {
     super(geometryFactory);
+    converter = new DocumentToGeometryConverter(geometryFactory);
   }
 
   @Override
@@ -57,10 +62,10 @@ class DocumentToGeometryCollectionConverter
 
     final List<Geometry> geometries = new ArrayList<>();
     //noinspection unchecked
-    for (Object o : (List<Object>) document.get("geometries")) {
-      geometries.add(
-          new DocumentToGeometryConverter(getConvertHelper().getGeometryFactory())
-              .convert((Document) o));
+    for (Map<String, Object> map : (List<Map<String, Object>>) document.get("geometries")) {
+      if (map != null) {
+        geometries.add(converter.convert(new Document(map)));
+      }
     }
 
     return getConvertHelper().createGeometryCollection(geometries);

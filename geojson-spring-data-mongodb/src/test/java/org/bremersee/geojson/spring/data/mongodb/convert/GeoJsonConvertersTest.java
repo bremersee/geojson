@@ -16,16 +16,27 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
-import org.locationtech.jts.geom.MultiPolygon;
-import org.springframework.data.convert.WritingConverter;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.util.Collection;
+import org.junit.jupiter.api.Test;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * The multi polygon to document converter.
+ * The GeoJSON converters test.
  *
  * @author Christian Bremer
  */
-@WritingConverter
-class MultiPolygonToDocumentConverter
-    extends AbstractGeometryToDocumentConverter<MultiPolygon> {
+class GeoJsonConvertersTest {
 
+  /**
+   * Gets converters to register.
+   */
+  @Test
+  void getConvertersToRegister() {
+    Collection<? extends Converter<?, ?>> converters = GeoJsonConverters
+        .getConvertersToRegister(new GeometryFactory());
+    assertNotNull(converters);
+  }
 }
