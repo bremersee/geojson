@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 the original author or authors.
+ * Copyright 2018-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -89,16 +89,6 @@ public class ConvertHelper implements Serializable {
   /**
    * Instantiates a new convert helper.
    *
-   * @param useBigDecimal use {@link BigDecimal} (recommended for JSON, set to false for MongoDB)
-   */
-  @SuppressWarnings("unused")
-  public ConvertHelper(boolean useBigDecimal) {
-    this(null, useBigDecimal);
-  }
-
-  /**
-   * Instantiates a new convert helper.
-   *
    * @param geometryFactory the geometry factory
    */
   public ConvertHelper(final GeometryFactory geometryFactory) {
@@ -109,7 +99,8 @@ public class ConvertHelper implements Serializable {
    * Instantiates a new convert helper.
    *
    * @param geometryFactory the geometry factory
-   * @param useBigDecimal   use {@link BigDecimal} (recommended for JSON, set to false for MongoDB)
+   * @param useBigDecimal use {@link BigDecimal} (recommended for JSON, set to false for
+   *     MongoDB)
    */
   public ConvertHelper(final GeometryFactory geometryFactory, boolean useBigDecimal) {
     this.geometryFactory = geometryFactory != null ? geometryFactory : new GeometryFactory();

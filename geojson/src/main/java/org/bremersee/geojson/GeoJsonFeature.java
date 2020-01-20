@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2018 the original author or authors.
+ * Copyright 2015-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,11 +53,11 @@ public class GeoJsonFeature extends AbstractGeoJsonFeature<Geometry, Map<String,
   /**
    * Constructs a GeoJSON feature with the specified parameters.
    *
-   * @param id              an optional id
-   * @param geometry        the geometry of the GeoJson feature
+   * @param id an optional id
+   * @param geometry the geometry of the GeoJson feature
    * @param calculateBounds if {@code true} the bounding box will be calculated otherwise the
-   *                        bounding box will be {@code null}
-   * @param properties      a map with named objects that are associated with the GeoJSON feature
+   *     bounding box will be {@code null}
+   * @param properties a map with named objects that are associated with the GeoJSON feature
    */
   public GeoJsonFeature(
       final String id,

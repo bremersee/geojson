@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2018 the original author or authors.
+ * Copyright 2015-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,6 @@ import org.locationtech.jts.geom.GeometryFactory;
  *
  * @author Christian Bremer
  */
-@SuppressWarnings("WeakerAccess")
 public class GeometryDeserializer extends StdDeserializer<Geometry> {
 
   private static final long serialVersionUID = 2L;
@@ -150,7 +149,7 @@ public class GeometryDeserializer extends StdDeserializer<Geometry> {
   /**
    * Creates a geometry by type and coordinates.
    *
-   * @param type        the geometry type
+   * @param type the geometry type
    * @param coordinates the coordinates of the geometry
    * @return the created geometry
    */

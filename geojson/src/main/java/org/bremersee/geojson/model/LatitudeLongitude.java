@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 the original author or authors.
+ * Copyright 2018-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,9 @@ package org.bremersee.geojson.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Point;
@@ -33,15 +33,21 @@ import org.locationtech.jts.geom.Point;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EqualsAndHashCode(callSuper = false)
-@ToString(callSuper = true)
-@NoArgsConstructor
-@SuppressWarnings("unused")
-public class LatitudeLongitude implements LatLonAware {
+@ToString
+public class LatitudeLongitude implements LatLonAware, Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   private BigDecimal latitude;
 
   private BigDecimal longitude;
 
+  /**
+   * Instantiates a new latitude longitude.
+   *
+   * @param latitude the latitude
+   * @param longitude the longitude
+   */
   @JsonCreator
   public LatitudeLongitude(
       @JsonProperty("latitude") BigDecimal latitude,

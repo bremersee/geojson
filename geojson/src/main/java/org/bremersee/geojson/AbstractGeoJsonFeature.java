@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2018 the original author or authors.
+ * Copyright 2015-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,6 @@ import org.bremersee.common.model.UnknownAware;
 })
 @JsonTypeName("Feature")
 @JsonPropertyOrder({"id", "bbox", "geometry", "properties"})
-@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class AbstractGeoJsonFeature<G, P> extends UnknownAware {
 
   @JsonIgnore
@@ -54,26 +53,6 @@ public abstract class AbstractGeoJsonFeature<G, P> extends UnknownAware {
    * Instantiates a new abstract geo json feature.
    */
   protected AbstractGeoJsonFeature() {
-  }
-
-  /**
-   * Instantiates a new abstract geo json feature.
-   *
-   * @param id         the id
-   * @param geometry   the geometry
-   * @param bbox       the bbox
-   * @param properties the properties
-   */
-  protected AbstractGeoJsonFeature(
-      final String id,
-      final G geometry,
-      final double[] bbox,
-      final P properties) {
-
-    setId(id);
-    setGeometry(geometry);
-    setBbox(bbox);
-    setProperties(properties);
   }
 
   /**
@@ -117,7 +96,6 @@ public abstract class AbstractGeoJsonFeature<G, P> extends UnknownAware {
    */
   @JsonInclude(Include.NON_EMPTY)
   @JsonProperty("bbox")
-  @SuppressWarnings("WeakerAccess")
   public double[] getBbox() {
     return bbox;
   }

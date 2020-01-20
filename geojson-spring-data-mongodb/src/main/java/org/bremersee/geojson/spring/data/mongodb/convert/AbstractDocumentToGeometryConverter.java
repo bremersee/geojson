@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 the original author or authors.
+ * Copyright 2018-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ import org.springframework.core.convert.converter.Converter;
  * @author Christian Bremer
  */
 abstract class AbstractDocumentToGeometryConverter<G extends Geometry>
-    implements Converter<org.bson.Document, G> {
+    implements Converter<Document, G> {
 
   private final ConvertHelper convertHelper;
 
@@ -60,7 +60,7 @@ abstract class AbstractDocumentToGeometryConverter<G extends Geometry>
 
   @Override
   public G convert(final Document document) {
-    if (document == null || !document.containsKey("type")) {
+    if (!document.containsKey("type")) {
       return null;
     }
     return doConvert(document);

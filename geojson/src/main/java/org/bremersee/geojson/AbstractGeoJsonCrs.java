@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2018 the original author or authors.
+ * Copyright 2015-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
@@ -43,7 +41,6 @@ import java.util.TreeMap;
     @Type(value = GeoJsonLinkedCrs.class, name = "link"),
     @Type(value = GeoJsonNamedCrs.class, name = "name")
 })
-@SuppressWarnings({"WeakerAccess", "unused"})
 public class AbstractGeoJsonCrs implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -65,7 +62,8 @@ public class AbstractGeoJsonCrs implements Serializable {
    * Set the properties the properties that store information about the coordinate reference system
    * (CRS).
    *
-   * @param properties the properties that store information about the coordinate reference system
+   * @param properties the properties that store information about the coordinate reference
+   *     system
    */
   protected final void setProperties(final Map<String, Object> properties) {
     if (properties == null) {

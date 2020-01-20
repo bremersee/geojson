@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2018 the original author or authors.
+ * Copyright 2015-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import org.bremersee.common.model.UnknownAware;
@@ -41,7 +40,7 @@ import org.bremersee.common.model.UnknownAware;
 })
 @JsonTypeName("FeatureCollection")
 @JsonPropertyOrder({"bbox", "features"})
-@SuppressWarnings({"WeakerAccess", "unused"})
+@SuppressWarnings("rawtypes")
 public abstract class AbstractGeoJsonFeatureCollection<F extends AbstractGeoJsonFeature>
     extends UnknownAware {
 
@@ -55,23 +54,6 @@ public abstract class AbstractGeoJsonFeatureCollection<F extends AbstractGeoJson
    * Instantiates a new abstract geo json feature collection.
    */
   protected AbstractGeoJsonFeatureCollection() {
-  }
-
-  /**
-   * Instantiates a new abstract geo json feature collection.
-   *
-   * @param features the features
-   * @param bbox     the bbox
-   */
-  protected AbstractGeoJsonFeatureCollection(
-      final Collection<? extends F> features,
-      final double[] bbox) {
-
-    if (features != null) {
-      this.features = new ArrayList<>();
-      this.features.addAll(features);
-    }
-    setBbox(bbox);
   }
 
   /**

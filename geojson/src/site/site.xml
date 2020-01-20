@@ -28,6 +28,7 @@
       <href>${project.organization.url}</href>
   </bannerRight>
   -->
+	<!--suppress XmlDefaultAttributeValue -->
 	<version position="left"/>
 	<publishDate position="right" format="dd.MM.yyyy HH:mm:SS"/>
 	<poweredBy>
