@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GeometryUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson.utils</a> &gt; <span class="el_source">GeometryUtils.java</span></div><h1>GeometryUtils.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2015-2018 the original author or authors.
+ * Copyright 2015-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -19,14 +19,14 @@ package org.bremersee.geojson.utils;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.CoordinateSequence;
+import org.locationtech.jts.geom.CoordinateFilter;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryCollection;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -37,7 +37,6 @@ import org.locationtech.jts.geom.MultiPoint;
 import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
-import org.locationtech.jts.geom.impl.CoordinateArraySequenceFactory;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
 
@@ -46,7 +45,6 @@ import org.locationtech.jts.io.WKTReader;
  *
  * @author Christian Bremer
  */
-@SuppressWarnings({&quot;unused&quot;, &quot;WeakerAccess&quot;})
 public abstract class GeometryUtils {
 
   /**
@@ -111,7 +109,11 @@ public abstract class GeometryUtils {
   /**
    * Default geometry factory.
    */
-<span class="fc" id="L114">  private static final GeometryFactory DEFAULT_GEOMETRY_FACTORY = new GeometryFactory();</span>
+<span class="fc" id="L112">  private static final GeometryFactory DEFAULT_GEOMETRY_FACTORY = new GeometryFactory();</span>
+
+  private static GeometryFactory geometryFactory(GeometryFactory geometryFactory) {
+<span class="fc bfc" id="L115" title="All 2 branches covered.">    return geometryFactory != null ? geometryFactory : DEFAULT_GEOMETRY_FACTORY;</span>
+  }
 
   /**
    * Checks whether two geometry objects are equal.
@@ -121,26 +123,22 @@ public abstract class GeometryUtils {
    *
    * @param g1 one geometry
    * @param g2 another geometry
-   * @return &lt;code&gt;true&lt;/code&gt; if the geometries are equal otherwise &lt;code&gt;false&lt;/code&gt;
+   * @return {@code true} if the geometries are equal otherwise {@code false}
    */
-  public static boolean equals(final Geometry g1, final Geometry g2) { // NOSONAR
-<span class="pc bpc" id="L127" title="3 of 4 branches missed.">    if (g1 == null &amp;&amp; g2 == null) {</span>
-<span class="nc" id="L128">      return true;</span>
+  public static boolean equals(final Geometry g1, final Geometry g2) {
+<span class="fc bfc" id="L129" title="All 4 branches covered.">    if (g1 == null &amp;&amp; g2 == null) {</span>
+<span class="fc" id="L130">      return true;</span>
     }
-<span class="pc bpc" id="L130" title="2 of 4 branches missed.">    if (g1 == null || g2 == null) {</span>
-<span class="nc" id="L131">      return false;</span>
+<span class="fc bfc" id="L132" title="All 4 branches covered.">    if (g1 == null || g2 == null) {</span>
+<span class="fc" id="L133">      return false;</span>
     }
-<span class="pc bpc" id="L133" title="1 of 2 branches missed.">    if (g1 == g2) {</span>
-<span class="nc" id="L134">      return true;</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">    if (g1 == g2) {</span>
+<span class="fc" id="L136">      return true;</span>
     }
-<span class="pc bpc" id="L136" title="1 of 4 branches missed.">    if (g1 instanceof GeometryCollection &amp;&amp; g2 instanceof GeometryCollection) {</span>
-<span class="fc" id="L137">      return equals((GeometryCollection) g1, (GeometryCollection) g2);</span>
+<span class="pc bpc" id="L138" title="1 of 4 branches missed.">    if (g1 instanceof GeometryCollection &amp;&amp; g2 instanceof GeometryCollection) {</span>
+<span class="fc" id="L139">      return equals((GeometryCollection) g1, (GeometryCollection) g2);</span>
     }
-    try {
-<span class="fc" id="L140">      return g1.equals(g2);</span>
-<span class="nc" id="L141">    } catch (Throwable t) { // NOSONAR</span>
-<span class="nc" id="L142">      return false;</span>
-    }
+<span class="fc" id="L141">    return g1.equals(g2);</span>
   }
 
   /**
@@ -148,27 +146,20 @@ public abstract class GeometryUtils {
    *
    * @param gc1 one geometry collection
    * @param gc2 another geometry collection
-   * @return &lt;code&gt;true&lt;/code&gt; if the geometry collections are equal otherwise
-   * &lt;code&gt;false&lt;/code&gt;
+   * @return {@code true} if the geometry collections are equal otherwise {@code false}
    */
   private static boolean equals(final GeometryCollection gc1, final GeometryCollection gc2) {
-<span class="pc bpc" id="L155" title="3 of 4 branches missed.">    if (gc1 == null &amp;&amp; gc2 == null) {</span>
-<span class="nc" id="L156">      return true;</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">    if (gc1.getNumGeometries() != gc2.getNumGeometries()) {</span>
+<span class="fc" id="L153">      return false;</span>
     }
-<span class="pc bpc" id="L158" title="2 of 4 branches missed.">    if (gc1 == null || gc2 == null) {</span>
-<span class="nc" id="L159">      return false;</span>
-    }
-<span class="pc bpc" id="L161" title="1 of 2 branches missed.">    if (gc1.getNumGeometries() != gc2.getNumGeometries()) {</span>
-<span class="nc" id="L162">      return false;</span>
-    }
-<span class="fc bfc" id="L164" title="All 2 branches covered.">    for (int i = 0; i &lt; gc1.getNumGeometries(); i++) {</span>
-<span class="fc" id="L165">      Geometry g1 = gc1.getGeometryN(i);</span>
-<span class="fc" id="L166">      Geometry g2 = gc2.getGeometryN(i);</span>
-<span class="pc bpc" id="L167" title="1 of 2 branches missed.">      if (!equals(g1, g2)) {</span>
-<span class="nc" id="L168">        return false;</span>
+<span class="fc bfc" id="L155" title="All 2 branches covered.">    for (int i = 0; i &lt; gc1.getNumGeometries(); i++) {</span>
+<span class="fc" id="L156">      Geometry g1 = gc1.getGeometryN(i);</span>
+<span class="fc" id="L157">      Geometry g2 = gc2.getGeometryN(i);</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">      if (!equals(g1, g2)) {</span>
+<span class="fc" id="L159">        return false;</span>
       }
     }
-<span class="fc" id="L171">    return true;</span>
+<span class="fc" id="L162">    return true;</span>
   }
 
   /**
@@ -185,10 +176,9 @@ public abstract class GeometryUtils {
    * @return {@code null} if the bounding box can not be calculated, otherwise the bounding box
    */
   public static double[] getBoundingBox(final Geometry geometry) {
-<span class="fc bfc" id="L188" title="All 2 branches covered.">    if (geometry == null) {</span>
-<span class="fc" id="L189">      return null;</span>
-    }
-<span class="fc" id="L191">    return getBoundingBox(Collections.singletonList(geometry));</span>
+<span class="fc" id="L179">    return Optional.ofNullable(geometry)</span>
+<span class="fc" id="L180">        .map(g -&gt; getBoundingBox(Collections.singletonList(g)))</span>
+<span class="fc" id="L181">        .orElse(null);</span>
   }
 
   /**
@@ -198,62 +188,61 @@ public abstract class GeometryUtils {
    * @return {@code null} if the bounding box can not be calculated, otherwise the bounding box
    */
   public static double[] getBoundingBox(final Collection&lt;? extends Geometry&gt; geometries) {
-<span class="pc bpc" id="L201" title="1 of 2 branches missed.">    if (geometries == null</span>
-<span class="pc bpc" id="L202" title="1 of 2 branches missed.">        || geometries.isEmpty()) {</span>
-<span class="nc" id="L203">      return null;</span>
+<span class="pc bpc" id="L191" title="1 of 4 branches missed.">    if (geometries == null || geometries.isEmpty()) {</span>
+<span class="fc" id="L192">      return null;</span>
     }
-<span class="fc" id="L205">    double minX = Double.NaN;</span>
-<span class="fc" id="L206">    double minY = Double.NaN;</span>
-<span class="fc" id="L207">    double minZ = Double.NaN;</span>
-<span class="fc" id="L208">    double maxX = Double.NaN;</span>
-<span class="fc" id="L209">    double maxY = Double.NaN;</span>
-<span class="fc" id="L210">    double maxZ = Double.NaN;</span>
-<span class="fc bfc" id="L211" title="All 2 branches covered.">    for (final Geometry geometry : geometries) {</span>
-<span class="pc bpc" id="L212" title="2 of 4 branches missed.">      if (geometry != null &amp;&amp; geometry.getCoordinates() != null) {</span>
-<span class="fc" id="L213">        final Coordinate[] coords = geometry.getCoordinates();</span>
+<span class="fc" id="L194">    double minX = Double.NaN;</span>
+<span class="fc" id="L195">    double minY = Double.NaN;</span>
+<span class="fc" id="L196">    double minZ = Double.NaN;</span>
+<span class="fc" id="L197">    double maxX = Double.NaN;</span>
+<span class="fc" id="L198">    double maxY = Double.NaN;</span>
+<span class="fc" id="L199">    double maxZ = Double.NaN;</span>
+<span class="fc bfc" id="L200" title="All 2 branches covered.">    for (final Geometry geometry : geometries) {</span>
+<span class="pc bpc" id="L201" title="2 of 4 branches missed.">      if (geometry != null &amp;&amp; geometry.getCoordinates() != null) {</span>
+<span class="fc" id="L202">        final Coordinate[] coords = geometry.getCoordinates();</span>
         //noinspection ForLoopReplaceableByForEach
-<span class="fc bfc" id="L215" title="All 2 branches covered.">        for (int i = 0; i &lt; coords.length; i++) {</span>
-<span class="fc bfc" id="L216" title="All 2 branches covered.">          if (Double.isNaN(minX)) {</span>
-<span class="fc" id="L217">            minX = coords[i].getX();</span>
-<span class="pc bpc" id="L218" title="1 of 2 branches missed.">          } else if (!Double.isNaN(coords[i].getX())) {</span>
-<span class="fc" id="L219">            minX = Math.min(minX, coords[i].getX());</span>
+<span class="fc bfc" id="L204" title="All 2 branches covered.">        for (int i = 0; i &lt; coords.length; i++) {</span>
+<span class="fc bfc" id="L205" title="All 2 branches covered.">          if (Double.isNaN(minX)) {</span>
+<span class="fc" id="L206">            minX = coords[i].getX();</span>
+<span class="pc bpc" id="L207" title="1 of 2 branches missed.">          } else if (!Double.isNaN(coords[i].getX())) {</span>
+<span class="fc" id="L208">            minX = Math.min(minX, coords[i].getX());</span>
           }
-<span class="fc bfc" id="L221" title="All 2 branches covered.">          if (Double.isNaN(minY)) {</span>
-<span class="fc" id="L222">            minY = coords[i].getY();</span>
-<span class="pc bpc" id="L223" title="1 of 2 branches missed.">          } else if (!Double.isNaN(coords[i].getY())) {</span>
-<span class="fc" id="L224">            minY = Math.min(minY, coords[i].getY());</span>
+<span class="fc bfc" id="L210" title="All 2 branches covered.">          if (Double.isNaN(minY)) {</span>
+<span class="fc" id="L211">            minY = coords[i].getY();</span>
+<span class="pc bpc" id="L212" title="1 of 2 branches missed.">          } else if (!Double.isNaN(coords[i].getY())) {</span>
+<span class="fc" id="L213">            minY = Math.min(minY, coords[i].getY());</span>
           }
-<span class="fc bfc" id="L226" title="All 2 branches covered.">          if (Double.isNaN(minZ)) {</span>
-<span class="fc" id="L227">            minZ = coords[i].getZ();</span>
-<span class="pc bpc" id="L228" title="1 of 2 branches missed.">          } else if (!Double.isNaN(coords[i].getZ())) {</span>
-<span class="fc" id="L229">            minZ = Math.min(minZ, coords[i].getZ());</span>
+<span class="fc bfc" id="L215" title="All 2 branches covered.">          if (Double.isNaN(minZ)) {</span>
+<span class="fc" id="L216">            minZ = coords[i].getZ();</span>
+<span class="pc bpc" id="L217" title="1 of 2 branches missed.">          } else if (!Double.isNaN(coords[i].getZ())) {</span>
+<span class="fc" id="L218">            minZ = Math.min(minZ, coords[i].getZ());</span>
           }
 
-<span class="fc bfc" id="L232" title="All 2 branches covered.">          if (Double.isNaN(maxX)) {</span>
-<span class="fc" id="L233">            maxX = coords[i].getX();</span>
-<span class="pc bpc" id="L234" title="1 of 2 branches missed.">          } else if (!Double.isNaN(coords[i].getX())) {</span>
-<span class="fc" id="L235">            maxX = Math.max(maxX, coords[i].getX());</span>
+<span class="fc bfc" id="L221" title="All 2 branches covered.">          if (Double.isNaN(maxX)) {</span>
+<span class="fc" id="L222">            maxX = coords[i].getX();</span>
+<span class="pc bpc" id="L223" title="1 of 2 branches missed.">          } else if (!Double.isNaN(coords[i].getX())) {</span>
+<span class="fc" id="L224">            maxX = Math.max(maxX, coords[i].getX());</span>
           }
-<span class="fc bfc" id="L237" title="All 2 branches covered.">          if (Double.isNaN(maxY)) {</span>
-<span class="fc" id="L238">            maxY = coords[i].getY();</span>
-<span class="pc bpc" id="L239" title="1 of 2 branches missed.">          } else if (!Double.isNaN(coords[i].getY())) {</span>
-<span class="fc" id="L240">            maxY = Math.max(maxY, coords[i].getY());</span>
+<span class="fc bfc" id="L226" title="All 2 branches covered.">          if (Double.isNaN(maxY)) {</span>
+<span class="fc" id="L227">            maxY = coords[i].getY();</span>
+<span class="pc bpc" id="L228" title="1 of 2 branches missed.">          } else if (!Double.isNaN(coords[i].getY())) {</span>
+<span class="fc" id="L229">            maxY = Math.max(maxY, coords[i].getY());</span>
           }
-<span class="fc bfc" id="L242" title="All 2 branches covered.">          if (Double.isNaN(maxZ)) {</span>
-<span class="fc" id="L243">            maxZ = coords[i].getZ();</span>
-<span class="pc bpc" id="L244" title="1 of 2 branches missed.">          } else if (!Double.isNaN(coords[i].getZ())) {</span>
-<span class="fc" id="L245">            maxZ = Math.max(maxZ, coords[i].getZ());</span>
+<span class="fc bfc" id="L231" title="All 2 branches covered.">          if (Double.isNaN(maxZ)) {</span>
+<span class="fc" id="L232">            maxZ = coords[i].getZ();</span>
+<span class="pc bpc" id="L233" title="1 of 2 branches missed.">          } else if (!Double.isNaN(coords[i].getZ())) {</span>
+<span class="fc" id="L234">            maxZ = Math.max(maxZ, coords[i].getZ());</span>
           }
         }
       }
-<span class="fc" id="L249">    }</span>
-<span class="pc bpc" id="L250" title="4 of 8 branches missed.">    if (!Double.isNaN(minX) &amp;&amp; !Double.isNaN(maxX) &amp;&amp; !Double.isNaN(minY) &amp;&amp; !Double.isNaN(maxY)) {</span>
-<span class="pc bpc" id="L251" title="1 of 4 branches missed.">      if (!Double.isNaN(minZ) &amp;&amp; !Double.isNaN(maxZ)) {</span>
-<span class="fc" id="L252">        return new double[]{minX, minY, minZ, maxX, maxY, maxZ};</span>
+<span class="fc" id="L238">    }</span>
+<span class="pc bpc" id="L239" title="2 of 8 branches missed.">    if (!Double.isNaN(minX) &amp;&amp; !Double.isNaN(maxX) &amp;&amp; !Double.isNaN(minY) &amp;&amp; !Double.isNaN(maxY)) {</span>
+<span class="pc bpc" id="L240" title="1 of 4 branches missed.">      if (!Double.isNaN(minZ) &amp;&amp; !Double.isNaN(maxZ)) {</span>
+<span class="fc" id="L241">        return new double[]{minX, minY, minZ, maxX, maxY, maxZ};</span>
       }
-<span class="fc" id="L254">      return new double[]{minX, minY, maxX, maxY};</span>
+<span class="fc" id="L243">      return new double[]{minX, minY, maxX, maxY};</span>
     }
-<span class="nc" id="L256">    return null;</span>
+<span class="fc" id="L245">    return null;</span>
   }
 
   /**
@@ -263,10 +252,10 @@ public abstract class GeometryUtils {
    * @return the coordinate in the south-west
    */
   public static Coordinate getSouthWest(final double[] boundingBox) {
-<span class="nc bnc" id="L266" title="All 6 branches missed.">    if (boundingBox == null || !(boundingBox.length == 4 || boundingBox.length == 6)) {</span>
-<span class="nc" id="L267">      return null;</span>
+<span class="pc bpc" id="L255" title="1 of 6 branches missed.">    if (boundingBox == null || !(boundingBox.length == 4 || boundingBox.length == 6)) {</span>
+<span class="fc" id="L256">      return null;</span>
     }
-<span class="nc" id="L269">    return createCoordinate(boundingBox[0], boundingBox[1]); // southWest</span>
+<span class="fc" id="L258">    return createCoordinate(boundingBox[0], boundingBox[1]);</span>
   }
 
   /**
@@ -276,17 +265,17 @@ public abstract class GeometryUtils {
    * @return the coordinate in the north-west
    */
   public static Coordinate getNorthWest(final double[] boundingBox) {
-<span class="nc bnc" id="L279" title="All 6 branches missed.">    if (boundingBox == null || !(boundingBox.length == 4 || boundingBox.length == 6)) {</span>
-<span class="nc" id="L280">      return null;</span>
+<span class="pc bpc" id="L268" title="1 of 6 branches missed.">    if (boundingBox == null || !(boundingBox.length == 4 || boundingBox.length == 6)) {</span>
+<span class="fc" id="L269">      return null;</span>
     }
-<span class="nc bnc" id="L282" title="All 2 branches missed.">    if (boundingBox.length == 6) {</span>
-      // 0 1 2 3 4 5
+<span class="fc bfc" id="L271" title="All 2 branches covered.">    if (boundingBox.length == 6) {</span>
+      // 0   1   2   3   4   5
       // x0, y0, z0, x1, y1, z1
-<span class="nc" id="L285">      return createCoordinate(boundingBox[0], boundingBox[4]);</span>
+<span class="fc" id="L274">      return createCoordinate(boundingBox[0], boundingBox[4]);</span>
     } else {
-      // 0 1 2 3
+      // 0   1   2   3
       // x0, y0, x1, y1
-<span class="nc" id="L289">      return createCoordinate(boundingBox[0], boundingBox[3]);</span>
+<span class="fc" id="L278">      return createCoordinate(boundingBox[0], boundingBox[3]);</span>
     }
   }
 
@@ -297,17 +286,17 @@ public abstract class GeometryUtils {
    * @return the coordinate in the north-east
    */
   public static Coordinate getNorthEast(final double[] boundingBox) {
-<span class="nc bnc" id="L300" title="All 6 branches missed.">    if (boundingBox == null || !(boundingBox.length == 4 || boundingBox.length == 6)) {</span>
-<span class="nc" id="L301">      return null;</span>
+<span class="pc bpc" id="L289" title="1 of 6 branches missed.">    if (boundingBox == null || !(boundingBox.length == 4 || boundingBox.length == 6)) {</span>
+<span class="fc" id="L290">      return null;</span>
     }
-<span class="nc bnc" id="L303" title="All 2 branches missed.">    if (boundingBox.length == 6) {</span>
-      // 0 1 2 3 4 5
+<span class="fc bfc" id="L292" title="All 2 branches covered.">    if (boundingBox.length == 6) {</span>
+      // 0   1   2   3   4   5
       // x0, y0, z0, x1, y1, z1
-<span class="nc" id="L306">      return createCoordinate(boundingBox[3], boundingBox[4]);</span>
+<span class="fc" id="L295">      return createCoordinate(boundingBox[3], boundingBox[4]);</span>
     } else {
-      // 0 1 2 3
+      // 0   1   2   3
       // x0, y0, x1, y1
-<span class="nc" id="L310">      return createCoordinate(boundingBox[2], boundingBox[3]);</span>
+<span class="fc" id="L299">      return createCoordinate(boundingBox[2], boundingBox[3]);</span>
     }
   }
 
@@ -318,17 +307,17 @@ public abstract class GeometryUtils {
    * @return the coordinate in the south-east
    */
   public static Coordinate getSouthEast(final double[] boundingBox) {
-<span class="nc bnc" id="L321" title="All 6 branches missed.">    if (boundingBox == null || !(boundingBox.length == 4 || boundingBox.length == 6)) {</span>
-<span class="nc" id="L322">      return null;</span>
+<span class="pc bpc" id="L310" title="1 of 6 branches missed.">    if (boundingBox == null || !(boundingBox.length == 4 || boundingBox.length == 6)) {</span>
+<span class="fc" id="L311">      return null;</span>
     }
-<span class="nc bnc" id="L324" title="All 2 branches missed.">    if (boundingBox.length == 6) {</span>
-      // 0 1 2 3 4 5
+<span class="fc bfc" id="L313" title="All 2 branches covered.">    if (boundingBox.length == 6) {</span>
+      // 0   1   2   3   4   5
       // x0, y0, z0, x1, y1, z1
-<span class="nc" id="L327">      return createCoordinate(boundingBox[3], boundingBox[1]);</span>
+<span class="fc" id="L316">      return createCoordinate(boundingBox[3], boundingBox[1]);</span>
     } else {
-      // 0 1 2 3
+      // 0   1   2   3
       // x0, y0, x1, y1
-<span class="nc" id="L331">      return createCoordinate(boundingBox[2], boundingBox[1]);</span>
+<span class="fc" id="L320">      return createCoordinate(boundingBox[2], boundingBox[1]);</span>
     }
   }
 
@@ -339,37 +328,39 @@ public abstract class GeometryUtils {
    * @return the polygon or {@code null} if the bounding box is {@code null} or empty
    */
   public static Polygon getBoundingBoxAsPolygon2D(final double[] boundingBox) {
-<span class="nc" id="L342">    return getBoundingBoxAsPolygon2D(boundingBox, null);</span>
+<span class="fc" id="L331">    return getBoundingBoxAsPolygon2D(boundingBox, null);</span>
   }
 
   /**
    * Returns a polygon from the bounding box.
    *
-   * @param boundingBox     the bounding bos
+   * @param boundingBox the bounding bos
    * @param geometryFactory the geometry factory
    * @return the polygon or {@code null} if the bounding box is {@code null} or empty
    */
-  public static Polygon getBoundingBoxAsPolygon2D(final double[] boundingBox,
+  public static Polygon getBoundingBoxAsPolygon2D(
+      final double[] boundingBox,
       final GeometryFactory geometryFactory) {
-<span class="nc" id="L354">    final Coordinate sw = getSouthWest(boundingBox);</span>
-<span class="nc" id="L355">    final Coordinate se = getSouthEast(boundingBox);</span>
-<span class="nc" id="L356">    final Coordinate ne = getNorthEast(boundingBox);</span>
-<span class="nc" id="L357">    final Coordinate nw = getNorthWest(boundingBox);</span>
-<span class="nc bnc" id="L358" title="All 8 branches missed.">    if (sw == null || se == null || ne == null || nw == null) {</span>
-<span class="nc" id="L359">      return null;</span>
+
+<span class="fc" id="L345">    final Coordinate sw = getSouthWest(boundingBox);</span>
+<span class="fc" id="L346">    final Coordinate se = getSouthEast(boundingBox);</span>
+<span class="fc" id="L347">    final Coordinate ne = getNorthEast(boundingBox);</span>
+<span class="fc" id="L348">    final Coordinate nw = getNorthWest(boundingBox);</span>
+<span class="pc bpc" id="L349" title="4 of 8 branches missed.">    if (sw == null || se == null || ne == null || nw == null) {</span>
+<span class="nc" id="L350">      return null;</span>
     }
-<span class="nc" id="L361">    float x1 = (float) sw.getX();</span>
-<span class="nc" id="L362">    float x2 = (float) se.getX();</span>
-<span class="nc bnc" id="L363" title="All 2 branches missed.">    if (x1 == x2) {</span>
-<span class="nc" id="L364">      return null;</span>
+<span class="fc" id="L352">    float x1 = (float) sw.getX();</span>
+<span class="fc" id="L353">    float x2 = (float) se.getX();</span>
+<span class="pc bpc" id="L354" title="1 of 2 branches missed.">    if (x1 == x2) {</span>
+<span class="nc" id="L355">      return null;</span>
     }
-<span class="nc" id="L366">    float y1 = (float) sw.getY();</span>
-<span class="nc" id="L367">    float y2 = (float) nw.getY();</span>
-<span class="nc bnc" id="L368" title="All 2 branches missed.">    if (y1 == y2) {</span>
-<span class="nc" id="L369">      return null;</span>
+<span class="fc" id="L357">    float y1 = (float) sw.getY();</span>
+<span class="fc" id="L358">    float y2 = (float) nw.getY();</span>
+<span class="pc bpc" id="L359" title="1 of 2 branches missed.">    if (y1 == y2) {</span>
+<span class="nc" id="L360">      return null;</span>
     }
-<span class="nc" id="L371">    return createPolygon(</span>
-<span class="nc" id="L372">        createLinearRing(Arrays.asList(sw, se, ne, nw, sw), geometryFactory),</span>
+<span class="fc" id="L362">    return createPolygon(</span>
+<span class="fc" id="L363">        createLinearRing(Arrays.asList(sw, se, ne, nw, sw), geometryFactory),</span>
         geometryFactory);
   }
 
@@ -380,45 +371,20 @@ public abstract class GeometryUtils {
    * @return the bounding box of the geometry as polygon
    */
   public static Polygon getBoundingBoxAsPolygon2D(final Geometry geometry) {
-<span class="nc" id="L383">    return getBoundingBoxAsPolygon2D(geometry, null);</span>
+<span class="fc" id="L374">    return getBoundingBoxAsPolygon2D(geometry, null);</span>
   }
 
   /**
    * Returns the bounding box of the geometry as polygon.
    *
-   * @param geometry        the geometry
+   * @param geometry the geometry
    * @param geometryFactory the geometry factory to use
    * @return the bounding box of the geometry as polygon
    */
-  @SuppressWarnings(&quot;SameParameterValue&quot;)
   public static Polygon getBoundingBoxAsPolygon2D(
       final Geometry geometry,
       final GeometryFactory geometryFactory) {
-
-<span class="nc" id="L398">    final double[] bbox = getBoundingBox(geometry);</span>
-<span class="nc bnc" id="L399" title="All 6 branches missed.">    if (bbox == null || !(bbox.length == 4 || bbox.length == 6)) {</span>
-<span class="nc" id="L400">      return null;</span>
-    }
-
-<span class="nc bnc" id="L403" title="All 2 branches missed.">    int add = bbox.length == 6 ? 1 : 0;</span>
-<span class="nc" id="L404">    Double a = bbox[0];</span>
-<span class="nc" id="L405">    Double b = bbox[2 + add];</span>
-<span class="nc" id="L406">    Double c = bbox[1];</span>
-<span class="nc" id="L407">    Double d = bbox[3 + add];</span>
-<span class="nc bnc" id="L408" title="All 4 branches missed.">    if (a.equals(b) || c.equals(d)) {</span>
-<span class="nc" id="L409">      return null;</span>
-    }
-
-<span class="nc" id="L412">    Coordinate c0 = getSouthWest(bbox);</span>
-<span class="nc bnc" id="L413" title="All 2 branches missed.">    if (c0 == null) {</span>
-<span class="nc" id="L414">      throw new IllegalArgumentException(&quot;South west coordinate is null.&quot;);</span>
-    }
-<span class="nc" id="L416">    Coordinate c1 = getNorthWest(bbox);</span>
-<span class="nc" id="L417">    Coordinate c2 = getNorthEast(bbox);</span>
-<span class="nc" id="L418">    Coordinate c3 = getSouthEast(bbox);</span>
-
-<span class="nc bnc" id="L420" title="All 2 branches missed.">    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;</span>
-<span class="nc" id="L421">    return gf.createPolygon(new Coordinate[]{c0, c1, c2, c3, (Coordinate) c0.clone()});</span>
+<span class="fc" id="L387">    return getBoundingBoxAsPolygon2D(getBoundingBox(geometry), geometryFactory);</span>
   }
 
   /**
@@ -429,46 +395,41 @@ public abstract class GeometryUtils {
    * @return the Well-known Text representation of this Geometry
    */
   public static String toWKT(final Geometry geometry) {
-<span class="nc bnc" id="L432" title="All 2 branches missed.">    if (geometry == null) {</span>
-<span class="nc" id="L433">      return null;</span>
-    }
-<span class="nc" id="L435">    return geometry.toText();</span>
+<span class="fc" id="L398">    return Optional.ofNullable(geometry)</span>
+<span class="fc" id="L399">        .map(Geometry::toText)</span>
+<span class="fc" id="L400">        .orElse(null);</span>
   }
 
   /**
    * Reads a Well-Known Text representation of a Geometry from a {@link String}.
    *
    * @param wkt one or more strings (see the OpenGIS Simple Features Specification) separated by
-   *            whitespace
+   *     whitespace
    * @return a Geometry specified by wellKnownText
-   * @throws RuntimeException if a parsing problem occurs
+   * @throws IllegalArgumentException if a parsing problem occurs
    */
-  public static Geometry fromWKT(final String wkt) throws RuntimeException {
-<span class="fc" id="L447">    return fromWKT(wkt, null);</span>
+  public static Geometry fromWKT(final String wkt) throws IllegalArgumentException {
+<span class="fc" id="L412">    return fromWKT(wkt, null);</span>
   }
 
   /**
    * Reads a Well-Known Text representation of a Geometry from a {@link String}.
    *
-   * @param wkt             one or more strings (see the OpenGIS Simple Features Specification)
-   *                        separated by whitespace
+   * @param wkt one or more strings (see the OpenGIS Simple Features Specification) separated by
+   *     whitespace
    * @param geometryFactory the geometry factory to use
    * @return a Geometry specified by wellKnownText
-   * @throws RuntimeException if a parsing problem occurs
+   * @throws IllegalArgumentException if a parsing problem occurs
    */
-  @SuppressWarnings(&quot;SameParameterValue&quot;)
   public static Geometry fromWKT(final String wkt, final GeometryFactory geometryFactory)
-      throws RuntimeException {
+      throws IllegalArgumentException {
 
-<span class="pc bpc" id="L463" title="2 of 4 branches missed.">    if (wkt == null || wkt.trim().length() == 0) {</span>
-<span class="nc" id="L464">      return null;</span>
-    }
-<span class="pc bpc" id="L466" title="1 of 2 branches missed.">    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;</span>
-<span class="fc" id="L467">    WKTReader wktReader = new WKTReader(gf);</span>
     try {
-<span class="fc" id="L469">      return wktReader.read(wkt);</span>
-<span class="nc" id="L470">    } catch (ParseException e) {</span>
-<span class="nc" id="L471">      throw new RuntimeException(&quot;Parsing WKT [&quot; + wkt + &quot;] failed.&quot;, e);</span>
+<span class="fc" id="L428">      return new WKTReader(geometryFactory(geometryFactory)).read(wkt);</span>
+<span class="fc" id="L429">    } catch (NullPointerException n) {</span>
+<span class="fc" id="L430">      return null;</span>
+<span class="fc" id="L431">    } catch (ParseException e) {</span>
+<span class="fc" id="L432">      throw new IllegalArgumentException(&quot;Parsing WKT [&quot; + wkt + &quot;] failed.&quot;, e);</span>
     }
   }
 
@@ -476,78 +437,73 @@ public abstract class GeometryUtils {
    * Reads a Well-Known Text representation of a Geometry from a {@link Reader}.
    *
    * @param reader a {@link Reader} which will return a string (see the OpenGIS Simple Features
-   *               Specification)
+   *     Specification)
    * @return a Geometry read from reader
-   * @throws RuntimeException if a parsing problem occurs
+   * @throws IllegalArgumentException if a parsing problem occurs
    */
-  public static Geometry fromWKT(final Reader reader) throws RuntimeException {
-<span class="nc" id="L484">    return fromWKT(reader, null);</span>
+  public static Geometry fromWKT(final Reader reader) throws IllegalArgumentException {
+<span class="fc" id="L445">    return fromWKT(reader, null);</span>
   }
 
   /**
    * Reads a Well-Known Text representation of a Geometry from a {@link Reader}.
    *
-   * @param reader          a {@link Reader} which will return a string (see the OpenGIS Simple
-   *                        Features Specification)
+   * @param reader a {@link Reader} which will return a string (see the OpenGIS Simple Features
+   *     Specification)
    * @param geometryFactory the geometry factory to use
    * @return a Geometry read from reader
-   * @throws RuntimeException if a parsing problem occurs
+   * @throws IllegalArgumentException if a parsing problem occurs
    */
-  @SuppressWarnings(&quot;SameParameterValue&quot;)
   public static Geometry fromWKT(final Reader reader, final GeometryFactory geometryFactory)
-      throws RuntimeException {
+      throws IllegalArgumentException {
 
-<span class="nc bnc" id="L500" title="All 2 branches missed.">    if (reader == null) {</span>
-<span class="nc" id="L501">      return null;</span>
-    }
-<span class="nc bnc" id="L503" title="All 2 branches missed.">    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;</span>
-<span class="nc" id="L504">    WKTReader wktReader = new WKTReader(gf);</span>
-    try {
-<span class="nc" id="L506">      return wktReader.read(reader);</span>
-<span class="nc" id="L507">    } catch (ParseException e) {</span>
-<span class="nc" id="L508">      throw new RuntimeException(&quot;Parsing WKT failed.&quot;, e);</span>
+<span class="fc" id="L460">    try (Reader r = reader) {</span>
+<span class="fc" id="L461">      return new WKTReader(geometryFactory(geometryFactory)).read(r);</span>
+<span class="fc" id="L462">    } catch (NullPointerException n) {</span>
+<span class="fc" id="L463">      return null;</span>
+<span class="fc" id="L464">    } catch (Exception e) {</span>
+<span class="fc" id="L465">      throw new IllegalArgumentException(e);</span>
     }
   }
 
   /**
    * Reads a Well-Known Text representation of a Geometry from an {@link InputStream}.
    *
-   * @param inputStream an {@link InputStream} which will return a string (see the OpenGIS Simple
-   *                    Features Specification)
+   * @param inputStream an {@link InputStream} which will return a string (see the OpenGIS
+   *     Simple Features Specification)
    * @param charsetName the charset to use
    * @return a Geometry read from the input stream
-   * @throws RuntimeException if a parsing problem occurs
+   * @throws IllegalArgumentException if a parsing problem occurs
    */
   public static Geometry fromWKT(final InputStream inputStream, final String charsetName)
-      throws RuntimeException {
-<span class="nc" id="L523">    return fromWKT(inputStream, charsetName, null);</span>
+      throws IllegalArgumentException {
+<span class="fc" id="L480">    return fromWKT(inputStream, charsetName, null);</span>
   }
 
   /**
    * Reads a Well-Known Text representation of a Geometry from an {@link InputStream}.
    *
-   * @param inputStream     an {@link InputStream} which will return a string (see the OpenGIS
-   *                        Simple Features Specification)
-   * @param charsetName     the charset to use
+   * @param inputStream an {@link InputStream} which will return a string (see the OpenGIS
+   *     Simple Features Specification)
+   * @param charsetName the charset to use
    * @param geometryFactory the geometry factory to use
    * @return a Geometry read from the input stream
-   * @throws RuntimeException if a parsing problem occurs
+   * @throws IllegalArgumentException if a parsing problem occurs
    */
-  @SuppressWarnings(&quot;SameParameterValue&quot;)
-  public static Geometry fromWKT(final InputStream inputStream, final String charsetName,
+  public static Geometry fromWKT(
+      final InputStream inputStream,
+      final String charsetName,
       final GeometryFactory geometryFactory)
-      throws RuntimeException {
-<span class="nc bnc" id="L540" title="All 2 branches missed.">    if (inputStream == null) {</span>
-<span class="nc" id="L541">      return null;</span>
-    }
-<span class="nc bnc" id="L543" title="All 2 branches missed.">    final String cn =</span>
-<span class="nc bnc" id="L544" title="All 2 branches missed.">        charsetName == null || charsetName.trim().length() == 0 ? StandardCharsets.UTF_8.name()</span>
-            : charsetName;
-<span class="nc bnc" id="L546" title="All 2 branches missed.">    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;</span>
-    try {
-<span class="nc" id="L548">      return fromWKT(new InputStreamReader(inputStream, cn), gf);</span>
-<span class="nc" id="L549">    } catch (UnsupportedEncodingException e) {</span>
-<span class="nc" id="L550">      throw new RuntimeException(&quot;Parsing WKT failed.&quot;, e);</span>
+      throws IllegalArgumentException {
+
+<span class="fc bfc" id="L499" title="All 2 branches covered.">    final String cs = charsetName == null ? StandardCharsets.UTF_8.name() : charsetName;</span>
+<span class="fc" id="L500">    try (InputStreamReader reader = new InputStreamReader(inputStream, cs)) {</span>
+<span class="fc" id="L501">      return fromWKT(reader, geometryFactory);</span>
+
+<span class="fc" id="L503">    } catch (NullPointerException n) {</span>
+<span class="fc" id="L504">      return null;</span>
+<span class="fc" id="L505">    } catch (Exception e) {</span>
+<span class="fc" id="L506">      throw new IllegalArgumentException(e);</span>
     }
   }
 
@@ -559,7 +515,7 @@ public abstract class GeometryUtils {
    * @return the coordinate
    */
   public static Coordinate createCoordinate(final double x, final double y) {
-<span class="nc" id="L562">    return new Coordinate(x, y);</span>
+<span class="fc" id="L518">    return new Coordinate(x, y);</span>
   }
 
   /**
@@ -571,43 +527,41 @@ public abstract class GeometryUtils {
    * @throws IllegalArgumentException if x or y is {@code null}
    */
   public static Coordinate createCoordinate(final BigDecimal x, final BigDecimal y) {
-<span class="nc bnc" id="L574" title="All 2 branches missed.">    if (x == null) {</span>
-<span class="nc" id="L575">      throw new IllegalArgumentException(&quot;X must not be null.&quot;);</span>
-    }
-<span class="nc bnc" id="L577" title="All 2 branches missed.">    if (y == null) {</span>
-<span class="nc" id="L578">      throw new IllegalArgumentException(&quot;Y must not be null.&quot;);</span>
-    }
-<span class="nc" id="L580">    return new Coordinate(x.doubleValue(), y.doubleValue());</span>
+
+<span class="fc" id="L531">    return Optional.ofNullable(x)</span>
+<span class="fc" id="L532">        .map(xx -&gt; Optional.ofNullable(y)</span>
+<span class="fc" id="L533">            .map(yy -&gt; new Coordinate(xx.doubleValue(), yy.doubleValue()))</span>
+<span class="fc" id="L534">            .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Y must not be null.&quot;)))</span>
+<span class="fc" id="L535">        .orElseThrow(() -&gt; new IllegalArgumentException(&quot;X must not be null.&quot;));</span>
   }
 
   /**
    * Creates a coordinate.
    *
-   * @param latitude  the latitude value
+   * @param latitude the latitude value
    * @param longitude the longitude value
    * @return the coordinate
    */
   public static Coordinate createCoordinateWGS84(final double latitude, final double longitude) {
-<span class="nc" id="L591">    return new Coordinate(longitude, latitude);</span>
+<span class="fc" id="L546">    return new Coordinate(longitude, latitude);</span>
   }
 
   /**
    * Creates a coordinate.
    *
-   * @param latitude  the latitude value
+   * @param latitude the latitude value
    * @param longitude the longitude value
    * @return the coordinate
    * @throws IllegalArgumentException if latitude or longitude is {@code null}
    */
   public static Coordinate createCoordinateWGS84(
       final BigDecimal latitude, final BigDecimal longitude) {
-<span class="nc bnc" id="L604" title="All 2 branches missed.">    if (latitude == null) {</span>
-<span class="nc" id="L605">      throw new IllegalArgumentException(&quot;Latitude must not be null.&quot;);</span>
-    }
-<span class="nc bnc" id="L607" title="All 2 branches missed.">    if (longitude == null) {</span>
-<span class="nc" id="L608">      throw new IllegalArgumentException(&quot;Longitude must not be null.&quot;);</span>
-    }
-<span class="nc" id="L610">    return new Coordinate(longitude.doubleValue(), latitude.doubleValue());</span>
+
+<span class="fc" id="L560">    return Optional.ofNullable(latitude)</span>
+<span class="fc" id="L561">        .map(lat -&gt; Optional.ofNullable(longitude)</span>
+<span class="fc" id="L562">            .map(lon -&gt; new Coordinate(lon.doubleValue(), lat.doubleValue()))</span>
+<span class="fc" id="L563">            .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Longitude must not be null.&quot;)))</span>
+<span class="fc" id="L564">        .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Latitude must not be null.&quot;));</span>
   }
 
   /**
@@ -617,10 +571,9 @@ public abstract class GeometryUtils {
    * @return the latitude
    */
   public static double getLatitudeWGS84(Coordinate coordinate) {
-<span class="nc bnc" id="L620" title="All 2 branches missed.">    if (coordinate == null) {</span>
-<span class="nc" id="L621">      throw new IllegalArgumentException(&quot;Coordinate must not be null.&quot;);</span>
-    }
-<span class="nc" id="L623">    return coordinate.getY();</span>
+<span class="fc" id="L574">    return Optional.ofNullable(coordinate)</span>
+<span class="fc" id="L575">        .map(Coordinate::getY)</span>
+<span class="fc" id="L576">        .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Coordinate must not be null.&quot;));</span>
   }
 
   /**
@@ -630,10 +583,9 @@ public abstract class GeometryUtils {
    * @return the longitude
    */
   public static double getLongitudeWGS84(final Coordinate coordinate) {
-<span class="nc bnc" id="L633" title="All 2 branches missed.">    if (coordinate == null) {</span>
-<span class="nc" id="L634">      throw new IllegalArgumentException(&quot;Coordinate must not be null.&quot;);</span>
-    }
-<span class="nc" id="L636">    return coordinate.getX();</span>
+<span class="fc" id="L586">    return Optional.ofNullable(coordinate)</span>
+<span class="fc" id="L587">        .map(Coordinate::getX)</span>
+<span class="fc" id="L588">        .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Coordinate must not be null.&quot;));</span>
   }
 
   /**
@@ -644,20 +596,22 @@ public abstract class GeometryUtils {
    * @return the point
    */
   public static Point createPoint(final double x, final double y) {
-<span class="nc" id="L647">    return createPoint(createCoordinate(x, y), null);</span>
+<span class="fc" id="L599">    return createPoint(createCoordinate(x, y), null);</span>
   }
 
   /**
    * Creates a point.
    *
-   * @param x               the x value
-   * @param y               the y value
+   * @param x the x value
+   * @param y the y value
    * @param geometryFactory the geometry factory to use
    * @return the point
    */
-  public static Point createPoint(final double x, final double y,
+  public static Point createPoint(
+      final double x,
+      final double y,
       final GeometryFactory geometryFactory) {
-<span class="nc" id="L660">    return createPoint(createCoordinate(x, y), geometryFactory);</span>
+<span class="fc" id="L614">    return createPoint(createCoordinate(x, y), geometryFactory);</span>
   }
 
   /**
@@ -668,20 +622,22 @@ public abstract class GeometryUtils {
    * @return the point
    */
   public static Point createPoint(final BigDecimal x, final BigDecimal y) {
-<span class="nc" id="L671">    return createPoint(createCoordinate(x, y), null);</span>
+<span class="fc" id="L625">    return createPoint(createCoordinate(x, y), null);</span>
   }
 
   /**
    * Creates a point.
    *
-   * @param x               the x value
-   * @param y               the y value
+   * @param x the x value
+   * @param y the y value
    * @param geometryFactory the geometry factory to use
    * @return the point
    */
-  public static Point createPoint(final BigDecimal x, final BigDecimal y,
+  public static Point createPoint(
+      final BigDecimal x,
+      final BigDecimal y,
       final GeometryFactory geometryFactory) {
-<span class="nc" id="L684">    return createPoint(createCoordinate(x, y), geometryFactory);</span>
+<span class="fc" id="L640">    return createPoint(createCoordinate(x, y), geometryFactory);</span>
   }
 
   /**
@@ -691,73 +647,76 @@ public abstract class GeometryUtils {
    * @return the point
    */
   public static Point createPoint(final Coordinate coordinate) {
-<span class="fc" id="L694">    return createPoint(coordinate, null);</span>
+<span class="fc" id="L650">    return createPoint(coordinate, null);</span>
   }
 
   /**
    * Creates a Point using the given Coordinate; a null Coordinate will create an empty Geometry.
    *
-   * @param coordinate      the coordinate of the point
+   * @param coordinate the coordinate of the point
    * @param geometryFactory the geometry factory to use
    * @return the point
    */
-  @SuppressWarnings(&quot;SameParameterValue&quot;)
-  public static Point createPoint(final Coordinate coordinate,
+  public static Point createPoint(
+      final Coordinate coordinate,
       final GeometryFactory geometryFactory) {
-<span class="pc bpc" id="L707" title="1 of 2 branches missed.">    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;</span>
-<span class="fc" id="L708">    return gf.createPoint(coordinate);</span>
+<span class="fc" id="L663">    return geometryFactory(geometryFactory).createPoint(coordinate);</span>
   }
 
   /**
    * Creates a point from WGS84 latitude and longitude.&lt;br&gt; Latitude becomes the y-value.&lt;br&gt;
    * Longitude becomes the x-value.&lt;br&gt;
    *
-   * @param latitude  the latitude in degrees
+   * @param latitude the latitude in degrees
    * @param longitude the longitude in degrees
    * @return the point
    */
   public static Point createPointWGS84(final double latitude, final double longitude) {
-<span class="nc" id="L720">    return createPoint(longitude, latitude, null);</span>
+<span class="fc" id="L675">    return createPoint(longitude, latitude, null);</span>
   }
 
   /**
    * Creates a point from WGS84 latitude and longitude.&lt;br&gt; Latitude becomes the y-value.&lt;br&gt;
    * Longitude becomes the x-value.&lt;br&gt;
    *
-   * @param latitude  the latitude in degrees
+   * @param latitude the latitude in degrees
    * @param longitude the longitude in degrees
    * @return the point
    */
   public static Point createPointWGS84(final BigDecimal latitude, final BigDecimal longitude) {
-<span class="nc" id="L732">    return createPoint(longitude, latitude, null);</span>
+<span class="fc" id="L687">    return createPoint(longitude, latitude, null);</span>
   }
 
   /**
    * Creates a point from WGS84 latitude and longitude.&lt;br&gt; Latitude becomes the y-value.&lt;br&gt;
    * Longitude becomes the x-value.&lt;br&gt;
    *
-   * @param latitude        the latitude in degrees
-   * @param longitude       the longitude in degrees
+   * @param latitude the latitude in degrees
+   * @param longitude the longitude in degrees
    * @param geometryFactory the geometry factory to use
    * @return the point
    */
-  public static Point createPointWGS84(final double latitude, final double longitude,
+  public static Point createPointWGS84(
+      final double latitude,
+      final double longitude,
       final GeometryFactory geometryFactory) {
-<span class="nc" id="L746">    return createPoint(longitude, latitude, geometryFactory);</span>
+<span class="fc" id="L703">    return createPoint(longitude, latitude, geometryFactory);</span>
   }
 
   /**
    * Creates a point from WGS84 latitude and longitude.&lt;br&gt; Latitude becomes the y-value.&lt;br&gt;
    * Longitude becomes the x-value.&lt;br&gt;
    *
-   * @param latitude        the latitude in degrees
-   * @param longitude       the longitude in degrees
+   * @param latitude the latitude in degrees
+   * @param longitude the longitude in degrees
    * @param geometryFactory the geometry factory to use
    * @return the point
    */
-  public static Point createPointWGS84(final BigDecimal latitude, final BigDecimal longitude,
+  public static Point createPointWGS84(
+      final BigDecimal latitude,
+      final BigDecimal longitude,
       final GeometryFactory geometryFactory) {
-<span class="nc" id="L760">    return createPoint(longitude, latitude, geometryFactory);</span>
+<span class="fc" id="L719">    return createPoint(longitude, latitude, geometryFactory);</span>
   }
 
   /**
@@ -768,28 +727,25 @@ public abstract class GeometryUtils {
    * @return the {@link MultiPoint}
    */
   public static MultiPoint createMultiPoint(final Collection&lt;? extends Point&gt; points) {
-<span class="nc" id="L771">    return createMultiPoint(points, null);</span>
+<span class="fc" id="L730">    return createMultiPoint(points, null);</span>
   }
 
   /**
    * Creates a MultiPoint using the given Points. A null or empty collection will create an empty
    * MultiPoint.
    *
-   * @param points          the points of the {@link MultiPoint}
+   * @param points the points of the {@link MultiPoint}
    * @param geometryFactory the geometry factory to use
    * @return the {@link MultiPoint}
    */
-  @SuppressWarnings(&quot;SameParameterValue&quot;)
-  public static MultiPoint createMultiPoint(final Collection&lt;? extends Point&gt; points,
+  public static MultiPoint createMultiPoint(
+      final Collection&lt;? extends Point&gt; points,
       final GeometryFactory geometryFactory) {
-    Point[] ps;
-<span class="nc bnc" id="L786" title="All 2 branches missed.">    if (points == null) {</span>
-<span class="nc" id="L787">      ps = null;</span>
-    } else {
-<span class="nc" id="L789">      ps = points.toArray(new Point[0]);</span>
-    }
-<span class="nc bnc" id="L791" title="All 2 branches missed.">    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;</span>
-<span class="nc" id="L792">    return gf.createMultiPoint(ps);</span>
+
+<span class="fc" id="L745">    return Optional.ofNullable(points)</span>
+<span class="fc" id="L746">        .map(c -&gt; c.toArray(new Point[0]))</span>
+<span class="fc" id="L747">        .map(a -&gt; geometryFactory(geometryFactory).createMultiPoint(a))</span>
+<span class="fc" id="L748">        .orElseGet(() -&gt; geometryFactory(geometryFactory).createMultiPoint());</span>
   }
 
   /**
@@ -800,28 +756,25 @@ public abstract class GeometryUtils {
    * @return the {@link LineString}
    */
   public static LineString createLineString(final Collection&lt;? extends Coordinate&gt; coordinates) {
-<span class="nc" id="L803">    return createLineString(coordinates, null);</span>
+<span class="fc" id="L759">    return createLineString(coordinates, null);</span>
   }
 
   /**
    * Creates a LineString using the given coordinates; a null or empty collection will create an
    * empty LineString. Consecutive points must not be equal.
    *
-   * @param coordinates     the coordinates of the {@link LineString}
+   * @param coordinates the coordinates of the {@link LineString}
    * @param geometryFactory the geometry factory to use
    * @return the {@link LineString}
    */
-  public static LineString createLineString(final Collection&lt;? extends Coordinate&gt; coordinates,
-      @SuppressWarnings(&quot;SameParameterValue&quot;) final GeometryFactory geometryFactory) {
-    CoordinateSequence points;
-<span class="nc bnc" id="L817" title="All 2 branches missed.">    if (coordinates == null) {</span>
-<span class="nc" id="L818">      points = null;</span>
-    } else {
-<span class="nc" id="L820">      Coordinate[] coords = coordinates.toArray(new Coordinate[0]);</span>
-<span class="nc" id="L821">      points = CoordinateArraySequenceFactory.instance().create(coords);</span>
-    }
-<span class="nc bnc" id="L823" title="All 2 branches missed.">    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;</span>
-<span class="nc" id="L824">    return gf.createLineString(points);</span>
+  public static LineString createLineString(
+      final Collection&lt;? extends Coordinate&gt; coordinates,
+      final GeometryFactory geometryFactory) {
+
+<span class="fc" id="L774">    return Optional.ofNullable(coordinates)</span>
+<span class="fc" id="L775">        .map(c -&gt; c.toArray(new Coordinate[0]))</span>
+<span class="fc" id="L776">        .map(a -&gt; geometryFactory(geometryFactory).createLineString(a))</span>
+<span class="fc" id="L777">        .orElseGet(() -&gt; geometryFactory(geometryFactory).createLineString());</span>
   }
 
   /**
@@ -833,28 +786,25 @@ public abstract class GeometryUtils {
    */
   public static MultiLineString createMultiLineString(
       final Collection&lt;? extends LineString&gt; lineStrings) {
-<span class="nc" id="L836">    return createMultiLineString(lineStrings, null);</span>
+<span class="fc" id="L789">    return createMultiLineString(lineStrings, null);</span>
   }
 
   /**
    * Creates a MultiLineString using the given LineStrings; a null or empty collection will create
    * an empty MultiLineString.
    *
-   * @param lineStrings     the {@link LineString}s of the {@link MultiLineString}
+   * @param lineStrings the {@link LineString}s of the {@link MultiLineString}
    * @param geometryFactory the geometry factory to use
    * @return the {@link MultiLineString}
    */
   public static MultiLineString createMultiLineString(
       final Collection&lt;? extends LineString&gt; lineStrings,
-      @SuppressWarnings(&quot;SameParameterValue&quot;) final GeometryFactory geometryFactory) {
-    LineString[] lines;
-<span class="nc bnc" id="L851" title="All 2 branches missed.">    if (lineStrings == null) {</span>
-<span class="nc" id="L852">      lines = null;</span>
-    } else {
-<span class="nc" id="L854">      lines = lineStrings.toArray(new LineString[0]);</span>
-    }
-<span class="nc bnc" id="L856" title="All 2 branches missed.">    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;</span>
-<span class="nc" id="L857">    return gf.createMultiLineString(lines);</span>
+      final GeometryFactory geometryFactory) {
+
+<span class="fc" id="L804">    return Optional.ofNullable(lineStrings)</span>
+<span class="fc" id="L805">        .map(c -&gt; c.toArray(new LineString[0]))</span>
+<span class="fc" id="L806">        .map(a -&gt; geometryFactory(geometryFactory).createMultiLineString(a))</span>
+<span class="fc" id="L807">        .orElseGet(() -&gt; geometryFactory(geometryFactory).createMultiLineString());</span>
   }
 
   /**
@@ -865,97 +815,88 @@ public abstract class GeometryUtils {
    * @return the created LinearRing
    */
   public static LinearRing createLinearRing(final Collection&lt;? extends Coordinate&gt; coordinates) {
-<span class="nc" id="L868">    return createLinearRing(coordinates, null);</span>
+<span class="fc" id="L818">    return createLinearRing(coordinates, null);</span>
   }
 
   /**
    * Creates a LinearRing using the given coordinates. A null or empty coordinates will create an
    * empty LinearRing.
    *
-   * @param coordinates     the coordinates
+   * @param coordinates the coordinates
    * @param geometryFactory the geometry factory
    * @return the created LinearRing
    */
-  public static LinearRing createLinearRing(final Collection&lt;? extends Coordinate&gt; coordinates,
-      @SuppressWarnings(&quot;SameParameterValue&quot;) final GeometryFactory geometryFactory) {
-    CoordinateSequence points;
-<span class="nc bnc" id="L882" title="All 2 branches missed.">    if (coordinates == null) {</span>
-<span class="nc" id="L883">      points = null;</span>
-    } else {
-<span class="nc" id="L885">      Coordinate[] coords = coordinates.toArray(new Coordinate[0]);</span>
-<span class="nc bnc" id="L886" title="All 2 branches missed.">      if (coords.length &gt; 0) {</span>
-<span class="nc" id="L887">        Coordinate coord0 = coords[0];</span>
-<span class="nc" id="L888">        Coordinate coordN = coords[coords.length - 1];</span>
-<span class="nc bnc" id="L889" title="All 2 branches missed.">        if (!coord0.equals3D(coordN)) {</span>
-<span class="nc" id="L890">          coords = Arrays.copyOf(coords, coords.length + 1);</span>
-<span class="nc" id="L891">          coords[coords.length - 1] = (Coordinate) coord0.clone();</span>
-        }
-      }
-<span class="nc" id="L894">      points = CoordinateArraySequenceFactory.instance().create(coords);</span>
-    }
-<span class="nc bnc" id="L896" title="All 2 branches missed.">    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;</span>
-<span class="nc" id="L897">    return gf.createLinearRing(points);</span>
+  public static LinearRing createLinearRing(
+      final Collection&lt;? extends Coordinate&gt; coordinates,
+      final GeometryFactory geometryFactory) {
+
+<span class="fc" id="L833">    return Optional.ofNullable(coordinates)</span>
+<span class="fc" id="L834">        .map(c -&gt; c.toArray(new Coordinate[0]))</span>
+<span class="fc" id="L835">        .map(a -&gt; geometryFactory(geometryFactory).createLinearRing(a))</span>
+<span class="fc" id="L836">        .orElseGet(() -&gt; geometryFactory(geometryFactory).createLinearRing());</span>
   }
 
   /**
    * Constructs a Polygon with the given exterior boundary.
    *
-   * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the empty
-   *              geometry is to be created
+   * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the
+   *     empty geometry is to be created
    * @return the created Polygon
    */
   public static Polygon createPolygon(final LinearRing shell) {
-<span class="nc" id="L908">    return createPolygon(shell, null, null);</span>
+<span class="fc" id="L847">    return createPolygon(shell, null, null);</span>
   }
 
   /**
    * Constructs a Polygon with the given exterior boundary.
    *
-   * @param shell           the outer boundary of the new Polygon, or null or an empty LinearRing if
-   *                        the empty geometry is to be created
+   * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the
+   *     empty geometry is to be created
    * @param geometryFactory the geometry factory
    * @return the created Polygon
    */
-  public static Polygon createPolygon(final LinearRing shell,
+  public static Polygon createPolygon(
+      final LinearRing shell,
       final GeometryFactory geometryFactory) {
-<span class="nc" id="L921">    return createPolygon(shell, null, geometryFactory);</span>
+<span class="fc" id="L861">    return createPolygon(shell, null, geometryFactory);</span>
   }
 
   /**
    * Constructs a Polygon with the given exterior boundary and interior boundaries.
    *
-   * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the empty
-   *              geometry is to be created
+   * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the
+   *     empty geometry is to be created
    * @param holes the inner boundaries of the new Polygon, or null or empty LinearRing s if the
-   *              empty geometry is to be created
+   *     empty geometry is to be created
    * @return the created Polygon
    */
-  public static Polygon createPolygon(final LinearRing shell,
+  public static Polygon createPolygon(
+      final LinearRing shell,
       final Collection&lt;? extends LinearRing&gt; holes) {
-<span class="nc" id="L935">    return createPolygon(shell, holes, null);</span>
+<span class="fc" id="L876">    return createPolygon(shell, holes, null);</span>
   }
 
   /**
    * Constructs a Polygon with the given exterior boundary and interior boundaries.
    *
-   * @param shell           the outer boundary of the new Polygon, or null or an empty LinearRing if
-   *                        the empty geometry is to be created
-   * @param holes           the inner boundaries of the new Polygon, or null or empty LinearRing s
-   *                        if the empty geometry is to be created
+   * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the
+   *     empty geometry is to be created
+   * @param holes the inner boundaries of the new Polygon, or null or empty LinearRing s if the
+   *     empty geometry is to be created
    * @param geometryFactory the geometry factory
    * @return the created Polygon
    */
-  public static Polygon createPolygon(final LinearRing shell,
+  public static Polygon createPolygon(
+      final LinearRing shell,
       final Collection&lt;? extends LinearRing&gt; holes,
       final GeometryFactory geometryFactory) {
-    LinearRing[] hs;
-<span class="nc bnc" id="L952" title="All 2 branches missed.">    if (holes == null) {</span>
-<span class="nc" id="L953">      hs = null;</span>
-    } else {
-<span class="nc" id="L955">      hs = holes.toArray(new LinearRing[0]);</span>
-    }
-<span class="nc bnc" id="L957" title="All 2 branches missed.">    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;</span>
-<span class="nc" id="L958">    return gf.createPolygon(shell, hs);</span>
+
+<span class="fc" id="L894">    return Optional.ofNullable(shell)</span>
+<span class="fc" id="L895">        .map(s -&gt; Optional.ofNullable(holes)</span>
+<span class="fc" id="L896">            .map(c -&gt; c.toArray(new LinearRing[0]))</span>
+<span class="fc" id="L897">            .map(a -&gt; geometryFactory(geometryFactory).createPolygon(s, a))</span>
+<span class="fc" id="L898">            .orElseGet(() -&gt; geometryFactory(geometryFactory).createPolygon(s)))</span>
+<span class="fc" id="L899">        .orElseGet(() -&gt; geometryFactory(geometryFactory).createPolygon());</span>
   }
 
   /**
@@ -966,27 +907,88 @@ public abstract class GeometryUtils {
    * @return the multi polygon
    */
   public static MultiPolygon createMultiPolygon(final Collection&lt;? extends Polygon&gt; polygons) {
-<span class="nc" id="L969">    return createMultiPolygon(polygons, null);</span>
+<span class="fc" id="L910">    return createMultiPolygon(polygons, null);</span>
   }
 
   /**
    * Creates a MultiPolygon using the given Polygons; a null or empty array will create an empty
    * Polygon.
    *
-   * @param polygons        the polygons
+   * @param polygons the polygons
    * @param geometryFactory the geometry factory
    * @return the multi polygon
    */
-  public static MultiPolygon createMultiPolygon(final Collection&lt;? extends Polygon&gt; polygons,
-      @SuppressWarnings(&quot;SameParameterValue&quot;) final GeometryFactory geometryFactory) {
-    Polygon[] ps;
-<span class="nc bnc" id="L983" title="All 2 branches missed.">    if (polygons == null) {</span>
-<span class="nc" id="L984">      ps = null;</span>
-    } else {
-<span class="nc" id="L986">      ps = polygons.toArray(new Polygon[0]);</span>
-    }
-<span class="nc bnc" id="L988" title="All 2 branches missed.">    final GeometryFactory gf = geometryFactory == null ? DEFAULT_GEOMETRY_FACTORY : geometryFactory;</span>
-<span class="nc" id="L989">    return gf.createMultiPolygon(ps);</span>
+  public static MultiPolygon createMultiPolygon(
+      final Collection&lt;? extends Polygon&gt; polygons,
+      final GeometryFactory geometryFactory) {
+
+<span class="fc" id="L925">    return Optional.ofNullable(polygons)</span>
+<span class="fc" id="L926">        .map(c -&gt; c.toArray(new Polygon[0]))</span>
+<span class="fc" id="L927">        .map(a -&gt; geometryFactory(geometryFactory).createMultiPolygon(a))</span>
+<span class="fc" id="L928">        .orElseGet(() -&gt; geometryFactory(geometryFactory).createMultiPolygon());</span>
+  }
+
+  /**
+   * Create geometry collection geometry collection.
+   *
+   * @param geometries the geometries
+   * @return the geometry collection
+   */
+  public static GeometryCollection createGeometryCollection(final Geometry... geometries) {
+<span class="fc" id="L938">    return Optional.ofNullable(geometries)</span>
+<span class="fc" id="L939">        .map(DEFAULT_GEOMETRY_FACTORY::createGeometryCollection)</span>
+<span class="fc" id="L940">        .orElseGet(DEFAULT_GEOMETRY_FACTORY::createGeometryCollection);</span>
+  }
+
+  /**
+   * Create geometry collection geometry collection.
+   *
+   * @param geometries the geometries
+   * @return the geometry collection
+   */
+  public static GeometryCollection createGeometryCollection(
+      final Collection&lt;? extends Geometry&gt; geometries) {
+<span class="fc" id="L951">    return createGeometryCollection(geometries, DEFAULT_GEOMETRY_FACTORY);</span>
+  }
+
+  /**
+   * Create geometry collection geometry collection.
+   *
+   * @param geometries the geometries
+   * @param geometryFactory the geometry factory
+   * @return the geometry collection
+   */
+  public static GeometryCollection createGeometryCollection(
+      final Collection&lt;? extends Geometry&gt; geometries,
+      final GeometryFactory geometryFactory) {
+
+<span class="fc" id="L965">    return Optional.ofNullable(geometries)</span>
+<span class="fc" id="L966">        .map(g -&gt; g.toArray(new Geometry[0]))</span>
+<span class="fc" id="L967">        .map(a -&gt; geometryFactory(geometryFactory).createGeometryCollection(a))</span>
+<span class="fc" id="L968">        .orElseGet(() -&gt; geometryFactory(geometryFactory).createGeometryCollection());</span>
+  }
+
+  /**
+   * Copy and apply filters.
+   *
+   * @param geometry the geometry
+   * @param filters the filters
+   * @return the copied and filtered geometry
+   */
+  public static Geometry copyAndApplyFilters(
+      final Geometry geometry,
+      final CoordinateFilter... filters) {
+<span class="fc" id="L981">    return Optional.ofNullable(geometry)</span>
+<span class="fc" id="L982">        .map(g -&gt; {</span>
+<span class="fc" id="L983">          final Geometry result = g.copy();</span>
+<span class="pc bpc" id="L984" title="1 of 2 branches missed.">          if (filters != null) {</span>
+<span class="fc bfc" id="L985" title="All 2 branches covered.">            for (CoordinateFilter filter : filters) {</span>
+<span class="fc" id="L986">              result.apply(filter);</span>
+            }
+          }
+<span class="fc" id="L989">          return result;</span>
+        })
+<span class="fc" id="L991">        .orElse(null);</span>
   }
 
   /**
@@ -996,12 +998,7 @@ public abstract class GeometryUtils {
    * @return the transformed (cloned) geometry
    */
   public static Geometry transformWgs84ToMercator(final Geometry geometry) {
-<span class="nc bnc" id="L999" title="All 2 branches missed.">    if (geometry == null) {</span>
-<span class="nc" id="L1000">      return null;</span>
-    }
-<span class="nc" id="L1002">    Geometry result = geometry.copy();</span>
-<span class="nc" id="L1003">    result.apply(new Wgs84ToMercatorCoordinateFilter());</span>
-<span class="nc" id="L1004">    return result;</span>
+<span class="fc" id="L1001">    return copyAndApplyFilters(geometry, new Wgs84ToMercatorCoordinateFilter());</span>
   }
 
   /**
@@ -1011,13 +1008,18 @@ public abstract class GeometryUtils {
    * @return the transformed (cloned) geometry
    */
   public static Geometry transformMercatorToWgs84(final Geometry geometry) {
-<span class="nc bnc" id="L1014" title="All 2 branches missed.">    if (geometry == null) {</span>
-<span class="nc" id="L1015">      return null;</span>
-    }
-<span class="nc" id="L1017">    Geometry result = geometry.copy();</span>
-<span class="nc" id="L1018">    result.apply(new MercatorToWgs84CoordinateFilter());</span>
-<span class="nc" id="L1019">    return result;</span>
+<span class="fc" id="L1011">    return copyAndApplyFilters(geometry, new MercatorToWgs84CoordinateFilter());</span>
+  }
+
+  /**
+   * Swap coordinates.
+   *
+   * @param geometry the geometry
+   * @return the geometry with swapped coordinates
+   */
+  public static Geometry swapCoordinates(final Geometry geometry) {
+<span class="fc" id="L1021">    return copyAndApplyFilters(geometry, new SwapCoordinateFilter());</span>
   }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

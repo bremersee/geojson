@@ -1,0 +1,19 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+GeoJSON for Spring Data MongoDB,org.bremersee.geojson.spring.data.mongodb.convert,LineStringToDocumentConverter,0,3,0,0,0,1,0,1,0,1
+GeoJSON for Spring Data MongoDB,org.bremersee.geojson.spring.data.mongodb.convert,DocumentToGeometryCollectionConverter,0,65,1,3,0,13,1,4,0,3
+GeoJSON for Spring Data MongoDB,org.bremersee.geojson.spring.data.mongodb.convert,GeoJsonConverters,0,102,0,0,0,1,0,1,0,1
+GeoJSON for Spring Data MongoDB,org.bremersee.geojson.spring.data.mongodb.convert,AbstractGeometryToDocumentConverter,0,23,0,0,0,6,0,3,0,3
+GeoJSON for Spring Data MongoDB,org.bremersee.geojson.spring.data.mongodb.convert,DocumentToLineStringConverter,0,34,0,0,0,8,0,3,0,3
+GeoJSON for Spring Data MongoDB,org.bremersee.geojson.spring.data.mongodb.convert,PolygonToDocumentConverter,0,3,0,0,0,1,0,1,0,1
+GeoJSON for Spring Data MongoDB,org.bremersee.geojson.spring.data.mongodb.convert,DocumentToPointConverter,0,34,0,0,0,8,0,3,0,3
+GeoJSON for Spring Data MongoDB,org.bremersee.geojson.spring.data.mongodb.convert,DocumentToMultiPolygonConverter,0,34,0,0,0,8,0,3,0,3
+GeoJSON for Spring Data MongoDB,org.bremersee.geojson.spring.data.mongodb.convert,DocumentToMultiPointConverter,0,34,0,0,0,8,0,3,0,3
+GeoJSON for Spring Data MongoDB,org.bremersee.geojson.spring.data.mongodb.convert,MultiPolygonToDocumentConverter,0,3,0,0,0,1,0,1,0,1
+GeoJSON for Spring Data MongoDB,org.bremersee.geojson.spring.data.mongodb.convert,DocumentToGeometryConverter,14,84,1,13,1,21,1,9,0,3
+GeoJSON for Spring Data MongoDB,org.bremersee.geojson.spring.data.mongodb.convert,MultiPointToDocumentConverter,0,3,0,0,0,1,0,1,0,1
+GeoJSON for Spring Data MongoDB,org.bremersee.geojson.spring.data.mongodb.convert,DocumentToPolygonConverter,0,34,0,0,0,8,0,3,0,3
+GeoJSON for Spring Data MongoDB,org.bremersee.geojson.spring.data.mongodb.convert,DocumentToMultiLineStringConverter,0,34,0,0,0,8,0,3,0,3
+GeoJSON for Spring Data MongoDB,org.bremersee.geojson.spring.data.mongodb.convert,GeometryCollectionToDocumentConverter,0,3,0,0,0,1,0,1,0,1
+GeoJSON for Spring Data MongoDB,org.bremersee.geojson.spring.data.mongodb.convert,AbstractDocumentToGeometryConverter,6,21,1,1,3,6,2,3,1,3
+GeoJSON for Spring Data MongoDB,org.bremersee.geojson.spring.data.mongodb.convert,PointToDocumentConverter,0,3,0,0,0,1,0,1,0,1
+GeoJSON for Spring Data MongoDB,org.bremersee.geojson.spring.data.mongodb.convert,MultiLineStringToDocumentConverter,0,3,0,0,0,1,0,1,0,1

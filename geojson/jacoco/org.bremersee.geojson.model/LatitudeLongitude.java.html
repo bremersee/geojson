@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LatitudeLongitude.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson.model</a> &gt; <span class="el_source">LatitudeLongitude.java</span></div><h1>LatitudeLongitude.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2018 the original author or authors.
+ * Copyright 2018-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,9 @@ package org.bremersee.geojson.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Point;
@@ -32,70 +32,76 @@ import org.locationtech.jts.geom.Point;
  * @author Christian Bremer
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-<span class="nc bnc" id="L35" title="All 22 branches missed.">@EqualsAndHashCode(callSuper = false)</span>
-<span class="nc" id="L36">@ToString(callSuper = true)</span>
-<span class="nc" id="L37">@NoArgsConstructor</span>
-@SuppressWarnings(&quot;unused&quot;)
-public class LatitudeLongitude implements LatLonAware {
+<span class="pc bpc" id="L35" title="13 of 22 branches missed.">@EqualsAndHashCode(callSuper = false)</span>
+<span class="fc" id="L36">@ToString</span>
+public class LatitudeLongitude implements LatLonAware, Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   private BigDecimal latitude;
 
   private BigDecimal longitude;
 
+  /**
+   * Instantiates a new latitude longitude.
+   *
+   * @param latitude the latitude
+   * @param longitude the longitude
+   */
   @JsonCreator
   public LatitudeLongitude(
       @JsonProperty(&quot;latitude&quot;) BigDecimal latitude,
-<span class="nc" id="L48">      @JsonProperty(&quot;longitude&quot;) BigDecimal longitude) {</span>
-<span class="nc" id="L49">    this.latitude = latitude;</span>
-<span class="nc" id="L50">    this.longitude = longitude;</span>
-<span class="nc" id="L51">  }</span>
+<span class="fc" id="L54">      @JsonProperty(&quot;longitude&quot;) BigDecimal longitude) {</span>
+<span class="fc" id="L55">    this.latitude = latitude;</span>
+<span class="fc" id="L56">    this.longitude = longitude;</span>
+<span class="fc" id="L57">  }</span>
 
   /**
    * Instantiates a new latitude longitude.
    *
    * @param latLonAware the lat lon aware
    */
-<span class="nc" id="L58">  public LatitudeLongitude(LatLonAware latLonAware) {</span>
-<span class="nc bnc" id="L59" title="All 2 branches missed.">    if (latLonAware != null) {</span>
-<span class="nc" id="L60">      this.latitude = latLonAware.getLatitude();</span>
-<span class="nc" id="L61">      this.longitude = latLonAware.getLongitude();</span>
+<span class="fc" id="L64">  public LatitudeLongitude(LatLonAware latLonAware) {</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">    if (latLonAware != null) {</span>
+<span class="fc" id="L66">      this.latitude = latLonAware.getLatitude();</span>
+<span class="fc" id="L67">      this.longitude = latLonAware.getLongitude();</span>
     }
-<span class="nc" id="L63">  }</span>
+<span class="fc" id="L69">  }</span>
 
   /**
    * Instantiates a new latitude longitude (longitude is x, latitude is y).
    *
    * @param point the point
    */
-<span class="nc" id="L70">  public LatitudeLongitude(Point point) {</span>
-<span class="nc bnc" id="L71" title="All 2 branches missed.">    if (point != null) {</span>
-<span class="nc" id="L72">      this.latitude = BigDecimal.valueOf(point.getY());</span>
-<span class="nc" id="L73">      this.longitude = BigDecimal.valueOf(point.getX());</span>
+<span class="fc" id="L76">  public LatitudeLongitude(Point point) {</span>
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">    if (point != null) {</span>
+<span class="fc" id="L78">      this.latitude = BigDecimal.valueOf(point.getY());</span>
+<span class="fc" id="L79">      this.longitude = BigDecimal.valueOf(point.getX());</span>
     }
-<span class="nc" id="L75">  }</span>
+<span class="fc" id="L81">  }</span>
 
   /**
    * Instantiates a new latitude longitude (longitude is x, latitude is y).
    *
    * @param coordinate the coordinate
    */
-<span class="nc" id="L82">  public LatitudeLongitude(Coordinate coordinate) {</span>
-<span class="nc bnc" id="L83" title="All 2 branches missed.">    if (coordinate != null) {</span>
-<span class="nc" id="L84">      this.latitude = BigDecimal.valueOf(coordinate.getY());</span>
-<span class="nc" id="L85">      this.longitude = BigDecimal.valueOf(coordinate.getX());</span>
+<span class="fc" id="L88">  public LatitudeLongitude(Coordinate coordinate) {</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">    if (coordinate != null) {</span>
+<span class="fc" id="L90">      this.latitude = BigDecimal.valueOf(coordinate.getY());</span>
+<span class="fc" id="L91">      this.longitude = BigDecimal.valueOf(coordinate.getX());</span>
     }
-<span class="nc" id="L87">  }</span>
+<span class="fc" id="L93">  }</span>
 
   @JsonProperty(&quot;latitude&quot;)
   @Override
   public BigDecimal getLatitude() {
-<span class="nc" id="L92">    return latitude;</span>
+<span class="fc" id="L98">    return latitude;</span>
   }
 
   @JsonProperty(&quot;longitude&quot;)
   @Override
   public BigDecimal getLongitude() {
-<span class="nc" id="L98">    return longitude;</span>
+<span class="fc" id="L104">    return longitude;</span>
   }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

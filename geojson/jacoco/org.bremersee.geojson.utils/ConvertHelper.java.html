@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ConvertHelper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson.utils</a> &gt; <span class="el_source">ConvertHelper.java</span></div><h1>ConvertHelper.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2018 the original author or authors.
+ * Copyright 2018-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -89,32 +89,23 @@ public class ConvertHelper implements Serializable {
   /**
    * Instantiates a new convert helper.
    *
-   * @param useBigDecimal use {@link BigDecimal} (recommended for JSON, set to false for MongoDB)
-   */
-  @SuppressWarnings(&quot;unused&quot;)
-  public ConvertHelper(boolean useBigDecimal) {
-<span class="nc" id="L96">    this(null, useBigDecimal);</span>
-<span class="nc" id="L97">  }</span>
-
-  /**
-   * Instantiates a new convert helper.
-   *
    * @param geometryFactory the geometry factory
    */
   public ConvertHelper(final GeometryFactory geometryFactory) {
-<span class="fc" id="L105">    this(geometryFactory, true);</span>
-<span class="fc" id="L106">  }</span>
+<span class="fc" id="L95">    this(geometryFactory, true);</span>
+<span class="fc" id="L96">  }</span>
 
   /**
    * Instantiates a new convert helper.
    *
    * @param geometryFactory the geometry factory
-   * @param useBigDecimal   use {@link BigDecimal} (recommended for JSON, set to false for MongoDB)
+   * @param useBigDecimal use {@link BigDecimal} (recommended for JSON, set to false for
+   *     MongoDB)
    */
-<span class="fc" id="L114">  public ConvertHelper(final GeometryFactory geometryFactory, boolean useBigDecimal) {</span>
-<span class="fc bfc" id="L115" title="All 2 branches covered.">    this.geometryFactory = geometryFactory != null ? geometryFactory : new GeometryFactory();</span>
-<span class="fc" id="L116">    this.useBigDecimal = useBigDecimal;</span>
-<span class="fc" id="L117">  }</span>
+<span class="fc" id="L105">  public ConvertHelper(final GeometryFactory geometryFactory, boolean useBigDecimal) {</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">    this.geometryFactory = geometryFactory != null ? geometryFactory : new GeometryFactory();</span>
+<span class="fc" id="L107">    this.useBigDecimal = useBigDecimal;</span>
+<span class="fc" id="L108">  }</span>
 
   /**
    * Gets geometry factory.
@@ -122,38 +113,38 @@ public class ConvertHelper implements Serializable {
    * @return the geometry factory
    */
   public GeometryFactory getGeometryFactory() {
-<span class="fc" id="L125">    return geometryFactory;</span>
+<span class="fc" id="L116">    return geometryFactory;</span>
   }
 
   private double toPrimitiveDoubleValue(Object value) {
-<span class="pc bpc" id="L129" title="1 of 2 branches missed.">    if (value == null) {</span>
-<span class="nc" id="L130">      throw new IllegalArgumentException(&quot;Argument must be a Number.&quot;);</span>
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">    if (value == null) {</span>
+<span class="nc" id="L121">      throw new IllegalArgumentException(&quot;Argument must be a Number.&quot;);</span>
     }
-<span class="pc bpc" id="L132" title="1 of 2 branches missed.">    if (value instanceof Number) {</span>
-<span class="fc" id="L133">      return ((Number) value).doubleValue();</span>
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">    if (value instanceof Number) {</span>
+<span class="fc" id="L124">      return ((Number) value).doubleValue();</span>
     }
-<span class="nc" id="L135">    return new BigDecimal(String.valueOf(value)).doubleValue();</span>
+<span class="nc" id="L126">    return new BigDecimal(String.valueOf(value)).doubleValue();</span>
   }
 
   private Coordinate createCoordinate(final List&lt;Object&gt; coordinates) {
-<span class="fc" id="L139">    Coordinate coordinate = new Coordinate();</span>
-<span class="fc" id="L140">    coordinate.x =</span>
-<span class="pc bpc" id="L141" title="1 of 2 branches missed.">        !coordinates.isEmpty() ? toPrimitiveDoubleValue(coordinates.get(0)) : Double.NaN;</span>
-<span class="fc" id="L142">    coordinate.y =</span>
-<span class="pc bpc" id="L143" title="1 of 2 branches missed.">        coordinates.size() &gt; 1 ? toPrimitiveDoubleValue(coordinates.get(1)) : Double.NaN;</span>
-<span class="fc" id="L144">    return coordinate;</span>
+<span class="fc" id="L130">    Coordinate coordinate = new Coordinate();</span>
+<span class="fc" id="L131">    coordinate.x =</span>
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">        !coordinates.isEmpty() ? toPrimitiveDoubleValue(coordinates.get(0)) : Double.NaN;</span>
+<span class="fc" id="L133">    coordinate.y =</span>
+<span class="pc bpc" id="L134" title="1 of 2 branches missed.">        coordinates.size() &gt; 1 ? toPrimitiveDoubleValue(coordinates.get(1)) : Double.NaN;</span>
+<span class="fc" id="L135">    return coordinate;</span>
   }
 
   private Coordinate[] coordinatesToArray(final List&lt;Object&gt; coordinates) {
-<span class="fc" id="L148">    Coordinate[] coords = new Coordinate[coordinates.size()];</span>
-<span class="fc" id="L149">    int i = 0;</span>
-<span class="fc bfc" id="L150" title="All 2 branches covered.">    for (Object obj : coordinates) {</span>
+<span class="fc" id="L139">    Coordinate[] coords = new Coordinate[coordinates.size()];</span>
+<span class="fc" id="L140">    int i = 0;</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">    for (Object obj : coordinates) {</span>
       @SuppressWarnings(&quot;unchecked&quot;)
-<span class="fc" id="L152">      List&lt;Object&gt; list = (List&lt;Object&gt;) obj;</span>
-<span class="fc" id="L153">      coords[i] = createCoordinate(list);</span>
-<span class="fc" id="L154">      i++;</span>
-<span class="fc" id="L155">    }</span>
-<span class="fc" id="L156">    return coords;</span>
+<span class="fc" id="L143">      List&lt;Object&gt; list = (List&lt;Object&gt;) obj;</span>
+<span class="fc" id="L144">      coords[i] = createCoordinate(list);</span>
+<span class="fc" id="L145">      i++;</span>
+<span class="fc" id="L146">    }</span>
+<span class="fc" id="L147">    return coords;</span>
   }
 
   /**
@@ -163,7 +154,7 @@ public class ConvertHelper implements Serializable {
    * @return the point
    */
   public Point createPoint(final List&lt;Object&gt; coordinates) {
-<span class="fc" id="L166">    return getGeometryFactory().createPoint(createCoordinate(coordinates));</span>
+<span class="fc" id="L157">    return getGeometryFactory().createPoint(createCoordinate(coordinates));</span>
   }
 
   /**
@@ -173,7 +164,7 @@ public class ConvertHelper implements Serializable {
    * @return the line string
    */
   public LineString createLineString(final List&lt;Object&gt; coordinates) {
-<span class="fc" id="L176">    return getGeometryFactory().createLineString(coordinatesToArray(coordinates));</span>
+<span class="fc" id="L167">    return getGeometryFactory().createLineString(coordinatesToArray(coordinates));</span>
   }
 
   /**
@@ -183,21 +174,21 @@ public class ConvertHelper implements Serializable {
    * @return the polygon
    */
   public Polygon createPolygon(final List&lt;Object&gt; coordinates) {
-<span class="fc" id="L186">    List&lt;Coordinate[]&gt; list = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L187" title="All 2 branches covered.">    for (Object obj : coordinates) {</span>
+<span class="fc" id="L177">    List&lt;Coordinate[]&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">    for (Object obj : coordinates) {</span>
       @SuppressWarnings(&quot;unchecked&quot;)
-<span class="fc" id="L189">      List&lt;Object&gt; coords = (List&lt;Object&gt;) obj;</span>
-<span class="fc" id="L190">      list.add(coordinatesToArray(coords));</span>
-<span class="fc" id="L191">    }</span>
-<span class="fc bfc" id="L192" title="All 2 branches covered.">    if (list.size() == 1) {</span>
-<span class="fc" id="L193">      return getGeometryFactory().createPolygon(list.get(0));</span>
+<span class="fc" id="L180">      List&lt;Object&gt; coords = (List&lt;Object&gt;) obj;</span>
+<span class="fc" id="L181">      list.add(coordinatesToArray(coords));</span>
+<span class="fc" id="L182">    }</span>
+<span class="fc bfc" id="L183" title="All 2 branches covered.">    if (list.size() == 1) {</span>
+<span class="fc" id="L184">      return getGeometryFactory().createPolygon(list.get(0));</span>
     } else {
-<span class="fc" id="L195">      GeometryFactory gf = getGeometryFactory();</span>
-<span class="fc" id="L196">      LinearRing[] holes = new LinearRing[list.size() - 1];</span>
-<span class="fc bfc" id="L197" title="All 2 branches covered.">      for (int i = 1; i &lt; list.size(); i++) {</span>
-<span class="fc" id="L198">        holes[i - 1] = gf.createLinearRing(list.get(i));</span>
+<span class="fc" id="L186">      GeometryFactory gf = getGeometryFactory();</span>
+<span class="fc" id="L187">      LinearRing[] holes = new LinearRing[list.size() - 1];</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">      for (int i = 1; i &lt; list.size(); i++) {</span>
+<span class="fc" id="L189">        holes[i - 1] = gf.createLinearRing(list.get(i));</span>
       }
-<span class="fc" id="L200">      return gf.createPolygon(gf.createLinearRing(list.get(0)), holes);</span>
+<span class="fc" id="L191">      return gf.createPolygon(gf.createLinearRing(list.get(0)), holes);</span>
     }
   }
 
@@ -208,15 +199,15 @@ public class ConvertHelper implements Serializable {
    * @return the multi point
    */
   public MultiPoint createMultiPoint(final List&lt;Object&gt; coordinates) {
-<span class="fc" id="L211">    Point[] points = new Point[coordinates.size()];</span>
-<span class="fc" id="L212">    int i = 0;</span>
-<span class="fc bfc" id="L213" title="All 2 branches covered.">    for (Object obj : coordinates) {</span>
+<span class="fc" id="L202">    Point[] points = new Point[coordinates.size()];</span>
+<span class="fc" id="L203">    int i = 0;</span>
+<span class="fc bfc" id="L204" title="All 2 branches covered.">    for (Object obj : coordinates) {</span>
       @SuppressWarnings(&quot;unchecked&quot;)
-<span class="fc" id="L215">      List&lt;Object&gt; list = (List&lt;Object&gt;) obj;</span>
-<span class="fc" id="L216">      points[i] = createPoint(list);</span>
-<span class="fc" id="L217">      i++;</span>
-<span class="fc" id="L218">    }</span>
-<span class="fc" id="L219">    return getGeometryFactory().createMultiPoint(points);</span>
+<span class="fc" id="L206">      List&lt;Object&gt; list = (List&lt;Object&gt;) obj;</span>
+<span class="fc" id="L207">      points[i] = createPoint(list);</span>
+<span class="fc" id="L208">      i++;</span>
+<span class="fc" id="L209">    }</span>
+<span class="fc" id="L210">    return getGeometryFactory().createMultiPoint(points);</span>
   }
 
   /**
@@ -226,15 +217,15 @@ public class ConvertHelper implements Serializable {
    * @return the multi line string
    */
   public MultiLineString createMultiLineString(final List&lt;Object&gt; coordinates) {
-<span class="fc" id="L229">    LineString[] lineStrings = new LineString[coordinates.size()];</span>
-<span class="fc" id="L230">    int i = 0;</span>
-<span class="fc bfc" id="L231" title="All 2 branches covered.">    for (Object obj : coordinates) {</span>
+<span class="fc" id="L220">    LineString[] lineStrings = new LineString[coordinates.size()];</span>
+<span class="fc" id="L221">    int i = 0;</span>
+<span class="fc bfc" id="L222" title="All 2 branches covered.">    for (Object obj : coordinates) {</span>
       @SuppressWarnings(&quot;unchecked&quot;)
-<span class="fc" id="L233">      List&lt;Object&gt; list = (List&lt;Object&gt;) obj;</span>
-<span class="fc" id="L234">      lineStrings[i] = createLineString(list);</span>
-<span class="fc" id="L235">      i++;</span>
-<span class="fc" id="L236">    }</span>
-<span class="fc" id="L237">    return getGeometryFactory().createMultiLineString(lineStrings);</span>
+<span class="fc" id="L224">      List&lt;Object&gt; list = (List&lt;Object&gt;) obj;</span>
+<span class="fc" id="L225">      lineStrings[i] = createLineString(list);</span>
+<span class="fc" id="L226">      i++;</span>
+<span class="fc" id="L227">    }</span>
+<span class="fc" id="L228">    return getGeometryFactory().createMultiLineString(lineStrings);</span>
   }
 
   /**
@@ -244,15 +235,15 @@ public class ConvertHelper implements Serializable {
    * @return the multi polygon
    */
   public MultiPolygon createMultiPolygon(final List&lt;Object&gt; coordinates) {
-<span class="fc" id="L247">    Polygon[] polygons = new Polygon[coordinates.size()];</span>
-<span class="fc" id="L248">    int i = 0;</span>
-<span class="fc bfc" id="L249" title="All 2 branches covered.">    for (Object obj : coordinates) {</span>
+<span class="fc" id="L238">    Polygon[] polygons = new Polygon[coordinates.size()];</span>
+<span class="fc" id="L239">    int i = 0;</span>
+<span class="fc bfc" id="L240" title="All 2 branches covered.">    for (Object obj : coordinates) {</span>
       @SuppressWarnings(&quot;unchecked&quot;)
-<span class="fc" id="L251">      List&lt;Object&gt; list = (List&lt;Object&gt;) obj;</span>
-<span class="fc" id="L252">      polygons[i] = createPolygon(list);</span>
-<span class="fc" id="L253">      i++;</span>
-<span class="fc" id="L254">    }</span>
-<span class="fc" id="L255">    return getGeometryFactory().createMultiPolygon(polygons);</span>
+<span class="fc" id="L242">      List&lt;Object&gt; list = (List&lt;Object&gt;) obj;</span>
+<span class="fc" id="L243">      polygons[i] = createPolygon(list);</span>
+<span class="fc" id="L244">      i++;</span>
+<span class="fc" id="L245">    }</span>
+<span class="fc" id="L246">    return getGeometryFactory().createMultiPolygon(polygons);</span>
   }
 
   /**
@@ -263,13 +254,13 @@ public class ConvertHelper implements Serializable {
    */
   public GeometryCollection createGeometryCollection(final List&lt;Geometry&gt; geometries) {
     final Geometry[] geoms;
-<span class="pc bpc" id="L266" title="1 of 2 branches missed.">    if (geometries == null) {</span>
-<span class="nc" id="L267">      geoms = new Geometry[0];</span>
+<span class="pc bpc" id="L257" title="1 of 2 branches missed.">    if (geometries == null) {</span>
+<span class="nc" id="L258">      geoms = new Geometry[0];</span>
     } else {
-<span class="fc" id="L269">      geoms = geometries.toArray(new Geometry[0]);</span>
+<span class="fc" id="L260">      geoms = geometries.toArray(new Geometry[0]);</span>
     }
-<span class="fc" id="L271">    GeometryFactory gf = getGeometryFactory();</span>
-<span class="fc" id="L272">    return gf.createGeometryCollection(geoms);</span>
+<span class="fc" id="L262">    GeometryFactory gf = getGeometryFactory();</span>
+<span class="fc" id="L263">    return gf.createGeometryCollection(geoms);</span>
   }
 
   /**
@@ -279,168 +270,168 @@ public class ConvertHelper implements Serializable {
    * @return the map
    */
   public Map&lt;String, Object&gt; create(final Geometry geometry) {
-<span class="fc bfc" id="L282" title="All 2 branches covered.">    if (geometry instanceof Point) {</span>
-<span class="fc" id="L283">      return pointToJsonMap((Point) geometry);</span>
+<span class="fc bfc" id="L273" title="All 2 branches covered.">    if (geometry instanceof Point) {</span>
+<span class="fc" id="L274">      return pointToJsonMap((Point) geometry);</span>
     }
 
-<span class="fc bfc" id="L286" title="All 2 branches covered.">    if (geometry instanceof LineString) {</span>
-<span class="fc" id="L287">      return lineToJsonMap((LineString) geometry);</span>
+<span class="fc bfc" id="L277" title="All 2 branches covered.">    if (geometry instanceof LineString) {</span>
+<span class="fc" id="L278">      return lineToJsonMap((LineString) geometry);</span>
     }
 
-<span class="fc bfc" id="L290" title="All 2 branches covered.">    if (geometry instanceof Polygon) {</span>
-<span class="fc" id="L291">      return polygonToJsonMap((Polygon) geometry);</span>
+<span class="fc bfc" id="L281" title="All 2 branches covered.">    if (geometry instanceof Polygon) {</span>
+<span class="fc" id="L282">      return polygonToJsonMap((Polygon) geometry);</span>
     }
 
-<span class="fc bfc" id="L294" title="All 2 branches covered.">    if (geometry instanceof MultiPoint) {</span>
-<span class="fc" id="L295">      return multiPointToJsonMap((MultiPoint) geometry);</span>
+<span class="fc bfc" id="L285" title="All 2 branches covered.">    if (geometry instanceof MultiPoint) {</span>
+<span class="fc" id="L286">      return multiPointToJsonMap((MultiPoint) geometry);</span>
     }
 
-<span class="fc bfc" id="L298" title="All 2 branches covered.">    if (geometry instanceof MultiLineString) {</span>
-<span class="fc" id="L299">      return multiLineToJsonMap((MultiLineString) geometry);</span>
+<span class="fc bfc" id="L289" title="All 2 branches covered.">    if (geometry instanceof MultiLineString) {</span>
+<span class="fc" id="L290">      return multiLineToJsonMap((MultiLineString) geometry);</span>
     }
 
-<span class="fc bfc" id="L302" title="All 2 branches covered.">    if (geometry instanceof MultiPolygon) {</span>
-<span class="fc" id="L303">      return multiPolygonToJsonMap((MultiPolygon) geometry);</span>
+<span class="fc bfc" id="L293" title="All 2 branches covered.">    if (geometry instanceof MultiPolygon) {</span>
+<span class="fc" id="L294">      return multiPolygonToJsonMap((MultiPolygon) geometry);</span>
     }
 
-<span class="pc bpc" id="L306" title="1 of 2 branches missed.">    if (geometry instanceof GeometryCollection) {</span>
-<span class="fc" id="L307">      return geometryCollectionToJsonMap((GeometryCollection) geometry);</span>
+<span class="pc bpc" id="L297" title="1 of 2 branches missed.">    if (geometry instanceof GeometryCollection) {</span>
+<span class="fc" id="L298">      return geometryCollectionToJsonMap((GeometryCollection) geometry);</span>
     }
 
-<span class="nc" id="L310">    throw new IllegalArgumentException(&quot;Geometry [&quot; + geometry + &quot;] is unsupported. It must be &quot;</span>
+<span class="nc" id="L301">    throw new IllegalArgumentException(&quot;Geometry [&quot; + geometry + &quot;] is unsupported. It must be &quot;</span>
         + &quot;an instance of Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon &quot;
         + &quot;or GeometryCollection.&quot;);
   }
 
   private Map&lt;String, Object&gt; pointToJsonMap(final Point point) {
-<span class="fc" id="L316">    LinkedHashMap&lt;String, Object&gt; map = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L307">    LinkedHashMap&lt;String, Object&gt; map = new LinkedHashMap&lt;&gt;();</span>
 
-<span class="fc" id="L318">    map.put(TYPE_ATTRIBUTE_NAME, &quot;Point&quot;);</span>
-<span class="fc" id="L319">    map.put(COORDINATES_ATTRIBUTE_NAME, coordinateToList(point.getCoordinate()));</span>
-<span class="fc" id="L320">    return map;</span>
+<span class="fc" id="L309">    map.put(TYPE_ATTRIBUTE_NAME, &quot;Point&quot;);</span>
+<span class="fc" id="L310">    map.put(COORDINATES_ATTRIBUTE_NAME, coordinateToList(point.getCoordinate()));</span>
+<span class="fc" id="L311">    return map;</span>
   }
 
   private Map&lt;String, Object&gt; lineToJsonMap(final LineString line) {
-<span class="fc" id="L324">    LinkedHashMap&lt;String, Object&gt; map = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L315">    LinkedHashMap&lt;String, Object&gt; map = new LinkedHashMap&lt;&gt;();</span>
 
-<span class="fc" id="L326">    map.put(TYPE_ATTRIBUTE_NAME, &quot;LineString&quot;);</span>
-<span class="fc" id="L327">    map.put(COORDINATES_ATTRIBUTE_NAME, coordinatesToList(line.getCoordinateSequence()));</span>
-<span class="fc" id="L328">    return map;</span>
+<span class="fc" id="L317">    map.put(TYPE_ATTRIBUTE_NAME, &quot;LineString&quot;);</span>
+<span class="fc" id="L318">    map.put(COORDINATES_ATTRIBUTE_NAME, coordinatesToList(line.getCoordinateSequence()));</span>
+<span class="fc" id="L319">    return map;</span>
   }
 
   private Map&lt;String, Object&gt; polygonToJsonMap(final Polygon polygon) {
-<span class="fc" id="L332">    LinkedHashMap&lt;String, Object&gt; map = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L323">    LinkedHashMap&lt;String, Object&gt; map = new LinkedHashMap&lt;&gt;();</span>
 
-<span class="fc" id="L334">    map.put(TYPE_ATTRIBUTE_NAME, &quot;Polygon&quot;);</span>
-<span class="fc" id="L335">    map.put(COORDINATES_ATTRIBUTE_NAME, polygonToList(polygon));</span>
-<span class="fc" id="L336">    return map;</span>
+<span class="fc" id="L325">    map.put(TYPE_ATTRIBUTE_NAME, &quot;Polygon&quot;);</span>
+<span class="fc" id="L326">    map.put(COORDINATES_ATTRIBUTE_NAME, polygonToList(polygon));</span>
+<span class="fc" id="L327">    return map;</span>
   }
 
   private Map&lt;String, Object&gt; multiPointToJsonMap(final MultiPoint multiPoint) {
-<span class="fc" id="L340">    LinkedHashMap&lt;String, Object&gt; map = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L331">    LinkedHashMap&lt;String, Object&gt; map = new LinkedHashMap&lt;&gt;();</span>
 
-<span class="fc" id="L342">    map.put(TYPE_ATTRIBUTE_NAME, &quot;MultiPoint&quot;);</span>
-<span class="fc" id="L343">    map.put(COORDINATES_ATTRIBUTE_NAME, geometryCollectionToList(multiPoint));</span>
-<span class="fc" id="L344">    return map;</span>
+<span class="fc" id="L333">    map.put(TYPE_ATTRIBUTE_NAME, &quot;MultiPoint&quot;);</span>
+<span class="fc" id="L334">    map.put(COORDINATES_ATTRIBUTE_NAME, geometryCollectionToList(multiPoint));</span>
+<span class="fc" id="L335">    return map;</span>
   }
 
   private Map&lt;String, Object&gt; multiLineToJsonMap(final MultiLineString multiLine) {
-<span class="fc" id="L348">    LinkedHashMap&lt;String, Object&gt; map = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L339">    LinkedHashMap&lt;String, Object&gt; map = new LinkedHashMap&lt;&gt;();</span>
 
-<span class="fc" id="L350">    map.put(TYPE_ATTRIBUTE_NAME, &quot;MultiLineString&quot;);</span>
-<span class="fc" id="L351">    map.put(COORDINATES_ATTRIBUTE_NAME, geometryCollectionToList(multiLine));</span>
-<span class="fc" id="L352">    return map;</span>
+<span class="fc" id="L341">    map.put(TYPE_ATTRIBUTE_NAME, &quot;MultiLineString&quot;);</span>
+<span class="fc" id="L342">    map.put(COORDINATES_ATTRIBUTE_NAME, geometryCollectionToList(multiLine));</span>
+<span class="fc" id="L343">    return map;</span>
   }
 
   private Map&lt;String, Object&gt; multiPolygonToJsonMap(final MultiPolygon multiPolygon) {
-<span class="fc" id="L356">    LinkedHashMap&lt;String, Object&gt; map = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L347">    LinkedHashMap&lt;String, Object&gt; map = new LinkedHashMap&lt;&gt;();</span>
 
-<span class="fc" id="L358">    map.put(TYPE_ATTRIBUTE_NAME, &quot;MultiPolygon&quot;);</span>
-<span class="fc" id="L359">    map.put(COORDINATES_ATTRIBUTE_NAME, geometryCollectionToList(multiPolygon));</span>
-<span class="fc" id="L360">    return map;</span>
+<span class="fc" id="L349">    map.put(TYPE_ATTRIBUTE_NAME, &quot;MultiPolygon&quot;);</span>
+<span class="fc" id="L350">    map.put(COORDINATES_ATTRIBUTE_NAME, geometryCollectionToList(multiPolygon));</span>
+<span class="fc" id="L351">    return map;</span>
   }
 
   private Map&lt;String, Object&gt; geometryCollectionToJsonMap(
       final GeometryCollection geometryColllection) {
 
-<span class="fc" id="L366">    LinkedHashMap&lt;String, Object&gt; map = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L357">    LinkedHashMap&lt;String, Object&gt; map = new LinkedHashMap&lt;&gt;();</span>
 
-<span class="fc" id="L368">    List&lt;Map&lt;String, Object&gt;&gt; geometries = new ArrayList&lt;&gt;(geometryColllection.getNumGeometries());</span>
-<span class="fc bfc" id="L369" title="All 2 branches covered.">    for (int i = 0; i &lt; geometryColllection.getNumGeometries(); i++) {</span>
-<span class="fc" id="L370">      geometries.add(create(geometryColllection.getGeometryN(i)));</span>
+<span class="fc" id="L359">    List&lt;Map&lt;String, Object&gt;&gt; geometries = new ArrayList&lt;&gt;(geometryColllection.getNumGeometries());</span>
+<span class="fc bfc" id="L360" title="All 2 branches covered.">    for (int i = 0; i &lt; geometryColllection.getNumGeometries(); i++) {</span>
+<span class="fc" id="L361">      geometries.add(create(geometryColllection.getGeometryN(i)));</span>
     }
 
-<span class="fc" id="L373">    map.put(TYPE_ATTRIBUTE_NAME, &quot;GeometryCollection&quot;);</span>
-<span class="fc" id="L374">    map.put(GEOMETRIES_ATTRIBUTE_NAME, geometries);</span>
-<span class="fc" id="L375">    return map;</span>
+<span class="fc" id="L364">    map.put(TYPE_ATTRIBUTE_NAME, &quot;GeometryCollection&quot;);</span>
+<span class="fc" id="L365">    map.put(GEOMETRIES_ATTRIBUTE_NAME, geometries);</span>
+<span class="fc" id="L366">    return map;</span>
   }
 
   private Number round(final double value) {
-<span class="pc bpc" id="L379" title="1 of 2 branches missed.">    if (Double.isNaN(value)) {</span>
-<span class="nc" id="L380">      return null;</span>
+<span class="pc bpc" id="L370" title="1 of 2 branches missed.">    if (Double.isNaN(value)) {</span>
+<span class="nc" id="L371">      return null;</span>
     }
-<span class="pc bpc" id="L382" title="1 of 2 branches missed.">    if (formatValue(value)) {</span>
-<span class="nc" id="L383">      final String strValue = NUMBER_FORMAT.format(value);</span>
-<span class="nc bnc" id="L384" title="All 2 branches missed.">      return useBigDecimal ? new BigDecimal(strValue) : new BigDecimal(strValue).doubleValue();</span>
+<span class="pc bpc" id="L373" title="1 of 2 branches missed.">    if (formatValue(value)) {</span>
+<span class="nc" id="L374">      final String strValue = NUMBER_FORMAT.format(value);</span>
+<span class="nc bnc" id="L375" title="All 2 branches missed.">      return useBigDecimal ? new BigDecimal(strValue) : new BigDecimal(strValue).doubleValue();</span>
     }
-<span class="pc bpc" id="L386" title="1 of 2 branches missed.">    return useBigDecimal ? BigDecimal.valueOf(value) : value;</span>
+<span class="pc bpc" id="L377" title="1 of 2 branches missed.">    return useBigDecimal ? BigDecimal.valueOf(value) : value;</span>
   }
 
   private boolean formatValue(final double value) {
-<span class="fc" id="L390">    final String[] testValues = TEST_NUMBER_FORMAT.format(value).split(Pattern.quote(&quot;.&quot;));</span>
-<span class="pc bpc" id="L391" title="1 of 4 branches missed.">    return testValues[0].length() &gt; MAXIMUM_INTEGER_DIGITS</span>
-<span class="pc bpc" id="L392" title="1 of 2 branches missed.">        || (testValues.length &gt; 1 &amp;&amp; testValues[1].length() &gt; MAXIMUM_FRACTION_DIGITS);</span>
+<span class="fc" id="L381">    final String[] testValues = TEST_NUMBER_FORMAT.format(value).split(Pattern.quote(&quot;.&quot;));</span>
+<span class="pc bpc" id="L382" title="1 of 4 branches missed.">    return testValues[0].length() &gt; MAXIMUM_INTEGER_DIGITS</span>
+<span class="pc bpc" id="L383" title="1 of 2 branches missed.">        || (testValues.length &gt; 1 &amp;&amp; testValues[1].length() &gt; MAXIMUM_FRACTION_DIGITS);</span>
   }
 
   private List&lt;Object&gt; coordinateToList(final Coordinate coordinate) {
-<span class="pc bpc" id="L396" title="1 of 2 branches missed.">    if (coordinate == null) {</span>
-<span class="nc" id="L397">      return Collections.emptyList();</span>
+<span class="pc bpc" id="L387" title="1 of 2 branches missed.">    if (coordinate == null) {</span>
+<span class="nc" id="L388">      return Collections.emptyList();</span>
     }
-<span class="fc" id="L399">    final List&lt;Object&gt; list = new ArrayList&lt;&gt;(2);</span>
+<span class="fc" id="L390">    final List&lt;Object&gt; list = new ArrayList&lt;&gt;(2);</span>
 
-<span class="fc" id="L401">    final double dx = coordinate.getX();</span>
-<span class="fc" id="L402">    list.add(round(dx));</span>
+<span class="fc" id="L392">    final double dx = coordinate.getX();</span>
+<span class="fc" id="L393">    list.add(round(dx));</span>
 
-<span class="fc" id="L404">    final double dy = coordinate.getY();</span>
-<span class="fc" id="L405">    list.add(round(dy));</span>
+<span class="fc" id="L395">    final double dy = coordinate.getY();</span>
+<span class="fc" id="L396">    list.add(round(dy));</span>
 
-<span class="fc" id="L407">    return list;</span>
+<span class="fc" id="L398">    return list;</span>
   }
 
   private List&lt;List&lt;Object&gt;&gt; coordinatesToList(final CoordinateSequence coordinateSequence) {
-<span class="pc bpc" id="L411" title="2 of 4 branches missed.">    if (coordinateSequence == null || coordinateSequence.size() == 0) {</span>
-<span class="nc" id="L412">      return Collections.emptyList();</span>
+<span class="pc bpc" id="L402" title="1 of 4 branches missed.">    if (coordinateSequence == null || coordinateSequence.size() == 0) {</span>
+<span class="fc" id="L403">      return Collections.emptyList();</span>
     }
-<span class="fc" id="L414">    List&lt;List&lt;Object&gt;&gt; list = new ArrayList&lt;&gt;(coordinateSequence.size());</span>
-<span class="fc bfc" id="L415" title="All 2 branches covered.">    for (int n = 0; n &lt; coordinateSequence.size(); n++) {</span>
-<span class="fc" id="L416">      list.add(coordinateToList(coordinateSequence.getCoordinate(n)));</span>
+<span class="fc" id="L405">    List&lt;List&lt;Object&gt;&gt; list = new ArrayList&lt;&gt;(coordinateSequence.size());</span>
+<span class="fc bfc" id="L406" title="All 2 branches covered.">    for (int n = 0; n &lt; coordinateSequence.size(); n++) {</span>
+<span class="fc" id="L407">      list.add(coordinateToList(coordinateSequence.getCoordinate(n)));</span>
+    }
+<span class="fc" id="L409">    return list;</span>
+  }
+
+  private List&lt;List&lt;List&lt;Object&gt;&gt;&gt; polygonToList(final Polygon polygon) {
+<span class="fc" id="L413">    List&lt;List&lt;List&lt;Object&gt;&gt;&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L414">    list.add(coordinatesToList(polygon.getExteriorRing().getCoordinateSequence()));</span>
+<span class="fc bfc" id="L415" title="All 2 branches covered.">    for (int i = 0; i &lt; polygon.getNumInteriorRing(); i++) {</span>
+<span class="fc" id="L416">      list.add(coordinatesToList(polygon.getInteriorRingN(i).getCoordinateSequence()));</span>
     }
 <span class="fc" id="L418">    return list;</span>
   }
 
-  private List&lt;List&lt;List&lt;Object&gt;&gt;&gt; polygonToList(final Polygon polygon) {
-<span class="fc" id="L422">    List&lt;List&lt;List&lt;Object&gt;&gt;&gt; list = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L423">    list.add(coordinatesToList(polygon.getExteriorRing().getCoordinateSequence()));</span>
-<span class="fc bfc" id="L424" title="All 2 branches covered.">    for (int i = 0; i &lt; polygon.getNumInteriorRing(); i++) {</span>
-<span class="fc" id="L425">      list.add(coordinatesToList(polygon.getInteriorRingN(i).getCoordinateSequence()));</span>
-    }
-<span class="fc" id="L427">    return list;</span>
-  }
-
   private List&lt;Object&gt; geometryCollectionToList(final GeometryCollection geometryCollection) {
-<span class="fc" id="L431">    List&lt;Object&gt; list = new ArrayList&lt;&gt;(geometryCollection.getNumGeometries());</span>
-<span class="fc bfc" id="L432" title="All 2 branches covered.">    for (int i = 0; i &lt; geometryCollection.getNumGeometries(); i++) {</span>
-<span class="fc" id="L433">      Geometry g = geometryCollection.getGeometryN(i);</span>
-<span class="fc bfc" id="L434" title="All 2 branches covered.">      if (g instanceof Polygon) {</span>
-<span class="fc" id="L435">        list.add(polygonToList((Polygon) g));</span>
-<span class="fc bfc" id="L436" title="All 2 branches covered.">      } else if (g instanceof LineString) {</span>
-<span class="fc" id="L437">        list.add(coordinatesToList(((LineString) g).getCoordinateSequence()));</span>
-<span class="pc bpc" id="L438" title="1 of 2 branches missed.">      } else if (g instanceof Point) {</span>
-<span class="fc" id="L439">        list.add(coordinateToList(g.getCoordinate()));</span>
+<span class="fc" id="L422">    List&lt;Object&gt; list = new ArrayList&lt;&gt;(geometryCollection.getNumGeometries());</span>
+<span class="fc bfc" id="L423" title="All 2 branches covered.">    for (int i = 0; i &lt; geometryCollection.getNumGeometries(); i++) {</span>
+<span class="fc" id="L424">      Geometry g = geometryCollection.getGeometryN(i);</span>
+<span class="fc bfc" id="L425" title="All 2 branches covered.">      if (g instanceof Polygon) {</span>
+<span class="fc" id="L426">        list.add(polygonToList((Polygon) g));</span>
+<span class="fc bfc" id="L427" title="All 2 branches covered.">      } else if (g instanceof LineString) {</span>
+<span class="fc" id="L428">        list.add(coordinatesToList(((LineString) g).getCoordinateSequence()));</span>
+<span class="pc bpc" id="L429" title="1 of 2 branches missed.">      } else if (g instanceof Point) {</span>
+<span class="fc" id="L430">        list.add(coordinateToList(g.getCoordinate()));</span>
       }
     }
-<span class="fc" id="L442">    return list;</span>
+<span class="fc" id="L433">    return list;</span>
   }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
