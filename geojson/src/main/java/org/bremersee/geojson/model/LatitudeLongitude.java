@@ -19,6 +19,7 @@ package org.bremersee.geojson.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import lombok.EqualsAndHashCode;
@@ -31,6 +32,7 @@ import org.locationtech.jts.geom.Point;
  *
  * @author Christian Bremer
  */
+@Schema(description = "WGS84 position with latitude and longitude.")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EqualsAndHashCode(callSuper = false)
 @ToString
@@ -38,8 +40,10 @@ public class LatitudeLongitude implements LatLonAware, Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  @Schema(description = "The latitude.")
   private BigDecimal latitude;
 
+  @Schema(description = "The longitude.")
   private BigDecimal longitude;
 
   /**

@@ -138,7 +138,7 @@ public class GeometryWrapper implements Serializable, Cloneable {
    */
   protected static class Serializer extends JsonSerializer<GeometryWrapper> {
 
-    private GeometrySerializer geometrySerializer = new GeometrySerializer();
+    private final GeometrySerializer geometrySerializer = new GeometrySerializer();
 
     @Override
     public void serializeWithType(final GeometryWrapper value, final JsonGenerator gen,
@@ -168,7 +168,7 @@ public class GeometryWrapper implements Serializable, Cloneable {
    */
   protected static class Deserializer extends JsonDeserializer<GeometryWrapper> {
 
-    private GeometryDeserializer geometryDeserializer = new GeometryDeserializer();
+    private final GeometryDeserializer geometryDeserializer = new GeometryDeserializer();
 
     @Override
     public GeometryWrapper deserializeWithType(final JsonParser jp,

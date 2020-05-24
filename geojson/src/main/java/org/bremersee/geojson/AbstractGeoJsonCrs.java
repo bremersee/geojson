@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -36,6 +36,7 @@ import java.util.TreeMap;
  *
  * @author Christian Bremer
  */
+@Schema(description = "The coordinate reference system (CRS) of a GeoJSON object.")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
     @Type(value = GeoJsonLinkedCrs.class, name = "link"),
@@ -45,7 +46,7 @@ public class AbstractGeoJsonCrs implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  @ApiModelProperty
+  @Schema(description = "The properties.")
   @JsonProperty(value = "properties")
   private Map<String, Object> properties = new LinkedHashMap<>();
 
@@ -66,11 +67,7 @@ public class AbstractGeoJsonCrs implements Serializable {
    *     system
    */
   protected final void setProperties(final Map<String, Object> properties) {
-    if (properties == null) {
-      this.properties = new LinkedHashMap<>();
-    } else {
-      this.properties = properties;
-    }
+    this.properties = Objects.requireNonNullElseGet(properties, LinkedHashMap::new);
   }
 
   @Override
