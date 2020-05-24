@@ -1,6 +1,6 @@
 # Bremersee GeoJSON
 
-[![codecov](https://codecov.io/gh/bremersee/geojson/branch/develop/graph/badge.svg)](https://codecov.io/gh/bremersee/geojson)
+[![codecov](https://codecov.io/gh/bremersee/geojson/branch/master/graph/badge.svg)](https://codecov.io/gh/bremersee/geojson)
 
 This project contains modules for reading and writing GeoJSON.
 The GeoJSON format is specified in [rfc7946](https://tools.ietf.org/html/rfc7946).
