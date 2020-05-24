@@ -19,7 +19,7 @@ package org.bremersee.geojson;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -32,6 +32,7 @@ import org.locationtech.jts.geom.Geometry;
  *
  * @author Christian Bremer
  */
+@Schema(description = "A GeoJSON object with type 'Feature'.")
 public class GeoJsonFeature extends AbstractGeoJsonFeature<Geometry, Map<String, Object>>
     implements Serializable {
 
@@ -87,14 +88,14 @@ public class GeoJsonFeature extends AbstractGeoJsonFeature<Geometry, Map<String,
     this.id = id;
   }
 
-  @ApiModelProperty(value = "GeoJSON", dataType = "org.bremersee.geojson.model.Geometry")
+  @Schema(description = "GeoJSON", implementation = org.bremersee.geojson.model.Geometry.class)
   @JsonSerialize(using = GeometrySerializer.class)
   @Override
   public Geometry getGeometry() {
     return geometry;
   }
 
-  @ApiModelProperty(value = "GeoJSON", dataType = "org.bremersee.geojson.model.Geometry")
+  @Schema(description = "GeoJSON", implementation = org.bremersee.geojson.model.Geometry.class)
   @JsonDeserialize(using = GeometryDeserializer.class)
   @Override
   public void setGeometry(final Geometry geometry) {

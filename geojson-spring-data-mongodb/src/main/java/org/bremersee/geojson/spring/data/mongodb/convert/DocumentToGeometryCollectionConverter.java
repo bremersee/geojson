@@ -36,7 +36,7 @@ import org.springframework.util.ObjectUtils;
 class DocumentToGeometryCollectionConverter
     extends AbstractDocumentToGeometryConverter<GeometryCollection> {
 
-  private DocumentToGeometryConverter converter;
+  private final DocumentToGeometryConverter converter;
 
   /**
    * Instantiates a new Document to geometry collection converter.

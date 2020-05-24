@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryCollection;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -98,7 +99,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
 
     final int defaultMajor = 2;
     final int defaultMinor = 0;
-    final int defaultPatchLevel = 7;
+    final int defaultPatchLevel = 8;
     final String defaultSnapshotInfo = "SNAPSHOT";
 
     int major = defaultMajor;
@@ -114,7 +115,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
           snapshotInfo = null;
         } else {
           snapshotInfo = version.substring(i + 1);
-          String[] a = version.substring(0, i).split(".");
+          String[] a = version.substring(0, i).split(Pattern.quote("."));
           major = Integer.parseInt(a[0]);
           minor = Integer.parseInt(a[1]);
           patchLevel = Integer.parseInt(a[2]);
