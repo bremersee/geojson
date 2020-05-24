@@ -59,7 +59,7 @@ public interface LatLonAware {
   default Point toPoint() {
 <span class="fc bfc" id="L60" title="All 2 branches covered.">    return hasValues()</span>
 <span class="fc" id="L61">        ? GeometryUtils.createPoint(getLongitude(), getLatitude())</span>
-        : null;
+<span class="fc" id="L62">        : null;</span>
   }
 
   /**
@@ -70,7 +70,7 @@ public interface LatLonAware {
   default Coordinate toCoordinate() {
 <span class="fc bfc" id="L71" title="All 2 branches covered.">    return hasValues()</span>
 <span class="fc" id="L72">        ? GeometryUtils.createCoordinate(getLongitude(), getLatitude())</span>
-        : null;
+<span class="fc" id="L73">        : null;</span>
   }
 
   /**
@@ -81,7 +81,7 @@ public interface LatLonAware {
   default String toLatLonString() {
 <span class="fc bfc" id="L82" title="All 2 branches covered.">    return hasValues()</span>
 <span class="fc" id="L83">        ? getLatitude().toPlainString() + &quot;,&quot; + getLongitude().toPlainString()</span>
-        : &quot;&quot;;
+<span class="fc" id="L84">        : &quot;&quot;;</span>
   }
 
   /**
@@ -92,7 +92,7 @@ public interface LatLonAware {
   default String toLonLatString() {
 <span class="fc bfc" id="L93" title="All 2 branches covered.">    return hasValues()</span>
 <span class="fc" id="L94">        ? getLongitude().toPlainString() + &quot;,&quot; + getLatitude().toPlainString()</span>
-        : &quot;&quot;;
+<span class="fc" id="L95">        : &quot;&quot;;</span>
   }
 
   /**

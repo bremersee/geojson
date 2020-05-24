@@ -30,7 +30,7 @@ import org.springframework.core.convert.converter.Converter;
 <span class="fc" id="L30">abstract class AbstractGeometryToDocumentConverter&lt;G extends Geometry&gt;</span>
     implements Converter&lt;G, Document&gt; {
 
-<span class="fc" id="L33">  private ConvertHelper convertHelper = new ConvertHelper();</span>
+<span class="fc" id="L33">  private final ConvertHelper convertHelper = new ConvertHelper();</span>
 
   /**
    * Gets convert helper.

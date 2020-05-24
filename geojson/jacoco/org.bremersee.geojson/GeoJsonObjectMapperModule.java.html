@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryCollection;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -59,8 +60,8 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
    * Default constructor.
    */
   public GeoJsonObjectMapperModule() {
-<span class="fc" id="L62">    this(null);</span>
-<span class="fc" id="L63">  }</span>
+<span class="fc" id="L63">    this(null);</span>
+<span class="fc" id="L64">  }</span>
 
   /**
    * Constructs a module with the specified geometry factory.
@@ -68,8 +69,8 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
    * @param geometryFactory the geometry factory
    */
   public GeoJsonObjectMapperModule(final GeometryFactory geometryFactory) {
-<span class="fc" id="L71">    super(&quot;GeoJsonModule&quot;, getVersion(), getDeserializers(geometryFactory), getSerializers());</span>
-<span class="fc" id="L72">  }</span>
+<span class="fc" id="L72">    super(&quot;GeoJsonModule&quot;, getVersion(), getDeserializers(geometryFactory), getSerializers());</span>
+<span class="fc" id="L73">  }</span>
 
   /**
    * Registers this module to the object mapper.
@@ -77,8 +78,8 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
    * @param objectMapper the object mapper
    */
   public static void configure(final ObjectMapper objectMapper) {
-<span class="fc" id="L80">    configure(objectMapper, null);</span>
-<span class="fc" id="L81">  }</span>
+<span class="fc" id="L81">    configure(objectMapper, null);</span>
+<span class="fc" id="L82">  }</span>
 
   /**
    * Registers this module to the object mapper.
@@ -89,68 +90,68 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
   public static void configure(
       final ObjectMapper objectMapper,
       final GeometryFactory geometryFactory) {
-<span class="pc bpc" id="L92" title="1 of 2 branches missed.">    if (objectMapper != null) {</span>
-<span class="fc" id="L93">      objectMapper.registerModule(new GeoJsonObjectMapperModule(geometryFactory));</span>
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">    if (objectMapper != null) {</span>
+<span class="fc" id="L94">      objectMapper.registerModule(new GeoJsonObjectMapperModule(geometryFactory));</span>
     }
-<span class="fc" id="L95">  }</span>
+<span class="fc" id="L96">  }</span>
 
   private static Version getVersion() {
 
-<span class="fc" id="L99">    final int defaultMajor = 2;</span>
-<span class="fc" id="L100">    final int defaultMinor = 0;</span>
-<span class="fc" id="L101">    final int defaultPatchLevel = 7;</span>
-<span class="fc" id="L102">    final String defaultSnapshotInfo = &quot;SNAPSHOT&quot;;</span>
+<span class="fc" id="L100">    final int defaultMajor = 2;</span>
+<span class="fc" id="L101">    final int defaultMinor = 0;</span>
+<span class="fc" id="L102">    final int defaultPatchLevel = 8;</span>
+<span class="fc" id="L103">    final String defaultSnapshotInfo = &quot;SNAPSHOT&quot;;</span>
 
-<span class="fc" id="L104">    int major = defaultMajor;</span>
-<span class="fc" id="L105">    int minor = defaultMinor;</span>
-<span class="fc" id="L106">    int patchLevel = defaultPatchLevel;</span>
-<span class="fc" id="L107">    String snapshotInfo = defaultSnapshotInfo;</span>
+<span class="fc" id="L105">    int major = defaultMajor;</span>
+<span class="fc" id="L106">    int minor = defaultMinor;</span>
+<span class="fc" id="L107">    int patchLevel = defaultPatchLevel;</span>
+<span class="fc" id="L108">    String snapshotInfo = defaultSnapshotInfo;</span>
 
-<span class="fc" id="L109">    String version = GeoJsonObjectMapperModule.class.getPackage().getImplementationVersion();</span>
-<span class="pc bpc" id="L110" title="1 of 2 branches missed.">    if (version != null) {</span>
+<span class="fc" id="L110">    String version = GeoJsonObjectMapperModule.class.getPackage().getImplementationVersion();</span>
+<span class="pc bpc" id="L111" title="1 of 2 branches missed.">    if (version != null) {</span>
       try {
-<span class="nc" id="L112">        int i = version.indexOf('-');</span>
-<span class="nc bnc" id="L113" title="All 2 branches missed.">        if (i &lt; 0) {</span>
-<span class="nc" id="L114">          snapshotInfo = null;</span>
+<span class="nc" id="L113">        int i = version.indexOf('-');</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        if (i &lt; 0) {</span>
+<span class="nc" id="L115">          snapshotInfo = null;</span>
         } else {
-<span class="nc" id="L116">          snapshotInfo = version.substring(i + 1);</span>
-<span class="nc" id="L117">          String[] a = version.substring(0, i).split(&quot;.&quot;);</span>
-<span class="nc" id="L118">          major = Integer.parseInt(a[0]);</span>
-<span class="nc" id="L119">          minor = Integer.parseInt(a[1]);</span>
-<span class="nc" id="L120">          patchLevel = Integer.parseInt(a[2]);</span>
+<span class="nc" id="L117">          snapshotInfo = version.substring(i + 1);</span>
+<span class="nc" id="L118">          String[] a = version.substring(0, i).split(Pattern.quote(&quot;.&quot;));</span>
+<span class="nc" id="L119">          major = Integer.parseInt(a[0]);</span>
+<span class="nc" id="L120">          minor = Integer.parseInt(a[1]);</span>
+<span class="nc" id="L121">          patchLevel = Integer.parseInt(a[2]);</span>
         }
 
-<span class="nc" id="L123">      } catch (RuntimeException e) {</span>
-<span class="nc" id="L124">        major = defaultMajor;</span>
-<span class="nc" id="L125">        minor = defaultMinor;</span>
-<span class="nc" id="L126">        patchLevel = defaultPatchLevel;</span>
-<span class="nc" id="L127">        snapshotInfo = defaultSnapshotInfo;</span>
-<span class="nc" id="L128">      }</span>
+<span class="nc" id="L124">      } catch (RuntimeException e) {</span>
+<span class="nc" id="L125">        major = defaultMajor;</span>
+<span class="nc" id="L126">        minor = defaultMinor;</span>
+<span class="nc" id="L127">        patchLevel = defaultPatchLevel;</span>
+<span class="nc" id="L128">        snapshotInfo = defaultSnapshotInfo;</span>
+<span class="nc" id="L129">      }</span>
     }
 
-<span class="fc" id="L131">    return new Version(major, minor, patchLevel, snapshotInfo, &quot;org.bremersee&quot;,</span>
+<span class="fc" id="L132">    return new Version(major, minor, patchLevel, snapshotInfo, &quot;org.bremersee&quot;,</span>
         &quot;geojson&quot;);
   }
 
   private static Map&lt;Class&lt;?&gt;, JsonDeserializer&lt;?&gt;&gt; getDeserializers(
       final GeometryFactory geometryFactory) {
-<span class="fc bfc" id="L137" title="All 2 branches covered.">    final GeometryFactory gf = geometryFactory == null ? new GeometryFactory() : geometryFactory;</span>
-<span class="fc" id="L138">    HashMap&lt;Class&lt;?&gt;, JsonDeserializer&lt;?&gt;&gt; map = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L139">    map.put(Geometry.class, new GeometryDeserializer(gf));</span>
-<span class="fc" id="L140">    map.put(Point.class, new GeometryDeserializer(gf));</span>
-<span class="fc" id="L141">    map.put(LineString.class, new GeometryDeserializer(gf));</span>
-<span class="fc" id="L142">    map.put(Polygon.class, new GeometryDeserializer(gf));</span>
-<span class="fc" id="L143">    map.put(MultiPoint.class, new GeometryDeserializer(gf));</span>
-<span class="fc" id="L144">    map.put(MultiLineString.class, new GeometryDeserializer(gf));</span>
-<span class="fc" id="L145">    map.put(MultiPolygon.class, new GeometryDeserializer(gf));</span>
-<span class="fc" id="L146">    map.put(GeometryCollection.class, new GeometryDeserializer(gf));</span>
-<span class="fc" id="L147">    return map;</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">    final GeometryFactory gf = geometryFactory == null ? new GeometryFactory() : geometryFactory;</span>
+<span class="fc" id="L139">    HashMap&lt;Class&lt;?&gt;, JsonDeserializer&lt;?&gt;&gt; map = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L140">    map.put(Geometry.class, new GeometryDeserializer(gf));</span>
+<span class="fc" id="L141">    map.put(Point.class, new GeometryDeserializer(gf));</span>
+<span class="fc" id="L142">    map.put(LineString.class, new GeometryDeserializer(gf));</span>
+<span class="fc" id="L143">    map.put(Polygon.class, new GeometryDeserializer(gf));</span>
+<span class="fc" id="L144">    map.put(MultiPoint.class, new GeometryDeserializer(gf));</span>
+<span class="fc" id="L145">    map.put(MultiLineString.class, new GeometryDeserializer(gf));</span>
+<span class="fc" id="L146">    map.put(MultiPolygon.class, new GeometryDeserializer(gf));</span>
+<span class="fc" id="L147">    map.put(GeometryCollection.class, new GeometryDeserializer(gf));</span>
+<span class="fc" id="L148">    return map;</span>
   }
 
   private static List&lt;JsonSerializer&lt;?&gt;&gt; getSerializers() {
-<span class="fc" id="L151">    ArrayList&lt;JsonSerializer&lt;?&gt;&gt; list = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L152">    list.add(new GeometrySerializer());</span>
-<span class="fc" id="L153">    return list;</span>
+<span class="fc" id="L152">    ArrayList&lt;JsonSerializer&lt;?&gt;&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L153">    list.add(new GeometrySerializer());</span>
+<span class="fc" id="L154">    return list;</span>
   }
 
 }

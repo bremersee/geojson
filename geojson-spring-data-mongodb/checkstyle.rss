@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+<rss version="0.91">
+  <channel>
+    <title>GeoJSON for Spring Data MongoDB - Checkstyle report</title>
+    <link>https://github.com/bremersee/geojson/geojson-spring-data-mongodb</link>
+    <description>GeoJSON for Spring Data MongoDB - Checkstyle report</description>
+    <language>en-us</language>
+    <copyright>&#169;2020 bremersee.org</copyright>
+    <item>
+      <title>File: 33,
+             Errors: 0,
+             Warnings: 0,
+             Infos: 0
+      </title>
+            <link>https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html</link>
+      <description>
+        <p>Click <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html">here</a> for the full Checkstyle report.</p>
+
+        <table summary="Files" boder="1">
+          <thead>
+            <tr>
+              <th>Files</th>
+              <th style="width:30px;"><abbr title="Info">I</abbr></th>
+              <th style="width:30px;"><abbr title="Warning">W</abbr></th>
+              <th style="width:30px;"><abbr title="Error">E</abbr></th>
+            </tr>
+          </thead>
+          <tbody>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.GeometryCollectionConverterTest.java">org/bremersee/geojson/spring/data/mongodb/convert/GeometryCollectionConverterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.LineStringConverterTest.java">org/bremersee/geojson/spring/data/mongodb/convert/LineStringConverterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.app.GeometryCollectionEntityRepository.java">org/bremersee/geojson/spring/data/mongodb/convert/app/GeometryCollectionEntityRepository.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.MultiPointToDocumentConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/MultiPointToDocumentConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.GeoJsonConverters.java">org/bremersee/geojson/spring/data/mongodb/convert/GeoJsonConverters.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.MultiPolygonToDocumentConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/MultiPolygonToDocumentConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.PolygonConverterTest.java">org/bremersee/geojson/spring/data/mongodb/convert/PolygonConverterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.DocumentToLineStringConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/DocumentToLineStringConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.DocumentToMultiPolygonConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/DocumentToMultiPolygonConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.MultiLineStringConverterTest.java">org/bremersee/geojson/spring/data/mongodb/convert/MultiLineStringConverterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.DocumentToGeometryCollectionConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/DocumentToGeometryCollectionConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.MultiLineStringToDocumentConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/MultiLineStringToDocumentConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.DocumentToMultiLineStringConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/DocumentToMultiLineStringConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.DocumentToMultiPointConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/DocumentToMultiPointConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.app.GeometryEntity.java">org/bremersee/geojson/spring/data/mongodb/convert/app/GeometryEntity.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.DocumentToPolygonConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/DocumentToPolygonConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.app.TestConfiguration.java">org/bremersee/geojson/spring/data/mongodb/convert/app/TestConfiguration.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.PointToDocumentConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/PointToDocumentConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.AbstractGeometryToDocumentConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/AbstractGeometryToDocumentConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.DocumentToPointConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/DocumentToPointConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.MultiPolygonConverterTest.java">org/bremersee/geojson/spring/data/mongodb/convert/MultiPolygonConverterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.LineStringToDocumentConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/LineStringToDocumentConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.ConverterTest.java">org/bremersee/geojson/spring/data/mongodb/convert/ConverterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.package-info.java">org/bremersee/geojson/spring/data/mongodb/convert/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.GeoJsonConvertersTest.java">org/bremersee/geojson/spring/data/mongodb/convert/GeoJsonConvertersTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.PointConverterTest.java">org/bremersee/geojson/spring/data/mongodb/convert/PointConverterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.app.GeometryEntityRepository.java">org/bremersee/geojson/spring/data/mongodb/convert/app/GeometryEntityRepository.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.MultiPointConverterTest.java">org/bremersee/geojson/spring/data/mongodb/convert/MultiPointConverterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.PolygonToDocumentConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/PolygonToDocumentConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.DocumentToGeometryConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/DocumentToGeometryConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.AbstractDocumentToGeometryConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/AbstractDocumentToGeometryConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.GeometryCollectionToDocumentConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/GeometryCollectionToDocumentConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.app.GeometryCollectionEntity.java">org/bremersee/geojson/spring/data/mongodb/convert/app/GeometryCollectionEntity.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                      </tbody>
+        </table>
+        
+      </description>
+    </item>
+  </channel>
+</rss>
+
