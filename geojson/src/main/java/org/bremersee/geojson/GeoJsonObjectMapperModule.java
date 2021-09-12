@@ -37,8 +37,8 @@ import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
 /**
- * A Jackson JSON processor module that provides the processing (serialization and deserialization)
- * of the following types.
+ * A Jackson JSON processor module that provides the processing (serialization and deserialization) of the following
+ * types.
  * <ul>
  * <li>{@link Geometry}</li>
  * <li>{@link Point}</li>

@@ -55,9 +55,9 @@ import org.locationtech.jts.geom.impl.CoordinateArraySequence;
  */
 class GeoJsonTests {
 
-  private static GeometryFactory geometryFactory = new GeometryFactory();
+  private static final GeometryFactory geometryFactory = new GeometryFactory();
 
-  private static ObjectMapper objectMapper = new ObjectMapper();
+  private static final ObjectMapper objectMapper = new ObjectMapper();
 
   private static GeometryFactory getGeometryFactory() {
     return geometryFactory;
@@ -400,7 +400,7 @@ class GeoJsonTests {
    */
   @Test
   void testGeoJsonLinkedCrs() throws Exception {
-    GeoJsonLinkedCrs crs = new GeoJsonLinkedCrs("http://example.com/crs/42", "proj4");
+    GeoJsonLinkedCrs crs = new GeoJsonLinkedCrs("https://example.com/crs/42", "proj4");
     System.out.println("Testing " + crs);
     String json = getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(crs);
     System.out.println(json);
@@ -520,9 +520,7 @@ class GeoJsonTests {
    */
   @Test
   void testBoundingBox() {
-    //noinspection ConstantConditions
     double[] actual = GeometryUtils.getBoundingBox((Geometry) null);
-    //noinspection ConstantConditions
     assertNull(actual);
 
     Point point = createPoint(0.1, 0.2);

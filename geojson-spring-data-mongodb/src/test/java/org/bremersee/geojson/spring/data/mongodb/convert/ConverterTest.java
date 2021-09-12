@@ -64,10 +64,10 @@ import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
         "spring.data.mongodb.uri=mongodb://localhost:27017/test",
         "spring.data.mongodb.auto-index-creation=false"
     })
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public class ConverterTest {
 
-  private static Logger log = LoggerFactory.getLogger(ConverterTest.class);
+  private static final Logger log = LoggerFactory.getLogger(ConverterTest.class);
 
   /**
    * The repository.
