@@ -24,7 +24,6 @@ import org.bremersee.geojson.utils.GeometryUtils;
 import org.bson.Document;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.MultiLineString;
 import org.locationtech.jts.geom.MultiPoint;
 import org.locationtech.jts.geom.Point;
 

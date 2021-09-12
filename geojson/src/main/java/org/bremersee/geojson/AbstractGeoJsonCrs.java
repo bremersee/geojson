@@ -60,11 +60,9 @@ public class AbstractGeoJsonCrs implements Serializable {
   }
 
   /**
-   * Set the properties the properties that store information about the coordinate reference system
-   * (CRS).
+   * Set the properties the properties that store information about the coordinate reference system (CRS).
    *
-   * @param properties the properties that store information about the coordinate reference
-   *     system
+   * @param properties the properties that store information about the coordinate reference system
    */
   protected final void setProperties(final Map<String, Object> properties) {
     this.properties = Objects.requireNonNullElseGet(properties, LinkedHashMap::new);

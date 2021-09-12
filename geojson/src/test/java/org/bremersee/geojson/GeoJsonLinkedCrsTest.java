@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -50,10 +50,10 @@ class GeoJsonLinkedCrsTest {
     model.setHref(null);
     assertNull(model.getHref());
 
-    model.setHref("http://example.org");
-    assertEquals("http://example.org", model.getHref());
-    assertEquals(model.hashCode(), new GeoJsonLinkedCrs("http://example.org").hashCode());
-    assertEquals(model.toString(), new GeoJsonLinkedCrs("http://example.org").toString());
+    model.setHref("https://example.org");
+    assertEquals("https://example.org", model.getHref());
+    assertEquals(model.hashCode(), new GeoJsonLinkedCrs("https://example.org").hashCode());
+    assertEquals(model.toString(), new GeoJsonLinkedCrs("https://example.org").toString());
   }
 
   /**
@@ -69,11 +69,11 @@ class GeoJsonLinkedCrsTest {
     assertEquals(GeoJsonLinkedCrs.TYPE_ESRI_WKT, model.getType());
 
     assertEquals(model, new GeoJsonLinkedCrs(null, GeoJsonLinkedCrs.TYPE_ESRI_WKT));
-    model.setHref("http://example.org/ogc");
+    model.setHref("https://example.org/ogc");
     model.setType(GeoJsonLinkedCrs.TYPE_OGC_WKT);
     assertEquals(
         model,
-        new GeoJsonLinkedCrs("http://example.org/ogc", GeoJsonLinkedCrs.TYPE_OGC_WKT));
+        new GeoJsonLinkedCrs("https://example.org/ogc", GeoJsonLinkedCrs.TYPE_OGC_WKT));
   }
 
   /**
@@ -85,13 +85,13 @@ class GeoJsonLinkedCrsTest {
   void json() throws Exception {
     ObjectMapper om = new ObjectMapper();
     GeoJsonLinkedCrs model = new GeoJsonLinkedCrs(
-        "http://example.org",
+        "https://example.org",
         GeoJsonLinkedCrs.TYPE_PROJ4);
     String jsonStr = om.writerWithDefaultPrettyPrinter().writeValueAsString(model);
     System.out.println(jsonStr);
     assertNotNull(jsonStr);
     assertTrue(jsonStr.contains(GeoJsonLinkedCrs.TYPE_PROJ4));
-    assertTrue(jsonStr.contains("http://example.org"));
+    assertTrue(jsonStr.contains("https://example.org"));
     GeoJsonLinkedCrs readModel = om.readValue(jsonStr, GeoJsonLinkedCrs.class);
     assertEquals(model, readModel);
   }
