@@ -116,15 +116,14 @@ public abstract class AbstractGeoJsonFeature&lt;G, P&gt; extends UnknownAware {
 <span class="fc" id="L116">  }</span>
 
   /**
-   * Return the properties that are associated with this GeoJSON feature or {@code null} if there
-   * are no properties.
+   * Return the properties that are associated with this GeoJSON feature or {@code null} if there are no properties.
    *
    * @return the properties of this feature
    */
   @JsonInclude(Include.NON_EMPTY)
   @JsonProperty(&quot;properties&quot;)
   public P getProperties() {
-<span class="fc" id="L127">    return properties;</span>
+<span class="fc" id="L126">    return properties;</span>
   }
 
   /**
@@ -136,39 +135,39 @@ public abstract class AbstractGeoJsonFeature&lt;G, P&gt; extends UnknownAware {
    */
   @JsonProperty(&quot;properties&quot;)
   public void setProperties(final P properties) {
-<span class="fc" id="L139">    this.properties = properties;</span>
-<span class="fc" id="L140">  }</span>
+<span class="fc" id="L138">    this.properties = properties;</span>
+<span class="fc" id="L139">  }</span>
 
   @Override
   public String toString() {
-<span class="fc" id="L144">    return &quot;GeoJsonFeature {&quot;</span>
-<span class="fc" id="L145">        + &quot;id='&quot; + getId() + '\''</span>
-<span class="fc" id="L146">        + &quot;, geometry=&quot; + getGeometry()</span>
-<span class="fc" id="L147">        + &quot;, bbox=&quot; + Arrays.toString(getBbox())</span>
-<span class="fc" id="L148">        + &quot;, properties=&quot; + getProperties()</span>
+<span class="fc" id="L143">    return &quot;GeoJsonFeature {&quot;</span>
+<span class="fc" id="L144">        + &quot;id='&quot; + getId() + '\''</span>
+<span class="fc" id="L145">        + &quot;, geometry=&quot; + getGeometry()</span>
+<span class="fc" id="L146">        + &quot;, bbox=&quot; + Arrays.toString(getBbox())</span>
+<span class="fc" id="L147">        + &quot;, properties=&quot; + getProperties()</span>
         + '}';
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L154">    int result = Objects.hash(getId(), getGeometry(), getProperties());</span>
-<span class="fc" id="L155">    result = 31 * result + Arrays.hashCode(getBbox());</span>
-<span class="fc" id="L156">    return result;</span>
+<span class="fc" id="L153">    int result = Objects.hash(getId(), getGeometry(), getProperties());</span>
+<span class="fc" id="L154">    result = 31 * result + Arrays.hashCode(getBbox());</span>
+<span class="fc" id="L155">    return result;</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="fc bfc" id="L161" title="All 2 branches covered.">    if (this == o) {</span>
-<span class="fc" id="L162">      return true;</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">    if (this == o) {</span>
+<span class="fc" id="L161">      return true;</span>
     }
-<span class="fc bfc" id="L164" title="All 2 branches covered.">    if (!(o instanceof AbstractGeoJsonFeature)) {</span>
-<span class="fc" id="L165">      return false;</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">    if (!(o instanceof AbstractGeoJsonFeature)) {</span>
+<span class="fc" id="L164">      return false;</span>
     }
-<span class="fc" id="L167">    AbstractGeoJsonFeature&lt;?, ?&gt; that = (AbstractGeoJsonFeature&lt;?, ?&gt;) o;</span>
-<span class="pc bpc" id="L168" title="1 of 2 branches missed.">    return Objects.equals(getId(), that.getId())</span>
-<span class="pc bpc" id="L169" title="1 of 2 branches missed.">        &amp;&amp; equals(getGeometry(), that.getGeometry())</span>
-<span class="pc bpc" id="L170" title="1 of 2 branches missed.">        &amp;&amp; Arrays.equals(getBbox(), that.getBbox())</span>
-<span class="pc bpc" id="L171" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(getProperties(), that.getProperties());</span>
+<span class="fc" id="L166">    AbstractGeoJsonFeature&lt;?, ?&gt; that = (AbstractGeoJsonFeature&lt;?, ?&gt;) o;</span>
+<span class="pc bpc" id="L167" title="1 of 2 branches missed.">    return Objects.equals(getId(), that.getId())</span>
+<span class="pc bpc" id="L168" title="1 of 2 branches missed.">        &amp;&amp; equals(getGeometry(), that.getGeometry())</span>
+<span class="pc bpc" id="L169" title="1 of 2 branches missed.">        &amp;&amp; Arrays.equals(getBbox(), that.getBbox())</span>
+<span class="pc bpc" id="L170" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(getProperties(), that.getProperties());</span>
   }
 
   /**
@@ -181,4 +180,4 @@ public abstract class AbstractGeoJsonFeature&lt;G, P&gt; extends UnknownAware {
   protected abstract boolean equals(G g1, Object g2);
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

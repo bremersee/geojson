@@ -60,44 +60,42 @@ import java.util.TreeMap;
   }
 
   /**
-   * Set the properties the properties that store information about the coordinate reference system
-   * (CRS).
+   * Set the properties the properties that store information about the coordinate reference system (CRS).
    *
-   * @param properties the properties that store information about the coordinate reference
-   *     system
+   * @param properties the properties that store information about the coordinate reference system
    */
   protected final void setProperties(final Map&lt;String, Object&gt; properties) {
-<span class="fc" id="L70">    this.properties = Objects.requireNonNullElseGet(properties, LinkedHashMap::new);</span>
-<span class="fc" id="L71">  }</span>
+<span class="fc" id="L68">    this.properties = Objects.requireNonNullElseGet(properties, LinkedHashMap::new);</span>
+<span class="fc" id="L69">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="fc bfc" id="L75" title="All 2 branches covered.">    if (this == o) {</span>
-<span class="fc" id="L76">      return true;</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">    if (this == o) {</span>
+<span class="fc" id="L74">      return true;</span>
     }
-<span class="fc bfc" id="L78" title="All 2 branches covered.">    if (!(o instanceof AbstractGeoJsonCrs)) {</span>
-<span class="fc" id="L79">      return false;</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">    if (!(o instanceof AbstractGeoJsonCrs)) {</span>
+<span class="fc" id="L77">      return false;</span>
     }
-<span class="fc" id="L81">    AbstractGeoJsonCrs that = (AbstractGeoJsonCrs) o;</span>
-<span class="pc bpc" id="L82" title="1 of 2 branches missed.">    if (properties == that.properties) {</span>
-<span class="nc" id="L83">      return true;</span>
+<span class="fc" id="L79">    AbstractGeoJsonCrs that = (AbstractGeoJsonCrs) o;</span>
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">    if (properties == that.properties) {</span>
+<span class="nc" id="L81">      return true;</span>
     }
-<span class="pc bpc" id="L85" title="2 of 4 branches missed.">    if (properties == null || that.properties == null) {</span>
-<span class="nc" id="L86">      return false;</span>
+<span class="pc bpc" id="L83" title="2 of 4 branches missed.">    if (properties == null || that.properties == null) {</span>
+<span class="nc" id="L84">      return false;</span>
     }
-<span class="fc" id="L88">    return Objects.equals(new TreeMap&lt;&gt;(properties), new TreeMap&lt;&gt;(that.properties));</span>
+<span class="fc" id="L86">    return Objects.equals(new TreeMap&lt;&gt;(properties), new TreeMap&lt;&gt;(that.properties));</span>
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L93">    return Objects.hash(properties);</span>
+<span class="fc" id="L91">    return Objects.hash(properties);</span>
   }
 
   @Override
   public String toString() {
-<span class="fc" id="L98">    return getClass().getSimpleName() + &quot; {&quot;</span>
+<span class="fc" id="L96">    return getClass().getSimpleName() + &quot; {&quot;</span>
         + &quot;properties=&quot; + properties
         + '}';
   }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

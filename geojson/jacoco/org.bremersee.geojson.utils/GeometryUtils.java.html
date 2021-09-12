@@ -167,10 +167,10 @@ public abstract class GeometryUtils {
    * &lt;a href=&quot;https://tools.ietf.org/html/rfc7946#section-5&quot;&gt;bounding-boxes&lt;/a&gt;).
    *
    * &lt;p&gt;A GeoJSON object MAY have a member named &quot;bbox&quot; to include information on the coordinate
-   * range for its Geometries, Features, or FeatureCollections.  The value of the bbox member MUST
-   * be an array of length 2*n where n is the number of dimensions represented in the contained
-   * geometries, with all axes of the most southwesterly point followed by all axes of the more
-   * northeasterly point. The axes order of a bbox follows the axes order of geometries.
+   * range for its Geometries, Features, or FeatureCollections.  The value of the bbox member MUST be an array of length
+   * 2*n where n is the number of dimensions represented in the contained geometries, with all axes of the most
+   * southwesterly point followed by all axes of the more northeasterly point. The axes order of a bbox follows the axes
+   * order of geometries.
    *
    * @param geometry the geometry
    * @return {@code null} if the bounding box can not be calculated, otherwise the bounding box
@@ -388,8 +388,8 @@ public abstract class GeometryUtils {
   }
 
   /**
-   * Returns the Well-known Text representation of this Geometry. For a definition of the Well-known
-   * Text format, see the OpenGIS Simple Features Specification.
+   * Returns the Well-known Text representation of this Geometry. For a definition of the Well-known Text format, see
+   * the OpenGIS Simple Features Specification.
    *
    * @param geometry the geometry
    * @return the Well-known Text representation of this Geometry
@@ -403,20 +403,18 @@ public abstract class GeometryUtils {
   /**
    * Reads a Well-Known Text representation of a Geometry from a {@link String}.
    *
-   * @param wkt one or more strings (see the OpenGIS Simple Features Specification) separated by
-   *     whitespace
+   * @param wkt one or more strings (see the OpenGIS Simple Features Specification) separated by whitespace
    * @return a Geometry specified by wellKnownText
    * @throws IllegalArgumentException if a parsing problem occurs
    */
   public static Geometry fromWKT(final String wkt) throws IllegalArgumentException {
-<span class="fc" id="L412">    return fromWKT(wkt, null);</span>
+<span class="fc" id="L411">    return fromWKT(wkt, null);</span>
   }
 
   /**
    * Reads a Well-Known Text representation of a Geometry from a {@link String}.
    *
-   * @param wkt one or more strings (see the OpenGIS Simple Features Specification) separated by
-   *     whitespace
+   * @param wkt one or more strings (see the OpenGIS Simple Features Specification) separated by whitespace
    * @param geometryFactory the geometry factory to use
    * @return a Geometry specified by wellKnownText
    * @throws IllegalArgumentException if a parsing problem occurs
@@ -425,31 +423,29 @@ public abstract class GeometryUtils {
       throws IllegalArgumentException {
 
     try {
-<span class="fc" id="L428">      return new WKTReader(geometryFactory(geometryFactory)).read(wkt);</span>
-<span class="fc" id="L429">    } catch (NullPointerException n) {</span>
-<span class="fc" id="L430">      return null;</span>
-<span class="fc" id="L431">    } catch (ParseException e) {</span>
-<span class="fc" id="L432">      throw new IllegalArgumentException(&quot;Parsing WKT [&quot; + wkt + &quot;] failed.&quot;, e);</span>
+<span class="fc" id="L426">      return new WKTReader(geometryFactory(geometryFactory)).read(wkt);</span>
+<span class="fc" id="L427">    } catch (NullPointerException n) {</span>
+<span class="fc" id="L428">      return null;</span>
+<span class="fc" id="L429">    } catch (ParseException e) {</span>
+<span class="fc" id="L430">      throw new IllegalArgumentException(&quot;Parsing WKT [&quot; + wkt + &quot;] failed.&quot;, e);</span>
     }
   }
 
   /**
    * Reads a Well-Known Text representation of a Geometry from a {@link Reader}.
    *
-   * @param reader a {@link Reader} which will return a string (see the OpenGIS Simple Features
-   *     Specification)
+   * @param reader a {@link Reader} which will return a string (see the OpenGIS Simple Features Specification)
    * @return a Geometry read from reader
    * @throws IllegalArgumentException if a parsing problem occurs
    */
   public static Geometry fromWKT(final Reader reader) throws IllegalArgumentException {
-<span class="fc" id="L445">    return fromWKT(reader, null);</span>
+<span class="fc" id="L442">    return fromWKT(reader, null);</span>
   }
 
   /**
    * Reads a Well-Known Text representation of a Geometry from a {@link Reader}.
    *
-   * @param reader a {@link Reader} which will return a string (see the OpenGIS Simple Features
-   *     Specification)
+   * @param reader a {@link Reader} which will return a string (see the OpenGIS Simple Features Specification)
    * @param geometryFactory the geometry factory to use
    * @return a Geometry read from reader
    * @throws IllegalArgumentException if a parsing problem occurs
@@ -457,34 +453,34 @@ public abstract class GeometryUtils {
   public static Geometry fromWKT(final Reader reader, final GeometryFactory geometryFactory)
       throws IllegalArgumentException {
 
-<span class="fc" id="L460">    try (Reader r = reader) {</span>
-<span class="fc" id="L461">      return new WKTReader(geometryFactory(geometryFactory)).read(r);</span>
-<span class="fc" id="L462">    } catch (NullPointerException n) {</span>
-<span class="fc" id="L463">      return null;</span>
-<span class="fc" id="L464">    } catch (Exception e) {</span>
-<span class="fc" id="L465">      throw new IllegalArgumentException(e);</span>
+<span class="fc" id="L456">    try (Reader r = reader) {</span>
+<span class="fc" id="L457">      return new WKTReader(geometryFactory(geometryFactory)).read(r);</span>
+<span class="fc" id="L458">    } catch (NullPointerException n) {</span>
+<span class="fc" id="L459">      return null;</span>
+<span class="fc" id="L460">    } catch (Exception e) {</span>
+<span class="fc" id="L461">      throw new IllegalArgumentException(e);</span>
     }
   }
 
   /**
    * Reads a Well-Known Text representation of a Geometry from an {@link InputStream}.
    *
-   * @param inputStream an {@link InputStream} which will return a string (see the OpenGIS
-   *     Simple Features Specification)
+   * @param inputStream an {@link InputStream} which will return a string (see the OpenGIS Simple Features
+   *     Specification)
    * @param charsetName the charset to use
    * @return a Geometry read from the input stream
    * @throws IllegalArgumentException if a parsing problem occurs
    */
   public static Geometry fromWKT(final InputStream inputStream, final String charsetName)
       throws IllegalArgumentException {
-<span class="fc" id="L480">    return fromWKT(inputStream, charsetName, null);</span>
+<span class="fc" id="L476">    return fromWKT(inputStream, charsetName, null);</span>
   }
 
   /**
    * Reads a Well-Known Text representation of a Geometry from an {@link InputStream}.
    *
-   * @param inputStream an {@link InputStream} which will return a string (see the OpenGIS
-   *     Simple Features Specification)
+   * @param inputStream an {@link InputStream} which will return a string (see the OpenGIS Simple Features
+   *     Specification)
    * @param charsetName the charset to use
    * @param geometryFactory the geometry factory to use
    * @return a Geometry read from the input stream
@@ -496,14 +492,14 @@ public abstract class GeometryUtils {
       final GeometryFactory geometryFactory)
       throws IllegalArgumentException {
 
-<span class="fc bfc" id="L499" title="All 2 branches covered.">    final String cs = charsetName == null ? StandardCharsets.UTF_8.name() : charsetName;</span>
-<span class="fc" id="L500">    try (InputStreamReader reader = new InputStreamReader(inputStream, cs)) {</span>
-<span class="fc" id="L501">      return fromWKT(reader, geometryFactory);</span>
+<span class="fc bfc" id="L495" title="All 2 branches covered.">    final String cs = charsetName == null ? StandardCharsets.UTF_8.name() : charsetName;</span>
+<span class="fc" id="L496">    try (InputStreamReader reader = new InputStreamReader(inputStream, cs)) {</span>
+<span class="fc" id="L497">      return fromWKT(reader, geometryFactory);</span>
 
-<span class="fc" id="L503">    } catch (NullPointerException n) {</span>
-<span class="fc" id="L504">      return null;</span>
-<span class="fc" id="L505">    } catch (Exception e) {</span>
-<span class="fc" id="L506">      throw new IllegalArgumentException(e);</span>
+<span class="fc" id="L499">    } catch (NullPointerException n) {</span>
+<span class="fc" id="L500">      return null;</span>
+<span class="fc" id="L501">    } catch (Exception e) {</span>
+<span class="fc" id="L502">      throw new IllegalArgumentException(e);</span>
     }
   }
 
@@ -515,7 +511,7 @@ public abstract class GeometryUtils {
    * @return the coordinate
    */
   public static Coordinate createCoordinate(final double x, final double y) {
-<span class="fc" id="L518">    return new Coordinate(x, y);</span>
+<span class="fc" id="L514">    return new Coordinate(x, y);</span>
   }
 
   /**
@@ -528,11 +524,11 @@ public abstract class GeometryUtils {
    */
   public static Coordinate createCoordinate(final BigDecimal x, final BigDecimal y) {
 
-<span class="fc" id="L531">    return Optional.ofNullable(x)</span>
-<span class="fc" id="L532">        .map(xx -&gt; Optional.ofNullable(y)</span>
-<span class="fc" id="L533">            .map(yy -&gt; new Coordinate(xx.doubleValue(), yy.doubleValue()))</span>
-<span class="fc" id="L534">            .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Y must not be null.&quot;)))</span>
-<span class="fc" id="L535">        .orElseThrow(() -&gt; new IllegalArgumentException(&quot;X must not be null.&quot;));</span>
+<span class="fc" id="L527">    return Optional.ofNullable(x)</span>
+<span class="fc" id="L528">        .map(xx -&gt; Optional.ofNullable(y)</span>
+<span class="fc" id="L529">            .map(yy -&gt; new Coordinate(xx.doubleValue(), yy.doubleValue()))</span>
+<span class="fc" id="L530">            .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Y must not be null.&quot;)))</span>
+<span class="fc" id="L531">        .orElseThrow(() -&gt; new IllegalArgumentException(&quot;X must not be null.&quot;));</span>
   }
 
   /**
@@ -543,7 +539,7 @@ public abstract class GeometryUtils {
    * @return the coordinate
    */
   public static Coordinate createCoordinateWGS84(final double latitude, final double longitude) {
-<span class="fc" id="L546">    return new Coordinate(longitude, latitude);</span>
+<span class="fc" id="L542">    return new Coordinate(longitude, latitude);</span>
   }
 
   /**
@@ -557,11 +553,11 @@ public abstract class GeometryUtils {
   public static Coordinate createCoordinateWGS84(
       final BigDecimal latitude, final BigDecimal longitude) {
 
-<span class="fc" id="L560">    return Optional.ofNullable(latitude)</span>
-<span class="fc" id="L561">        .map(lat -&gt; Optional.ofNullable(longitude)</span>
-<span class="fc" id="L562">            .map(lon -&gt; new Coordinate(lon.doubleValue(), lat.doubleValue()))</span>
-<span class="fc" id="L563">            .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Longitude must not be null.&quot;)))</span>
-<span class="fc" id="L564">        .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Latitude must not be null.&quot;));</span>
+<span class="fc" id="L556">    return Optional.ofNullable(latitude)</span>
+<span class="fc" id="L557">        .map(lat -&gt; Optional.ofNullable(longitude)</span>
+<span class="fc" id="L558">            .map(lon -&gt; new Coordinate(lon.doubleValue(), lat.doubleValue()))</span>
+<span class="fc" id="L559">            .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Longitude must not be null.&quot;)))</span>
+<span class="fc" id="L560">        .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Latitude must not be null.&quot;));</span>
   }
 
   /**
@@ -571,9 +567,9 @@ public abstract class GeometryUtils {
    * @return the latitude
    */
   public static double getLatitudeWGS84(Coordinate coordinate) {
-<span class="fc" id="L574">    return Optional.ofNullable(coordinate)</span>
-<span class="fc" id="L575">        .map(Coordinate::getY)</span>
-<span class="fc" id="L576">        .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Coordinate must not be null.&quot;));</span>
+<span class="fc" id="L570">    return Optional.ofNullable(coordinate)</span>
+<span class="fc" id="L571">        .map(Coordinate::getY)</span>
+<span class="fc" id="L572">        .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Coordinate must not be null.&quot;));</span>
   }
 
   /**
@@ -583,9 +579,9 @@ public abstract class GeometryUtils {
    * @return the longitude
    */
   public static double getLongitudeWGS84(final Coordinate coordinate) {
-<span class="fc" id="L586">    return Optional.ofNullable(coordinate)</span>
-<span class="fc" id="L587">        .map(Coordinate::getX)</span>
-<span class="fc" id="L588">        .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Coordinate must not be null.&quot;));</span>
+<span class="fc" id="L582">    return Optional.ofNullable(coordinate)</span>
+<span class="fc" id="L583">        .map(Coordinate::getX)</span>
+<span class="fc" id="L584">        .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Coordinate must not be null.&quot;));</span>
   }
 
   /**
@@ -596,7 +592,7 @@ public abstract class GeometryUtils {
    * @return the point
    */
   public static Point createPoint(final double x, final double y) {
-<span class="fc" id="L599">    return createPoint(createCoordinate(x, y), null);</span>
+<span class="fc" id="L595">    return createPoint(createCoordinate(x, y), null);</span>
   }
 
   /**
@@ -611,7 +607,7 @@ public abstract class GeometryUtils {
       final double x,
       final double y,
       final GeometryFactory geometryFactory) {
-<span class="fc" id="L614">    return createPoint(createCoordinate(x, y), geometryFactory);</span>
+<span class="fc" id="L610">    return createPoint(createCoordinate(x, y), geometryFactory);</span>
   }
 
   /**
@@ -622,7 +618,7 @@ public abstract class GeometryUtils {
    * @return the point
    */
   public static Point createPoint(final BigDecimal x, final BigDecimal y) {
-<span class="fc" id="L625">    return createPoint(createCoordinate(x, y), null);</span>
+<span class="fc" id="L621">    return createPoint(createCoordinate(x, y), null);</span>
   }
 
   /**
@@ -637,7 +633,7 @@ public abstract class GeometryUtils {
       final BigDecimal x,
       final BigDecimal y,
       final GeometryFactory geometryFactory) {
-<span class="fc" id="L640">    return createPoint(createCoordinate(x, y), geometryFactory);</span>
+<span class="fc" id="L636">    return createPoint(createCoordinate(x, y), geometryFactory);</span>
   }
 
   /**
@@ -647,7 +643,7 @@ public abstract class GeometryUtils {
    * @return the point
    */
   public static Point createPoint(final Coordinate coordinate) {
-<span class="fc" id="L650">    return createPoint(coordinate, null);</span>
+<span class="fc" id="L646">    return createPoint(coordinate, null);</span>
   }
 
   /**
@@ -660,36 +656,36 @@ public abstract class GeometryUtils {
   public static Point createPoint(
       final Coordinate coordinate,
       final GeometryFactory geometryFactory) {
-<span class="fc" id="L663">    return geometryFactory(geometryFactory).createPoint(coordinate);</span>
+<span class="fc" id="L659">    return geometryFactory(geometryFactory).createPoint(coordinate);</span>
   }
 
   /**
-   * Creates a point from WGS84 latitude and longitude.&lt;br&gt; Latitude becomes the y-value.&lt;br&gt;
-   * Longitude becomes the x-value.&lt;br&gt;
+   * Creates a point from WGS84 latitude and longitude.&lt;br&gt; Latitude becomes the y-value.&lt;br&gt; Longitude becomes the
+   * x-value.&lt;br&gt;
    *
    * @param latitude the latitude in degrees
    * @param longitude the longitude in degrees
    * @return the point
    */
   public static Point createPointWGS84(final double latitude, final double longitude) {
-<span class="fc" id="L675">    return createPoint(longitude, latitude, null);</span>
+<span class="fc" id="L671">    return createPoint(longitude, latitude, null);</span>
   }
 
   /**
-   * Creates a point from WGS84 latitude and longitude.&lt;br&gt; Latitude becomes the y-value.&lt;br&gt;
-   * Longitude becomes the x-value.&lt;br&gt;
+   * Creates a point from WGS84 latitude and longitude.&lt;br&gt; Latitude becomes the y-value.&lt;br&gt; Longitude becomes the
+   * x-value.&lt;br&gt;
    *
    * @param latitude the latitude in degrees
    * @param longitude the longitude in degrees
    * @return the point
    */
   public static Point createPointWGS84(final BigDecimal latitude, final BigDecimal longitude) {
-<span class="fc" id="L687">    return createPoint(longitude, latitude, null);</span>
+<span class="fc" id="L683">    return createPoint(longitude, latitude, null);</span>
   }
 
   /**
-   * Creates a point from WGS84 latitude and longitude.&lt;br&gt; Latitude becomes the y-value.&lt;br&gt;
-   * Longitude becomes the x-value.&lt;br&gt;
+   * Creates a point from WGS84 latitude and longitude.&lt;br&gt; Latitude becomes the y-value.&lt;br&gt; Longitude becomes the
+   * x-value.&lt;br&gt;
    *
    * @param latitude the latitude in degrees
    * @param longitude the longitude in degrees
@@ -700,12 +696,12 @@ public abstract class GeometryUtils {
       final double latitude,
       final double longitude,
       final GeometryFactory geometryFactory) {
-<span class="fc" id="L703">    return createPoint(longitude, latitude, geometryFactory);</span>
+<span class="fc" id="L699">    return createPoint(longitude, latitude, geometryFactory);</span>
   }
 
   /**
-   * Creates a point from WGS84 latitude and longitude.&lt;br&gt; Latitude becomes the y-value.&lt;br&gt;
-   * Longitude becomes the x-value.&lt;br&gt;
+   * Creates a point from WGS84 latitude and longitude.&lt;br&gt; Latitude becomes the y-value.&lt;br&gt; Longitude becomes the
+   * x-value.&lt;br&gt;
    *
    * @param latitude the latitude in degrees
    * @param longitude the longitude in degrees
@@ -716,23 +712,21 @@ public abstract class GeometryUtils {
       final BigDecimal latitude,
       final BigDecimal longitude,
       final GeometryFactory geometryFactory) {
-<span class="fc" id="L719">    return createPoint(longitude, latitude, geometryFactory);</span>
+<span class="fc" id="L715">    return createPoint(longitude, latitude, geometryFactory);</span>
   }
 
   /**
-   * Creates a MultiPoint using the given Points. A null or empty collection will create an empty
-   * MultiPoint.
+   * Creates a MultiPoint using the given Points. A null or empty collection will create an empty MultiPoint.
    *
    * @param points the points of the {@link MultiPoint}
    * @return the {@link MultiPoint}
    */
   public static MultiPoint createMultiPoint(final Collection&lt;? extends Point&gt; points) {
-<span class="fc" id="L730">    return createMultiPoint(points, null);</span>
+<span class="fc" id="L725">    return createMultiPoint(points, null);</span>
   }
 
   /**
-   * Creates a MultiPoint using the given Points. A null or empty collection will create an empty
-   * MultiPoint.
+   * Creates a MultiPoint using the given Points. A null or empty collection will create an empty MultiPoint.
    *
    * @param points the points of the {@link MultiPoint}
    * @param geometryFactory the geometry factory to use
@@ -742,26 +736,26 @@ public abstract class GeometryUtils {
       final Collection&lt;? extends Point&gt; points,
       final GeometryFactory geometryFactory) {
 
-<span class="fc" id="L745">    return Optional.ofNullable(points)</span>
-<span class="fc" id="L746">        .map(c -&gt; c.toArray(new Point[0]))</span>
-<span class="fc" id="L747">        .map(a -&gt; geometryFactory(geometryFactory).createMultiPoint(a))</span>
-<span class="fc" id="L748">        .orElseGet(() -&gt; geometryFactory(geometryFactory).createMultiPoint());</span>
+<span class="fc" id="L739">    return Optional.ofNullable(points)</span>
+<span class="fc" id="L740">        .map(c -&gt; c.toArray(new Point[0]))</span>
+<span class="fc" id="L741">        .map(a -&gt; geometryFactory(geometryFactory).createMultiPoint(a))</span>
+<span class="fc" id="L742">        .orElseGet(() -&gt; geometryFactory(geometryFactory).createMultiPoint());</span>
   }
 
   /**
-   * Creates a LineString using the given coordinates; a null or empty collection will create an
-   * empty LineString. Consecutive points must not be equal.
+   * Creates a LineString using the given coordinates; a null or empty collection will create an empty LineString.
+   * Consecutive points must not be equal.
    *
    * @param coordinates the coordinates of the {@link LineString}
    * @return the {@link LineString}
    */
   public static LineString createLineString(final Collection&lt;? extends Coordinate&gt; coordinates) {
-<span class="fc" id="L759">    return createLineString(coordinates, null);</span>
+<span class="fc" id="L753">    return createLineString(coordinates, null);</span>
   }
 
   /**
-   * Creates a LineString using the given coordinates; a null or empty collection will create an
-   * empty LineString. Consecutive points must not be equal.
+   * Creates a LineString using the given coordinates; a null or empty collection will create an empty LineString.
+   * Consecutive points must not be equal.
    *
    * @param coordinates the coordinates of the {@link LineString}
    * @param geometryFactory the geometry factory to use
@@ -771,27 +765,27 @@ public abstract class GeometryUtils {
       final Collection&lt;? extends Coordinate&gt; coordinates,
       final GeometryFactory geometryFactory) {
 
-<span class="fc" id="L774">    return Optional.ofNullable(coordinates)</span>
-<span class="fc" id="L775">        .map(c -&gt; c.toArray(new Coordinate[0]))</span>
-<span class="fc" id="L776">        .map(a -&gt; geometryFactory(geometryFactory).createLineString(a))</span>
-<span class="fc" id="L777">        .orElseGet(() -&gt; geometryFactory(geometryFactory).createLineString());</span>
+<span class="fc" id="L768">    return Optional.ofNullable(coordinates)</span>
+<span class="fc" id="L769">        .map(c -&gt; c.toArray(new Coordinate[0]))</span>
+<span class="fc" id="L770">        .map(a -&gt; geometryFactory(geometryFactory).createLineString(a))</span>
+<span class="fc" id="L771">        .orElseGet(() -&gt; geometryFactory(geometryFactory).createLineString());</span>
   }
 
   /**
-   * Creates a MultiLineString using the given LineStrings; a null or empty collection will create
-   * an empty MultiLineString.
+   * Creates a MultiLineString using the given LineStrings; a null or empty collection will create an empty
+   * MultiLineString.
    *
    * @param lineStrings the {@link LineString}s of the {@link MultiLineString}
    * @return the {@link MultiLineString}
    */
   public static MultiLineString createMultiLineString(
       final Collection&lt;? extends LineString&gt; lineStrings) {
-<span class="fc" id="L789">    return createMultiLineString(lineStrings, null);</span>
+<span class="fc" id="L783">    return createMultiLineString(lineStrings, null);</span>
   }
 
   /**
-   * Creates a MultiLineString using the given LineStrings; a null or empty collection will create
-   * an empty MultiLineString.
+   * Creates a MultiLineString using the given LineStrings; a null or empty collection will create an empty
+   * MultiLineString.
    *
    * @param lineStrings the {@link LineString}s of the {@link MultiLineString}
    * @param geometryFactory the geometry factory to use
@@ -801,26 +795,24 @@ public abstract class GeometryUtils {
       final Collection&lt;? extends LineString&gt; lineStrings,
       final GeometryFactory geometryFactory) {
 
-<span class="fc" id="L804">    return Optional.ofNullable(lineStrings)</span>
-<span class="fc" id="L805">        .map(c -&gt; c.toArray(new LineString[0]))</span>
-<span class="fc" id="L806">        .map(a -&gt; geometryFactory(geometryFactory).createMultiLineString(a))</span>
-<span class="fc" id="L807">        .orElseGet(() -&gt; geometryFactory(geometryFactory).createMultiLineString());</span>
+<span class="fc" id="L798">    return Optional.ofNullable(lineStrings)</span>
+<span class="fc" id="L799">        .map(c -&gt; c.toArray(new LineString[0]))</span>
+<span class="fc" id="L800">        .map(a -&gt; geometryFactory(geometryFactory).createMultiLineString(a))</span>
+<span class="fc" id="L801">        .orElseGet(() -&gt; geometryFactory(geometryFactory).createMultiLineString());</span>
   }
 
   /**
-   * Creates a LinearRing using the given coordinates. A null or empty coordinates will create an
-   * empty LinearRing.
+   * Creates a LinearRing using the given coordinates. A null or empty coordinates will create an empty LinearRing.
    *
    * @param coordinates the coordinates
    * @return the created LinearRing
    */
   public static LinearRing createLinearRing(final Collection&lt;? extends Coordinate&gt; coordinates) {
-<span class="fc" id="L818">    return createLinearRing(coordinates, null);</span>
+<span class="fc" id="L811">    return createLinearRing(coordinates, null);</span>
   }
 
   /**
-   * Creates a LinearRing using the given coordinates. A null or empty coordinates will create an
-   * empty LinearRing.
+   * Creates a LinearRing using the given coordinates. A null or empty coordinates will create an empty LinearRing.
    *
    * @param coordinates the coordinates
    * @param geometryFactory the geometry factory
@@ -830,59 +822,59 @@ public abstract class GeometryUtils {
       final Collection&lt;? extends Coordinate&gt; coordinates,
       final GeometryFactory geometryFactory) {
 
-<span class="fc" id="L833">    return Optional.ofNullable(coordinates)</span>
-<span class="fc" id="L834">        .map(c -&gt; c.toArray(new Coordinate[0]))</span>
-<span class="fc" id="L835">        .map(a -&gt; geometryFactory(geometryFactory).createLinearRing(a))</span>
-<span class="fc" id="L836">        .orElseGet(() -&gt; geometryFactory(geometryFactory).createLinearRing());</span>
+<span class="fc" id="L825">    return Optional.ofNullable(coordinates)</span>
+<span class="fc" id="L826">        .map(c -&gt; c.toArray(new Coordinate[0]))</span>
+<span class="fc" id="L827">        .map(a -&gt; geometryFactory(geometryFactory).createLinearRing(a))</span>
+<span class="fc" id="L828">        .orElseGet(() -&gt; geometryFactory(geometryFactory).createLinearRing());</span>
   }
 
   /**
    * Constructs a Polygon with the given exterior boundary.
    *
-   * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the
-   *     empty geometry is to be created
+   * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the empty geometry is to
+   *     be created
    * @return the created Polygon
    */
   public static Polygon createPolygon(final LinearRing shell) {
-<span class="fc" id="L847">    return createPolygon(shell, null, null);</span>
+<span class="fc" id="L839">    return createPolygon(shell, null, null);</span>
   }
 
   /**
    * Constructs a Polygon with the given exterior boundary.
    *
-   * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the
-   *     empty geometry is to be created
+   * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the empty geometry is to
+   *     be created
    * @param geometryFactory the geometry factory
    * @return the created Polygon
    */
   public static Polygon createPolygon(
       final LinearRing shell,
       final GeometryFactory geometryFactory) {
-<span class="fc" id="L861">    return createPolygon(shell, null, geometryFactory);</span>
+<span class="fc" id="L853">    return createPolygon(shell, null, geometryFactory);</span>
   }
 
   /**
    * Constructs a Polygon with the given exterior boundary and interior boundaries.
    *
-   * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the
-   *     empty geometry is to be created
-   * @param holes the inner boundaries of the new Polygon, or null or empty LinearRing s if the
-   *     empty geometry is to be created
+   * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the empty geometry is to
+   *     be created
+   * @param holes the inner boundaries of the new Polygon, or null or empty LinearRing s if the empty geometry is to
+   *     be created
    * @return the created Polygon
    */
   public static Polygon createPolygon(
       final LinearRing shell,
       final Collection&lt;? extends LinearRing&gt; holes) {
-<span class="fc" id="L876">    return createPolygon(shell, holes, null);</span>
+<span class="fc" id="L868">    return createPolygon(shell, holes, null);</span>
   }
 
   /**
    * Constructs a Polygon with the given exterior boundary and interior boundaries.
    *
-   * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the
-   *     empty geometry is to be created
-   * @param holes the inner boundaries of the new Polygon, or null or empty LinearRing s if the
-   *     empty geometry is to be created
+   * @param shell the outer boundary of the new Polygon, or null or an empty LinearRing if the empty geometry is to
+   *     be created
+   * @param holes the inner boundaries of the new Polygon, or null or empty LinearRing s if the empty geometry is to
+   *     be created
    * @param geometryFactory the geometry factory
    * @return the created Polygon
    */
@@ -891,28 +883,26 @@ public abstract class GeometryUtils {
       final Collection&lt;? extends LinearRing&gt; holes,
       final GeometryFactory geometryFactory) {
 
-<span class="fc" id="L894">    return Optional.ofNullable(shell)</span>
-<span class="fc" id="L895">        .map(s -&gt; Optional.ofNullable(holes)</span>
-<span class="fc" id="L896">            .map(c -&gt; c.toArray(new LinearRing[0]))</span>
-<span class="fc" id="L897">            .map(a -&gt; geometryFactory(geometryFactory).createPolygon(s, a))</span>
-<span class="fc" id="L898">            .orElseGet(() -&gt; geometryFactory(geometryFactory).createPolygon(s)))</span>
-<span class="fc" id="L899">        .orElseGet(() -&gt; geometryFactory(geometryFactory).createPolygon());</span>
+<span class="fc" id="L886">    return Optional.ofNullable(shell)</span>
+<span class="fc" id="L887">        .map(s -&gt; Optional.ofNullable(holes)</span>
+<span class="fc" id="L888">            .map(c -&gt; c.toArray(new LinearRing[0]))</span>
+<span class="fc" id="L889">            .map(a -&gt; geometryFactory(geometryFactory).createPolygon(s, a))</span>
+<span class="fc" id="L890">            .orElseGet(() -&gt; geometryFactory(geometryFactory).createPolygon(s)))</span>
+<span class="fc" id="L891">        .orElseGet(() -&gt; geometryFactory(geometryFactory).createPolygon());</span>
   }
 
   /**
-   * Creates a MultiPolygon using the given Polygons; a null or empty array will create an empty
-   * Polygon.
+   * Creates a MultiPolygon using the given Polygons; a null or empty array will create an empty Polygon.
    *
    * @param polygons the polygons
    * @return the multi polygon
    */
   public static MultiPolygon createMultiPolygon(final Collection&lt;? extends Polygon&gt; polygons) {
-<span class="fc" id="L910">    return createMultiPolygon(polygons, null);</span>
+<span class="fc" id="L901">    return createMultiPolygon(polygons, null);</span>
   }
 
   /**
-   * Creates a MultiPolygon using the given Polygons; a null or empty array will create an empty
-   * Polygon.
+   * Creates a MultiPolygon using the given Polygons; a null or empty array will create an empty Polygon.
    *
    * @param polygons the polygons
    * @param geometryFactory the geometry factory
@@ -922,10 +912,10 @@ public abstract class GeometryUtils {
       final Collection&lt;? extends Polygon&gt; polygons,
       final GeometryFactory geometryFactory) {
 
-<span class="fc" id="L925">    return Optional.ofNullable(polygons)</span>
-<span class="fc" id="L926">        .map(c -&gt; c.toArray(new Polygon[0]))</span>
-<span class="fc" id="L927">        .map(a -&gt; geometryFactory(geometryFactory).createMultiPolygon(a))</span>
-<span class="fc" id="L928">        .orElseGet(() -&gt; geometryFactory(geometryFactory).createMultiPolygon());</span>
+<span class="fc" id="L915">    return Optional.ofNullable(polygons)</span>
+<span class="fc" id="L916">        .map(c -&gt; c.toArray(new Polygon[0]))</span>
+<span class="fc" id="L917">        .map(a -&gt; geometryFactory(geometryFactory).createMultiPolygon(a))</span>
+<span class="fc" id="L918">        .orElseGet(() -&gt; geometryFactory(geometryFactory).createMultiPolygon());</span>
   }
 
   /**
@@ -935,9 +925,9 @@ public abstract class GeometryUtils {
    * @return the geometry collection
    */
   public static GeometryCollection createGeometryCollection(final Geometry... geometries) {
-<span class="fc" id="L938">    return Optional.ofNullable(geometries)</span>
-<span class="fc" id="L939">        .map(DEFAULT_GEOMETRY_FACTORY::createGeometryCollection)</span>
-<span class="fc" id="L940">        .orElseGet(DEFAULT_GEOMETRY_FACTORY::createGeometryCollection);</span>
+<span class="fc" id="L928">    return Optional.ofNullable(geometries)</span>
+<span class="fc" id="L929">        .map(DEFAULT_GEOMETRY_FACTORY::createGeometryCollection)</span>
+<span class="fc" id="L930">        .orElseGet(DEFAULT_GEOMETRY_FACTORY::createGeometryCollection);</span>
   }
 
   /**
@@ -948,7 +938,7 @@ public abstract class GeometryUtils {
    */
   public static GeometryCollection createGeometryCollection(
       final Collection&lt;? extends Geometry&gt; geometries) {
-<span class="fc" id="L951">    return createGeometryCollection(geometries, DEFAULT_GEOMETRY_FACTORY);</span>
+<span class="fc" id="L941">    return createGeometryCollection(geometries, DEFAULT_GEOMETRY_FACTORY);</span>
   }
 
   /**
@@ -962,10 +952,10 @@ public abstract class GeometryUtils {
       final Collection&lt;? extends Geometry&gt; geometries,
       final GeometryFactory geometryFactory) {
 
-<span class="fc" id="L965">    return Optional.ofNullable(geometries)</span>
-<span class="fc" id="L966">        .map(g -&gt; g.toArray(new Geometry[0]))</span>
-<span class="fc" id="L967">        .map(a -&gt; geometryFactory(geometryFactory).createGeometryCollection(a))</span>
-<span class="fc" id="L968">        .orElseGet(() -&gt; geometryFactory(geometryFactory).createGeometryCollection());</span>
+<span class="fc" id="L955">    return Optional.ofNullable(geometries)</span>
+<span class="fc" id="L956">        .map(g -&gt; g.toArray(new Geometry[0]))</span>
+<span class="fc" id="L957">        .map(a -&gt; geometryFactory(geometryFactory).createGeometryCollection(a))</span>
+<span class="fc" id="L958">        .orElseGet(() -&gt; geometryFactory(geometryFactory).createGeometryCollection());</span>
   }
 
   /**
@@ -978,17 +968,17 @@ public abstract class GeometryUtils {
   public static Geometry copyAndApplyFilters(
       final Geometry geometry,
       final CoordinateFilter... filters) {
-<span class="fc" id="L981">    return Optional.ofNullable(geometry)</span>
-<span class="fc" id="L982">        .map(g -&gt; {</span>
-<span class="fc" id="L983">          final Geometry result = g.copy();</span>
-<span class="pc bpc" id="L984" title="1 of 2 branches missed.">          if (filters != null) {</span>
-<span class="fc bfc" id="L985" title="All 2 branches covered.">            for (CoordinateFilter filter : filters) {</span>
-<span class="fc" id="L986">              result.apply(filter);</span>
+<span class="fc" id="L971">    return Optional.ofNullable(geometry)</span>
+<span class="fc" id="L972">        .map(g -&gt; {</span>
+<span class="fc" id="L973">          final Geometry result = g.copy();</span>
+<span class="pc bpc" id="L974" title="1 of 2 branches missed.">          if (filters != null) {</span>
+<span class="fc bfc" id="L975" title="All 2 branches covered.">            for (CoordinateFilter filter : filters) {</span>
+<span class="fc" id="L976">              result.apply(filter);</span>
             }
           }
-<span class="fc" id="L989">          return result;</span>
+<span class="fc" id="L979">          return result;</span>
         })
-<span class="fc" id="L991">        .orElse(null);</span>
+<span class="fc" id="L981">        .orElse(null);</span>
   }
 
   /**
@@ -998,7 +988,7 @@ public abstract class GeometryUtils {
    * @return the transformed (cloned) geometry
    */
   public static Geometry transformWgs84ToMercator(final Geometry geometry) {
-<span class="fc" id="L1001">    return copyAndApplyFilters(geometry, new Wgs84ToMercatorCoordinateFilter());</span>
+<span class="fc" id="L991">    return copyAndApplyFilters(geometry, new Wgs84ToMercatorCoordinateFilter());</span>
   }
 
   /**
@@ -1008,7 +998,7 @@ public abstract class GeometryUtils {
    * @return the transformed (cloned) geometry
    */
   public static Geometry transformMercatorToWgs84(final Geometry geometry) {
-<span class="fc" id="L1011">    return copyAndApplyFilters(geometry, new MercatorToWgs84CoordinateFilter());</span>
+<span class="fc" id="L1001">    return copyAndApplyFilters(geometry, new MercatorToWgs84CoordinateFilter());</span>
   }
 
   /**
@@ -1018,8 +1008,8 @@ public abstract class GeometryUtils {
    * @return the geometry with swapped coordinates
    */
   public static Geometry swapCoordinates(final Geometry geometry) {
-<span class="fc" id="L1021">    return copyAndApplyFilters(geometry, new SwapCoordinateFilter());</span>
+<span class="fc" id="L1011">    return copyAndApplyFilters(geometry, new SwapCoordinateFilter());</span>
   }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
