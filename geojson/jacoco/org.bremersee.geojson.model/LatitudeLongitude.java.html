@@ -34,8 +34,8 @@ import org.locationtech.jts.geom.Point;
  */
 @Schema(description = &quot;WGS84 position with latitude and longitude.&quot;)
 @JsonIgnoreProperties(ignoreUnknown = true)
-<span class="pc bpc" id="L37" title="13 of 22 branches missed.">@EqualsAndHashCode(callSuper = false)</span>
-<span class="fc" id="L38">@ToString</span>
+@EqualsAndHashCode(callSuper = false)
+@ToString
 public class LatitudeLongitude implements LatLonAware, Serializable {
 
   private static final long serialVersionUID = 1L;
