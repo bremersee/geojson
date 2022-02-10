@@ -20,6 +20,7 @@ import org.bremersee.geojson.utils.ConvertHelper;
 import org.bson.Document;
 import org.locationtech.jts.geom.Geometry;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.lang.NonNull;
 
 /**
  * The abstract geometry to document converter.
@@ -42,7 +43,7 @@ abstract class AbstractGeometryToDocumentConverter<G extends Geometry>
   }
 
   @Override
-  public Document convert(G geometry) {
+  public Document convert(@NonNull G geometry) {
     final Document document = new Document();
     document.putAll(getConvertHelper().create(geometry));
     return document;

@@ -37,8 +37,8 @@ import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
 /**
- * A Jackson JSON processor module that provides the processing (serialization and deserialization) of the following
- * types.
+ * A Jackson JSON processor module that provides the processing (serialization and deserialization)
+ * of the following types.
  * <ul>
  * <li>{@link Geometry}</li>
  * <li>{@link Point}</li>
@@ -57,6 +57,11 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
   private static final long serialVersionUID = 1L;
 
   /**
+   * The constant TYPE_ID.
+   */
+  public static final String TYPE_ID = GeoJsonObjectMapperModule.class.getName();
+
+  /**
    * Default constructor.
    */
   public GeoJsonObjectMapperModule() {
@@ -69,7 +74,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
    * @param geometryFactory the geometry factory
    */
   public GeoJsonObjectMapperModule(final GeometryFactory geometryFactory) {
-    super("GeoJsonModule", getVersion(), getDeserializers(geometryFactory), getSerializers());
+    super(TYPE_ID, getVersion(), getDeserializers(geometryFactory), getSerializers());
   }
 
   /**
@@ -124,7 +129,6 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
       } catch (RuntimeException e) {
         major = defaultMajor;
         minor = defaultMinor;
-        patchLevel = defaultPatchLevel;
         snapshotInfo = defaultSnapshotInfo;
       }
     }

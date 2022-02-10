@@ -33,8 +33,8 @@ import org.bremersee.geojson.utils.GeometryUtils;
 import org.locationtech.jts.geom.Geometry;
 
 /**
- * This class wraps a geometry and can be processed by the Jackson JSON processor without registering the
- * {@link GeoJsonObjectMapperModule}.
+ * This class wraps a geometry and can be processed by the Jackson JSON processor without
+ * registering the {@link GeoJsonObjectMapperModule}.
  *
  * <p>The geometry is an instance of the JTS Topology Suite (see
  * <a href="http://www.vividsolutions.com">http://www.vividsolutions.com</a>).

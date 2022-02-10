@@ -99,7 +99,8 @@ public class ConvertHelper implements Serializable {
    * Instantiates a new convert helper.
    *
    * @param geometryFactory the geometry factory
-   * @param useBigDecimal use {@link BigDecimal} (recommended for JSON, set to false for MongoDB)
+   * @param useBigDecimal use {@link BigDecimal} (recommended for JSON, set to false for
+   *     MongoDB)
    */
   public ConvertHelper(final GeometryFactory geometryFactory, boolean useBigDecimal) {
     this.geometryFactory = geometryFactory != null ? geometryFactory : new GeometryFactory();

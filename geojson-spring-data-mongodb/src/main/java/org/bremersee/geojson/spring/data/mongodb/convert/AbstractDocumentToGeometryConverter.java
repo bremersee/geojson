@@ -36,6 +36,7 @@ abstract class AbstractDocumentToGeometryConverter<G extends Geometry>
   /**
    * Instantiates a new abstract document to geometry converter.
    */
+  @SuppressWarnings("unused")
   AbstractDocumentToGeometryConverter() {
     this(null);
   }

@@ -32,6 +32,7 @@ import org.locationtech.jts.geom.Point;
  *
  * @author Christian Bremer
  */
+@SuppressWarnings("SameNameButDifferent")
 @Schema(description = "WGS84 position with latitude and longitude.")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EqualsAndHashCode(callSuper = false)

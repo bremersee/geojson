@@ -116,7 +116,8 @@ public abstract class AbstractGeoJsonFeature<G, P> extends UnknownAware {
   }
 
   /**
-   * Return the properties that are associated with this GeoJSON feature or {@code null} if there are no properties.
+   * Return the properties that are associated with this GeoJSON feature or {@code null} if there
+   * are no properties.
    *
    * @return the properties of this feature
    */

@@ -23,8 +23,10 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -147,22 +149,24 @@ class GeoJsonTests {
    */
   @Test
   void configureGeoJsonObjectMapperModule() {
-    ObjectMapper om = new ObjectMapper();
+    ObjectMapper om = JsonMapper.builder()
+        .enable(MapperFeature.IGNORE_DUPLICATE_MODULE_REGISTRATIONS)
+        .build();
     GeoJsonObjectMapperModule.configure(om);
     assertTrue(om.getRegisteredModuleIds().stream()
-        .anyMatch(module -> GeoJsonObjectMapperModule.class.getName()
+        .anyMatch(module -> GeoJsonObjectMapperModule.TYPE_ID
             .equals(String.valueOf(module))));
 
     om = new ObjectMapper();
     om.registerModule(new GeoJsonObjectMapperModule());
     assertTrue(om.getRegisteredModuleIds().stream()
-        .anyMatch(module -> GeoJsonObjectMapperModule.class.getName()
+        .anyMatch(module -> GeoJsonObjectMapperModule.TYPE_ID
             .equals(String.valueOf(module))));
 
     om = new ObjectMapper();
     om.registerModule(new GeoJsonObjectMapperModule(new GeometryFactory()));
     assertTrue(om.getRegisteredModuleIds().stream()
-        .anyMatch(module -> GeoJsonObjectMapperModule.class.getName()
+        .anyMatch(module -> GeoJsonObjectMapperModule.TYPE_ID
             .equals(String.valueOf(module))));
   }
 

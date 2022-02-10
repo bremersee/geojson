@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.bremersee</groupId>
     <artifactId>common-parent</artifactId>
-    <version>2.3.1</version>
+    <version>2.4.0</version>
     <relativePath/>
   </parent>
 
@@ -31,7 +31,7 @@
     <!--suppress UnresolvedMavenProperty -->
     <gh-pages-staging-dir>${maven.multiModuleProjectDirectory}/target/staging</gh-pages-staging-dir>
 
-    <common-model.version>2.3.1</common-model.version>
+    <common-model.version>2.4.0-SNAPSHOT</common-model.version>
     <jts.version>1.18.2</jts.version>
   </properties>
 

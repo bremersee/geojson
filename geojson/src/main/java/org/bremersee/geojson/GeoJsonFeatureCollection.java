@@ -48,8 +48,8 @@ public class GeoJsonFeatureCollection
    * Constructs a GeoJSON feature collection with the specified parameters.
    *
    * @param features the GeoJSON features of the collection
-   * @param calculateBounds if <code>true</code> the bounding box will be calculated otherwise the bounding box will
-   *     be <code>null</code>
+   * @param calculateBounds if <code>true</code> the bounding box will be calculated otherwise
+   *     the bounding box will be <code>null</code>
    */
   public GeoJsonFeatureCollection(
       final Collection<? extends GeoJsonFeature> features,

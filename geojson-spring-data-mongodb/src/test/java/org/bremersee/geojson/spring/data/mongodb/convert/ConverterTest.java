@@ -62,7 +62,8 @@ import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
     properties = {
         "security.basic.enabled=false",
         "spring.data.mongodb.uri=mongodb://localhost:27017/test",
-        "spring.data.mongodb.auto-index-creation=false"
+        "spring.data.mongodb.auto-index-creation=false",
+        "spring.mongodb.embedded.version=3.6.2"
     })
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class ConverterTest {
