@@ -21,13 +21,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.bremersee.geojson.spring.data.mongodb.convert.app.GeometryCollectionEntity;
 import org.bremersee.geojson.spring.data.mongodb.convert.app.GeometryCollectionEntityRepository;
 import org.bremersee.geojson.spring.data.mongodb.convert.app.GeometryEntity;
 import org.bremersee.geojson.spring.data.mongodb.convert.app.GeometryEntityRepository;
 import org.bremersee.geojson.spring.data.mongodb.convert.app.TestConfiguration;
-import org.bremersee.geojson.utils.GeometryUtils;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -70,6 +71,8 @@ public class ConverterTest {
 
   private static final Logger log = LoggerFactory.getLogger(ConverterTest.class);
 
+  private static final GeoJsonGeometryFactory factory = new GeoJsonGeometryFactory();
+
   /**
    * The repository.
    */
@@ -111,11 +114,11 @@ public class ConverterTest {
    */
   @Test
   void testGeometryCollection() {
-    Point model0 = GeometryUtils.createPoint(7., 8.);
-    LineString model1 = GeometryUtils.createLineString(Arrays.asList(
+    Point model0 = factory.createPoint(7., 8.);
+    LineString model1 = factory.createLineString(Arrays.asList(
         new Coordinate(2., 3.),
         new Coordinate(6., 7.)));
-    GeometryCollection geometry = GeometryUtils.createGeometryCollection(model0, model1);
+    GeometryCollection geometry = factory.createGeometryCollection(List.of(model0, model1));
     GeometryCollectionEntity entity = colRepository.save(new GeometryCollectionEntity(geometry));
     log.info("Saved: {}", entity);
     assertNotNull(entity);
@@ -130,7 +133,7 @@ public class ConverterTest {
    */
   @Test
   void testLineString() {
-    LineString geometry = GeometryUtils.createLineString(Arrays.asList(
+    LineString geometry = factory.createLineString(Arrays.asList(
         new Coordinate(2., 3.),
         new Coordinate(6., 7.)));
     GeometryEntity entity = repository.save(new GeometryEntity(geometry));
@@ -147,13 +150,13 @@ public class ConverterTest {
    */
   @Test
   void testMultiLineString() {
-    LineString model0 = GeometryUtils.createLineString(Arrays.asList(
+    LineString model0 = factory.createLineString(Arrays.asList(
         new Coordinate(2., 3.),
         new Coordinate(6., 7.)));
-    LineString model1 = GeometryUtils.createLineString(Arrays.asList(
+    LineString model1 = factory.createLineString(Arrays.asList(
         new Coordinate(12., 13.),
         new Coordinate(16., 17.)));
-    MultiLineString geometry = GeometryUtils.createMultiLineString(Arrays.asList(
+    MultiLineString geometry = factory.createMultiLineString(Arrays.asList(
         model0,
         model1));
     GeometryEntity entity = repository.save(new GeometryEntity(geometry));
@@ -170,9 +173,9 @@ public class ConverterTest {
    */
   @Test
   void testMultiPoint() {
-    Point model0 = GeometryUtils.createPoint(7., 8.);
-    Point model1 = GeometryUtils.createPoint(17., 18.);
-    MultiPoint geometry = GeometryUtils.createMultiPoint(Arrays.asList(model0, model1));
+    Point model0 = factory.createPoint(7., 8.);
+    Point model1 = factory.createPoint(17., 18.);
+    MultiPoint geometry = factory.createMultiPoint(Arrays.asList(model0, model1));
     GeometryEntity entity = repository.save(new GeometryEntity(geometry));
     log.info("Saved: {}", entity);
     assertNotNull(entity);
@@ -187,19 +190,19 @@ public class ConverterTest {
    */
   @Test
   void testMultiPolygon() {
-    LinearRing ring0 = GeometryUtils.createLinearRing(Arrays.asList(
+    LinearRing ring0 = factory.createLinearRing(Arrays.asList(
         new Coordinate(2., 3.),
         new Coordinate(6., 4.),
         new Coordinate(6., 8.),
         new Coordinate(2., 3.)));
-    Polygon model0 = GeometryUtils.createPolygon(ring0);
-    LinearRing ring1 = GeometryUtils.createLinearRing(Arrays.asList(
+    Polygon model0 = factory.createPolygon(ring0);
+    LinearRing ring1 = factory.createLinearRing(Arrays.asList(
         new Coordinate(12., 13.),
         new Coordinate(16., 14.),
         new Coordinate(16., 18.),
         new Coordinate(12., 13.)));
-    Polygon model1 = GeometryUtils.createPolygon(ring1);
-    MultiPolygon geometry = GeometryUtils.createMultiPolygon(Arrays.asList(model0, model1));
+    Polygon model1 = factory.createPolygon(ring1);
+    MultiPolygon geometry = factory.createMultiPolygon(Arrays.asList(model0, model1));
     GeometryEntity entity = repository.save(new GeometryEntity(geometry));
     log.info("Saved: {}", entity);
     assertNotNull(entity);
@@ -214,7 +217,7 @@ public class ConverterTest {
    */
   @Test
   void testPoint() {
-    Point geometry = GeometryUtils.createPoint(2., 4.);
+    Point geometry = factory.createPoint(2., 4.);
     GeometryEntity entity = repository.save(new GeometryEntity(geometry));
     log.info("Saved: {}", entity);
     assertNotNull(entity);
@@ -229,12 +232,12 @@ public class ConverterTest {
    */
   @Test
   void testPolygon() {
-    LinearRing ring = GeometryUtils.createLinearRing(Arrays.asList(
+    LinearRing ring = factory.createLinearRing(Arrays.asList(
         new Coordinate(2., 3.),
         new Coordinate(6., 4.),
         new Coordinate(6., 8.),
         new Coordinate(2., 3.)));
-    Polygon geometry = GeometryUtils.createPolygon(ring);
+    Polygon geometry = factory.createPolygon(ring);
     GeometryEntity entity = repository.save(new GeometryEntity(geometry));
     log.info("Saved: {}", entity);
     assertNotNull(entity);

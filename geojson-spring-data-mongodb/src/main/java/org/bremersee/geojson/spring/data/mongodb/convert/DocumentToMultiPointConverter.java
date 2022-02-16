@@ -16,13 +16,10 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
-import java.util.List;
-import org.bson.Document;
+import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.MultiPoint;
 import org.springframework.data.convert.ReadingConverter;
-import org.springframework.util.Assert;
-import org.springframework.util.ObjectUtils;
 
 /**
  * The document to multi point converter.
@@ -36,7 +33,7 @@ class DocumentToMultiPointConverter extends AbstractDocumentToGeometryConverter<
    * Instantiates a new document to multi point converter.
    */
   DocumentToMultiPointConverter() {
-    this(null);
+    super();
   }
 
   /**
@@ -44,16 +41,8 @@ class DocumentToMultiPointConverter extends AbstractDocumentToGeometryConverter<
    *
    * @param geometryFactory the geometry factory
    */
-  DocumentToMultiPointConverter(final GeometryFactory geometryFactory) {
+  DocumentToMultiPointConverter(GeometryFactory geometryFactory) {
     super(geometryFactory);
   }
 
-  @Override
-  MultiPoint doConvert(Document document) {
-    Assert.isTrue(ObjectUtils.nullSafeEquals(document.get("type"), "MultiPoint"),
-        String.format("Cannot convert type '%s' to MultiPoint.", document.get("type")));
-    //noinspection unchecked
-    final List<Object> coordinates = (List<Object>) document.get("coordinates");
-    return getConvertHelper().createMultiPoint(coordinates);
-  }
 }

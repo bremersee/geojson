@@ -17,7 +17,7 @@
 package org.bremersee.geojson.spring.data.mongodb.convert.app;
 
 import java.util.Objects;
-import org.bremersee.geojson.utils.GeometryUtils;
+import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.locationtech.jts.geom.GeometryCollection;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -98,7 +98,7 @@ public class GeometryCollectionEntity {
       return false;
     }
     GeometryCollectionEntity that = (GeometryCollectionEntity) o;
-    return Objects.equals(id, that.id) && GeometryUtils.equals(geometry, that.geometry);
+    return Objects.equals(id, that.id) && GeoJsonGeometryFactory.equals(geometry, that.geometry);
   }
 
   @Override

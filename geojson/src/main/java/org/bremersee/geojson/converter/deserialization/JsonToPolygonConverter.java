@@ -1,0 +1,115 @@
+/*
+ * Copyright 2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.bremersee.geojson.converter.deserialization;
+
+import static org.bremersee.geojson.GeoJsonConstants.JSON_COORDINATES_ATTRIBUTE_NAME;
+import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_ATTRIBUTE;
+import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_POLYGON;
+import static org.springframework.util.ObjectUtils.isEmpty;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import org.locationtech.jts.geom.CoordinateSequence;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.LinearRing;
+import org.locationtech.jts.geom.Polygon;
+import org.springframework.util.Assert;
+
+/**
+ * The json to polygon converter.
+ *
+ * @author Christian Bremer
+ */
+public class JsonToPolygonConverter extends AbstractJsonToGeometryConverter {
+
+  private static final long serialVersionUID = 1L;
+
+  private final ObjectToCoordinateSequenceConverter coordinateSequenceConverter;
+
+  /**
+   * Instantiates a new json to polygon converter.
+   */
+  public JsonToPolygonConverter() {
+    this.coordinateSequenceConverter = new ObjectToCoordinateSequenceConverter(
+        new ObjectToCoordinateConverter());
+  }
+
+  /**
+   * Instantiates a new json to polygon converter.
+   *
+   * @param geometryFactory the geometry factory
+   * @param coordinateSequenceConverter the coordinate sequence converter
+   */
+  public JsonToPolygonConverter(
+      GeometryFactory geometryFactory,
+      ObjectToCoordinateSequenceConverter coordinateSequenceConverter) {
+
+    super(geometryFactory);
+    Assert.notNull(coordinateSequenceConverter, "Coordinate converter must be present.");
+    this.coordinateSequenceConverter = coordinateSequenceConverter;
+  }
+
+  /**
+   * Convert polygon.
+   *
+   * @param source the source
+   * @return the polygon
+   */
+  public Polygon convert(Map<String, Object> source) {
+    if (isEmpty(source)) {
+      return null;
+    }
+    Assert.isTrue(
+        source.get(JSON_TYPE_ATTRIBUTE).equals(JSON_TYPE_POLYGON),
+        String.format("Source is not a %s: %s", JSON_TYPE_POLYGON, source));
+    return convertCoordinates(source.get(JSON_COORDINATES_ATTRIBUTE_NAME));
+  }
+
+  /**
+   * Convert coordinates polygon.
+   *
+   * @param source the source
+   * @return the polygon
+   */
+  Polygon convertCoordinates(Object source) {
+    Polygon polygon;
+    if (isEmpty(source)) {
+      polygon = getGeometryFactory().createPolygon();
+    } else {
+      List<CoordinateSequence> list = new ArrayList<>();
+      //noinspection unchecked
+      for (Object coordinates : (List<Object>) source) {
+        list.add(coordinateSequenceConverter.convert(coordinates));
+      }
+      if (list.isEmpty()) {
+        polygon = getGeometryFactory().createPolygon();
+      } else if (list.size() == 1) {
+        polygon = getGeometryFactory().createPolygon(list.get(0));
+      } else {
+        GeometryFactory gf = getGeometryFactory();
+        LinearRing[] holes = new LinearRing[list.size() - 1];
+        for (int i = 1; i < list.size(); i++) {
+          holes[i - 1] = gf.createLinearRing(list.get(i));
+        }
+        polygon = gf.createPolygon(gf.createLinearRing(list.get(0)), holes);
+      }
+    }
+    return polygon;
+  }
+
+}

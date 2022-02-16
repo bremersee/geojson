@@ -16,11 +16,11 @@
 
 package org.bremersee.geojson;
 
+import static java.util.Objects.nonNull;
+
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import org.bremersee.geojson.utils.GeometryUtils;
+import java.util.Objects;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryCollection;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -52,19 +52,18 @@ public class GeoJsonFeatureCollection
    *     the bounding box will be <code>null</code>
    */
   public GeoJsonFeatureCollection(
-      final Collection<? extends GeoJsonFeature> features,
-      final boolean calculateBounds) {
+      Collection<? extends GeoJsonFeature> features,
+      boolean calculateBounds) {
 
-    if (features != null) {
+    if (nonNull(features)) {
       getFeatures().addAll(features);
       if (calculateBounds) {
-        List<Geometry> glist = new ArrayList<>();
-        for (GeoJsonFeature f : features) {
-          glist.add(f.getGeometry());
-        }
-        Geometry[] geometries = glist.toArray(new Geometry[0]);
+        Geometry[] geometries = features.stream()
+            .map(GeoJsonFeature::getGeometry)
+            .filter(Objects::nonNull)
+            .toArray(Geometry[]::new);
         GeometryCollection gc = new GeometryCollection(geometries, new GeometryFactory());
-        setBbox(GeometryUtils.getBoundingBox(gc));
+        setBbox(GeoJsonGeometryFactory.getBoundingBox(gc));
       }
     }
   }

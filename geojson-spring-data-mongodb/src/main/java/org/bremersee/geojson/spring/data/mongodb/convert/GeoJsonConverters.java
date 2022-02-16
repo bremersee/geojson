@@ -16,8 +16,9 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.springframework.core.convert.converter.Converter;
 
@@ -38,9 +39,9 @@ public abstract class GeoJsonConverters {
    * @return the converters to register
    */
   public static Collection<Converter<?, ?>> getConvertersToRegister(
-      final GeometryFactory geometryFactory) {
+      GeometryFactory geometryFactory) {
 
-    return Arrays.asList(
+    return List.of(
         new DocumentToGeometryCollectionConverter(geometryFactory),
         new DocumentToGeometryConverter(geometryFactory),
         new DocumentToLineStringConverter(geometryFactory),

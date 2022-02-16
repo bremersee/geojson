@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import org.bremersee.geojson.utils.GeometryUtils;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
@@ -35,6 +34,8 @@ import org.locationtech.jts.geom.Geometry;
  * @author Christian Bremer
  */
 class GeoJsonFeatureTest {
+
+  private static final GeoJsonGeometryFactory factory = new GeoJsonGeometryFactory();
 
   /**
    * Gets id.
@@ -67,7 +68,7 @@ class GeoJsonFeatureTest {
    */
   @Test
   void getGeometry() {
-    Geometry geometry = GeometryUtils.createLineString(Arrays.asList(
+    Geometry geometry = factory.createLineString(Arrays.asList(
         new Coordinate(1., 1.),
         new Coordinate(5., 1.),
         new Coordinate(6., 3.)));
@@ -82,7 +83,7 @@ class GeoJsonFeatureTest {
         model.toString(),
         new GeoJsonFeature(null, geometry, false, null).toString());
 
-    double[] bbox = GeometryUtils.getBoundingBox(geometry);
+    double[] bbox = GeoJsonGeometryFactory.getBoundingBox(geometry);
     model.setBbox(bbox);
     assertArrayEquals(bbox, model.getBbox());
     assertEquals(model, new GeoJsonFeature(null, geometry, true, null));

@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
-import org.bremersee.geojson.utils.GeometryUtils;
+import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.bson.Document;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Coordinate;
@@ -35,20 +35,21 @@ import org.locationtech.jts.geom.Polygon;
  */
 class PolygonConverterTest {
 
+  private static final GeoJsonGeometryFactory factory = new GeoJsonGeometryFactory();
+
   /**
    * Convert.
    */
   @Test
   void convert() {
-    LinearRing ring = GeometryUtils.createLinearRing(Arrays.asList(
+    LinearRing ring = factory.createLinearRing(Arrays.asList(
         new Coordinate(2., 3.),
         new Coordinate(6., 4.),
         new Coordinate(6., 8.),
         new Coordinate(2., 3.)));
-    Polygon model = GeometryUtils.createPolygon(ring);
+    Polygon model = factory.createPolygon(ring);
 
     PolygonToDocumentConverter toDocumentConverter = new PolygonToDocumentConverter();
-    assertNotNull(toDocumentConverter.getConvertHelper());
 
     Document document = toDocumentConverter.convert(model);
     assertNotNull(document);
@@ -57,13 +58,13 @@ class PolygonConverterTest {
 
     Polygon actual = toGeometryConverter.convert(document);
     assertNotNull(actual);
-    assertTrue(GeometryUtils.equals(model, actual));
+    assertTrue(GeoJsonGeometryFactory.equals(model, actual));
 
     DocumentToGeometryConverter converter = new DocumentToGeometryConverter();
     Geometry actualGeometry = converter.convert(document);
     assertNotNull(actualGeometry);
     assertTrue(actualGeometry instanceof Polygon);
-    assertTrue(GeometryUtils.equals(actual, actualGeometry));
+    assertTrue(GeoJsonGeometryFactory.equals(actual, actualGeometry));
   }
 
 }

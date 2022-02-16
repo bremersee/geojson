@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/DECORATION/1.8.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/DECORATION/1.8.0 http://maven.apache.org/xsd/decoration-1.8.0.xsd"
+	name="GeoJSON Model"
+	combine.self="override">
+	<skin>
+		<groupId>org.apache.maven.skins</groupId>
+		<artifactId>maven-fluido-skin</artifactId>
+		<version>1.7</version>
+	</skin>
+	<!--
+  <custom>
+      <fluidoSkin>
+          <topBarEnabled>true</topBarEnabled>
+          <sideBarEnabled>true</sideBarEnabled>
+      </fluidoSkin>
+  </custom>
+  -->
+	<bannerLeft>
+		<name>${project.name}</name>
+		<!-- <src>images/project.png</src> -->
+		<href>${project.url}</href>
+	</bannerLeft>
+	<!--
+  <bannerRight>
+      <src>images/company.png</src>
+      <href>${project.organization.url}</href>
+  </bannerRight>
+  -->
+	<!--suppress XmlDefaultAttributeValue -->
+	<version position="left"/>
+	<publishDate position="right" format="dd.MM.yyyy HH:mm:SS"/>
+	<poweredBy>
+		<logo img="#" alt=""/>
+	</poweredBy>
+	<body>
+		<!--
+    <head>
+        <![CDATA[<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />]]>
+    </head>
+    <links>
+        <item name="Apache" href="http://www.apache.org"/>
+        <item name="Maven" href="https://maven.apache.org"/>
+    </links>
+    -->
+		<menu name="Parent">
+			<item name="${project.parent.artifactId}" href="../index.html" />
+		</menu>
+		<menu ref="reports"/>
+		<footer><![CDATA[<p>&copy;${project.inceptionYear} ${project.organization.name}</p>]]></footer>
+	</body>
+</project>

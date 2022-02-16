@@ -19,6 +19,7 @@ package org.bremersee.geojson.spring.data.mongodb.convert;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Collection;
+import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.springframework.core.convert.converter.Converter;
@@ -36,7 +37,7 @@ class GeoJsonConvertersTest {
   @Test
   void getConvertersToRegister() {
     Collection<? extends Converter<?, ?>> converters = GeoJsonConverters
-        .getConvertersToRegister(new GeometryFactory());
+        .getConvertersToRegister(new GeoJsonGeometryFactory());
     assertNotNull(converters);
   }
 }

@@ -29,7 +29,8 @@ import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 import java.io.IOException;
 import java.io.Serializable;
-import org.bremersee.geojson.utils.GeometryUtils;
+import org.bremersee.geojson.converter.deserialization.JacksonGeometryDeserializer;
+import org.bremersee.geojson.converter.serialization.JacksonGeometrySerializer;
 import org.locationtech.jts.geom.Geometry;
 
 /**
@@ -65,7 +66,7 @@ public class GeometryWrapper implements Serializable, Cloneable {
    *
    * @param geometry the geometry
    */
-  public GeometryWrapper(final Geometry geometry) {
+  public GeometryWrapper(Geometry geometry) {
     setGeometry(geometry);
   }
 
@@ -83,7 +84,7 @@ public class GeometryWrapper implements Serializable, Cloneable {
    *
    * @param geometry the geometry
    */
-  public void setGeometry(final Geometry geometry) {
+  public void setGeometry(Geometry geometry) {
     this.geometry = geometry;
   }
 
@@ -94,14 +95,14 @@ public class GeometryWrapper implements Serializable, Cloneable {
 
   @Override
   public int hashCode() {
-    final int prime = 31;
+    int prime = 31;
     int result = 1;
     result = prime * result + ((geometry == null) ? 0 : geometry.hashCode());
     return result;
   }
 
   @Override
-  public boolean equals(final Object obj) {
+  public boolean equals(Object obj) {
     if (this == obj) {
       return true;
     }
@@ -115,7 +116,7 @@ public class GeometryWrapper implements Serializable, Cloneable {
     if (geometry == null) {
       return other.geometry == null;
     } else {
-      return GeometryUtils.equals(geometry, other.geometry);
+      return GeoJsonGeometryFactory.equals(geometry, other.geometry);
     }
   }
 
@@ -138,10 +139,10 @@ public class GeometryWrapper implements Serializable, Cloneable {
    */
   protected static class Serializer extends JsonSerializer<GeometryWrapper> {
 
-    private final GeometrySerializer geometrySerializer = new GeometrySerializer();
+    private final JacksonGeometrySerializer geometrySerializer = new JacksonGeometrySerializer();
 
     @Override
-    public void serializeWithType(final GeometryWrapper value, final JsonGenerator gen,
+    public void serializeWithType(GeometryWrapper value, final JsonGenerator gen,
         final SerializerProvider provider, final TypeSerializer typeSer)
         throws IOException {
 
@@ -168,7 +169,8 @@ public class GeometryWrapper implements Serializable, Cloneable {
    */
   protected static class Deserializer extends JsonDeserializer<GeometryWrapper> {
 
-    private final GeometryDeserializer geometryDeserializer = new GeometryDeserializer();
+    private final JacksonGeometryDeserializer geometryDeserializer
+        = new JacksonGeometryDeserializer();
 
     @Override
     public GeometryWrapper deserializeWithType(final JsonParser jp,

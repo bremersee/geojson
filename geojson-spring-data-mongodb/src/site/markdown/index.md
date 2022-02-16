@@ -13,7 +13,7 @@ public class PersistenceConfiguration {
   @Primary
   @Bean
   public MongoCustomConversions customConversions() {
-    final List<Object> converters = new ArrayList<>(
+    List<Object> converters = new ArrayList<>(
         GeoJsonConverters.getConvertersToRegister(null));
     // add more custom converters
     return new MongoCustomConversions(converters);

@@ -19,7 +19,6 @@ package org.bremersee.geojson;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-import org.bremersee.geojson.utils.GeometryUtils;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Geometry;
 
@@ -29,6 +28,8 @@ import org.locationtech.jts.geom.Geometry;
  * @author Christian Bremer
  */
 class GeometryWrapperTest {
+
+  private static final GeoJsonGeometryFactory factory = new GeoJsonGeometryFactory();
 
   /**
    * Gets geometry.
@@ -44,7 +45,7 @@ class GeometryWrapperTest {
     assertNotEquals(wrapper, null);
     assertNotEquals(wrapper, new Object());
 
-    Geometry geometry = GeometryUtils.createPoint(1., 2.);
+    Geometry geometry = factory.createPoint(1., 2.);
 
     assertNotEquals(wrapper, new GeometryWrapper(geometry));
 
@@ -64,7 +65,7 @@ class GeometryWrapperTest {
     GeometryWrapper clone = wrapper.clone();
     assertEquals(wrapper, clone);
 
-    wrapper = new GeometryWrapper(GeometryUtils.createPoint(2., 3.));
+    wrapper = new GeometryWrapper(factory.createPoint(2., 3.));
     clone = wrapper.clone();
     assertEquals(wrapper, clone);
   }

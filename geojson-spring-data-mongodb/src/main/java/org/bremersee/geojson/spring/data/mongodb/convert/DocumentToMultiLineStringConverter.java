@@ -16,13 +16,10 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
-import java.util.List;
-import org.bson.Document;
+import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.MultiLineString;
 import org.springframework.data.convert.ReadingConverter;
-import org.springframework.util.Assert;
-import org.springframework.util.ObjectUtils;
 
 /**
  * The document to multi line string converter.
@@ -37,7 +34,7 @@ class DocumentToMultiLineStringConverter
    * Instantiates a new document to multi line string converter.
    */
   DocumentToMultiLineStringConverter() {
-    this(null);
+    super();
   }
 
   /**
@@ -45,16 +42,8 @@ class DocumentToMultiLineStringConverter
    *
    * @param geometryFactory the geometry factory
    */
-  DocumentToMultiLineStringConverter(final GeometryFactory geometryFactory) {
+  DocumentToMultiLineStringConverter(GeometryFactory geometryFactory) {
     super(geometryFactory);
   }
 
-  @Override
-  MultiLineString doConvert(final Document document) {
-    Assert.isTrue(ObjectUtils.nullSafeEquals(document.get("type"), "MultiLineString"),
-        String.format("Cannot convert type '%s' to MultiLineString.", document.get("type")));
-    //noinspection unchecked
-    final List<Object> coordinates = (List<Object>) document.get("coordinates");
-    return getConvertHelper().createMultiLineString(coordinates);
-  }
 }

@@ -20,7 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
-import org.bremersee.geojson.utils.GeometryUtils;
+import java.util.List;
+import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.bson.Document;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Coordinate;
@@ -36,20 +37,21 @@ import org.locationtech.jts.geom.Point;
  */
 class GeometryCollectionConverterTest {
 
+  private static final GeoJsonGeometryFactory factory = new GeoJsonGeometryFactory();
+
   /**
    * Convert.
    */
   @Test
   void convert() {
-    Point model0 = GeometryUtils.createPoint(7., 8.);
-    LineString model1 = GeometryUtils.createLineString(Arrays.asList(
+    Point model0 = factory.createPoint(7., 8.);
+    LineString model1 = factory.createLineString(Arrays.asList(
         new Coordinate(2., 3.),
         new Coordinate(6., 7.)));
-    GeometryCollection model = GeometryUtils.createGeometryCollection(model0, model1);
+    GeometryCollection model = factory.createGeometryCollection(List.of(model0, model1));
 
     GeometryCollectionToDocumentConverter toDocumentConverter
         = new GeometryCollectionToDocumentConverter();
-    assertNotNull(toDocumentConverter.getConvertHelper());
 
     Document document = toDocumentConverter.convert(model);
     assertNotNull(document);
@@ -59,13 +61,13 @@ class GeometryCollectionConverterTest {
 
     GeometryCollection actual = toGeometryConverter.convert(document);
     assertNotNull(actual);
-    assertTrue(GeometryUtils.equals(model, actual));
+    assertTrue(GeoJsonGeometryFactory.equals(model, actual));
 
     DocumentToGeometryConverter converter = new DocumentToGeometryConverter();
     Geometry actualGeometry = converter.convert(document);
     assertNotNull(actualGeometry);
     assertTrue(actualGeometry instanceof GeometryCollection);
-    assertTrue(GeometryUtils.equals(actual, actualGeometry));
+    assertTrue(GeoJsonGeometryFactory.equals(actual, actualGeometry));
   }
 
 }

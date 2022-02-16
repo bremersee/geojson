@@ -16,6 +16,8 @@
 
 package org.bremersee.geojson;
 
+import static java.util.Objects.isNull;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -26,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import org.bremersee.common.model.UnknownAware;
+import org.bremersee.geojson.model.UnknownAware;
 
 /**
  * A GeoJSON object with the type {@code FeatureCollection} is a feature collection object (see
@@ -63,7 +65,7 @@ public abstract class AbstractGeoJsonFeatureCollection<F extends AbstractGeoJson
    */
   @JsonProperty("features")
   public List<F> getFeatures() {
-    if (features == null) {
+    if (isNull(features)) {
       features = new ArrayList<>();
     }
     return features;

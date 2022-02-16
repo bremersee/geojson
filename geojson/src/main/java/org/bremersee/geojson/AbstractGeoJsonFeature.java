@@ -16,6 +16,8 @@
 
 package org.bremersee.geojson;
 
+import static java.util.Objects.isNull;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -26,7 +28,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.Arrays;
 import java.util.Objects;
-import org.bremersee.common.model.UnknownAware;
+import org.bremersee.geojson.model.UnknownAware;
 
 /**
  * A GeoJSON object with the type {@code Feature} (see
@@ -107,7 +109,7 @@ public abstract class AbstractGeoJsonFeature<G, P> extends UnknownAware {
    */
   @JsonProperty("bbox")
   public void setBbox(double[] bbox) {
-    if (bbox == null || bbox.length == 4 || bbox.length == 6) {
+    if (isNull(bbox) || (bbox.length == 4) || (bbox.length == 6)) {
       this.bbox = bbox;
     } else {
       throw new IllegalArgumentException(
@@ -135,7 +137,7 @@ public abstract class AbstractGeoJsonFeature<G, P> extends UnknownAware {
    * @param properties the properties of this feature
    */
   @JsonProperty("properties")
-  public void setProperties(final P properties) {
+  public void setProperties(P properties) {
     this.properties = properties;
   }
 

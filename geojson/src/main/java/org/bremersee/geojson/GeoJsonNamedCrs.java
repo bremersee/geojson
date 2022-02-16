@@ -65,7 +65,7 @@ public class GeoJsonNamedCrs extends AbstractGeoJsonCrs {
    * @param crs the name
    */
   @JsonIgnore
-  public void setCrs(final String crs) {
+  public void setCrs(String crs) {
     if (crs == null || crs.trim().length() == 0) {
       getProperties().remove("name");
     } else {

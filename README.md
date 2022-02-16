@@ -9,7 +9,7 @@ The GeoJSON format is specified in [rfc7946](https://tools.ietf.org/html/rfc7946
 
 - [Release](https://bremersee.github.io/geojson/index.html)
 
-- [Snapshot](https://nexus.bremersee.org/repository/maven-sites/geojson/2.4.2-SNAPSHOT/index.html)
+- [Snapshot](https://nexus.bremersee.org/repository/maven-sites/geojson/2.5.0-SNAPSHOT/index.html)
 
 ### Usage
 
@@ -79,7 +79,7 @@ public class PersistenceConfiguration {
   @Primary
   @Bean
   public MongoCustomConversions customConversions() {
-    final List<Object> converters = new ArrayList<>(
+    List<Object> converters = new ArrayList<>(
         GeoJsonConverters.getConvertersToRegister(null));
     // add more custom converters
     return new MongoCustomConversions(converters);

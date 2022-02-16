@@ -16,6 +16,8 @@
 
 package org.bremersee.geojson;
 
+import static java.util.Objects.isNull;
+
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -26,6 +28,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import org.bremersee.geojson.converter.deserialization.JacksonGeometryDeserializer;
+import org.bremersee.geojson.converter.serialization.JacksonGeometrySerializer;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryCollection;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -65,7 +69,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
    * Default constructor.
    */
   public GeoJsonObjectMapperModule() {
-    this(null);
+    this(new GeometryFactory());
   }
 
   /**
@@ -73,7 +77,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
    *
    * @param geometryFactory the geometry factory
    */
-  public GeoJsonObjectMapperModule(final GeometryFactory geometryFactory) {
+  public GeoJsonObjectMapperModule(GeometryFactory geometryFactory) {
     super(TYPE_ID, getVersion(), getDeserializers(geometryFactory), getSerializers());
   }
 
@@ -82,7 +86,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
    *
    * @param objectMapper the object mapper
    */
-  public static void configure(final ObjectMapper objectMapper) {
+  public static void configure(ObjectMapper objectMapper) {
     configure(objectMapper, null);
   }
 
@@ -93,8 +97,8 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
    * @param geometryFactory the geometry factory
    */
   public static void configure(
-      final ObjectMapper objectMapper,
-      final GeometryFactory geometryFactory) {
+      ObjectMapper objectMapper,
+      GeometryFactory geometryFactory) {
     if (objectMapper != null) {
       objectMapper.registerModule(new GeoJsonObjectMapperModule(geometryFactory));
     }
@@ -102,10 +106,10 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
 
   private static Version getVersion() {
 
-    final int defaultMajor = 2;
-    final int defaultMinor = 0;
-    final int defaultPatchLevel = 8;
-    final String defaultSnapshotInfo = "SNAPSHOT";
+    int defaultMajor = 2;
+    int defaultMinor = 5;
+    int defaultPatchLevel = 0;
+    String defaultSnapshotInfo = "SNAPSHOT";
 
     int major = defaultMajor;
     int minor = defaultMinor;
@@ -138,23 +142,25 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
   }
 
   private static Map<Class<?>, JsonDeserializer<?>> getDeserializers(
-      final GeometryFactory geometryFactory) {
-    final GeometryFactory gf = geometryFactory == null ? new GeometryFactory() : geometryFactory;
+      GeometryFactory geometryFactory) {
+    GeometryFactory gf = isNull(geometryFactory)
+        ? new GeoJsonGeometryFactory()
+        : geometryFactory;
     HashMap<Class<?>, JsonDeserializer<?>> map = new HashMap<>();
-    map.put(Geometry.class, new GeometryDeserializer(gf));
-    map.put(Point.class, new GeometryDeserializer(gf));
-    map.put(LineString.class, new GeometryDeserializer(gf));
-    map.put(Polygon.class, new GeometryDeserializer(gf));
-    map.put(MultiPoint.class, new GeometryDeserializer(gf));
-    map.put(MultiLineString.class, new GeometryDeserializer(gf));
-    map.put(MultiPolygon.class, new GeometryDeserializer(gf));
-    map.put(GeometryCollection.class, new GeometryDeserializer(gf));
+    map.put(Geometry.class, new JacksonGeometryDeserializer(gf));
+    map.put(Point.class, new JacksonGeometryDeserializer(gf));
+    map.put(LineString.class, new JacksonGeometryDeserializer(gf));
+    map.put(Polygon.class, new JacksonGeometryDeserializer(gf));
+    map.put(MultiPoint.class, new JacksonGeometryDeserializer(gf));
+    map.put(MultiLineString.class, new JacksonGeometryDeserializer(gf));
+    map.put(MultiPolygon.class, new JacksonGeometryDeserializer(gf));
+    map.put(GeometryCollection.class, new JacksonGeometryDeserializer(gf));
     return map;
   }
 
   private static List<JsonSerializer<?>> getSerializers() {
     ArrayList<JsonSerializer<?>> list = new ArrayList<>();
-    list.add(new GeometrySerializer());
+    list.add(new JacksonGeometrySerializer());
     return list;
   }
 

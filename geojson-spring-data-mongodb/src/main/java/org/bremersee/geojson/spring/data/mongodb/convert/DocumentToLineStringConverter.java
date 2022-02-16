@@ -16,13 +16,10 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
-import java.util.List;
-import org.bson.Document;
+import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.LineString;
 import org.springframework.data.convert.ReadingConverter;
-import org.springframework.util.Assert;
-import org.springframework.util.ObjectUtils;
 
 /**
  * The document to line string converter.
@@ -36,7 +33,7 @@ class DocumentToLineStringConverter extends AbstractDocumentToGeometryConverter<
    * Instantiates a new document to line string converter.
    */
   DocumentToLineStringConverter() {
-    this(null);
+    super();
   }
 
   /**
@@ -44,16 +41,8 @@ class DocumentToLineStringConverter extends AbstractDocumentToGeometryConverter<
    *
    * @param geometryFactory the geometry factory
    */
-  DocumentToLineStringConverter(final GeometryFactory geometryFactory) {
+  DocumentToLineStringConverter(GeometryFactory geometryFactory) {
     super(geometryFactory);
   }
 
-  @Override
-  LineString doConvert(final Document document) {
-    Assert.isTrue(ObjectUtils.nullSafeEquals(document.get("type"), "LineString"),
-        String.format("Cannot convert type '%s' to LineString.", document.get("type")));
-    //noinspection unchecked
-    final List<Object> coordinates = (List<Object>) document.get("coordinates");
-    return getConvertHelper().createLineString(coordinates);
-  }
 }

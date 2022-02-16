@@ -16,11 +16,15 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
-import org.bremersee.geojson.utils.ConvertHelper;
+import static java.util.Objects.isNull;
+
+import org.bremersee.geojson.GeoJsonGeometryFactory;
+import org.bremersee.geojson.converter.deserialization.JsonToGeometryConverter;
 import org.bson.Document;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.lang.NonNull;
 
 /**
  * The abstract document to geometry converter.
@@ -31,14 +35,13 @@ import org.springframework.core.convert.converter.Converter;
 abstract class AbstractDocumentToGeometryConverter<G extends Geometry>
     implements Converter<Document, G> {
 
-  private final ConvertHelper convertHelper;
+  private final JsonToGeometryConverter geometryConverter;
 
   /**
    * Instantiates a new abstract document to geometry converter.
    */
-  @SuppressWarnings("unused")
   AbstractDocumentToGeometryConverter() {
-    this(null);
+    this(new GeometryFactory());
   }
 
   /**
@@ -46,33 +49,16 @@ abstract class AbstractDocumentToGeometryConverter<G extends Geometry>
    *
    * @param geometryFactory the geometry factory
    */
-  AbstractDocumentToGeometryConverter(final GeometryFactory geometryFactory) {
-    this.convertHelper = new ConvertHelper(geometryFactory, false);
+  AbstractDocumentToGeometryConverter(GeometryFactory geometryFactory) {
+    GeometryFactory gf = isNull(geometryFactory)
+        ? new GeoJsonGeometryFactory()
+        : geometryFactory;
+    geometryConverter = new JsonToGeometryConverter(gf);
   }
 
-  /**
-   * Gets convert helper.
-   *
-   * @return the convert helper
-   */
-  ConvertHelper getConvertHelper() {
-    return convertHelper;
+  public G convert(@NonNull Document document) {
+    //noinspection unchecked
+    return (G) geometryConverter.convert(document);
   }
-
-  @Override
-  public G convert(final Document document) {
-    if (!document.containsKey("type")) {
-      return null;
-    }
-    return doConvert(document);
-  }
-
-  /**
-   * Do convert the geometry.
-   *
-   * @param document the document
-   * @return the geometry
-   */
-  abstract G doConvert(Document document);
 
 }

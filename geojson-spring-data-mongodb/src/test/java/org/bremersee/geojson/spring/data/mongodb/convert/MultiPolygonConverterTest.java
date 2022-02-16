@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
-import org.bremersee.geojson.utils.GeometryUtils;
+import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.bson.Document;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Coordinate;
@@ -36,27 +36,28 @@ import org.locationtech.jts.geom.Polygon;
  */
 class MultiPolygonConverterTest {
 
+  private static final GeoJsonGeometryFactory factory = new GeoJsonGeometryFactory();
+
   /**
    * Convert.
    */
   @Test
   void convert() {
-    LinearRing ring0 = GeometryUtils.createLinearRing(Arrays.asList(
+    LinearRing ring0 = factory.createLinearRing(Arrays.asList(
         new Coordinate(2., 3.),
         new Coordinate(6., 4.),
         new Coordinate(6., 8.),
         new Coordinate(2., 3.)));
-    Polygon model0 = GeometryUtils.createPolygon(ring0);
-    LinearRing ring1 = GeometryUtils.createLinearRing(Arrays.asList(
+    Polygon model0 = factory.createPolygon(ring0);
+    LinearRing ring1 = factory.createLinearRing(Arrays.asList(
         new Coordinate(12., 13.),
         new Coordinate(16., 14.),
         new Coordinate(16., 18.),
         new Coordinate(12., 13.)));
-    Polygon model1 = GeometryUtils.createPolygon(ring1);
-    MultiPolygon model = GeometryUtils.createMultiPolygon(Arrays.asList(model0, model1));
+    Polygon model1 = factory.createPolygon(ring1);
+    MultiPolygon model = factory.createMultiPolygon(Arrays.asList(model0, model1));
 
     MultiPolygonToDocumentConverter toDocumentConverter = new MultiPolygonToDocumentConverter();
-    assertNotNull(toDocumentConverter.getConvertHelper());
 
     Document document = toDocumentConverter.convert(model);
     assertNotNull(document);
@@ -65,13 +66,13 @@ class MultiPolygonConverterTest {
 
     MultiPolygon actual = toGeometryConverter.convert(document);
     assertNotNull(actual);
-    assertTrue(GeometryUtils.equals(model, actual));
+    assertTrue(GeoJsonGeometryFactory.equals(model, actual));
 
     DocumentToGeometryConverter converter = new DocumentToGeometryConverter();
     Geometry actualGeometry = converter.convert(document);
     assertNotNull(actualGeometry);
     assertTrue(actualGeometry instanceof MultiPolygon);
-    assertTrue(GeometryUtils.equals(actual, actualGeometry));
+    assertTrue(GeoJsonGeometryFactory.equals(actual, actualGeometry));
   }
 
 }

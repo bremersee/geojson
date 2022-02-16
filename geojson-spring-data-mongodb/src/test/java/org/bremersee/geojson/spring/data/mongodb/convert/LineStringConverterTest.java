@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
-import org.bremersee.geojson.utils.GeometryUtils;
+import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.bson.Document;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Coordinate;
@@ -34,17 +34,18 @@ import org.locationtech.jts.geom.LineString;
  */
 class LineStringConverterTest {
 
+  private static final GeoJsonGeometryFactory factory = new GeoJsonGeometryFactory();
+
   /**
    * Convert.
    */
   @Test
   void convert() {
-    LineString model = GeometryUtils.createLineString(Arrays.asList(
+    LineString model = factory.createLineString(Arrays.asList(
         new Coordinate(2., 3.),
         new Coordinate(6., 7.)));
 
     LineStringToDocumentConverter toDocumentConverter = new LineStringToDocumentConverter();
-    assertNotNull(toDocumentConverter.getConvertHelper());
 
     Document document = toDocumentConverter.convert(model);
     assertNotNull(document);
@@ -53,13 +54,13 @@ class LineStringConverterTest {
 
     LineString actual = toGeometryConverter.convert(document);
     assertNotNull(actual);
-    assertTrue(GeometryUtils.equals(model, actual));
+    assertTrue(GeoJsonGeometryFactory.equals(model, actual));
 
     DocumentToGeometryConverter converter = new DocumentToGeometryConverter();
     Geometry actualGeometry = converter.convert(document);
     assertNotNull(actualGeometry);
     assertTrue(actualGeometry instanceof LineString);
-    assertTrue(GeometryUtils.equals(actual, actualGeometry));
+    assertTrue(GeoJsonGeometryFactory.equals(actual, actualGeometry));
   }
 
 }

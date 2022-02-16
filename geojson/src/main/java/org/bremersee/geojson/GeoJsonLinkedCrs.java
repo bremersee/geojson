@@ -60,7 +60,7 @@ public class GeoJsonLinkedCrs extends AbstractGeoJsonCrs {
    *
    * @param href the link to the coordinate reference system (CRS)
    */
-  public GeoJsonLinkedCrs(final String href) {
+  public GeoJsonLinkedCrs(String href) {
     setHref(href);
   }
 
@@ -70,7 +70,7 @@ public class GeoJsonLinkedCrs extends AbstractGeoJsonCrs {
    * @param href the link to the coordinate reference system (CRS)
    * @param type the type of the coordinate reference system (CRS)
    */
-  public GeoJsonLinkedCrs(final String href, final String type) {
+  public GeoJsonLinkedCrs(String href, String type) {
     setHref(href);
     setType(type);
   }
@@ -92,7 +92,7 @@ public class GeoJsonLinkedCrs extends AbstractGeoJsonCrs {
    * @param href the link to the coordinate reference system (CRS)
    */
   @JsonIgnore
-  public void setHref(final String href) {
+  public void setHref(String href) {
     if (href == null || href.trim().length() == 0) {
       getProperties().remove("href");
     } else {
@@ -117,7 +117,7 @@ public class GeoJsonLinkedCrs extends AbstractGeoJsonCrs {
    * @param type the type of the coordinate reference system (CRS)
    */
   @JsonIgnore
-  public void setType(final String type) {
+  public void setType(String type) {
     if (type == null || type.trim().length() == 0) {
       getProperties().remove("type");
     } else {

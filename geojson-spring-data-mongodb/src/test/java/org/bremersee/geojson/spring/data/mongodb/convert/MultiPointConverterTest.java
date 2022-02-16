@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
-import org.bremersee.geojson.utils.GeometryUtils;
+import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.bson.Document;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Geometry;
@@ -34,17 +34,18 @@ import org.locationtech.jts.geom.Point;
  */
 class MultiPointConverterTest {
 
+  private static final GeoJsonGeometryFactory factory = new GeoJsonGeometryFactory();
+
   /**
    * Convert.
    */
   @Test
   void convert() {
-    Point model0 = GeometryUtils.createPoint(7., 8.);
-    Point model1 = GeometryUtils.createPoint(17., 18.);
-    MultiPoint model = GeometryUtils.createMultiPoint(Arrays.asList(model0, model1));
+    Point model0 = factory.createPoint(7., 8.);
+    Point model1 = factory.createPoint(17., 18.);
+    MultiPoint model = factory.createMultiPoint(Arrays.asList(model0, model1));
 
     MultiPointToDocumentConverter toDocumentConverter = new MultiPointToDocumentConverter();
-    assertNotNull(toDocumentConverter.getConvertHelper());
 
     Document document = toDocumentConverter.convert(model);
     assertNotNull(document);
@@ -53,13 +54,13 @@ class MultiPointConverterTest {
 
     MultiPoint actual = toGeometryConverter.convert(document);
     assertNotNull(actual);
-    assertTrue(GeometryUtils.equals(model, actual));
+    assertTrue(GeoJsonGeometryFactory.equals(model, actual));
 
     DocumentToGeometryConverter converter = new DocumentToGeometryConverter();
     Geometry actualGeometry = converter.convert(document);
     assertNotNull(actualGeometry);
     assertTrue(actualGeometry instanceof MultiPoint);
-    assertTrue(GeometryUtils.equals(actual, actualGeometry));
+    assertTrue(GeoJsonGeometryFactory.equals(actual, actualGeometry));
   }
 
 }

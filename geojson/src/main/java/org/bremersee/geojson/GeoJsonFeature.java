@@ -23,7 +23,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import org.bremersee.geojson.utils.GeometryUtils;
+import org.bremersee.geojson.converter.deserialization.JacksonGeometryDeserializer;
+import org.bremersee.geojson.converter.serialization.JacksonGeometrySerializer;
 import org.locationtech.jts.geom.Geometry;
 
 /**
@@ -61,17 +62,17 @@ public class GeoJsonFeature extends AbstractGeoJsonFeature<Geometry, Map<String,
    * @param properties a map with named objects that are associated with the GeoJSON feature
    */
   public GeoJsonFeature(
-      final String id,
-      final Geometry geometry,
-      final boolean calculateBounds,
-      final Map<String, Object> properties) {
+      String id,
+      Geometry geometry,
+      boolean calculateBounds,
+      Map<String, Object> properties) {
 
     if (id != null && id.trim().length() > 0) {
       setId(id);
     }
     setGeometry(geometry);
     if (calculateBounds && geometry != null) {
-      setBbox(GeometryUtils.getBoundingBox(geometry));
+      setBbox(GeoJsonGeometryFactory.getBoundingBox(geometry));
     }
     if (properties != null) {
       getProperties().putAll(properties);
@@ -89,16 +90,16 @@ public class GeoJsonFeature extends AbstractGeoJsonFeature<Geometry, Map<String,
   }
 
   @Schema(description = "GeoJSON", implementation = org.bremersee.geojson.model.Geometry.class)
-  @JsonSerialize(using = GeometrySerializer.class)
+  @JsonSerialize(using = JacksonGeometrySerializer.class)
   @Override
   public Geometry getGeometry() {
     return geometry;
   }
 
   @Schema(description = "GeoJSON", implementation = org.bremersee.geojson.model.Geometry.class)
-  @JsonDeserialize(using = GeometryDeserializer.class)
+  @JsonDeserialize(using = JacksonGeometryDeserializer.class)
   @Override
-  public void setGeometry(final Geometry geometry) {
+  public void setGeometry(Geometry geometry) {
     this.geometry = geometry;
   }
 
@@ -111,11 +112,11 @@ public class GeoJsonFeature extends AbstractGeoJsonFeature<Geometry, Map<String,
   }
 
   @Override
-  protected boolean equals(final Geometry g1, final Object g2) {
+  protected boolean equals(Geometry g1, Object g2) {
     if (g1 == g2) {
       return true;
     } else if (g1 != null && g2 instanceof Geometry) {
-      return GeometryUtils.equals(g1, (Geometry) g2);
+      return GeoJsonGeometryFactory.equals(g1, (Geometry) g2);
     } else {
       return false;
     }

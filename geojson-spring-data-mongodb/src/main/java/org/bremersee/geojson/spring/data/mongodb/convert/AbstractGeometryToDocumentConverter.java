@@ -16,7 +16,7 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
-import org.bremersee.geojson.utils.ConvertHelper;
+import org.bremersee.geojson.converter.serialization.GeometryToJsonConverter;
 import org.bson.Document;
 import org.locationtech.jts.geom.Geometry;
 import org.springframework.core.convert.converter.Converter;
@@ -31,21 +31,12 @@ import org.springframework.lang.NonNull;
 abstract class AbstractGeometryToDocumentConverter<G extends Geometry>
     implements Converter<G, Document> {
 
-  private final ConvertHelper convertHelper = new ConvertHelper();
-
-  /**
-   * Gets convert helper.
-   *
-   * @return the convert helper
-   */
-  ConvertHelper getConvertHelper() {
-    return convertHelper;
-  }
+  private final GeometryToJsonConverter geometryToJsonConverter = new GeometryToJsonConverter();
 
   @Override
   public Document convert(@NonNull G geometry) {
-    final Document document = new Document();
-    document.putAll(getConvertHelper().create(geometry));
+    Document document = new Document();
+    document.putAll(geometryToJsonConverter.convert(geometry));
     return document;
   }
 
