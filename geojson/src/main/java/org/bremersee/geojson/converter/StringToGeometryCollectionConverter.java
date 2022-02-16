@@ -16,29 +16,26 @@
 
 package org.bremersee.geojson.converter;
 
-import java.util.List;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
+import org.locationtech.jts.geom.GeometryCollection;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.lang.NonNull;
 
 /**
  * @author Christian Bremer
  */
-public abstract class GeometryConverters {
+public class StringToGeometryCollectionConverter extends AbstractStringToGeometryConverter
+    implements Converter<String, GeometryCollection> {
 
-  public static List<Converter<?, ?>> getConvertersToRegister(
-      GeoJsonGeometryFactory geometryFactory) {
-
-    return List.of(
-        new GeometryToStringConverter(),
-        new StringToPointConverter(geometryFactory),
-        new StringToLineStringConverter(geometryFactory),
-        new StringToPolygonConverter(geometryFactory),
-        new StringToMultiPointConverter(geometryFactory),
-        new StringToMultiLineStringConverter(geometryFactory),
-        new StringToMultiPolygonConverter(geometryFactory),
-        new StringToGeometryCollectionConverter(geometryFactory),
-        new StringToGeometryConverter(geometryFactory)
-    );
+  public StringToGeometryCollectionConverter() {
   }
 
+  public StringToGeometryCollectionConverter(GeoJsonGeometryFactory geometryFactory) {
+    super(geometryFactory);
+  }
+
+  @Override
+  public GeometryCollection convert(@NonNull String source) {
+    return (GeometryCollection) getGeometryFactory().createGeometryFromWellKnownText(source);
+  }
 }

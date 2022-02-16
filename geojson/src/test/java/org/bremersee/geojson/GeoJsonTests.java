@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -33,6 +34,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -438,12 +440,12 @@ class GeoJsonTests {
     GeometryCollection geometry = new GeometryCollection(
         new Geometry[]{createLineString(), createMultiLineString()}, getGeometryFactory());
 
-    GeoJsonFeature f = new GeoJsonFeature();
-    f.setGeometry(geometry);
-    f.setBbox(GeoJsonGeometryFactory.getBoundingBox(geometry));
+    GeoJsonFeature<GeometryCollection, Map<String, Object>> f = new GeoJsonFeature<>(
+        "100",
+        GeoJsonGeometryFactory.getBoundingBox(geometry),
+        geometry,
+        Map.of("myKey", "myValue"));
     f.unknown("crs", new GeoJsonNamedCrs("urn:ogc:def:crs:OGC:1.3:CRS84"));
-    f.setId("100");
-    f.getProperties().put("myKey", "myValue");
 
     System.out.println("Testing " + f);
 
@@ -451,7 +453,10 @@ class GeoJsonTests {
 
     System.out.println(json);
 
-    GeoJsonFeature readF = getObjectMapper().readValue(json, GeoJsonFeature.class);
+    GeoJsonFeature<Geometry, Object> readF = getObjectMapper()
+        .readValue(
+            json,
+            new TypeReference<GeoJsonFeature<Geometry, Object>>() {});
 
     System.out
         .println(getObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(readF));
@@ -465,7 +470,7 @@ class GeoJsonTests {
    * Test geo json feature collection.
    *
    * @throws Exception the exception
-   */
+   *
   @Test
   void testGeoJsonFeatureCollection() throws Exception {
     GeometryCollection geometry = new GeometryCollection(

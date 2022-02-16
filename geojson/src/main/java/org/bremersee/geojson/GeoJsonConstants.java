@@ -50,9 +50,26 @@ public abstract class GeoJsonConstants {
   );
 
 
+  public static final String JSON_TYPE_FEATURE = "Feature";
+
   public static final String JSON_COORDINATES_ATTRIBUTE_NAME = "coordinates";
 
   public static final String JSON_GEOMETRIES_ATTRIBUTE_NAME = "geometries";
+
+  public static final String JSON_FEATURE_ID_ATTRIBUTE_NAME = "id";
+
+  public static final String JSON_FEATURE_BOUNDING_BOX_ATTRIBUTE_NAME = "bbox";
+
+  public static final String JSON_FEATURE_GEOMETRY_ATTRIBUTE_NAME = "geometry";
+
+  public static final String JSON_FEATURE_PROPERTIES_ATTRIBUTE_NAME = "properties";
+
+
+  public static final String JSON_TYPE_FEATURE_COLLECTION = "FeatureCollection";
+
+  public static final String JSON_FEATURE_COLLECTION_BOUNDING_BOX_ATTRIBUTE_NAME = "bbox";
+
+  public static final String JSON_FEATURE_COLLECTION_ATTRIBUTE_NAME = "features";
 
 
   /**

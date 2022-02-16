@@ -39,7 +39,7 @@ class GeoJsonFeatureTest {
 
   /**
    * Gets id.
-   */
+   *
   @Test
   void getId() {
     GeoJsonFeature model = new GeoJsonFeature();
@@ -65,7 +65,7 @@ class GeoJsonFeatureTest {
 
   /**
    * Gets geometry.
-   */
+   *
   @Test
   void getGeometry() {
     Geometry geometry = factory.createLineString(Arrays.asList(
@@ -97,7 +97,7 @@ class GeoJsonFeatureTest {
 
   /**
    * Gets properties.
-   */
+   *
   @Test
   void getProperties() {
     GeoJsonFeature model = new GeoJsonFeature();
@@ -121,4 +121,5 @@ class GeoJsonFeatureTest {
         model.toString(),
         new GeoJsonFeature(null, null, false, Collections.singletonMap("key", "value")).toString());
   }
+  */
 }

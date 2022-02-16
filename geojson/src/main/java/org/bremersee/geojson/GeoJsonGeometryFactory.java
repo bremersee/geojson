@@ -316,7 +316,7 @@ public class GeoJsonGeometryFactory extends GeometryFactory {
    * @return {@code null} if the bounding box can not be calculated, otherwise the bounding box
    */
   public static double[] getBoundingBox(Collection<? extends Geometry> geometries) {
-    if (geometries == null || geometries.isEmpty()) {
+    if (isEmpty(geometries)) {
       return null;
     }
     double minX = Double.NaN;
