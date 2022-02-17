@@ -33,7 +33,8 @@ class PolygonToJsonConverter extends AbstractGeometryToJsonConverter<Polygon> {
 
   final CoordinateSequenceToListConverter coordinateSequenceConverter;
 
-  PolygonToJsonConverter(CoordinateSequenceToListConverter coordinateSequenceConverter) {
+  PolygonToJsonConverter(CoordinateSequenceToListConverter coordinateSequenceConverter, boolean withBoundingBox) {
+    super(withBoundingBox);
     Assert.notNull(coordinateSequenceConverter, "Coordinate sequence converter must be present.");
     this.coordinateSequenceConverter = coordinateSequenceConverter;
   }

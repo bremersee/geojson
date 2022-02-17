@@ -15,6 +15,6 @@
  */
 
 /**
- * The package contains a general GeoJSON model.
+ * The package contains a simple GeoJSON model.
  */
 package org.bremersee.geojson.model;

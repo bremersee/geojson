@@ -11,9 +11,9 @@
 
   <artifactId>geojson</artifactId>
 
-  <name>GeoJSON</name>
+  <name>GeoJSON for JTS Topology Suite</name>
   <description>
-    This project contains classes for reading and writing GeoJSON with the Jackson JSON Processor.
+    This project contains GeoJSON for the JTS Topology Suite.
   </description>
 
   <developers>

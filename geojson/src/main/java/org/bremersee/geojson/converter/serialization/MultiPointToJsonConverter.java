@@ -34,7 +34,8 @@ class MultiPointToJsonConverter extends AbstractGeometryToJsonConverter<MultiPoi
 
   private final PointToJsonConverter pointConverter;
 
-  MultiPointToJsonConverter(PointToJsonConverter pointConverter) {
+  MultiPointToJsonConverter(PointToJsonConverter pointConverter, boolean withBoundingBox) {
+    super(withBoundingBox);
     Assert.notNull(pointConverter, "Point converter must be present.");
     this.pointConverter = pointConverter;
   }

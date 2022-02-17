@@ -30,6 +30,7 @@ import org.springframework.lang.NonNull;
 /**
  * @author Christian Bremer
  */
+@SuppressWarnings("SameNameButDifferent")
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 class CoordinateSequenceToListConverter implements Serializable {
 

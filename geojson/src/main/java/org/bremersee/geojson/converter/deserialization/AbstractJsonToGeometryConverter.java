@@ -16,8 +16,6 @@
 
 package org.bremersee.geojson.converter.deserialization;
 
-import static java.util.Objects.isNull;
-
 import java.io.Serializable;
 import org.locationtech.jts.geom.GeometryFactory;
 
@@ -30,15 +28,8 @@ abstract class AbstractJsonToGeometryConverter implements Serializable {
 
   private final GeometryFactory geometryFactory;
 
-  AbstractJsonToGeometryConverter() {
-    this(new GeometryFactory());
-  }
-
   AbstractJsonToGeometryConverter(GeometryFactory geometryFactory) {
-    GeometryFactory gf = isNull(geometryFactory)
-        ? new GeometryFactory()
-        : geometryFactory;
-    this.geometryFactory = gf;
+    this.geometryFactory = geometryFactory;
   }
 
   GeometryFactory getGeometryFactory() {

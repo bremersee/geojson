@@ -30,7 +30,8 @@ class PointToJsonConverter extends AbstractGeometryToJsonConverter<Point> {
 
   final CoordinateToListConverter coordinateConverter;
 
-  PointToJsonConverter(CoordinateToListConverter coordinateConverter) {
+  PointToJsonConverter(CoordinateToListConverter coordinateConverter, boolean withBoundingBox) {
+    super(withBoundingBox);
     Assert.notNull(coordinateConverter, "Coordinate converter must be present.");
     this.coordinateConverter = coordinateConverter;
   }

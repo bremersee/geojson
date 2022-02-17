@@ -18,15 +18,20 @@ package org.bremersee.geojson.converter.serialization;
 
 import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableMap;
+import static org.bremersee.geojson.GeoJsonConstants.BBOX;
 import static org.bremersee.geojson.GeoJsonConstants.GEOMETRIES;
-import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 import static org.bremersee.geojson.GeoJsonConstants.GEOMETRY_COLLECTION;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryCollection;
 import org.locationtech.jts.geom.LineString;
@@ -58,22 +63,30 @@ public class GeometryToJsonConverter
 
   private final MultiPolygonToJsonConverter multiPolygonConverter;
 
+  private final boolean withBoundingBox;
+
   public GeometryToJsonConverter() {
-    this(false);
+    this(false, false);
   }
 
-  public GeometryToJsonConverter(boolean useBigDecimal) {
+  public GeometryToJsonConverter(boolean withBoundingBox, boolean useBigDecimal) {
     CoordinateToListConverter coordinateConverter = new CoordinateToListConverter(useBigDecimal);
     CoordinateSequenceToListConverter coordinateSequenceConverter
         = new CoordinateSequenceToListConverter(coordinateConverter);
 
-    pointConverter = new PointToJsonConverter(coordinateConverter);
-    lineStringConverter = new LineStringToJsonConverter(coordinateSequenceConverter);
-    polygonConverter = new PolygonToJsonConverter(coordinateSequenceConverter);
+    pointConverter = new PointToJsonConverter(coordinateConverter, withBoundingBox);
+    lineStringConverter = new LineStringToJsonConverter(
+        coordinateSequenceConverter,
+        withBoundingBox);
+    polygonConverter = new PolygonToJsonConverter(coordinateSequenceConverter, withBoundingBox);
 
-    multiPointConverter = new MultiPointToJsonConverter(pointConverter);
-    multiLineStringConverter = new MultiLineStringToJsonConverter(lineStringConverter);
-    multiPolygonConverter = new MultiPolygonToJsonConverter(polygonConverter);
+    multiPointConverter = new MultiPointToJsonConverter(pointConverter, withBoundingBox);
+    multiLineStringConverter = new MultiLineStringToJsonConverter(
+        lineStringConverter,
+        withBoundingBox);
+    multiPolygonConverter = new MultiPolygonToJsonConverter(polygonConverter, withBoundingBox);
+
+    this.withBoundingBox = withBoundingBox;
   }
 
   @Override
@@ -109,6 +122,11 @@ public class GeometryToJsonConverter
       }
       Map<String, Object> map = new LinkedHashMap<>();
       map.put(TYPE, GEOMETRY_COLLECTION);
+      if (withBoundingBox) {
+        Optional.ofNullable(GeoJsonGeometryFactory.getBoundingBox(source))
+            .map(bbox -> Arrays.stream(bbox).boxed().collect(Collectors.toList()))
+            .ifPresent(bbox -> map.put(BBOX, bbox));
+      }
       map.put(GEOMETRIES, unmodifiableList(geometries));
       return unmodifiableMap(map);
     }

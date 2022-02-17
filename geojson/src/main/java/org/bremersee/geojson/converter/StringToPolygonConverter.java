@@ -16,6 +16,7 @@
 
 package org.bremersee.geojson.converter;
 
+import lombok.NoArgsConstructor;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.locationtech.jts.geom.Polygon;
 import org.springframework.core.convert.converter.Converter;
@@ -24,11 +25,10 @@ import org.springframework.lang.NonNull;
 /**
  * @author Christian Bremer
  */
+@SuppressWarnings("SameNameButDifferent")
+@NoArgsConstructor
 public class StringToPolygonConverter extends AbstractStringToGeometryConverter
     implements Converter<String, Polygon> {
-
-  public StringToPolygonConverter() {
-  }
 
   public StringToPolygonConverter(GeoJsonGeometryFactory geometryFactory) {
     super(geometryFactory);

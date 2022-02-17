@@ -17,8 +17,8 @@
 package org.bremersee.geojson.converter.deserialization;
 
 import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
-import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 import static org.bremersee.geojson.GeoJsonConstants.MULTI_POLYGON;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.List;
@@ -33,7 +33,7 @@ import org.springframework.util.Assert;
  *
  * @author Christian Bremer
  */
-public class JsonToMultiPolygonConverter extends AbstractJsonToGeometryConverter {
+class JsonToMultiPolygonConverter extends AbstractJsonToGeometryConverter {
 
   private static final long serialVersionUID = 1L;
 
@@ -41,18 +41,11 @@ public class JsonToMultiPolygonConverter extends AbstractJsonToGeometryConverter
 
   /**
    * Instantiates a new json to multi polygon converter.
-   */
-  public JsonToMultiPolygonConverter() {
-    this.polygonConverter = new JsonToPolygonConverter();
-  }
-
-  /**
-   * Instantiates a new json to multi polygon converter.
    *
    * @param geometryFactory the geometry factory
    * @param polygonConverter the polygon converter
    */
-  public JsonToMultiPolygonConverter(
+  JsonToMultiPolygonConverter(
       GeometryFactory geometryFactory,
       JsonToPolygonConverter polygonConverter) {
 
@@ -67,10 +60,7 @@ public class JsonToMultiPolygonConverter extends AbstractJsonToGeometryConverter
    * @param source the source
    * @return the multi polygon
    */
-  public MultiPolygon convert(Map<String, Object> source) {
-    if (isEmpty(source)) {
-      return null;
-    }
+  MultiPolygon convert(Map<String, Object> source) {
     Assert.isTrue(
         source.get(TYPE).equals(MULTI_POLYGON),
         String.format("Source is not a %s: %s", MULTI_POLYGON, source));

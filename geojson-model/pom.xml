@@ -12,7 +12,7 @@
 
   <artifactId>geojson-model</artifactId>
 
-  <name>GeoJSON Model</name>
+  <name>GeoJSON Simple Model</name>
   <description>
     This project contains simple classes for reading and writing GeoJSON with the Jackson JSON
     Processor.

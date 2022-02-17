@@ -17,8 +17,8 @@
 package org.bremersee.geojson.converter.deserialization;
 
 import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
-import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 import static org.bremersee.geojson.GeoJsonConstants.MULTI_POINT;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.List;
@@ -33,7 +33,7 @@ import org.springframework.util.Assert;
  *
  * @author Christian Bremer
  */
-public class JsonToMultiPointConverter extends AbstractJsonToGeometryConverter {
+class JsonToMultiPointConverter extends AbstractJsonToGeometryConverter {
 
   private static final long serialVersionUID = 1L;
 
@@ -41,18 +41,11 @@ public class JsonToMultiPointConverter extends AbstractJsonToGeometryConverter {
 
   /**
    * Instantiates a new json to multi point converter.
-   */
-  public JsonToMultiPointConverter() {
-    this.pointConverter = new JsonToPointConverter();
-  }
-
-  /**
-   * Instantiates a new json to multi point converter.
    *
    * @param geometryFactory the geometry factory
    * @param pointConverter the point converter
    */
-  public JsonToMultiPointConverter(
+  JsonToMultiPointConverter(
       GeometryFactory geometryFactory,
       JsonToPointConverter pointConverter) {
 
@@ -67,10 +60,7 @@ public class JsonToMultiPointConverter extends AbstractJsonToGeometryConverter {
    * @param source the source
    * @return the multi point
    */
-  public MultiPoint convert(Map<String, Object> source) {
-    if (isEmpty(source)) {
-      return null;
-    }
+  MultiPoint convert(Map<String, Object> source) {
     Assert.isTrue(
         source.get(TYPE).equals(MULTI_POINT),
         String.format("Source is not a %s: %s", MULTI_POINT, source));

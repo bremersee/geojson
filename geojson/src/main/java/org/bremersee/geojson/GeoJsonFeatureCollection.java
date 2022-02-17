@@ -17,10 +17,10 @@
 package org.bremersee.geojson;
 
 import static java.util.Objects.isNull;
-import static org.bremersee.geojson.GeoJsonConstants.FEATURES;
 import static org.bremersee.geojson.GeoJsonConstants.BBOX;
-import static org.bremersee.geojson.GeoJsonConstants.TYPE;
+import static org.bremersee.geojson.GeoJsonConstants.FEATURES;
 import static org.bremersee.geojson.GeoJsonConstants.FEATURE_COLLECTION;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;

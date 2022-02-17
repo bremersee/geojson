@@ -16,6 +16,7 @@
 
 package org.bremersee.geojson.converter;
 
+import lombok.NoArgsConstructor;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.springframework.core.convert.converter.Converter;
@@ -24,11 +25,10 @@ import org.springframework.lang.NonNull;
 /**
  * @author Christian Bremer
  */
+@SuppressWarnings("SameNameButDifferent")
+@NoArgsConstructor
 public class StringToPointConverter extends AbstractStringToGeometryConverter
     implements Converter<String, Point> {
-
-  public StringToPointConverter() {
-  }
 
   public StringToPointConverter(GeoJsonGeometryFactory geometryFactory) {
     super(geometryFactory);

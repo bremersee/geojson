@@ -34,7 +34,8 @@ class MultiLineStringToJsonConverter extends AbstractGeometryToJsonConverter<Mul
 
   private final LineStringToJsonConverter lineStringConverter;
 
-  MultiLineStringToJsonConverter(LineStringToJsonConverter lineStringConverter) {
+  MultiLineStringToJsonConverter(LineStringToJsonConverter lineStringConverter, boolean withBoundingBox) {
+    super(withBoundingBox);
     Assert.notNull(lineStringConverter, "Line string converter must not be present.");
     this.lineStringConverter = lineStringConverter;
   }

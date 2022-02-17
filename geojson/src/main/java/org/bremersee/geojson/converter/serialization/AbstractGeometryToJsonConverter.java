@@ -41,10 +41,6 @@ abstract class AbstractGeometryToJsonConverter<S extends Geometry> implements Se
 
   private final boolean withBoundingBox;
 
-  AbstractGeometryToJsonConverter() {
-    this(false);
-  }
-
   AbstractGeometryToJsonConverter(boolean withBoundingBox) {
     this.withBoundingBox = withBoundingBox;
   }

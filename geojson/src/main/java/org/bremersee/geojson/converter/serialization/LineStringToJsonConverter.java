@@ -30,7 +30,8 @@ class LineStringToJsonConverter extends AbstractGeometryToJsonConverter<LineStri
 
   private final CoordinateSequenceToListConverter coordinateSequenceConverter;
 
-  LineStringToJsonConverter(CoordinateSequenceToListConverter coordinateSequenceConverter) {
+  LineStringToJsonConverter(CoordinateSequenceToListConverter coordinateSequenceConverter, boolean withBoundingBox) {
+    super(withBoundingBox);
     Assert.notNull(coordinateSequenceConverter, "Coordinate sequence converter must be present.");
     this.coordinateSequenceConverter = coordinateSequenceConverter;
   }

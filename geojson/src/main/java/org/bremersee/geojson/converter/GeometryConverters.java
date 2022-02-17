@@ -21,10 +21,18 @@ import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.springframework.core.convert.converter.Converter;
 
 /**
+ * The type Geometry converters.
+ *
  * @author Christian Bremer
  */
 public abstract class GeometryConverters {
 
+  /**
+   * Gets converters to register.
+   *
+   * @param geometryFactory the geometry factory
+   * @return the converters to register
+   */
   public static List<Converter<?, ?>> getConvertersToRegister(
       GeoJsonGeometryFactory geometryFactory) {
 

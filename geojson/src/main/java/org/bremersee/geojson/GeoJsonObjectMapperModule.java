@@ -21,7 +21,6 @@ import static java.util.Objects.isNull;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,47 +72,36 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
   }
 
   /**
-   * Constructs a module with the specified geometry factory.
+   * Instantiates a new geo json object mapper module.
    *
    * @param geometryFactory the geometry factory
    */
   public GeoJsonObjectMapperModule(GeometryFactory geometryFactory) {
-    this(geometryFactory, false);
+    this(geometryFactory, false, false);
   }
 
-  public GeoJsonObjectMapperModule(boolean withBoundingBox) {
-    this(new GeometryFactory(), false);
+  /**
+   * Instantiates a new geo json object mapper module.
+   *
+   * @param withBoundingBox with bounding box
+   */
+  public GeoJsonObjectMapperModule(boolean withBoundingBox, boolean useBigDecimal) {
+    this(new GeometryFactory(), withBoundingBox, useBigDecimal);
   }
 
-  public GeoJsonObjectMapperModule(GeometryFactory geometryFactory, boolean withBoundingBox) {
+  /**
+   * Instantiates a new geo json object mapper module.
+   *
+   * @param geometryFactory the geometry factory
+   * @param withBoundingBox the with bounding box
+   */
+  public GeoJsonObjectMapperModule(GeometryFactory geometryFactory, boolean withBoundingBox,
+      boolean useBigDecimal) {
     super(
         TYPE_ID,
         getVersion(),
         getDeserializers(geometryFactory),
-        getSerializers(withBoundingBox));
-  }
-
-  /**
-   * Registers this module to the object mapper.
-   *
-   * @param objectMapper the object mapper
-   */
-  public static void configure(ObjectMapper objectMapper) {
-    configure(objectMapper, null);
-  }
-
-  /**
-   * Registers this module to the object mapper.
-   *
-   * @param objectMapper the object mapper
-   * @param geometryFactory the geometry factory
-   */
-  public static void configure(
-      ObjectMapper objectMapper,
-      GeometryFactory geometryFactory) {
-    if (objectMapper != null) {
-      objectMapper.registerModule(new GeoJsonObjectMapperModule(geometryFactory));
-    }
+        getSerializers(withBoundingBox, useBigDecimal));
   }
 
   private static Version getVersion() {
@@ -155,6 +143,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
 
   private static Map<Class<?>, JsonDeserializer<?>> getDeserializers(
       GeometryFactory geometryFactory) {
+
     GeometryFactory gf = isNull(geometryFactory)
         ? new GeoJsonGeometryFactory()
         : geometryFactory;
@@ -170,9 +159,10 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
     return map;
   }
 
-  private static List<JsonSerializer<?>> getSerializers(boolean withBoundingBox) {
+  private static List<JsonSerializer<?>> getSerializers(boolean withBoundingBox,
+      boolean useBigDecimal) {
     ArrayList<JsonSerializer<?>> list = new ArrayList<>();
-    list.add(new JacksonGeometrySerializer(withBoundingBox));
+    list.add(new JacksonGeometrySerializer(withBoundingBox, useBigDecimal));
     return list;
   }
 

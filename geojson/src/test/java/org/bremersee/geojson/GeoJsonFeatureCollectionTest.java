@@ -16,93 +16,100 @@
 
 package org.bremersee.geojson;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.List;
+import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.Test;
-import org.locationtech.jts.geom.Coordinate;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.MultiPoint;
+import org.locationtech.jts.geom.Point;
 
 /**
  * The GeoJSON feature collection test.
  *
  * @author Christian Bremer
  */
+@ExtendWith(SoftAssertionsExtension.class)
 class GeoJsonFeatureCollectionTest {
 
   private static final GeoJsonGeometryFactory factory = new GeoJsonGeometryFactory();
 
   /**
-   * Gets features.
-   *
+   * Gets type.
+   */
   @Test
-  void getFeatures() {
-    GeoJsonFeatureCollection model = new GeoJsonFeatureCollection();
-    assertEquals(model, model);
-    assertEquals(model, new GeoJsonFeatureCollection());
-    assertEquals(model.hashCode(), new GeoJsonFeatureCollection().hashCode());
-    assertEquals(model.toString(), new GeoJsonFeatureCollection().toString());
-
-    assertNotEquals(model, null);
-    assertNotEquals(model, new Object());
-
-    Geometry g0 = factory.createLineString(Arrays.asList(
-        new Coordinate(1., 1.),
-        new Coordinate(5., 1.),
-        new Coordinate(6., 3.)));
-    GeoJsonFeature f0 = new GeoJsonFeature("f0", g0, true, Collections.singletonMap("k0", "v0"));
-
-    Geometry g1 = factory.createLineString(Arrays.asList(
-        new Coordinate(11., 21.),
-        new Coordinate(15., 21.),
-        new Coordinate(16., 23.)));
-    GeoJsonFeature f1 = new GeoJsonFeature("f1", g1, true, Collections.singletonMap("k1", "v1"));
-
-    model.setFeatures(Arrays.asList(f0, f1));
-    assertEquals(Arrays.asList(f0, f1), model.getFeatures());
-    assertEquals(model, new GeoJsonFeatureCollection(Arrays.asList(f0, f1), false));
-    assertEquals(
-        model.hashCode(),
-        new GeoJsonFeatureCollection(Arrays.asList(f0, f1), false).hashCode());
-    assertEquals(
-        model.toString(),
-        new GeoJsonFeatureCollection(Arrays.asList(f0, f1), false).toString());
+  void getType() {
+    GeoJsonFeatureCollection<Point, Object> model = new GeoJsonFeatureCollection<>(null, null);
+    assertThat(model.getType()).isEqualTo(GeoJsonConstants.FEATURE_COLLECTION);
   }
 
   /**
-   * Gets bbox.
+   * Gets bounding box.
    *
+   * @param softly the softly
+   */
   @Test
-  void getBbox() {
-    Geometry g0 = factory.createLineString(Arrays.asList(
-        new Coordinate(1., 1.),
-        new Coordinate(5., 1.),
-        new Coordinate(6., 3.)));
-    GeoJsonFeature f0 = new GeoJsonFeature("f0", g0, false, Collections.singletonMap("k0", "v0"));
+  void getBoundingBox(SoftAssertions softly) {
+    double[] value = new double[]{1., 1., 10., 10.};
+    GeoJsonFeatureCollection<Geometry, Object> model = new GeoJsonFeatureCollection<>(value, null);
 
-    Geometry g1 = factory.createLineString(Arrays.asList(
-        new Coordinate(11., 21.),
-        new Coordinate(15., 21.),
-        new Coordinate(16., 23.)));
-    GeoJsonFeature f1 = new GeoJsonFeature("f1", g1, false, Collections.singletonMap("k1", "v1"));
+    softly.assertThat(model.getBbox()).containsExactly(value);
 
-    double[] bbox = GeoJsonGeometryFactory.getBoundingBox(Arrays.asList(g0, g1));
-    GeoJsonFeatureCollection model = new GeoJsonFeatureCollection();
-    model.setFeatures(Arrays.asList(f0, f1));
-    model.setBbox(bbox);
-    assertArrayEquals(bbox, model.getBbox());
+    softly.assertThat(model)
+        .isEqualTo(model);
+    softly.assertThat(model.hashCode())
+        .isEqualTo(model.hashCode());
+    softly.assertThat(model)
+        .isNotEqualTo(null);
+    softly.assertThat(model)
+        .isNotEqualTo(new Object());
+    softly.assertThat(model.toString())
+        .contains(Arrays.toString(value));
 
-    assertEquals(model, new GeoJsonFeatureCollection(Arrays.asList(f0, f1), true));
-    assertEquals(
-        model.hashCode(),
-        new GeoJsonFeatureCollection(Arrays.asList(f0, f1), true).hashCode());
-    assertEquals(
-        model.toString(),
-        new GeoJsonFeatureCollection(Arrays.asList(f0, f1), true).toString());
+    MultiPoint multiPoint = factory.createMultiPoint(List.of(
+        factory.createPoint(1., 1.),
+        factory.createPoint(5, 5.)
+    ));
+    GeoJsonFeature<Geometry, Object> f0 = new GeoJsonFeature<>(null, multiPoint, false, null);
+    Point point = factory.createPoint(10., 10.);
+    GeoJsonFeature<Geometry, Object> f1 = new GeoJsonFeature<>(null, point, false, null);
+    model = new GeoJsonFeatureCollection<>(value, List.of(f0, f1));
+    softly.assertThat(model)
+        .isEqualTo(new GeoJsonFeatureCollection<>(List.of(f0, f1), true));
+
+    double[] illegal = new double[]{1., 1., 10.};
+    softly.assertThatThrownBy(() -> new GeoJsonFeatureCollection<>(illegal, null))
+        .isInstanceOf(IllegalArgumentException.class);
   }
-  */
+
+  /**
+   * Gets features.
+   *
+   * @param softly the softly
+   */
+  @Test
+  void getFeatures(SoftAssertions softly) {
+    Point point = factory.createPoint(10., 10.);
+    GeoJsonFeature<Geometry, Object> value = new GeoJsonFeature<>(null, point, false, null);
+    GeoJsonFeatureCollection<Geometry, Object> model = new GeoJsonFeatureCollection<>(
+        List.of(value), false);
+
+    softly.assertThat(model.getFeatures()).containsExactly(value);
+
+    softly.assertThat(model)
+        .isEqualTo(model);
+    softly.assertThat(model.hashCode())
+        .isEqualTo(model.hashCode());
+    softly.assertThat(model)
+        .isNotEqualTo(null);
+    softly.assertThat(model)
+        .isNotEqualTo(new Object());
+    softly.assertThat(model.toString())
+        .contains(value.toString());
+  }
 
 }

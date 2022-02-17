@@ -34,7 +34,8 @@ class MultiPolygonToJsonConverter extends AbstractGeometryToJsonConverter<MultiP
 
   private final PolygonToJsonConverter polygonConverter;
 
-  MultiPolygonToJsonConverter(PolygonToJsonConverter polygonConverter) {
+  MultiPolygonToJsonConverter(PolygonToJsonConverter polygonConverter, boolean withBoundingBox) {
+    super(withBoundingBox);
     Assert.notNull(polygonConverter, "Polygon converter must be present.");
     this.polygonConverter = polygonConverter;
   }

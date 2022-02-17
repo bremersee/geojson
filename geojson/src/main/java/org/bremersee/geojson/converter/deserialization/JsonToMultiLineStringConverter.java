@@ -17,8 +17,8 @@
 package org.bremersee.geojson.converter.deserialization;
 
 import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
-import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 import static org.bremersee.geojson.GeoJsonConstants.MULTI_LINESTRING;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.List;
@@ -41,18 +41,11 @@ public class JsonToMultiLineStringConverter extends AbstractJsonToGeometryConver
 
   /**
    * Instantiates a new json to multi line string converter.
-   */
-  public JsonToMultiLineStringConverter() {
-    this.lineStringConverter = new JsonToLineStringConverter();
-  }
-
-  /**
-   * Instantiates a new json to multi line string converter.
    *
    * @param geometryFactory the geometry factory
    * @param lineStringConverter the line string converter
    */
-  public JsonToMultiLineStringConverter(
+  JsonToMultiLineStringConverter(
       GeometryFactory geometryFactory,
       JsonToLineStringConverter lineStringConverter) {
 
@@ -67,10 +60,7 @@ public class JsonToMultiLineStringConverter extends AbstractJsonToGeometryConver
    * @param source the source
    * @return the multi line string
    */
-  public MultiLineString convert(Map<String, Object> source) {
-    if (isEmpty(source)) {
-      return null;
-    }
+  MultiLineString convert(Map<String, Object> source) {
     Assert.isTrue(
         source.get(TYPE).equals(MULTI_LINESTRING),
         String.format("Source is not a %s: %s", MULTI_LINESTRING, source));

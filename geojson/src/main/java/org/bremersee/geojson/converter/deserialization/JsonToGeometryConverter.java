@@ -17,7 +17,6 @@
 package org.bremersee.geojson.converter.deserialization;
 
 import static org.bremersee.geojson.GeoJsonConstants.GEOMETRIES;
-import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 import static org.bremersee.geojson.GeoJsonConstants.GEOMETRY_COLLECTION;
 import static org.bremersee.geojson.GeoJsonConstants.LINESTRING;
 import static org.bremersee.geojson.GeoJsonConstants.MULTI_LINESTRING;
@@ -25,6 +24,7 @@ import static org.bremersee.geojson.GeoJsonConstants.MULTI_POINT;
 import static org.bremersee.geojson.GeoJsonConstants.MULTI_POLYGON;
 import static org.bremersee.geojson.GeoJsonConstants.POINT;
 import static org.bremersee.geojson.GeoJsonConstants.POLYGON;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.List;
@@ -32,13 +32,16 @@ import java.util.Map;
 import java.util.Objects;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.lang.NonNull;
 
 /**
  * The json to geometry converter.
  *
  * @author Christian Bremer
  */
-public class JsonToGeometryConverter extends AbstractJsonToGeometryConverter {
+public class JsonToGeometryConverter extends AbstractJsonToGeometryConverter
+    implements Converter<Map<String, Object>, Geometry> {
 
   private static final long serialVersionUID = 1L;
 
@@ -90,16 +93,8 @@ public class JsonToGeometryConverter extends AbstractJsonToGeometryConverter {
         polygonConverter);
   }
 
-  /**
-   * Convert geometry.
-   *
-   * @param source the source
-   * @return the geometry
-   */
-  public Geometry convert(Map<String, Object> source) {
-    if (isEmpty(source)) {
-      return null;
-    }
+  @Override
+  public Geometry convert(@NonNull Map<String, Object> source) {
     String type = String.valueOf(source.get(TYPE));
     if (POINT.equals(type)) {
       return pointConverter.convert(source);

@@ -26,7 +26,7 @@ import org.springframework.util.Assert;
  *
  * @author Christian Bremer
  */
-public class ObjectToCoordinateConverter implements Serializable {
+class ObjectToCoordinateConverter implements Serializable {
 
   private static final long serialVersionUID = 1L;
 

@@ -37,12 +37,12 @@ public class JacksonGeometrySerializer extends StdSerializer<Geometry> {
    * Default constructor.
    */
   public JacksonGeometrySerializer() {
-    this(false);
+    this(false, false);
   }
 
-  public JacksonGeometrySerializer(boolean withBoundingBox) {
+  public JacksonGeometrySerializer(boolean withBoundingBox, boolean useBigDecimal) {
     super(Geometry.class, false);
-    this.converter = new GeometryToJsonConverter(withBoundingBox);
+    this.converter = new GeometryToJsonConverter(withBoundingBox, useBigDecimal);
   }
 
   @Override

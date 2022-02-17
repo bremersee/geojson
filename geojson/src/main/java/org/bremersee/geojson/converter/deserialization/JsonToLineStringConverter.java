@@ -17,9 +17,8 @@
 package org.bremersee.geojson.converter.deserialization;
 
 import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
-import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 import static org.bremersee.geojson.GeoJsonConstants.LINESTRING;
-import static org.springframework.util.ObjectUtils.isEmpty;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 
 import java.util.Map;
 import org.locationtech.jts.geom.CoordinateSequence;
@@ -32,7 +31,7 @@ import org.springframework.util.Assert;
  *
  * @author Christian Bremer
  */
-public class JsonToLineStringConverter extends AbstractJsonToGeometryConverter {
+class JsonToLineStringConverter extends AbstractJsonToGeometryConverter {
 
   private static final long serialVersionUID = 1L;
 
@@ -40,19 +39,11 @@ public class JsonToLineStringConverter extends AbstractJsonToGeometryConverter {
 
   /**
    * Instantiates a new json to line string converter.
-   */
-  public JsonToLineStringConverter() {
-    this.coordinateSequenceConverter = new ObjectToCoordinateSequenceConverter(
-        new ObjectToCoordinateConverter());
-  }
-
-  /**
-   * Instantiates a new json to line string converter.
    *
    * @param geometryFactory the geometry factory
    * @param coordinateSequenceConverter the coordinate sequence converter
    */
-  public JsonToLineStringConverter(
+  JsonToLineStringConverter(
       GeometryFactory geometryFactory,
       ObjectToCoordinateSequenceConverter coordinateSequenceConverter) {
 
@@ -67,10 +58,7 @@ public class JsonToLineStringConverter extends AbstractJsonToGeometryConverter {
    * @param source the source
    * @return the line string
    */
-  public LineString convert(Map<String, Object> source) {
-    if (isEmpty(source)) {
-      return null;
-    }
+  LineString convert(Map<String, Object> source) {
     Assert.isTrue(
         source.get(TYPE).equals(LINESTRING),
         String.format("Source is not a %s: %s", LINESTRING, source));

@@ -17,8 +17,8 @@
 package org.bremersee.geojson.converter.deserialization;
 
 import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
-import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 import static org.bremersee.geojson.GeoJsonConstants.POINT;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.Map;
@@ -32,7 +32,7 @@ import org.springframework.util.Assert;
  *
  * @author Christian Bremer
  */
-public class JsonToPointConverter extends AbstractJsonToGeometryConverter {
+class JsonToPointConverter extends AbstractJsonToGeometryConverter {
 
   private static final long serialVersionUID = 1L;
 
@@ -40,18 +40,11 @@ public class JsonToPointConverter extends AbstractJsonToGeometryConverter {
 
   /**
    * Instantiates a new json to point converter.
-   */
-  public JsonToPointConverter() {
-    this.coordinateConverter = new ObjectToCoordinateConverter();
-  }
-
-  /**
-   * Instantiates a new json to point converter.
    *
    * @param geometryFactory the geometry factory
    * @param coordinateConverter the coordinate converter
    */
-  public JsonToPointConverter(
+  JsonToPointConverter(
       GeometryFactory geometryFactory,
       ObjectToCoordinateConverter coordinateConverter) {
 
@@ -66,10 +59,7 @@ public class JsonToPointConverter extends AbstractJsonToGeometryConverter {
    * @param source the source
    * @return the point
    */
-  public Point convert(Map<String, Object> source) {
-    if (isEmpty(source)) {
-      return null;
-    }
+  Point convert(Map<String, Object> source) {
     Assert.isTrue(
         source.get(TYPE).equals(POINT),
         String.format("Source is not a %s: %s", POINT, source));

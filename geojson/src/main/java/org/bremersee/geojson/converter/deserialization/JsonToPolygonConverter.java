@@ -17,8 +17,8 @@
 package org.bremersee.geojson.converter.deserialization;
 
 import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
-import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 import static org.bremersee.geojson.GeoJsonConstants.POLYGON;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ import org.springframework.util.Assert;
  *
  * @author Christian Bremer
  */
-public class JsonToPolygonConverter extends AbstractJsonToGeometryConverter {
+class JsonToPolygonConverter extends AbstractJsonToGeometryConverter {
 
   private static final long serialVersionUID = 1L;
 
@@ -43,19 +43,11 @@ public class JsonToPolygonConverter extends AbstractJsonToGeometryConverter {
 
   /**
    * Instantiates a new json to polygon converter.
-   */
-  public JsonToPolygonConverter() {
-    this.coordinateSequenceConverter = new ObjectToCoordinateSequenceConverter(
-        new ObjectToCoordinateConverter());
-  }
-
-  /**
-   * Instantiates a new json to polygon converter.
    *
    * @param geometryFactory the geometry factory
    * @param coordinateSequenceConverter the coordinate sequence converter
    */
-  public JsonToPolygonConverter(
+  JsonToPolygonConverter(
       GeometryFactory geometryFactory,
       ObjectToCoordinateSequenceConverter coordinateSequenceConverter) {
 
@@ -70,10 +62,7 @@ public class JsonToPolygonConverter extends AbstractJsonToGeometryConverter {
    * @param source the source
    * @return the polygon
    */
-  public Polygon convert(Map<String, Object> source) {
-    if (isEmpty(source)) {
-      return null;
-    }
+  Polygon convert(Map<String, Object> source) {
     Assert.isTrue(
         source.get(TYPE).equals(POLYGON),
         String.format("Source is not a %s: %s", POLYGON, source));
