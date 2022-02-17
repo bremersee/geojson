@@ -18,12 +18,12 @@ package org.bremersee.geojson;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_FEATURE_BOUNDING_BOX_ATTRIBUTE_NAME;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_FEATURE_GEOMETRY_ATTRIBUTE_NAME;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_FEATURE_ID_ATTRIBUTE_NAME;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_FEATURE_PROPERTIES_ATTRIBUTE_NAME;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_ATTRIBUTE;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_FEATURE;
+import static org.bremersee.geojson.GeoJsonConstants.BBOX;
+import static org.bremersee.geojson.GeoJsonConstants.GEOMETRY;
+import static org.bremersee.geojson.GeoJsonConstants.ID;
+import static org.bremersee.geojson.GeoJsonConstants.PROPERTIES;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
+import static org.bremersee.geojson.GeoJsonConstants.FEATURE;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -54,19 +54,19 @@ public class GeoJsonFeature<G extends Geometry, P> extends UnknownAware {
 
   @Schema(description = "The id of the GeoJSON feature.")
   @JsonInclude(Include.NON_NULL)
-  @JsonProperty(JSON_FEATURE_ID_ATTRIBUTE_NAME)
+  @JsonProperty(ID)
   private final String id;
 
   @Schema(description = "The bounding box of the GeoJSON feature.")
   @JsonInclude(Include.NON_EMPTY)
-  @JsonProperty(JSON_FEATURE_BOUNDING_BOX_ATTRIBUTE_NAME)
+  @JsonProperty(BBOX)
   private final double[] bbox;
 
   @SuppressWarnings("DefaultAnnotationParam")
   @Schema(description = "GeoJSON", implementation = org.bremersee.geojson.model.Geometry.class)
   @JsonSerialize(using = JacksonGeometrySerializer.class)
   @JsonInclude(Include.ALWAYS)
-  @JsonProperty(JSON_FEATURE_GEOMETRY_ATTRIBUTE_NAME)
+  @JsonProperty(GEOMETRY)
   private final G geometry;
 
   @JsonIgnore
@@ -77,17 +77,17 @@ public class GeoJsonFeature<G extends Geometry, P> extends UnknownAware {
    */
   @JsonCreator
   GeoJsonFeature(
-      @JsonProperty(value = JSON_TYPE_ATTRIBUTE, required = true) String type,
-      @JsonProperty(JSON_FEATURE_ID_ATTRIBUTE_NAME) String id,
-      @JsonProperty(JSON_FEATURE_BOUNDING_BOX_ATTRIBUTE_NAME) double[] bbox,
-      @JsonProperty(JSON_FEATURE_GEOMETRY_ATTRIBUTE_NAME)
+      @JsonProperty(value = TYPE, required = true) String type,
+      @JsonProperty(ID) String id,
+      @JsonProperty(BBOX) double[] bbox,
+      @JsonProperty(GEOMETRY)
       @JsonDeserialize(using = JacksonGeometryDeserializer.class)
           G geometry,
-      @JsonProperty(JSON_FEATURE_PROPERTIES_ATTRIBUTE_NAME) P properties) {
+      @JsonProperty(PROPERTIES) P properties) {
 
     Assert.isTrue(
-        JSON_TYPE_FEATURE.equals(type),
-        String.format("Type must be '%s'.", JSON_TYPE_FEATURE));
+        FEATURE.equals(type),
+        String.format("Type must be '%s'.", FEATURE));
 
     this.id = id;
     if (isNull(bbox) || (bbox.length == 4) || (bbox.length == 6)) {
@@ -105,7 +105,7 @@ public class GeoJsonFeature<G extends Geometry, P> extends UnknownAware {
       double[] bbox,
       G geometry,
       P properties) {
-    this(JSON_TYPE_FEATURE, id, bbox, geometry, properties);
+    this(FEATURE, id, bbox, geometry, properties);
   }
 
   /**
@@ -124,17 +124,17 @@ public class GeoJsonFeature<G extends Geometry, P> extends UnknownAware {
       P properties) {
 
     this(
-        JSON_TYPE_FEATURE,
+        FEATURE,
         id,
         calculateBounds ? GeoJsonGeometryFactory.getBoundingBox(geometry) : null,
         geometry,
         properties);
   }
 
-  @Schema(description = "The feature type.", required = true, example = JSON_TYPE_FEATURE)
-  @JsonProperty(value = JSON_TYPE_ATTRIBUTE, required = true)
+  @Schema(description = "The feature type.", required = true, example = FEATURE)
+  @JsonProperty(value = TYPE, required = true)
   public final String getType() {
-    return JSON_TYPE_FEATURE;
+    return FEATURE;
   }
 
   /**
@@ -170,7 +170,7 @@ public class GeoJsonFeature<G extends Geometry, P> extends UnknownAware {
 
   @Schema(description = "The properties of the GeoJSON feature.")
   @JsonInclude(Include.NON_EMPTY)
-  @JsonProperty(JSON_FEATURE_PROPERTIES_ATTRIBUTE_NAME)
+  @JsonProperty(PROPERTIES)
   public P getProperties() {
     return properties;
   }

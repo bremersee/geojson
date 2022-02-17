@@ -17,7 +17,7 @@
 package org.bremersee.geojson.converter.serialization;
 
 import static java.util.Collections.unmodifiableList;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_POLYGON;
+import static org.bremersee.geojson.GeoJsonConstants.POLYGON;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +39,8 @@ class PolygonToJsonConverter extends AbstractGeometryToJsonConverter<Polygon> {
   }
 
   @Override
-  String getTypeAttributeValue() {
-    return JSON_TYPE_POLYGON;
+  String getGeometryType() {
+    return POLYGON;
   }
 
   @Override

@@ -16,8 +16,8 @@
 
 package org.bremersee.geojson.converter.deserialization;
 
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_ATTRIBUTE;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_GEOMETRY_COLLECTION;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
+import static org.bremersee.geojson.GeoJsonConstants.GEOMETRY_COLLECTION;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.Map;
@@ -65,8 +65,8 @@ public class JsonToGeometryCollectionConverter extends AbstractJsonToGeometryCon
       return null;
     }
     Assert.isTrue(
-        source.get(JSON_TYPE_ATTRIBUTE).equals(JSON_TYPE_GEOMETRY_COLLECTION),
-        String.format("Source is not a %s: %s", JSON_TYPE_GEOMETRY_COLLECTION, source));
+        source.get(TYPE).equals(GEOMETRY_COLLECTION),
+        String.format("Source is not a %s: %s", GEOMETRY_COLLECTION, source));
     return (GeometryCollection) geometryConverter.convert(source);
   }
 

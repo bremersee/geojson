@@ -19,35 +19,52 @@ package org.bremersee.geojson.converter.serialization;
 import static java.util.Collections.unmodifiableMap;
 import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_COORDINATES_ATTRIBUTE_NAME;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_ATTRIBUTE;
+import static org.bremersee.geojson.GeoJsonConstants.BBOX;
+import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.locationtech.jts.geom.Geometry;
 
 /**
  * @author Christian Bremer
  */
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
 abstract class AbstractGeometryToJsonConverter<S extends Geometry> implements Serializable {
 
   private static final long serialVersionUID = 1L;
+
+  private final boolean withBoundingBox;
+
+  AbstractGeometryToJsonConverter() {
+    this(false);
+  }
+
+  AbstractGeometryToJsonConverter(boolean withBoundingBox) {
+    this.withBoundingBox = withBoundingBox;
+  }
 
   Map<String, Object> convert(S source) {
     if (isNull(source)) {
       return null;
     }
     Map<String, Object> map = new LinkedHashMap<>();
-    map.put(JSON_TYPE_ATTRIBUTE, requireNonNull(getTypeAttributeValue()));
-    map.put(JSON_COORDINATES_ATTRIBUTE_NAME, getGeometryJsonValue(source));
+    map.put(TYPE, requireNonNull(getGeometryType()));
+    if (withBoundingBox) {
+      Optional.ofNullable(GeoJsonGeometryFactory.getBoundingBox(source))
+          .map(bbox -> Arrays.stream(bbox).boxed().collect(Collectors.toList()))
+          .ifPresent(bbox -> map.put(BBOX, bbox));
+    }
+    map.put(COORDINATES, getGeometryJsonValue(source));
     return unmodifiableMap(map);
   }
 
-  abstract String getTypeAttributeValue();
+  abstract String getGeometryType();
 
   abstract Object getGeometryJsonValue(S source);
 }

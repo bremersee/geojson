@@ -16,7 +16,7 @@
 
 package org.bremersee.geojson.converter.serialization;
 
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_POINT;
+import static org.bremersee.geojson.GeoJsonConstants.POINT;
 
 import org.locationtech.jts.geom.Point;
 import org.springframework.util.Assert;
@@ -36,8 +36,8 @@ class PointToJsonConverter extends AbstractGeometryToJsonConverter<Point> {
   }
 
   @Override
-  String getTypeAttributeValue() {
-    return JSON_TYPE_POINT;
+  String getGeometryType() {
+    return POINT;
   }
 
   @Override

@@ -17,10 +17,11 @@
 package org.bremersee.geojson.filter;
 
 import static java.util.Objects.isNull;
+import static org.bremersee.geojson.filter.FilterConstants.EARTH_RADIUS_METERS;
 
 import java.io.Serializable;
 import java.util.Objects;
-import org.bremersee.geojson.GeoJsonConstants;
+import org.bremersee.geojson.crs.GeoJsonCrsConstants;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateFilter;
 
@@ -33,7 +34,7 @@ public class Wgs84ToMercatorCoordinateFilter implements CoordinateFilter, Serial
 
   private static final long serialVersionUID = 2L;
 
-  private double earthRadiusInMeters = GeoJsonConstants.EARTH_RADIUS_METERS;
+  private double earthRadiusInMeters = EARTH_RADIUS_METERS;
 
   /**
    * Default constructor.
@@ -77,10 +78,10 @@ public class Wgs84ToMercatorCoordinateFilter implements CoordinateFilter, Serial
         coord.x = coord.x * getEarthRadiusInMeters() * Math.PI / 180.;
       }
       if (!Double.isNaN(coord.y)) {
-        if (coord.y > GeoJsonConstants.MERCATOR_MAX_LAT) {
-          coord.y = GeoJsonConstants.MERCATOR_MAX_LAT;
-        } else if (coord.y < GeoJsonConstants.MERCATOR_MIN_LAT) {
-          coord.y = GeoJsonConstants.MERCATOR_MIN_LAT;
+        if (coord.y > GeoJsonCrsConstants.MERCATOR_MAX_LAT) {
+          coord.y = GeoJsonCrsConstants.MERCATOR_MAX_LAT;
+        } else if (coord.y < GeoJsonCrsConstants.MERCATOR_MIN_LAT) {
+          coord.y = GeoJsonCrsConstants.MERCATOR_MIN_LAT;
         }
         coord.y = Math.log(Math.tan(Math.PI / 4 + Math.toRadians(coord.y) / 2))
             * getEarthRadiusInMeters();

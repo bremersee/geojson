@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson;
+package org.bremersee.geojson.crs;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;

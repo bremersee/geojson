@@ -16,15 +16,15 @@
 
 package org.bremersee.geojson.converter.deserialization;
 
-import static org.bremersee.geojson.GeoJsonConstants.JSON_GEOMETRIES_ATTRIBUTE_NAME;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_ATTRIBUTE;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_GEOMETRY_COLLECTION;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_LINESTRING;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_MULTI_LINESTRING;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_MULTI_POINT;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_MULTI_POLYGON;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_POINT;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_POLYGON;
+import static org.bremersee.geojson.GeoJsonConstants.GEOMETRIES;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
+import static org.bremersee.geojson.GeoJsonConstants.GEOMETRY_COLLECTION;
+import static org.bremersee.geojson.GeoJsonConstants.LINESTRING;
+import static org.bremersee.geojson.GeoJsonConstants.MULTI_LINESTRING;
+import static org.bremersee.geojson.GeoJsonConstants.MULTI_POINT;
+import static org.bremersee.geojson.GeoJsonConstants.MULTI_POLYGON;
+import static org.bremersee.geojson.GeoJsonConstants.POINT;
+import static org.bremersee.geojson.GeoJsonConstants.POLYGON;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.List;
@@ -100,33 +100,33 @@ public class JsonToGeometryConverter extends AbstractJsonToGeometryConverter {
     if (isEmpty(source)) {
       return null;
     }
-    String type = String.valueOf(source.get(JSON_TYPE_ATTRIBUTE));
-    if (JSON_TYPE_POINT.equals(type)) {
+    String type = String.valueOf(source.get(TYPE));
+    if (POINT.equals(type)) {
       return pointConverter.convert(source);
 
-    } else if (JSON_TYPE_LINESTRING.equals(type)) {
+    } else if (LINESTRING.equals(type)) {
       return lineStringConverter.convert(source);
 
-    } else if (JSON_TYPE_POLYGON.equals(type)) {
+    } else if (POLYGON.equals(type)) {
       return polygonConverter.convert(source);
 
-    } else if (JSON_TYPE_MULTI_POINT.equals(type)) {
+    } else if (MULTI_POINT.equals(type)) {
       return multiPointConverter.convert(source);
 
-    } else if (JSON_TYPE_MULTI_LINESTRING.equals(type)) {
+    } else if (MULTI_LINESTRING.equals(type)) {
       return multiLineStringConverter.convert(source);
 
-    } else if (JSON_TYPE_MULTI_POLYGON.equals(type)) {
+    } else if (MULTI_POLYGON.equals(type)) {
       return multiPolygonConverter.convert(source);
 
-    } else if (JSON_TYPE_GEOMETRY_COLLECTION.equals(type)) {
+    } else if (GEOMETRY_COLLECTION.equals(type)) {
       Geometry[] geometries;
-      Object value = source.get(JSON_GEOMETRIES_ATTRIBUTE_NAME);
+      Object value = source.get(GEOMETRIES);
       if (isEmpty(value)) {
         geometries = new Geometry[0];
       } else {
         //noinspection unchecked
-        geometries = ((List<Map<String, Object>>) source.get(JSON_GEOMETRIES_ATTRIBUTE_NAME))
+        geometries = ((List<Map<String, Object>>) source.get(GEOMETRIES))
             .stream()
             .map(this::convert)
             .filter(Objects::nonNull)

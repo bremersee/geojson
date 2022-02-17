@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson;
+package org.bremersee.geojson.crs;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -25,6 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import org.bremersee.geojson.crs.GeoJsonCrsConstants;
+import org.bremersee.geojson.crs.GeoJsonNamedCrs;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -51,18 +53,18 @@ class GeoJsonNamedCrsTest {
     model.setCrs(null);
     assertNull(model.getCrs());
 
-    model.setCrs(GeoJsonConstants.WGS84_CRS);
-    assertEquals(GeoJsonConstants.WGS84_CRS, model.getCrs());
-    assertEquals(model.hashCode(), new GeoJsonNamedCrs(GeoJsonConstants.WGS84_CRS).hashCode());
-    assertEquals(model.toString(), new GeoJsonNamedCrs(GeoJsonConstants.WGS84_CRS).toString());
+    model.setCrs(GeoJsonCrsConstants.WGS84_CRS);
+    assertEquals(GeoJsonCrsConstants.WGS84_CRS, model.getCrs());
+    assertEquals(model.hashCode(), new GeoJsonNamedCrs(GeoJsonCrsConstants.WGS84_CRS).hashCode());
+    assertEquals(model.toString(), new GeoJsonNamedCrs(GeoJsonCrsConstants.WGS84_CRS).toString());
 
     Map<String, Object> properties = new LinkedHashMap<>();
-    properties.put("name", GeoJsonConstants.MERCATOR_CRS);
+    properties.put("name", GeoJsonCrsConstants.MERCATOR_CRS);
     model.setProperties(properties);
     assertEquals(properties, model.getProperties());
-    assertEquals(GeoJsonConstants.MERCATOR_CRS, model.getCrs());
-    assertEquals(model.hashCode(), new GeoJsonNamedCrs(GeoJsonConstants.MERCATOR_CRS).hashCode());
-    assertEquals(model.toString(), new GeoJsonNamedCrs(GeoJsonConstants.MERCATOR_CRS).toString());
+    assertEquals(GeoJsonCrsConstants.MERCATOR_CRS, model.getCrs());
+    assertEquals(model.hashCode(), new GeoJsonNamedCrs(GeoJsonCrsConstants.MERCATOR_CRS).hashCode());
+    assertEquals(model.toString(), new GeoJsonNamedCrs(GeoJsonCrsConstants.MERCATOR_CRS).toString());
 
     model.setProperties(null);
     assertEquals(model, new GeoJsonNamedCrs(null));
@@ -78,11 +80,11 @@ class GeoJsonNamedCrsTest {
   @Test
   void json() throws Exception {
     ObjectMapper om = new ObjectMapper();
-    GeoJsonNamedCrs model = new GeoJsonNamedCrs(GeoJsonConstants.MERCATOR_CRS_ALT);
+    GeoJsonNamedCrs model = new GeoJsonNamedCrs(GeoJsonCrsConstants.MERCATOR_CRS_ALT);
     String jsonStr = om.writerWithDefaultPrettyPrinter().writeValueAsString(model);
     System.out.println(jsonStr);
     assertNotNull(jsonStr);
-    assertTrue(jsonStr.contains(GeoJsonConstants.MERCATOR_CRS_ALT));
+    assertTrue(jsonStr.contains(GeoJsonCrsConstants.MERCATOR_CRS_ALT));
     GeoJsonNamedCrs readModel = om.readValue(jsonStr, GeoJsonNamedCrs.class);
     assertEquals(model, readModel);
   }

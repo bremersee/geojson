@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson;
+package org.bremersee.geojson.crs;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.bremersee.geojson.crs.GeoJsonLinkedCrs;
 import org.junit.jupiter.api.Test;
 
 /**

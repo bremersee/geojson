@@ -18,9 +18,9 @@ package org.bremersee.geojson.filter;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static org.bremersee.geojson.filter.FilterConstants.EARTH_RADIUS_METERS;
 
 import java.util.Objects;
-import org.bremersee.geojson.GeoJsonConstants;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateFilter;
 
@@ -31,7 +31,7 @@ import org.locationtech.jts.geom.CoordinateFilter;
  */
 public class MercatorToWgs84CoordinateFilter implements CoordinateFilter {
 
-  private double earthRadiusInMeters = GeoJsonConstants.EARTH_RADIUS_METERS;
+  private double earthRadiusInMeters = EARTH_RADIUS_METERS;
 
   /**
    * Default constructor.

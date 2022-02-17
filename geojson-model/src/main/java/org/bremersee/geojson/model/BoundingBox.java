@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2020 the original author or authors.
+ * Copyright 2018-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,6 +46,24 @@ public class BoundingBox extends ArrayList<BigDecimal> implements Serializable {
    */
   public BoundingBox(Collection<? extends BigDecimal> coordinates) {
     super(coordinates);
+  }
+
+  /**
+   * The bounding box as double array.
+   *
+   * @return the bounding box as double array
+   */
+  public double[] toDoubleArray() {
+    if (size() == 4 || size() == 6) {
+      double[] bbox = new double[size()];
+      int i = 0;
+      for (BigDecimal value : this) {
+        bbox[i] = value.doubleValue();
+        i++;
+      }
+      return bbox;
+    }
+    return null;
   }
 
 }

@@ -16,7 +16,7 @@
 
 package org.bremersee.geojson.filter;
 
-import static org.bremersee.geojson.GeoJsonConstants.EARTH_RADIUS_METERS;
+import static org.bremersee.geojson.filter.FilterConstants.EARTH_RADIUS_METERS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

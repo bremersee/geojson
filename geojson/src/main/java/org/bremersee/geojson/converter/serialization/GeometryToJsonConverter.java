@@ -18,9 +18,9 @@ package org.bremersee.geojson.converter.serialization;
 
 import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableMap;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_GEOMETRIES_ATTRIBUTE_NAME;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_ATTRIBUTE;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_GEOMETRY_COLLECTION;
+import static org.bremersee.geojson.GeoJsonConstants.GEOMETRIES;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
+import static org.bremersee.geojson.GeoJsonConstants.GEOMETRY_COLLECTION;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -108,8 +108,8 @@ public class GeometryToJsonConverter
         geometries.add(convert(source.getGeometryN(i)));
       }
       Map<String, Object> map = new LinkedHashMap<>();
-      map.put(JSON_TYPE_ATTRIBUTE, JSON_TYPE_GEOMETRY_COLLECTION);
-      map.put(JSON_GEOMETRIES_ATTRIBUTE_NAME, unmodifiableList(geometries));
+      map.put(TYPE, GEOMETRY_COLLECTION);
+      map.put(GEOMETRIES, unmodifiableList(geometries));
       return unmodifiableMap(map);
     }
 

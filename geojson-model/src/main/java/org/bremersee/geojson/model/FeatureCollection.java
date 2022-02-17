@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2020 the original author or authors.
+ * Copyright 2018-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,16 @@
 
 package org.bremersee.geojson.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import static org.bremersee.geojson.GeoJsonConstants.FEATURE_COLLECTION;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.util.List;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -40,12 +43,13 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 @NoArgsConstructor
+@Valid
 public class FeatureCollection implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("type")
-  private TypeEnum type = TypeEnum.FEATURECOLLECTION;
+  @JsonIgnore
+  private String type = FEATURE_COLLECTION;
 
   @JsonProperty("bbox")
   private BoundingBox bbox = null;
@@ -53,13 +57,19 @@ public class FeatureCollection implements Serializable {
   @JsonProperty("features")
   private List<Feature> features = null;
 
+  /**
+   * Instantiates a new Feature collection.
+   *
+   * @param bbox the bbox
+   * @param features the features
+   */
   @Builder(toBuilder = true)
-  @SuppressWarnings("unused")
   public FeatureCollection(
       BoundingBox bbox,
       List<Feature> features) {
-    this.bbox = bbox;
-    this.features = features;
+
+    setBbox(bbox);
+    setFeatures(features);
   }
 
   /**
@@ -70,8 +80,9 @@ public class FeatureCollection implements Serializable {
   @Schema(
       description = "The feature collection type, must be 'FeatureCollection'.",
       required = true)
+  @JsonProperty(value = TYPE, required = true)
   @NotNull
-  public TypeEnum getType() {
+  public String getType() {
     return type;
   }
 
@@ -80,7 +91,11 @@ public class FeatureCollection implements Serializable {
    *
    * @param type the type
    */
-  public void setType(TypeEnum type) {
+  @JsonProperty(value = TYPE, required = true)
+  public void setType(String type) {
+    if (!FEATURE_COLLECTION.equals(type)) {
+      throw new IllegalArgumentException("Type must be 'FeatureCollection'.");
+    }
     this.type = type;
   }
 
@@ -122,43 +137,5 @@ public class FeatureCollection implements Serializable {
     this.features = features;
   }
 
-  /**
-   * The feature collection type.
-   */
-  public enum TypeEnum {
-
-    /**
-     * Featurecollection type enum.
-     */
-    FEATURECOLLECTION("FeatureCollection");
-
-    private final String value;
-
-    TypeEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    /**
-     * From value type enum.
-     *
-     * @param text the text
-     * @return the type enum
-     */
-    @JsonCreator
-    public static TypeEnum fromValue(String text) {
-      for (TypeEnum b : TypeEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
 }
 

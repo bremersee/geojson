@@ -17,7 +17,7 @@
 package org.bremersee.geojson.converter.serialization;
 
 import static java.util.Collections.unmodifiableList;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_MULTI_POLYGON;
+import static org.bremersee.geojson.GeoJsonConstants.MULTI_POLYGON;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +40,8 @@ class MultiPolygonToJsonConverter extends AbstractGeometryToJsonConverter<MultiP
   }
 
   @Override
-  String getTypeAttributeValue() {
-    return JSON_TYPE_MULTI_POLYGON;
+  String getGeometryType() {
+    return MULTI_POLYGON;
   }
 
   @Override

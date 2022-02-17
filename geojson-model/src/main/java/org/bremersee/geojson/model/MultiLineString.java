@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2020 the original author or authors.
+ * Copyright 2018-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,9 @@
 
 package org.bremersee.geojson.model;
 
+import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -39,7 +42,7 @@ public class MultiLineString extends Geometry implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("coordinates")
+  @JsonProperty(COORDINATES)
   private List<List<Position>> coordinates = null;
 
   /**
@@ -79,6 +82,13 @@ public class MultiLineString extends Geometry implements Serializable {
    */
   public void setCoordinates(List<List<Position>> coordinates) {
     this.coordinates = coordinates;
+  }
+
+  @Schema(hidden = true)
+  @JsonIgnore
+  @Override
+  Object getGeometryJsonValue() {
+    return getCoordinates();
   }
 
 }

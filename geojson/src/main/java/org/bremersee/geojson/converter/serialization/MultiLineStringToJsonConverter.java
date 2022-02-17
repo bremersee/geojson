@@ -17,7 +17,7 @@
 package org.bremersee.geojson.converter.serialization;
 
 import static java.util.Collections.unmodifiableList;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_MULTI_LINESTRING;
+import static org.bremersee.geojson.GeoJsonConstants.MULTI_LINESTRING;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +40,8 @@ class MultiLineStringToJsonConverter extends AbstractGeometryToJsonConverter<Mul
   }
 
   @Override
-  String getTypeAttributeValue() {
-    return JSON_TYPE_MULTI_LINESTRING;
+  String getGeometryType() {
+    return MULTI_LINESTRING;
   }
 
   @Override

@@ -16,7 +16,7 @@
 
 package org.bremersee.geojson.converter.serialization;
 
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_LINESTRING;
+import static org.bremersee.geojson.GeoJsonConstants.LINESTRING;
 
 import org.locationtech.jts.geom.LineString;
 import org.springframework.util.Assert;
@@ -36,8 +36,8 @@ class LineStringToJsonConverter extends AbstractGeometryToJsonConverter<LineStri
   }
 
   @Override
-  String getTypeAttributeValue() {
-    return JSON_TYPE_LINESTRING;
+  String getGeometryType() {
+    return LINESTRING;
   }
 
   @Override

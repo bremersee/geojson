@@ -16,9 +16,9 @@
 
 package org.bremersee.geojson.converter.deserialization;
 
-import static org.bremersee.geojson.GeoJsonConstants.JSON_COORDINATES_ATTRIBUTE_NAME;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_ATTRIBUTE;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_MULTI_LINESTRING;
+import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
+import static org.bremersee.geojson.GeoJsonConstants.MULTI_LINESTRING;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.List;
@@ -72,9 +72,9 @@ public class JsonToMultiLineStringConverter extends AbstractJsonToGeometryConver
       return null;
     }
     Assert.isTrue(
-        source.get(JSON_TYPE_ATTRIBUTE).equals(JSON_TYPE_MULTI_LINESTRING),
-        String.format("Source is not a %s: %s", JSON_TYPE_MULTI_LINESTRING, source));
-    return convertCoordinates(source.get(JSON_COORDINATES_ATTRIBUTE_NAME));
+        source.get(TYPE).equals(MULTI_LINESTRING),
+        String.format("Source is not a %s: %s", MULTI_LINESTRING, source));
+    return convertCoordinates(source.get(COORDINATES));
   }
 
   /**

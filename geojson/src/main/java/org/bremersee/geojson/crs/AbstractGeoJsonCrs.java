@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson;
+package org.bremersee.geojson.crs;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;

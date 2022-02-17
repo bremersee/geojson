@@ -17,10 +17,10 @@
 package org.bremersee.geojson;
 
 import static java.util.Objects.isNull;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_FEATURE_COLLECTION_ATTRIBUTE_NAME;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_FEATURE_COLLECTION_BOUNDING_BOX_ATTRIBUTE_NAME;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_ATTRIBUTE;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_FEATURE_COLLECTION;
+import static org.bremersee.geojson.GeoJsonConstants.FEATURES;
+import static org.bremersee.geojson.GeoJsonConstants.BBOX;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
+import static org.bremersee.geojson.GeoJsonConstants.FEATURE_COLLECTION;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -52,24 +52,24 @@ public class GeoJsonFeatureCollection<G extends Geometry, P> extends UnknownAwar
 
   @Schema(description = "The bounding box of the GeoJSON feature collection.")
   @JsonInclude(Include.NON_EMPTY)
-  @JsonProperty(JSON_FEATURE_COLLECTION_BOUNDING_BOX_ATTRIBUTE_NAME)
+  @JsonProperty(BBOX)
   private final double[] bbox;
 
   @SuppressWarnings("DefaultAnnotationParam")
   @Schema(description = "The features the GeoJSON feature collection.")
   @JsonInclude(Include.ALWAYS)
-  @JsonProperty(JSON_FEATURE_COLLECTION_ATTRIBUTE_NAME)
+  @JsonProperty(FEATURES)
   private final List<GeoJsonFeature<G, P>> features;
 
   @JsonCreator
   GeoJsonFeatureCollection(
-      @JsonProperty(value = JSON_TYPE_ATTRIBUTE, required = true) String type,
-      @JsonProperty(JSON_FEATURE_COLLECTION_BOUNDING_BOX_ATTRIBUTE_NAME) double[] bbox,
-      @JsonProperty(JSON_FEATURE_COLLECTION_ATTRIBUTE_NAME) List<GeoJsonFeature<G, P>> features) {
+      @JsonProperty(value = TYPE, required = true) String type,
+      @JsonProperty(BBOX) double[] bbox,
+      @JsonProperty(FEATURES) List<GeoJsonFeature<G, P>> features) {
 
     Assert.isTrue(
-        JSON_TYPE_FEATURE_COLLECTION.equals(type),
-        String.format("Type must be '%s'.", JSON_TYPE_FEATURE_COLLECTION));
+        FEATURE_COLLECTION.equals(type),
+        String.format("Type must be '%s'.", FEATURE_COLLECTION));
 
     if (isNull(bbox) || (bbox.length == 4) || (bbox.length == 6)) {
       this.bbox = bbox;
@@ -84,7 +84,7 @@ public class GeoJsonFeatureCollection<G extends Geometry, P> extends UnknownAwar
       double[] bbox,
       List<GeoJsonFeature<G, P>> features) {
 
-    this(JSON_TYPE_FEATURE_COLLECTION, bbox, features);
+    this(FEATURE_COLLECTION, bbox, features);
   }
 
   /**
@@ -99,7 +99,7 @@ public class GeoJsonFeatureCollection<G extends Geometry, P> extends UnknownAwar
       boolean calculateBounds) {
 
     this(
-        JSON_TYPE_FEATURE_COLLECTION,
+        FEATURE_COLLECTION,
         calculateBounds
             ? GeoJsonGeometryFactory.getBoundingBox(getGeometries((features)))
             : null,
@@ -109,10 +109,10 @@ public class GeoJsonFeatureCollection<G extends Geometry, P> extends UnknownAwar
   @Schema(
       description = "The feature collection type.",
       required = true,
-      example = JSON_TYPE_FEATURE_COLLECTION)
-  @JsonProperty(value = JSON_TYPE_ATTRIBUTE, required = true)
+      example = FEATURE_COLLECTION)
+  @JsonProperty(value = TYPE, required = true)
   public final String getType() {
-    return JSON_TYPE_FEATURE_COLLECTION;
+    return FEATURE_COLLECTION;
   }
 
   /**

@@ -78,7 +78,19 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
    * @param geometryFactory the geometry factory
    */
   public GeoJsonObjectMapperModule(GeometryFactory geometryFactory) {
-    super(TYPE_ID, getVersion(), getDeserializers(geometryFactory), getSerializers());
+    this(geometryFactory, false);
+  }
+
+  public GeoJsonObjectMapperModule(boolean withBoundingBox) {
+    this(new GeometryFactory(), false);
+  }
+
+  public GeoJsonObjectMapperModule(GeometryFactory geometryFactory, boolean withBoundingBox) {
+    super(
+        TYPE_ID,
+        getVersion(),
+        getDeserializers(geometryFactory),
+        getSerializers(withBoundingBox));
   }
 
   /**
@@ -158,9 +170,9 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
     return map;
   }
 
-  private static List<JsonSerializer<?>> getSerializers() {
+  private static List<JsonSerializer<?>> getSerializers(boolean withBoundingBox) {
     ArrayList<JsonSerializer<?>> list = new ArrayList<>();
-    list.add(new JacksonGeometrySerializer());
+    list.add(new JacksonGeometrySerializer(withBoundingBox));
     return list;
   }
 

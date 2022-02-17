@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2020 the original author or authors.
+ * Copyright 2018-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,17 @@
 
 package org.bremersee.geojson.model;
 
+import static org.bremersee.geojson.GeoJsonConstants.GEOMETRIES;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -39,8 +45,8 @@ public class GeometryCollection extends Geometry implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("geometries")
-  private List<Geometry> geometries = null;
+  @JsonProperty(GEOMETRIES)
+  private List<Geometry> geometries;
 
   /**
    * Instantiates a new geometry collection.
@@ -79,6 +85,17 @@ public class GeometryCollection extends Geometry implements Serializable {
    */
   public void setGeometries(List<Geometry> geometries) {
     this.geometries = geometries;
+  }
+
+  @Schema(hidden = true)
+  @JsonIgnore
+  @Override
+  Object getGeometryJsonValue() {
+    return Optional.ofNullable(getGeometries())
+        .stream()
+        .flatMap(Collection::stream)
+        .map(Geometry::toJson)
+        .collect(Collectors.toList());
   }
 
 }

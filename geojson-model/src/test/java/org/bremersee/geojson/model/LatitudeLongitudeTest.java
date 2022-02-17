@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2020 the original author or authors.
+ * Copyright 2018-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,62 +16,78 @@
 
 package org.bremersee.geojson.model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.math.BigDecimal;
+import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * The latitude longitude test.
  *
  * @author Christian Bremer
  */
+@ExtendWith(SoftAssertionsExtension.class)
 class LatitudeLongitudeTest {
 
   /**
    * Gets latitude longitude.
+   *
+   * @param softly the softly
    */
   @Test
-  void getLatitudeLongitude() {
+  void getLatitudeLongitude(SoftAssertions softly) {
     LatitudeLongitude model = new LatitudeLongitude(
         new BigDecimal("1.2345"),
         new BigDecimal("5.6789"));
-    assertEquals(new BigDecimal("1.2345"), model.getLatitude());
-    assertEquals(new BigDecimal("5.6789"), model.getLongitude());
-    assertNotEquals(model, null);
-    assertNotEquals(model, new Object());
-    assertEquals(model, model);
-    assertEquals(
-        model,
-        new LatitudeLongitude(LatLonAware.builder()
+    softly.assertThat(model.getLatitude())
+        .isEqualTo(new BigDecimal("1.2345"));
+    softly.assertThat(model.getLongitude())
+        .isEqualTo(new BigDecimal("5.6789"));
+
+    softly.assertThat(model)
+        .isNotEqualTo(null);
+    softly.assertThat(model)
+        .isNotEqualTo(new Object());
+    softly.assertThat(model)
+        .isEqualTo(model);
+    softly.assertThat(model.hashCode())
+        .isEqualTo(model.hashCode());
+
+    softly.assertThat(model)
+        .isEqualTo(new LatitudeLongitude(LatLonAware.builder()
             .latitude(new BigDecimal("1.2345"))
             .longitude(new BigDecimal("5.6789"))
             .build()));
-    assertTrue(model.toString().contains("1.2345"));
-    assertTrue(model.toString().contains("5.6789"));
+
+    softly.assertThat(model.toString())
+        .contains("1.2345");
+    softly.assertThat(model.toString())
+        .contains("5.6789");
   }
 
   /**
    * Json.
    *
+   * @param softly the softly
    * @throws IOException the io exception
    */
   @Test
-  void json() throws IOException {
+  void json(SoftAssertions softly) throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     LatitudeLongitude model = new LatitudeLongitude(
         new BigDecimal("1.2345"),
         new BigDecimal("5.6789"));
     String json = objectMapper.writeValueAsString(model);
-    System.out.println("JSON of latitude longitude = " + json);
-    assertTrue(json.contains("1.2345"));
-    assertTrue(json.contains("5.6789"));
+    softly.assertThat(json)
+        .contains("1.2345");
+    softly.assertThat(json)
+        .contains("5.6789");
+
     LatitudeLongitude actual = objectMapper.readValue(json, LatitudeLongitude.class);
-    System.out.println("Read latitude longitude = " + actual);
-    assertEquals(model, actual);
+    softly.assertThat(actual)
+        .isEqualTo(model);
   }
 }

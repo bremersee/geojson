@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2020 the original author or authors.
+ * Copyright 2018-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,73 +16,96 @@
 
 package org.bremersee.geojson.model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.math.BigDecimal;
+import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * The lat lon aware test.
  *
  * @author Christian Bremer
  */
+@ExtendWith(SoftAssertionsExtension.class)
 class LatLonAwareTest {
 
   /**
    * Builder.
+   *
+   * @param softly the softly
    */
   @Test
-  void builder() {
+  void builder(SoftAssertions softly) {
     LatLonAware model = LatLonAware.builder().build();
-    assertFalse(model.hasValues());
-    assertEquals("", model.toLatLonString());
-    assertEquals("", model.toLonLatString());
+    softly.assertThat(model.hasValues())
+        .isFalse();
+    softly.assertThat(model.toLatLonString())
+        .isEqualTo("");
+    softly.assertThat(model.toLonLatString())
+        .isEqualTo("");
 
     model = LatLonAware.builder()
         .longitude(1.)
         .build();
-    assertFalse(model.hasValues());
+    softly.assertThat(model.hasValues())
+        .isFalse();
 
     model = LatLonAware.builder()
         .latitude(1.)
         .build();
-    assertFalse(model.hasValues());
+    softly.assertThat(model.hasValues())
+        .isFalse();
 
     model = LatLonAware.builder()
         .from(null)
         .build();
-    assertFalse(model.hasValues());
+    softly.assertThat(model.hasValues())
+        .isFalse();
 
     model = LatLonAware.builder()
         .latitude(1.2345)
         .longitude(4.5678)
         .build();
-    assertTrue(model.hasValues());
-    assertEquals(1.2345, model.getLatitude().doubleValue(), 0.0001);
-    assertEquals(4.5678, model.getLongitude().doubleValue(), 0.0001);
-    assertEquals("1.2345,4.5678", model.toLatLonString());
-    assertEquals("4.5678,1.2345", model.toLonLatString());
+    softly.assertThat(model.hasValues())
+        .isTrue();
+    softly.assertThat(model.getLatitude())
+        .isEqualTo(new BigDecimal("1.2345"));
+    softly.assertThat(model.getLongitude())
+        .isEqualTo(new BigDecimal("4.5678"));
+    softly.assertThat(model.toLatLonString())
+        .isEqualTo("1.2345,4.5678");
+    softly.assertThat(model.toLonLatString())
+        .isEqualTo("4.5678,1.2345");
 
     model = LatLonAware.builder()
         .latitude(new BigDecimal("1.2345"))
         .longitude(new BigDecimal("4.5678"))
         .build();
-    assertTrue(model.hasValues());
-    assertEquals(new BigDecimal("1.2345"), model.getLatitude());
-    assertEquals(new BigDecimal("4.5678"), model.getLongitude());
-    assertEquals("1.2345,4.5678", model.toLatLonString());
-    assertEquals("4.5678,1.2345", model.toLonLatString());
+    softly.assertThat(model.hasValues())
+        .isTrue();
+    softly.assertThat(model.getLatitude())
+        .isEqualTo(new BigDecimal("1.2345"));
+    softly.assertThat(model.getLongitude())
+        .isEqualTo(new BigDecimal("4.5678"));
+    softly.assertThat(model.toLatLonString())
+        .isEqualTo("1.2345,4.5678");
+    softly.assertThat(model.toLonLatString())
+        .isEqualTo("4.5678,1.2345");
 
     model = LatLonAware.builder()
         .from(model)
         .build();
-    assertTrue(model.hasValues());
-    assertEquals(new BigDecimal("1.2345"), model.getLatitude());
-    assertEquals(new BigDecimal("4.5678"), model.getLongitude());
-    assertEquals("1.2345,4.5678", model.toLatLonString());
-    assertEquals("4.5678,1.2345", model.toLonLatString());
+    softly.assertThat(model.hasValues())
+        .isTrue();
+    softly.assertThat(model.getLatitude())
+        .isEqualTo(new BigDecimal("1.2345"));
+    softly.assertThat(model.getLongitude())
+        .isEqualTo(new BigDecimal("4.5678"));
+    softly.assertThat(model.toLatLonString())
+        .isEqualTo("1.2345,4.5678");
+    softly.assertThat(model.toLonLatString())
+        .isEqualTo("4.5678,1.2345");
   }
 
 }

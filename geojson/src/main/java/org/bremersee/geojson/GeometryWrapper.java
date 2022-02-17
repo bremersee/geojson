@@ -42,6 +42,7 @@ import org.locationtech.jts.geom.Geometry;
  *
  * @author Christian Bremer
  */
+@Deprecated
 @JsonSerialize(using = GeometryWrapper.Serializer.class)
 @JsonDeserialize(using = GeometryWrapper.Deserializer.class)
 public class GeometryWrapper implements Serializable, Cloneable {

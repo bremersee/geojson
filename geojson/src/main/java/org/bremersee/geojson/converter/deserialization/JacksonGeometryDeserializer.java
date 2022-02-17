@@ -17,10 +17,10 @@
 package org.bremersee.geojson.converter.deserialization;
 
 import static java.util.Objects.isNull;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_COORDINATES_ATTRIBUTE_NAME;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_GEOMETRIES_ATTRIBUTE_NAME;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_ATTRIBUTE;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_GEOMETRY_COLLECTION;
+import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
+import static org.bremersee.geojson.GeoJsonConstants.GEOMETRIES;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
+import static org.bremersee.geojson.GeoJsonConstants.GEOMETRY_COLLECTION;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
@@ -77,13 +77,13 @@ public class JacksonGeometryDeserializer extends StdDeserializer<Geometry> {
     JsonToken currentToken;
     while ((currentToken = jp.nextValue()) != null) {
       if (JsonToken.VALUE_STRING.equals(currentToken)) {
-        if (JSON_TYPE_ATTRIBUTE.equals(jp.getCurrentName())) {
+        if (TYPE.equals(jp.getCurrentName())) {
           type = jp.getText();
         }
       } else if (JsonToken.START_ARRAY.equals(currentToken)) {
-        if (JSON_COORDINATES_ATTRIBUTE_NAME.equals(jp.getCurrentName())) {
+        if (COORDINATES.equals(jp.getCurrentName())) {
           parseCoordinates(0, coordinates, jp, ctxt);
-        } else if (JSON_GEOMETRIES_ATTRIBUTE_NAME.equals(jp.getCurrentName())) {
+        } else if (GEOMETRIES.equals(jp.getCurrentName())) {
           geometries.addAll(parseGeometries(jp, ctxt));
         }
       } else if (JsonToken.END_OBJECT.equals(currentToken)) {
@@ -91,7 +91,7 @@ public class JacksonGeometryDeserializer extends StdDeserializer<Geometry> {
       }
     }
 
-    if (JSON_TYPE_GEOMETRY_COLLECTION.equals(type)) {
+    if (GEOMETRY_COLLECTION.equals(type)) {
       return geometryFactory.createGeometryCollection(geometries.toArray(new Geometry[0]));
     } else {
       return createGeometry(type, coordinates);
@@ -140,12 +140,12 @@ public class JacksonGeometryDeserializer extends StdDeserializer<Geometry> {
         coordinates = new ArrayList<>();
 
       } else if (JsonToken.VALUE_STRING.equals(currentToken)
-          && JSON_TYPE_ATTRIBUTE.equals(jsonParser.getCurrentName())) {
+          && TYPE.equals(jsonParser.getCurrentName())) {
 
         type = jsonParser.getText();
 
       } else if (JsonToken.START_ARRAY.equals(currentToken)
-          && JSON_COORDINATES_ATTRIBUTE_NAME.equals(jsonParser.getCurrentName())) {
+          && COORDINATES.equals(jsonParser.getCurrentName())) {
 
         parseCoordinates(0, coordinates, jsonParser, deserializationContext);
 
@@ -166,8 +166,8 @@ public class JacksonGeometryDeserializer extends StdDeserializer<Geometry> {
    */
   private Geometry createGeometry(String type, final List<Object> coordinates) {
     Map<String, Object> jsonMap = new LinkedHashMap<>();
-    jsonMap.put(JSON_TYPE_ATTRIBUTE, type);
-    jsonMap.put(JSON_COORDINATES_ATTRIBUTE_NAME, coordinates);
+    jsonMap.put(TYPE, type);
+    jsonMap.put(COORDINATES, coordinates);
     return geometryConverter.convert(jsonMap);
   }
 

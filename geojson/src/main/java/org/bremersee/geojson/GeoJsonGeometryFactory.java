@@ -17,6 +17,7 @@
 package org.bremersee.geojson;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.io.IOException;
@@ -30,6 +31,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
+import org.bremersee.geojson.model.BoundingBox;
 import org.bremersee.geojson.model.LatLon;
 import org.bremersee.geojson.model.LatLonAware;
 import org.bremersee.geojson.model.LatitudeLongitude;

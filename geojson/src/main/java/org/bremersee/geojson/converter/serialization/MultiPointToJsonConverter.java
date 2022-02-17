@@ -17,7 +17,7 @@
 package org.bremersee.geojson.converter.serialization;
 
 import static java.util.Collections.unmodifiableList;
-import static org.bremersee.geojson.GeoJsonConstants.JSON_TYPE_MULTI_POINT;
+import static org.bremersee.geojson.GeoJsonConstants.MULTI_POINT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +40,8 @@ class MultiPointToJsonConverter extends AbstractGeometryToJsonConverter<MultiPoi
   }
 
   @Override
-  String getTypeAttributeValue() {
-    return JSON_TYPE_MULTI_POINT;
+  String getGeometryType() {
+    return MULTI_POINT;
   }
 
   @Override

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2020 the original author or authors.
+ * Copyright 2018-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,19 @@
 
 package org.bremersee.geojson.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import static org.bremersee.geojson.GeoJsonConstants.BBOX;
+import static org.bremersee.geojson.GeoJsonConstants.FEATURE;
+import static org.bremersee.geojson.GeoJsonConstants.GEOMETRY;
+import static org.bremersee.geojson.GeoJsonConstants.ID;
+import static org.bremersee.geojson.GeoJsonConstants.PROPERTIES;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -39,23 +46,24 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 @NoArgsConstructor
+@Valid
 public class Feature implements Serializable {
 
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 2L;
 
-  @JsonProperty("type")
-  private TypeEnum type = TypeEnum.FEATURE;
+  @JsonIgnore
+  private String type = FEATURE;
 
-  @JsonProperty("id")
+  @JsonProperty(ID)
   private String id = null;
 
-  @JsonProperty("bbox")
+  @JsonProperty(BBOX)
   private BoundingBox bbox = null;
 
-  @JsonProperty("geometry")
+  @JsonProperty(GEOMETRY)
   private Geometry geometry = null;
 
-  @JsonProperty("properties")
+  @JsonProperty(PROPERTIES)
   private Object properties = null;
 
   /**
@@ -72,10 +80,11 @@ public class Feature implements Serializable {
       BoundingBox bbox,
       Geometry geometry,
       Object properties) {
-    this.id = id;
-    this.bbox = bbox;
-    this.geometry = geometry;
-    this.properties = properties;
+
+    setId(id);
+    setBbox(bbox);
+    setGeometry(geometry);
+    setProperties(properties);
   }
 
   /**
@@ -84,8 +93,9 @@ public class Feature implements Serializable {
    * @return type type
    */
   @Schema(description = "The feature type, must be 'Feature'.", required = true)
+  @JsonProperty(value = TYPE, required = true)
   @NotNull
-  public TypeEnum getType() {
+  public String getType() {
     return type;
   }
 
@@ -94,7 +104,11 @@ public class Feature implements Serializable {
    *
    * @param type the type
    */
-  public void setType(TypeEnum type) {
+  @JsonProperty(value = TYPE, required = true)
+  public void setType(String type) {
+    if (!FEATURE.equals(type)) {
+      throw new IllegalArgumentException("Type must be 'Feature'.");
+    }
     this.type = type;
   }
 
@@ -172,45 +186,6 @@ public class Feature implements Serializable {
    */
   public void setProperties(Object properties) {
     this.properties = properties;
-  }
-
-  /**
-   * The feature type.
-   */
-  public enum TypeEnum {
-
-    /**
-     * Feature type enum.
-     */
-    FEATURE("Feature");
-
-    private final String value;
-
-    TypeEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    /**
-     * From value type enum.
-     *
-     * @param text the text
-     * @return the type enum
-     */
-    @JsonCreator
-    public static TypeEnum fromValue(String text) {
-      for (TypeEnum b : TypeEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
   }
 
 }
