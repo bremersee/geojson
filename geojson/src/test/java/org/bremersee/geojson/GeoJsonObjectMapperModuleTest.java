@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 the original author or authors.
+ * Copyright 2015-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,6 +49,9 @@ class GeoJsonObjectMapperModuleTest {
 
   private static final ObjectMapper target = JsonMapper.builder().build();
 
+  /**
+   * Init.
+   */
   @BeforeAll
   static void init() {
     target.registerModule(new GeoJsonObjectMapperModule(geometryFactory, true, true));
@@ -86,6 +89,11 @@ class GeoJsonObjectMapperModuleTest {
             .equals(String.valueOf(module)));
   }
 
+  /**
+   * Map point.
+   *
+   * @throws Exception the exception
+   */
   @Test
   void mapPoint() throws Exception {
     var expected = geometryFactory.createPoint(1.234, 5.6789);
@@ -97,6 +105,11 @@ class GeoJsonObjectMapperModuleTest {
     assertThat(actual).isEqualTo(expected);
   }
 
+  /**
+   * Map line string.
+   *
+   * @throws Exception the exception
+   */
   @Test
   void mapLineString() throws Exception {
     var expected = geometryFactory.createGeometryFromWellKnownText(
@@ -109,6 +122,11 @@ class GeoJsonObjectMapperModuleTest {
     assertThat(actual).isEqualTo(expected);
   }
 
+  /**
+   * Map polygon.
+   *
+   * @throws Exception the exception
+   */
   @Test
   void mapPolygon() throws Exception {
     var expected = geometryFactory.createGeometryFromWellKnownText(
@@ -121,6 +139,11 @@ class GeoJsonObjectMapperModuleTest {
     assertThat(actual).isEqualTo(expected);
   }
 
+  /**
+   * Map multi point.
+   *
+   * @throws Exception the exception
+   */
   @Test
   void mapMultiPoint() throws Exception {
     var expected = geometryFactory.createGeometryFromWellKnownText(
@@ -133,6 +156,11 @@ class GeoJsonObjectMapperModuleTest {
     assertThat(actual).isEqualTo(expected);
   }
 
+  /**
+   * Map multi line string.
+   *
+   * @throws Exception the exception
+   */
   @Test
   void mapMultiLineString() throws Exception {
     var expected = geometryFactory.createGeometryFromWellKnownText(
@@ -145,6 +173,11 @@ class GeoJsonObjectMapperModuleTest {
     assertThat(actual).isEqualTo(expected);
   }
 
+  /**
+   * Map multi polygon.
+   *
+   * @throws Exception the exception
+   */
   @Test
   void mapMultiPolygon() throws Exception {
     var expected = geometryFactory.createGeometryFromWellKnownText(
@@ -159,6 +192,11 @@ class GeoJsonObjectMapperModuleTest {
     assertThat(actual).isEqualTo(expected);
   }
 
+  /**
+   * Map geometry collection.
+   *
+   * @throws Exception the exception
+   */
   @Test
   void mapGeometryCollection() throws Exception {
     var expected = geometryFactory.createGeometryFromWellKnownText(
@@ -177,6 +215,11 @@ class GeoJsonObjectMapperModuleTest {
         .isTrue();
   }
 
+  /**
+   * Map feature.
+   *
+   * @throws Exception the exception
+   */
   @Test
   void mapFeature() throws Exception {
     var lineString = geometryFactory.createGeometryFromWellKnownText(
@@ -195,6 +238,11 @@ class GeoJsonObjectMapperModuleTest {
         .isEqualTo(expected);
   }
 
+  /**
+   * Map feature collection.
+   *
+   * @throws Exception the exception
+   */
   @Test
   void mapFeatureCollection() throws Exception {
     var lineString = geometryFactory.createGeometryFromWellKnownText(

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 the original author or authors.
+ * Copyright 2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,6 +49,8 @@ import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
 
 /**
+ * The geo json geometry factory.
+ *
  * @author Christian Bremer
  */
 public class GeoJsonGeometryFactory extends GeometryFactory {
@@ -81,6 +83,12 @@ public class GeoJsonGeometryFactory extends GeometryFactory {
         .orElseThrow(() -> new IllegalArgumentException("X must not be null."));
   }
 
+  /**
+   * Create coordinate.
+   *
+   * @param latLon the lat lon
+   * @return the coordinate
+   */
   public static Coordinate createCoordinate(LatLonAware latLon) {
     if (isNull(latLon)) {
       return null;
@@ -88,14 +96,34 @@ public class GeoJsonGeometryFactory extends GeometryFactory {
     return createCoordinate(latLon.getLongitude(), latLon.getLatitude());
   }
 
+  /**
+   * Create point.
+   *
+   * @param x the x
+   * @param y the y
+   * @return the point
+   */
   public Point createPoint(double x, double y) {
     return createPoint(createCoordinate(x, y));
   }
 
+  /**
+   * Create point.
+   *
+   * @param x the x
+   * @param y the y
+   * @return the point
+   */
   public Point createPoint(BigDecimal x, BigDecimal y) {
     return createPoint(createCoordinate(x, y));
   }
 
+  /**
+   * Create point.
+   *
+   * @param latLon the lat lon
+   * @return the point
+   */
   public Point createPoint(LatLonAware latLon) {
     if (isNull(latLon)) {
       return null;
@@ -198,7 +226,7 @@ public class GeoJsonGeometryFactory extends GeometryFactory {
   }
 
   /**
-   * Create geometry collection geometry collection.
+   * Create geometry collection.
    *
    * @param geometries the geometries
    * @return the geometry collection
@@ -211,6 +239,12 @@ public class GeoJsonGeometryFactory extends GeometryFactory {
         .orElseGet(this::createGeometryCollection);
   }
 
+  /**
+   * Create lat lon.
+   *
+   * @param coordinate the coordinate
+   * @return the lat lon
+   */
   public static LatLon createLatLon(Coordinate coordinate) {
     if (isNull(coordinate)) {
       return null;
@@ -220,6 +254,12 @@ public class GeoJsonGeometryFactory extends GeometryFactory {
         BigDecimal.valueOf(coordinate.getX()));
   }
 
+  /**
+   * Create lat lon.
+   *
+   * @param point the point
+   * @return the lat lon
+   */
   public static LatLon createLatLon(Point point) {
     if (isNull(point)) {
       return null;
@@ -227,6 +267,12 @@ public class GeoJsonGeometryFactory extends GeometryFactory {
     return createLatLon(point.getCoordinate());
   }
 
+  /**
+   * Create latitude longitude.
+   *
+   * @param coordinate the coordinate
+   * @return the latitude longitude
+   */
   public static LatitudeLongitude createLatitudeLongitude(Coordinate coordinate) {
     if (isNull(coordinate)) {
       return null;
@@ -236,6 +282,12 @@ public class GeoJsonGeometryFactory extends GeometryFactory {
         BigDecimal.valueOf(coordinate.getX()));
   }
 
+  /**
+   * Create latitude longitude.
+   *
+   * @param point the point
+   * @return the latitude longitude
+   */
   public static LatitudeLongitude createLatitudeLongitude(Point point) {
     if (isNull(point)) {
       return null;

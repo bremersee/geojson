@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 the original author or authors.
+ * Copyright 2015-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,11 @@ package org.bremersee.geojson;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static org.bremersee.geojson.GeoJsonConstants.BBOX;
+import static org.bremersee.geojson.GeoJsonConstants.FEATURE;
 import static org.bremersee.geojson.GeoJsonConstants.GEOMETRY;
 import static org.bremersee.geojson.GeoJsonConstants.ID;
 import static org.bremersee.geojson.GeoJsonConstants.PROPERTIES;
 import static org.bremersee.geojson.GeoJsonConstants.TYPE;
-import static org.bremersee.geojson.GeoJsonConstants.FEATURE;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -46,6 +46,8 @@ import org.springframework.util.Assert;
  * A GeoJSON object with the type {@code Feature} (see
  * <a href="https://tools.ietf.org/html/rfc7946#section-3.2">rfc7946 section 3.2</a>).
  *
+ * @param <G> the geometry type parameter
+ * @param <P> the properties type parameter
  * @author Christian Bremer
  */
 @Schema(description = "A GeoJSON object with type 'Feature'.")
@@ -73,7 +75,13 @@ public class GeoJsonFeature<G extends Geometry, P> extends UnknownAware {
   private final P properties;
 
   /**
-   * Default constructor.
+   * Instantiates a new geo json feature.
+   *
+   * @param type the type
+   * @param id the id
+   * @param bbox the bbox
+   * @param geometry the geometry
+   * @param properties the properties
    */
   @JsonCreator
   GeoJsonFeature(
@@ -100,6 +108,14 @@ public class GeoJsonFeature<G extends Geometry, P> extends UnknownAware {
     this.properties = properties;
   }
 
+  /**
+   * Instantiates a new geo json feature.
+   *
+   * @param id the id
+   * @param bbox the bbox
+   * @param geometry the geometry
+   * @param properties the properties
+   */
   public GeoJsonFeature(
       String id,
       double[] bbox,
@@ -109,7 +125,7 @@ public class GeoJsonFeature<G extends Geometry, P> extends UnknownAware {
   }
 
   /**
-   * Constructs a GeoJSON feature with the specified parameters.
+   * Instantiates a new geo json feature.
    *
    * @param id an optional id
    * @param geometry the geometry of the GeoJson feature
@@ -131,6 +147,11 @@ public class GeoJsonFeature<G extends Geometry, P> extends UnknownAware {
         properties);
   }
 
+  /**
+   * Gets type.
+   *
+   * @return the type
+   */
   @Schema(description = "The feature type.", required = true, example = FEATURE)
   @JsonProperty(value = TYPE, required = true)
   public final String getType() {
@@ -168,6 +189,11 @@ public class GeoJsonFeature<G extends Geometry, P> extends UnknownAware {
     return geometry;
   }
 
+  /**
+   * Gets properties.
+   *
+   * @return the properties
+   */
   @Schema(description = "The properties of the GeoJSON feature.")
   @JsonInclude(Include.NON_EMPTY)
   @JsonProperty(PROPERTIES)

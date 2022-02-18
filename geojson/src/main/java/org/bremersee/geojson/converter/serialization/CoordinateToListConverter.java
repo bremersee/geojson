@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 the original author or authors.
+ * Copyright 2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +30,8 @@ import java.util.regex.Pattern;
 import org.locationtech.jts.geom.Coordinate;
 
 /**
+ * The type Coordinate to list converter.
+ *
  * @author Christian Bremer
  */
 class CoordinateToListConverter implements Serializable {
@@ -58,10 +60,21 @@ class CoordinateToListConverter implements Serializable {
 
   private final boolean useBigDecimal;
 
+  /**
+   * Instantiates a new Coordinate to list converter.
+   *
+   * @param useBigDecimal the use big decimal
+   */
   CoordinateToListConverter(boolean useBigDecimal) {
     this.useBigDecimal = useBigDecimal;
   }
 
+  /**
+   * Convert list.
+   *
+   * @param source the source
+   * @return the list
+   */
   List<Number> convert(Coordinate source) {
     int size = nonNull(source) ? 2 : 0;
     List<Number> list = new ArrayList<>(size);

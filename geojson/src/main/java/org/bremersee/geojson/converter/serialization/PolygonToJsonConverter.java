@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 the original author or authors.
+ * Copyright 2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,15 +25,29 @@ import org.locationtech.jts.geom.Polygon;
 import org.springframework.util.Assert;
 
 /**
+ * The type Polygon to json converter.
+ *
  * @author Christian Bremer
  */
 class PolygonToJsonConverter extends AbstractGeometryToJsonConverter<Polygon> {
 
   private static final long serialVersionUID = 1L;
 
+  /**
+   * The Coordinate sequence converter.
+   */
   final CoordinateSequenceToListConverter coordinateSequenceConverter;
 
-  PolygonToJsonConverter(CoordinateSequenceToListConverter coordinateSequenceConverter, boolean withBoundingBox) {
+  /**
+   * Instantiates a new Polygon to json converter.
+   *
+   * @param coordinateSequenceConverter the coordinate sequence converter
+   * @param withBoundingBox the with bounding box
+   */
+  PolygonToJsonConverter(
+      CoordinateSequenceToListConverter coordinateSequenceConverter,
+      boolean withBoundingBox) {
+
     super(withBoundingBox);
     Assert.notNull(coordinateSequenceConverter, "Coordinate sequence converter must be present.");
     this.coordinateSequenceConverter = coordinateSequenceConverter;

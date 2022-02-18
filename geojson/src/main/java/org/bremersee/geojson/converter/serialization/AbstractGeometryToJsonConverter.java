@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 the original author or authors.
+ * Copyright 2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,9 @@ import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.locationtech.jts.geom.Geometry;
 
 /**
+ * The type Abstract geometry to json converter.
+ *
+ * @param <S> the type parameter
  * @author Christian Bremer
  */
 abstract class AbstractGeometryToJsonConverter<S extends Geometry> implements Serializable {
@@ -41,10 +44,21 @@ abstract class AbstractGeometryToJsonConverter<S extends Geometry> implements Se
 
   private final boolean withBoundingBox;
 
+  /**
+   * Instantiates a new Abstract geometry to json converter.
+   *
+   * @param withBoundingBox the with bounding box
+   */
   AbstractGeometryToJsonConverter(boolean withBoundingBox) {
     this.withBoundingBox = withBoundingBox;
   }
 
+  /**
+   * Convert map.
+   *
+   * @param source the source
+   * @return the map
+   */
   Map<String, Object> convert(S source) {
     if (isNull(source)) {
       return null;
@@ -60,7 +74,18 @@ abstract class AbstractGeometryToJsonConverter<S extends Geometry> implements Se
     return unmodifiableMap(map);
   }
 
+  /**
+   * Gets geometry type.
+   *
+   * @return the geometry type
+   */
   abstract String getGeometryType();
 
+  /**
+   * Gets geometry json value.
+   *
+   * @param source the source
+   * @return the geometry json value
+   */
   abstract Object getGeometryJsonValue(S source);
 }

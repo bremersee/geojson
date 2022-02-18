@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 the original author or authors.
+ * Copyright 2015-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,12 +34,18 @@ public class JacksonGeometrySerializer extends StdSerializer<Geometry> {
   private final GeometryToJsonConverter converter;
 
   /**
-   * Default constructor.
+   * Instantiates a new Jackson geometry serializer.
    */
   public JacksonGeometrySerializer() {
     this(false, false);
   }
 
+  /**
+   * Instantiates a new Jackson geometry serializer.
+   *
+   * @param withBoundingBox the with bounding box
+   * @param useBigDecimal the use big decimal
+   */
   public JacksonGeometrySerializer(boolean withBoundingBox, boolean useBigDecimal) {
     super(Geometry.class, false);
     this.converter = new GeometryToJsonConverter(withBoundingBox, useBigDecimal);

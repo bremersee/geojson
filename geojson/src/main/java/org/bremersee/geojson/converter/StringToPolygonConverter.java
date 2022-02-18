@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 the original author or authors.
+ * Copyright 2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 
 /**
+ * The string to polygon converter.
+ *
  * @author Christian Bremer
  */
 @SuppressWarnings("SameNameButDifferent")
@@ -30,6 +32,11 @@ import org.springframework.lang.NonNull;
 public class StringToPolygonConverter extends AbstractStringToGeometryConverter
     implements Converter<String, Polygon> {
 
+  /**
+   * Instantiates a new string to polygon converter.
+   *
+   * @param geometryFactory the geometry factory
+   */
   public StringToPolygonConverter(GeoJsonGeometryFactory geometryFactory) {
     super(geometryFactory);
   }

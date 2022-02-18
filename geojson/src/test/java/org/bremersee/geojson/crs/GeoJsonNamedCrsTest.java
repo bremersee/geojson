@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 the original author or authors.
+ * Copyright 2015-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import org.bremersee.geojson.crs.GeoJsonCrsConstants;
-import org.bremersee.geojson.crs.GeoJsonNamedCrs;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -63,8 +61,10 @@ class GeoJsonNamedCrsTest {
     model.setProperties(properties);
     assertEquals(properties, model.getProperties());
     assertEquals(GeoJsonCrsConstants.MERCATOR_CRS, model.getCrs());
-    assertEquals(model.hashCode(), new GeoJsonNamedCrs(GeoJsonCrsConstants.MERCATOR_CRS).hashCode());
-    assertEquals(model.toString(), new GeoJsonNamedCrs(GeoJsonCrsConstants.MERCATOR_CRS).toString());
+    assertEquals(model.hashCode(),
+        new GeoJsonNamedCrs(GeoJsonCrsConstants.MERCATOR_CRS).hashCode());
+    assertEquals(model.toString(),
+        new GeoJsonNamedCrs(GeoJsonCrsConstants.MERCATOR_CRS).toString());
 
     model.setProperties(null);
     assertEquals(model, new GeoJsonNamedCrs(null));

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 the original author or authors.
+ * Copyright 2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@ import org.locationtech.jts.geom.Point;
 import org.springframework.util.Assert;
 
 /**
+ * The type Multi point to json converter.
+ *
  * @author Christian Bremer
  */
 class MultiPointToJsonConverter extends AbstractGeometryToJsonConverter<MultiPoint> {
@@ -34,6 +36,12 @@ class MultiPointToJsonConverter extends AbstractGeometryToJsonConverter<MultiPoi
 
   private final PointToJsonConverter pointConverter;
 
+  /**
+   * Instantiates a new Multi point to json converter.
+   *
+   * @param pointConverter the point converter
+   * @param withBoundingBox the with bounding box
+   */
   MultiPointToJsonConverter(PointToJsonConverter pointConverter, boolean withBoundingBox) {
     super(withBoundingBox);
     Assert.notNull(pointConverter, "Point converter must be present.");

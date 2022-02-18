@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 the original author or authors.
+ * Copyright 2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,20 +21,35 @@ import static java.util.Objects.isNull;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
 
 /**
+ * The abstract string to geometry converter.
+ *
  * @author Christian Bremer
  */
 abstract class AbstractStringToGeometryConverter {
 
   private final GeoJsonGeometryFactory geometryFactory;
 
+  /**
+   * Instantiates a new abstract string to geometry converter.
+   */
   AbstractStringToGeometryConverter() {
     this(new GeoJsonGeometryFactory());
   }
 
+  /**
+   * Instantiates a new abstract string to geometry converter.
+   *
+   * @param geometryFactory the geometry factory
+   */
   AbstractStringToGeometryConverter(GeoJsonGeometryFactory geometryFactory) {
     this.geometryFactory = isNull(geometryFactory) ? new GeoJsonGeometryFactory() : geometryFactory;
   }
 
+  /**
+   * Gets geometry factory.
+   *
+   * @return the geometry factory
+   */
   GeoJsonGeometryFactory getGeometryFactory() {
     return geometryFactory;
   }

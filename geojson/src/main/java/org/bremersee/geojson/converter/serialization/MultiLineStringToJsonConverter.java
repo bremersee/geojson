@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 the original author or authors.
+ * Copyright 2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@ import org.locationtech.jts.geom.MultiLineString;
 import org.springframework.util.Assert;
 
 /**
+ * The type Multi line string to json converter.
+ *
  * @author Christian Bremer
  */
 class MultiLineStringToJsonConverter extends AbstractGeometryToJsonConverter<MultiLineString> {
@@ -34,7 +36,16 @@ class MultiLineStringToJsonConverter extends AbstractGeometryToJsonConverter<Mul
 
   private final LineStringToJsonConverter lineStringConverter;
 
-  MultiLineStringToJsonConverter(LineStringToJsonConverter lineStringConverter, boolean withBoundingBox) {
+  /**
+   * Instantiates a new Multi line string to json converter.
+   *
+   * @param lineStringConverter the line string converter
+   * @param withBoundingBox the with bounding box
+   */
+  MultiLineStringToJsonConverter(
+      LineStringToJsonConverter lineStringConverter,
+      boolean withBoundingBox) {
+
     super(withBoundingBox);
     Assert.notNull(lineStringConverter, "Line string converter must not be present.");
     this.lineStringConverter = lineStringConverter;

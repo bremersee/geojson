@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 the original author or authors.
+ * Copyright 2015-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,11 +46,19 @@ import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
+/**
+ * The type Geo json geometry factory test.
+ */
 @ExtendWith(SoftAssertionsExtension.class)
 class GeoJsonGeometryFactoryTest {
 
   private static final GeoJsonGeometryFactory target = new GeoJsonGeometryFactory();
 
+  /**
+   * Create coordinate with double.
+   *
+   * @param softly the softly
+   */
   @Test
   void createCoordinateWithDouble(SoftAssertions softly) {
     Coordinate actual = GeoJsonGeometryFactory.createCoordinate(1., 2.);
@@ -58,6 +66,11 @@ class GeoJsonGeometryFactoryTest {
     softly.assertThat(actual.getY()).isEqualTo(2.);
   }
 
+  /**
+   * Create coordinate with big decimal.
+   *
+   * @param softly the softly
+   */
   @Test
   void createCoordinateWithBigDecimal(SoftAssertions softly) {
     Coordinate actual = GeoJsonGeometryFactory.createCoordinate(BigDecimal.ONE, BigDecimal.TEN);
@@ -65,18 +78,29 @@ class GeoJsonGeometryFactoryTest {
     softly.assertThat(actual.getY()).isEqualTo(10.);
   }
 
+  /**
+   * Create coordinate with null.
+   */
   @Test
   void createCoordinateWithNull() {
     assertThatExceptionOfType(IllegalArgumentException.class)
         .isThrownBy(() -> GeoJsonGeometryFactory.createCoordinate(BigDecimal.ZERO, null));
   }
 
+  /**
+   * Create coordinate with nulls.
+   */
   @Test
   void createCoordinateWithNulls() {
     assertThatExceptionOfType(IllegalArgumentException.class)
         .isThrownBy(() -> GeoJsonGeometryFactory.createCoordinate(null, null));
   }
 
+  /**
+   * Create coordinate with lat lon aware.
+   *
+   * @param softly the softly
+   */
   @Test
   void createCoordinateWithLatLonAware(SoftAssertions softly) {
     Coordinate actual = GeoJsonGeometryFactory.createCoordinate(null);
@@ -89,6 +113,9 @@ class GeoJsonGeometryFactoryTest {
         .isEqualTo(new Coordinate(1., 10.));
   }
 
+  /**
+   * Create point with double.
+   */
   @Test
   void createPointWithDouble() {
     Point actual = target.createPoint(0., 10.);
@@ -97,6 +124,9 @@ class GeoJsonGeometryFactoryTest {
 
   }
 
+  /**
+   * Create point with big decimal.
+   */
   @Test
   void createPointWithBigDecimal() {
     Point actual = target.createPoint(BigDecimal.TEN, BigDecimal.ZERO);
@@ -104,6 +134,9 @@ class GeoJsonGeometryFactoryTest {
         .isEqualTo(new Coordinate(10., 0.));
   }
 
+  /**
+   * Create point with lat lon aware.
+   */
   @Test
   void createPointWithLatLonAware() {
     Point actual = target.createPoint(LatLonAware.builder()
@@ -114,6 +147,9 @@ class GeoJsonGeometryFactoryTest {
         .isEqualTo(new Coordinate(8., 7.));
   }
 
+  /**
+   * Create line string.
+   */
   @Test
   void createLineString() {
     Coordinate c0 = new Coordinate(123.456, 34.567);
@@ -125,6 +161,9 @@ class GeoJsonGeometryFactoryTest {
         .containsExactly(c0, c1, c2);
   }
 
+  /**
+   * Create line string with empty collection.
+   */
   @Test
   void createLineStringWithEmptyCollection() {
     LineString actual = target.createLineString(List.of());
@@ -132,6 +171,9 @@ class GeoJsonGeometryFactoryTest {
         .isEmpty();
   }
 
+  /**
+   * Create line string with null.
+   */
   @Test
   void createLineStringWithNull() {
     LineString actual = target.createLineString((Collection<? extends Coordinate>) null);
@@ -139,6 +181,9 @@ class GeoJsonGeometryFactoryTest {
         .isEmpty();
   }
 
+  /**
+   * Create linear ring.
+   */
   @Test
   void createLinearRing() {
     Coordinate c0 = new Coordinate(0, 0);
@@ -150,6 +195,9 @@ class GeoJsonGeometryFactoryTest {
         .containsExactly(c0, c1, c2, c3, c0);
   }
 
+  /**
+   * Create linear ring with empty collection.
+   */
   @Test
   void createLinearRingWithEmptyCollection() {
     LinearRing actual = target.createLinearRing(List.of());
@@ -157,6 +205,9 @@ class GeoJsonGeometryFactoryTest {
         .isEmpty();
   }
 
+  /**
+   * Create linear ring with null.
+   */
   @Test
   void createLinearRingWithNull() {
     LinearRing actual = target.createLinearRing((Collection<? extends Coordinate>) null);
@@ -164,6 +215,9 @@ class GeoJsonGeometryFactoryTest {
         .isEmpty();
   }
 
+  /**
+   * Create polygon.
+   */
   @Test
   void createPolygon() {
     Coordinate c0 = new Coordinate(0, 0);
@@ -183,6 +237,9 @@ class GeoJsonGeometryFactoryTest {
         .containsExactly(c0, c1, c2, c3, c0, h0, h1, h2, h3, h0);
   }
 
+  /**
+   * Create polygon null holes.
+   */
   @Test
   void createPolygonNullHoles() {
     Coordinate c0 = new Coordinate(0, 0);
@@ -195,6 +252,9 @@ class GeoJsonGeometryFactoryTest {
         .containsExactly(c0, c1, c2, c3, c0);
   }
 
+  /**
+   * Create polygon empty holes.
+   */
   @Test
   void createPolygonEmptyHoles() {
     Coordinate c0 = new Coordinate(0, 0);
@@ -207,6 +267,9 @@ class GeoJsonGeometryFactoryTest {
         .containsExactly(c0, c1, c2, c3, c0);
   }
 
+  /**
+   * Create multi point.
+   */
   @Test
   void createMultiPoint() {
     Coordinate c0 = new Coordinate(0, 0);
@@ -219,6 +282,9 @@ class GeoJsonGeometryFactoryTest {
         .containsExactly(c0, c1);
   }
 
+  /**
+   * Create multi line string.
+   */
   @Test
   void createMultiLineString() {
     Coordinate c0 = new Coordinate(0, 0);
@@ -233,6 +299,9 @@ class GeoJsonGeometryFactoryTest {
         .containsExactly(c0, c1, c2, c3);
   }
 
+  /**
+   * Create multi polygon.
+   */
   @Test
   void createMultiPolygon() {
     Coordinate c0 = new Coordinate(0, 0);
@@ -254,6 +323,9 @@ class GeoJsonGeometryFactoryTest {
         .containsExactly(c0, c1, c2, c3, c0, h0, h1, h2, h3, h0);
   }
 
+  /**
+   * Create geometry collection.
+   */
   @Test
   void createGeometryCollection() {
     Coordinate c0 = new Coordinate(0, 0);
@@ -266,6 +338,11 @@ class GeoJsonGeometryFactoryTest {
         .containsExactly(c0, c1);
   }
 
+  /**
+   * Create lat lon from coordinate.
+   *
+   * @param softly the softly
+   */
   @Test
   void createLatLonFromCoordinate(SoftAssertions softly) {
     Coordinate c = new Coordinate(1, 0);
@@ -282,12 +359,20 @@ class GeoJsonGeometryFactoryTest {
         .isEqualTo(c.getX());
   }
 
+  /**
+   * Create lat lon from coordinate null.
+   */
   @Test
   void createLatLonFromCoordinateNull() {
     assertThat(GeoJsonGeometryFactory.createLatLon((Coordinate) null))
         .isNull();
   }
 
+  /**
+   * Create lat lon from point.
+   *
+   * @param softly the softly
+   */
   @Test
   void createLatLonFromPoint(SoftAssertions softly) {
     Coordinate c = new Coordinate(1, 0);
@@ -304,12 +389,20 @@ class GeoJsonGeometryFactoryTest {
         .isEqualTo(c.getX());
   }
 
+  /**
+   * Create lat lon from point null.
+   */
   @Test
   void createLatLonFromPointNull() {
     assertThat(GeoJsonGeometryFactory.createLatLon((Point) null))
         .isNull();
   }
 
+  /**
+   * Create latitude longitude from coordinate.
+   *
+   * @param softly the softly
+   */
   @Test
   void createLatitudeLongitudeFromCoordinate(SoftAssertions softly) {
     Coordinate c = new Coordinate(1, 0);
@@ -326,12 +419,20 @@ class GeoJsonGeometryFactoryTest {
         .isEqualTo(c.getX());
   }
 
+  /**
+   * Create latitude longitude from coordinate null.
+   */
   @Test
   void createLatitudeLongitudeFromCoordinateNull() {
     assertThat(GeoJsonGeometryFactory.createLatitudeLongitude((Coordinate) null))
         .isNull();
   }
 
+  /**
+   * Create latitude longitude from point.
+   *
+   * @param softly the softly
+   */
   @Test
   void createLatitudeLongitudeFromPoint(SoftAssertions softly) {
     Coordinate c = new Coordinate(1, 0);
@@ -349,12 +450,20 @@ class GeoJsonGeometryFactoryTest {
         .isEqualTo(c.getX());
   }
 
+  /**
+   * Create latitude longitude from point null.
+   */
   @Test
   void createLatitudeLongitudeFromPointNull() {
     assertThat(GeoJsonGeometryFactory.createLatitudeLongitude((Point) null))
         .isNull();
   }
 
+  /**
+   * Test equals.
+   *
+   * @param softly the softly
+   */
   @Test
   void testEquals(SoftAssertions softly) {
     Point g1 = target.createPoint(1.234, 5.678);
@@ -377,6 +486,11 @@ class GeoJsonGeometryFactoryTest {
     softly.assertThat(GeoJsonGeometryFactory.equals(gc1, gc4)).isFalse();
   }
 
+  /**
+   * Gets bounding box.
+   *
+   * @param softly the softly
+   */
   @Test
   void getBoundingBox(SoftAssertions softly) {
     softly.assertThat(GeoJsonGeometryFactory.getBoundingBox((Geometry) null))
@@ -500,6 +614,12 @@ class GeoJsonGeometryFactoryTest {
         .isNull();
   }
 
+  /**
+   * Create geometry from well known text.
+   *
+   * @param softly the softly
+   * @throws IOException the io exception
+   */
   @Test
   void createGeometryFromWellKnownText(SoftAssertions softly) throws IOException {
     Coordinate c1 = new Coordinate(1, 0);
@@ -549,18 +669,27 @@ class GeoJsonGeometryFactoryTest {
         .isTrue();
   }
 
+  /**
+   * Create geometry from well known text with nonsense.
+   */
   @Test
   void createGeometryFromWellKnownTextWithNonsense() {
     assertThatExceptionOfType(IllegalArgumentException.class)
         .isThrownBy(() -> target.createGeometryFromWellKnownText("nonsense"));
   }
 
+  /**
+   * Create geometry from well known text with nonsense reader.
+   */
   @Test
   void createGeometryFromWellKnownTextWithNonsenseReader() {
     assertThatExceptionOfType(IllegalArgumentException.class)
         .isThrownBy(() -> target.createGeometryFromWellKnownText(new StringReader("nonsense")));
   }
 
+  /**
+   * Create geometry from well known text with nonsense input stream.
+   */
   @Test
   void createGeometryFromWellKnownTextWithNonsenseInputStream() {
     assertThatExceptionOfType(IllegalArgumentException.class)
@@ -569,6 +698,12 @@ class GeoJsonGeometryFactoryTest {
             StandardCharsets.UTF_8));
   }
 
+  /**
+   * Create geometry from well known text with null.
+   *
+   * @param softly the softly
+   * @throws IOException the io exception
+   */
   @Test
   void createGeometryFromWellKnownTextWithNull(SoftAssertions softly) throws IOException {
     //noinspection unchecked
@@ -582,6 +717,11 @@ class GeoJsonGeometryFactoryTest {
         .isNull();
   }
 
+  /**
+   * Copy and apply filters.
+   *
+   * @param softly the softly
+   */
   @Test
   void copyAndApplyFilters(SoftAssertions softly) {
     //noinspection unchecked

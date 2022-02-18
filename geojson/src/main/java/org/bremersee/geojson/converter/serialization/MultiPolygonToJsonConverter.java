@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 the original author or authors.
+ * Copyright 2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@ import org.locationtech.jts.geom.Polygon;
 import org.springframework.util.Assert;
 
 /**
+ * The type Multi polygon to json converter.
+ *
  * @author Christian Bremer
  */
 class MultiPolygonToJsonConverter extends AbstractGeometryToJsonConverter<MultiPolygon> {
@@ -34,6 +36,12 @@ class MultiPolygonToJsonConverter extends AbstractGeometryToJsonConverter<MultiP
 
   private final PolygonToJsonConverter polygonConverter;
 
+  /**
+   * Instantiates a new Multi polygon to json converter.
+   *
+   * @param polygonConverter the polygon converter
+   * @param withBoundingBox the with bounding box
+   */
   MultiPolygonToJsonConverter(PolygonToJsonConverter polygonConverter, boolean withBoundingBox) {
     super(withBoundingBox);
     Assert.notNull(polygonConverter, "Polygon converter must be present.");

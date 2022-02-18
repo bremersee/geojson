@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 the original author or authors.
+ * Copyright 2015-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,6 +44,8 @@ import org.springframework.util.Assert;
  * A GeoJSON object with the type {@code FeatureCollection} is a feature collection object (see
  * <a href="https://tools.ietf.org/html/rfc7946#section-3.3">rfc7946 section 3.3</a>).
  *
+ * @param <G> the geometry type parameter
+ * @param <P> the properties type parameter
  * @author Christian Bremer
  */
 @Schema(description = "A GeoJSON object with type 'Feature'.")
@@ -61,6 +63,13 @@ public class GeoJsonFeatureCollection<G extends Geometry, P> extends UnknownAwar
   @JsonProperty(FEATURES)
   private final List<GeoJsonFeature<G, P>> features;
 
+  /**
+   * Instantiates a new geo json feature collection.
+   *
+   * @param type the type
+   * @param bbox the bbox
+   * @param features the features
+   */
   @JsonCreator
   GeoJsonFeatureCollection(
       @JsonProperty(value = TYPE, required = true) String type,
@@ -80,6 +89,12 @@ public class GeoJsonFeatureCollection<G extends Geometry, P> extends UnknownAwar
     this.features = features;
   }
 
+  /**
+   * Instantiates a new geo json feature collection.
+   *
+   * @param bbox the bbox
+   * @param features the features
+   */
   public GeoJsonFeatureCollection(
       double[] bbox,
       List<GeoJsonFeature<G, P>> features) {
@@ -88,7 +103,7 @@ public class GeoJsonFeatureCollection<G extends Geometry, P> extends UnknownAwar
   }
 
   /**
-   * Constructs a GeoJSON feature collection with the specified parameters.
+   * Instantiates a new geo json feature collection.
    *
    * @param features the GeoJSON features of the collection
    * @param calculateBounds if <code>true</code> the bounding box will be calculated otherwise
@@ -106,6 +121,11 @@ public class GeoJsonFeatureCollection<G extends Geometry, P> extends UnknownAwar
         features);
   }
 
+  /**
+   * Gets type.
+   *
+   * @return the type
+   */
   @Schema(
       description = "The feature collection type.",
       required = true,
@@ -126,6 +146,11 @@ public class GeoJsonFeatureCollection<G extends Geometry, P> extends UnknownAwar
     return bbox;
   }
 
+  /**
+   * Gets features.
+   *
+   * @return the features
+   */
   @JsonIgnore
   public List<GeoJsonFeature<G, P>> getFeatures() {
     return isNull(features) ? List.of() : Collections.unmodifiableList(features);

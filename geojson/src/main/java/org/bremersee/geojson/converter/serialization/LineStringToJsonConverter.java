@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 the original author or authors.
+ * Copyright 2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,8 @@ import org.locationtech.jts.geom.LineString;
 import org.springframework.util.Assert;
 
 /**
+ * The type Line string to json converter.
+ *
  * @author Christian Bremer
  */
 class LineStringToJsonConverter extends AbstractGeometryToJsonConverter<LineString> {
@@ -30,7 +32,16 @@ class LineStringToJsonConverter extends AbstractGeometryToJsonConverter<LineStri
 
   private final CoordinateSequenceToListConverter coordinateSequenceConverter;
 
-  LineStringToJsonConverter(CoordinateSequenceToListConverter coordinateSequenceConverter, boolean withBoundingBox) {
+  /**
+   * Instantiates a new Line string to json converter.
+   *
+   * @param coordinateSequenceConverter the coordinate sequence converter
+   * @param withBoundingBox the with bounding box
+   */
+  LineStringToJsonConverter(
+      CoordinateSequenceToListConverter coordinateSequenceConverter,
+      boolean withBoundingBox) {
+
     super(withBoundingBox);
     Assert.notNull(coordinateSequenceConverter, "Coordinate sequence converter must be present.");
     this.coordinateSequenceConverter = coordinateSequenceConverter;

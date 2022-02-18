@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 the original author or authors.
+ * Copyright 2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,6 +44,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 
 /**
+ * The geometry to json converter.
+ *
  * @author Christian Bremer
  */
 public class GeometryToJsonConverter
@@ -65,10 +67,19 @@ public class GeometryToJsonConverter
 
   private final boolean withBoundingBox;
 
+  /**
+   * Instantiates a new geometry to json converter.
+   */
   public GeometryToJsonConverter() {
     this(false, false);
   }
 
+  /**
+   * Instantiates a new geometry to json converter.
+   *
+   * @param withBoundingBox with bounding box
+   * @param useBigDecimal use big decimal
+   */
   public GeometryToJsonConverter(boolean withBoundingBox, boolean useBigDecimal) {
     CoordinateToListConverter coordinateConverter = new CoordinateToListConverter(useBigDecimal);
     CoordinateSequenceToListConverter coordinateSequenceConverter

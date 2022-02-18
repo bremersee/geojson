@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 the original author or authors.
+ * Copyright 2015-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,6 +84,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
    * Instantiates a new geo json object mapper module.
    *
    * @param withBoundingBox with bounding box
+   * @param useBigDecimal the use big decimal
    */
   public GeoJsonObjectMapperModule(boolean withBoundingBox, boolean useBigDecimal) {
     this(new GeometryFactory(), withBoundingBox, useBigDecimal);
@@ -94,6 +95,7 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
    *
    * @param geometryFactory the geometry factory
    * @param withBoundingBox the with bounding box
+   * @param useBigDecimal the use big decimal
    */
   public GeoJsonObjectMapperModule(GeometryFactory geometryFactory, boolean withBoundingBox,
       boolean useBigDecimal) {
