@@ -108,8 +108,8 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
 
   private static Version getVersion() {
 
-    int defaultMajor = 2;
-    int defaultMinor = 5;
+    int defaultMajor = 3;
+    int defaultMinor = 0;
     int defaultPatchLevel = 0;
     String defaultSnapshotInfo = "SNAPSHOT";
 
