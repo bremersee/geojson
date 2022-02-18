@@ -16,14 +16,9 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
-import java.util.List;
-import org.bremersee.geojson.GeoJsonGeometryFactory;
-import org.bson.Document;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.MultiPolygon;
 import org.springframework.data.convert.ReadingConverter;
-import org.springframework.util.Assert;
-import org.springframework.util.ObjectUtils;
 
 /**
  * The document to multi polygon converter.

@@ -18,7 +18,6 @@ package org.bremersee.geojson.spring.data.mongodb.convert;
 
 import java.util.Collection;
 import java.util.List;
-import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.springframework.core.convert.converter.Converter;
 

@@ -16,9 +16,9 @@
 
 package org.bremersee.geojson.filter;
 
-import static org.bremersee.geojson.filter.FilterConstants.EARTH_RADIUS_METERS;
 import static org.bremersee.geojson.crs.GeoJsonCrsConstants.MERCATOR_MAX_LAT;
 import static org.bremersee.geojson.crs.GeoJsonCrsConstants.MERCATOR_MIN_LAT;
+import static org.bremersee.geojson.filter.FilterConstants.EARTH_RADIUS_METERS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

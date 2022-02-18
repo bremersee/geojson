@@ -40,7 +40,7 @@ class GeometryToJsonConverterTest {
         .isThrownBy(() -> target.convert(mock(IllegalGeometry.class)));
   }
 
-  private static abstract class IllegalGeometry extends Geometry {
+  private abstract static class IllegalGeometry extends Geometry {
 
     /**
      * Creates a new <code>Geometry</code> via the specified GeometryFactory.
