@@ -17,6 +17,7 @@
 package org.bremersee.geojson;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static org.bremersee.geojson.GeoJsonConstants.BBOX;
 import static org.bremersee.geojson.GeoJsonConstants.FEATURES;
 import static org.bremersee.geojson.GeoJsonConstants.FEATURE_COLLECTION;
@@ -29,16 +30,17 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.bremersee.geojson.model.UnknownAware;
 import org.locationtech.jts.geom.Geometry;
-import org.springframework.util.Assert;
 
 /**
  * A GeoJSON object with the type {@code FeatureCollection} is a feature collection object (see
@@ -52,16 +54,122 @@ import org.springframework.util.Assert;
 @JsonPropertyOrder({"type", "bbox", "features"})
 public class GeoJsonFeatureCollection<G extends Geometry, P> extends UnknownAware {
 
+  @Schema(hidden = true)
+  @JsonIgnore
+  private final boolean withBoundingBox;
+
+  @Schema(hidden = true)
+  @JsonIgnore
+  private final Comparator<GeoJsonFeature<G, P>> comparator;
+
   @Schema(description = "The bounding box of the GeoJSON feature collection.")
   @JsonInclude(Include.NON_EMPTY)
   @JsonProperty(BBOX)
-  private final double[] bbox;
+  private double[] bbox;
 
   @SuppressWarnings("DefaultAnnotationParam")
   @Schema(description = "The features the GeoJSON feature collection.")
   @JsonInclude(Include.ALWAYS)
   @JsonProperty(FEATURES)
   private final List<GeoJsonFeature<G, P>> features;
+
+  /**
+   * Instantiates a new Geo json feature collection.
+   *
+   * @param bbox the bbox
+   * @param features the features
+   * @param comparator the comparator
+   */
+  public GeoJsonFeatureCollection(
+      double[] bbox,
+      Collection<? extends GeoJsonFeature<G, P>> features,
+      Comparator<GeoJsonFeature<G, P>> comparator) {
+
+    if (isNull(bbox) || (bbox.length == 4) || (bbox.length == 6)) {
+      this.bbox = bbox;
+    } else {
+      throw new IllegalArgumentException(
+          "Bounding box must be null or must have a length of four or six.");
+    }
+    this.withBoundingBox = nonNull(this.bbox);
+    this.comparator = comparator;
+    this.features = new ArrayList<>();
+    addAll(features);
+  }
+
+  /**
+   * Instantiates a new geo json feature collection.
+   *
+   * @param bbox the bbox
+   * @param features the features
+   */
+  public GeoJsonFeatureCollection(
+      double[] bbox,
+      Collection<? extends GeoJsonFeature<G, P>> features) {
+
+    this(bbox, features, null);
+  }
+
+  /**
+   * Instantiates a new Geo json feature collection.
+   *
+   * @param features the features
+   * @param calculateBounds the calculate bounds
+   */
+  public GeoJsonFeatureCollection(
+      Collection<? extends GeoJsonFeature<G, P>> features,
+      boolean calculateBounds) {
+
+    this(
+        calculateBounds
+            ? GeoJsonGeometryFactory.getBoundingBox(getGeometries((features)))
+            : null,
+        features,
+        null);
+  }
+
+  /**
+   * Instantiates a new Geo json feature collection.
+   *
+   * @param features the features
+   * @param calculateBounds the calculate bounds
+   * @param comparator the comparator
+   */
+  public GeoJsonFeatureCollection(
+      Collection<? extends GeoJsonFeature<G, P>> features,
+      boolean calculateBounds, Comparator<GeoJsonFeature<G, P>> comparator) {
+
+    this(
+        calculateBounds
+            ? GeoJsonGeometryFactory.getBoundingBox(getGeometries((features)))
+            : null,
+        features,
+        comparator);
+  }
+
+  /**
+   * Instantiates a new Geo json feature collection.
+   *
+   * @param withBoundingBox the with bounding box
+   * @param comparator the comparator
+   */
+  public GeoJsonFeatureCollection(
+      boolean withBoundingBox,
+      Comparator<GeoJsonFeature<G, P>> comparator) {
+
+    this.withBoundingBox = withBoundingBox;
+    this.features = new ArrayList<>();
+    this.comparator = comparator;
+  }
+
+  /**
+   * Instantiates a new geo json feature collection.
+   *
+   * @param withBoundingBox the with bounding box
+   */
+  public GeoJsonFeatureCollection(boolean withBoundingBox) {
+    this(withBoundingBox, null);
+  }
 
   /**
    * Instantiates a new geo json feature collection.
@@ -74,51 +182,12 @@ public class GeoJsonFeatureCollection<G extends Geometry, P> extends UnknownAwar
   GeoJsonFeatureCollection(
       @JsonProperty(value = TYPE, required = true) String type,
       @JsonProperty(BBOX) double[] bbox,
-      @JsonProperty(FEATURES) List<GeoJsonFeature<G, P>> features) {
+      @JsonProperty(FEATURES) Collection<? extends GeoJsonFeature<G, P>> features) {
 
-    Assert.isTrue(
-        FEATURE_COLLECTION.equals(type),
-        String.format("Type must be '%s'.", FEATURE_COLLECTION));
-
-    if (isNull(bbox) || (bbox.length == 4) || (bbox.length == 6)) {
-      this.bbox = bbox;
-    } else {
-      throw new IllegalArgumentException(
-          "Bounding box must be null or must have a length of four or six.");
+    this(bbox, features, null);
+    if (!FEATURE_COLLECTION.equals(type)) {
+      throw new IllegalArgumentException(String.format("Type must be '%s'.", FEATURE_COLLECTION));
     }
-    this.features = features;
-  }
-
-  /**
-   * Instantiates a new geo json feature collection.
-   *
-   * @param bbox the bbox
-   * @param features the features
-   */
-  public GeoJsonFeatureCollection(
-      double[] bbox,
-      List<GeoJsonFeature<G, P>> features) {
-
-    this(FEATURE_COLLECTION, bbox, features);
-  }
-
-  /**
-   * Instantiates a new geo json feature collection.
-   *
-   * @param features the GeoJSON features of the collection
-   * @param calculateBounds if <code>true</code> the bounding box will be calculated otherwise
-   *     the bounding box will be <code>null</code>
-   */
-  public GeoJsonFeatureCollection(
-      List<GeoJsonFeature<G, P>> features,
-      boolean calculateBounds) {
-
-    this(
-        FEATURE_COLLECTION,
-        calculateBounds
-            ? GeoJsonGeometryFactory.getBoundingBox(getGeometries((features)))
-            : null,
-        features);
   }
 
   /**
@@ -156,6 +225,34 @@ public class GeoJsonFeatureCollection<G extends Geometry, P> extends UnknownAwar
     return isNull(features) ? List.of() : Collections.unmodifiableList(features);
   }
 
+  /**
+   * Add.
+   *
+   * @param feature the feature
+   */
+  public void add(GeoJsonFeature<G, P> feature) {
+    if (nonNull(feature)) {
+      addAll(List.of(feature));
+    }
+  }
+
+  /**
+   * Add all.
+   *
+   * @param features the features
+   */
+  public void addAll(Collection<? extends GeoJsonFeature<G, P>> features) {
+    if (nonNull(features) && !features.isEmpty()) {
+      this.features.addAll(features);
+      if (withBoundingBox) {
+        this.bbox = GeoJsonGeometryFactory.getBoundingBox(getGeometries(this.features));
+      }
+      if (nonNull(comparator)) {
+        this.features.sort(this.comparator);
+      }
+    }
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -185,7 +282,7 @@ public class GeoJsonFeatureCollection<G extends Geometry, P> extends UnknownAwar
         + '}';
   }
 
-  private static List<Geometry> getGeometries(List<?> features) {
+  private static List<Geometry> getGeometries(Collection<?> features) {
     //noinspection unchecked
     return Optional.ofNullable(features)
         .stream()

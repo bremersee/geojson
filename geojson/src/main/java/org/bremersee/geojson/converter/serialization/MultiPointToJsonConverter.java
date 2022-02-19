@@ -17,13 +17,13 @@
 package org.bremersee.geojson.converter.serialization;
 
 import static java.util.Collections.unmodifiableList;
+import static java.util.Objects.isNull;
 import static org.bremersee.geojson.GeoJsonConstants.MULTI_POINT;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.locationtech.jts.geom.MultiPoint;
 import org.locationtech.jts.geom.Point;
-import org.springframework.util.Assert;
 
 /**
  * The type Multi point to json converter.
@@ -44,7 +44,9 @@ class MultiPointToJsonConverter extends AbstractGeometryToJsonConverter<MultiPoi
    */
   MultiPointToJsonConverter(PointToJsonConverter pointConverter, boolean withBoundingBox) {
     super(withBoundingBox);
-    Assert.notNull(pointConverter, "Point converter must be present.");
+    if (isNull(pointConverter)) {
+      throw new IllegalArgumentException("Point converter must be present.");
+    }
     this.pointConverter = pointConverter;
   }
 

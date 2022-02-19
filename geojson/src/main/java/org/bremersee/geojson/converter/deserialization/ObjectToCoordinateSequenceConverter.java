@@ -16,14 +16,13 @@
 
 package org.bremersee.geojson.converter.deserialization;
 
-import static org.springframework.util.ObjectUtils.isEmpty;
+import static java.util.Objects.isNull;
 
 import java.io.Serializable;
 import java.util.List;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateSequence;
 import org.locationtech.jts.geom.impl.CoordinateArraySequence;
-import org.springframework.util.Assert;
 
 /**
  * The object to coordinate sequence converter.
@@ -42,7 +41,9 @@ class ObjectToCoordinateSequenceConverter implements Serializable {
    * @param coordinateConverter the coordinate converter
    */
   ObjectToCoordinateSequenceConverter(ObjectToCoordinateConverter coordinateConverter) {
-    Assert.notNull(coordinateConverter, "Coordinate converter must be present.");
+    if (isNull(coordinateConverter)) {
+      throw new IllegalArgumentException("Coordinate converter must be present.");
+    }
     this.coordinateConverter = coordinateConverter;
   }
 
@@ -54,7 +55,7 @@ class ObjectToCoordinateSequenceConverter implements Serializable {
    */
   CoordinateSequence convert(Object source) {
     Coordinate[] coords;
-    if (isEmpty(source)) {
+    if (isNull(source)) {
       coords = new Coordinate[0];
     } else {
       //noinspection unchecked

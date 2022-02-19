@@ -16,10 +16,10 @@
 
 package org.bremersee.geojson.converter.serialization;
 
+import static java.util.Objects.isNull;
 import static org.bremersee.geojson.GeoJsonConstants.LINESTRING;
 
 import org.locationtech.jts.geom.LineString;
-import org.springframework.util.Assert;
 
 /**
  * The type Line string to json converter.
@@ -43,7 +43,9 @@ class LineStringToJsonConverter extends AbstractGeometryToJsonConverter<LineStri
       boolean withBoundingBox) {
 
     super(withBoundingBox);
-    Assert.notNull(coordinateSequenceConverter, "Coordinate sequence converter must be present.");
+    if (isNull(coordinateSequenceConverter)) {
+      throw new IllegalArgumentException("Coordinate sequence converter must be present.");
+    }
     this.coordinateSequenceConverter = coordinateSequenceConverter;
   }
 

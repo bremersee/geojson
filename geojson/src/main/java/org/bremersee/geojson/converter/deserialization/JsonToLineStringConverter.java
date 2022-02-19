@@ -16,6 +16,7 @@
 
 package org.bremersee.geojson.converter.deserialization;
 
+import static java.util.Objects.isNull;
 import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
 import static org.bremersee.geojson.GeoJsonConstants.LINESTRING;
 import static org.bremersee.geojson.GeoJsonConstants.TYPE;
@@ -24,7 +25,6 @@ import java.util.Map;
 import org.locationtech.jts.geom.CoordinateSequence;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.LineString;
-import org.springframework.util.Assert;
 
 /**
  * The json to line string converter.
@@ -48,7 +48,9 @@ class JsonToLineStringConverter extends AbstractJsonToGeometryConverter {
       ObjectToCoordinateSequenceConverter coordinateSequenceConverter) {
 
     super(geometryFactory);
-    Assert.notNull(coordinateSequenceConverter, "Coordinate converter must be present.");
+    if (isNull(coordinateSequenceConverter)) {
+      throw new IllegalArgumentException("Coordinate sequence converter must be present.");
+    }
     this.coordinateSequenceConverter = coordinateSequenceConverter;
   }
 
@@ -59,9 +61,13 @@ class JsonToLineStringConverter extends AbstractJsonToGeometryConverter {
    * @return the line string
    */
   LineString convert(Map<String, Object> source) {
-    Assert.isTrue(
-        source.get(TYPE).equals(LINESTRING),
-        String.format("Source is not a %s: %s", LINESTRING, source));
+    if (isNull(source)) {
+      return null;
+    }
+    if (!LINESTRING.equals(source.get(TYPE))) {
+      throw new IllegalArgumentException(String
+          .format("Source is not a %s: %s", LINESTRING, source));
+    }
     return convertCoordinates(source.get(COORDINATES));
   }
 

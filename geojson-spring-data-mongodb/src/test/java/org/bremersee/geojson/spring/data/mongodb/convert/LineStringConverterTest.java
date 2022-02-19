@@ -16,13 +16,13 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.Arrays;
+import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.bson.Document;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.LineString;
@@ -32,15 +32,18 @@ import org.locationtech.jts.geom.LineString;
  *
  * @author Christian Bremer
  */
+@ExtendWith(SoftAssertionsExtension.class)
 class LineStringConverterTest {
 
   private static final GeoJsonGeometryFactory factory = new GeoJsonGeometryFactory();
 
   /**
    * Convert.
+   *
+   * @param softly the softly
    */
   @Test
-  void convert() {
+  void convert(SoftAssertions softly) {
     LineString model = factory.createLineString(Arrays.asList(
         new Coordinate(2., 3.),
         new Coordinate(6., 7.)));
@@ -48,19 +51,19 @@ class LineStringConverterTest {
     LineStringToDocumentConverter toDocumentConverter = new LineStringToDocumentConverter();
 
     Document document = toDocumentConverter.convert(model);
-    assertNotNull(document);
+    softly.assertThat(document)
+        .isNotNull();
 
     DocumentToLineStringConverter toGeometryConverter = new DocumentToLineStringConverter();
 
     LineString actual = toGeometryConverter.convert(document);
-    assertNotNull(actual);
-    assertTrue(GeoJsonGeometryFactory.equals(model, actual));
+    softly.assertThat(GeoJsonGeometryFactory.equals(actual, model))
+        .isTrue();
 
     DocumentToGeometryConverter converter = new DocumentToGeometryConverter();
     Geometry actualGeometry = converter.convert(document);
-    assertNotNull(actualGeometry);
-    assertTrue(actualGeometry instanceof LineString);
-    assertTrue(GeoJsonGeometryFactory.equals(actual, actualGeometry));
+    softly.assertThat(GeoJsonGeometryFactory.equals(actual, actualGeometry))
+        .isTrue();
   }
 
 }

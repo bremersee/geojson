@@ -17,7 +17,7 @@
 package org.bremersee.geojson.converter.serialization;
 
 import static java.util.Collections.unmodifiableList;
-import static org.springframework.util.ObjectUtils.isEmpty;
+import static java.util.Objects.isNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,7 +25,6 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.CoordinateSequence;
-import org.springframework.lang.NonNull;
 
 /**
  * The type Coordinate sequence to list converter.
@@ -46,8 +45,8 @@ class CoordinateSequenceToListConverter implements Serializable {
    * @param source the source
    * @return the list
    */
-  List<List<Number>> convert(@NonNull CoordinateSequence source) {
-    int size = isEmpty(source) ? 0 : source.size();
+  List<List<Number>> convert(CoordinateSequence source) {
+    int size = isNull(source) ? 0 : source.size();
     List<List<Number>> list = new ArrayList<>(size);
     if (size > 0) {
       for (int n = 0; n < source.size(); n++) {

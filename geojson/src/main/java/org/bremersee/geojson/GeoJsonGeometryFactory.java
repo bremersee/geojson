@@ -17,7 +17,6 @@
 package org.bremersee.geojson;
 
 import static java.util.Objects.isNull;
-import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -371,7 +370,7 @@ public class GeoJsonGeometryFactory extends GeometryFactory {
    * @return {@code null} if the bounding box can not be calculated, otherwise the bounding box
    */
   public static double[] getBoundingBox(Collection<? extends Geometry> geometries) {
-    if (isEmpty(geometries)) {
+    if (isNull(geometries) || geometries.isEmpty()) {
       return null;
     }
     double minX = Double.NaN;
@@ -618,7 +617,7 @@ public class GeoJsonGeometryFactory extends GeometryFactory {
       CoordinateFilter... filters) {
 
     Geometry result;
-    if (isNull(geometry) || isEmpty(filters)) {
+    if (isNull(geometry) || isNull(filters) || filters.length == 0) {
       result = geometry;
     } else {
       result = geometry.copy();
@@ -639,7 +638,7 @@ public class GeoJsonGeometryFactory extends GeometryFactory {
       Collection<? extends CoordinateFilter> filters) {
 
     Geometry result;
-    if (isNull(geometry) || isEmpty(filters)) {
+    if (isNull(geometry) || isNull(filters) || filters.isEmpty()) {
       result = geometry;
     } else {
       result = geometry.copy();

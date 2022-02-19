@@ -40,7 +40,6 @@ import org.bremersee.geojson.converter.deserialization.JacksonGeometryDeserializ
 import org.bremersee.geojson.converter.serialization.JacksonGeometrySerializer;
 import org.bremersee.geojson.model.UnknownAware;
 import org.locationtech.jts.geom.Geometry;
-import org.springframework.util.Assert;
 
 /**
  * A GeoJSON object with the type {@code Feature} (see
@@ -93,9 +92,9 @@ public class GeoJsonFeature<G extends Geometry, P> extends UnknownAware {
           G geometry,
       @JsonProperty(PROPERTIES) P properties) {
 
-    Assert.isTrue(
-        FEATURE.equals(type),
-        String.format("Type must be '%s'.", FEATURE));
+    if (!FEATURE.equals(type)) {
+      throw new IllegalArgumentException(String.format("Type must be '%s'.", FEATURE));
+    }
 
     this.id = id;
     if (isNull(bbox) || (bbox.length == 4) || (bbox.length == 6)) {

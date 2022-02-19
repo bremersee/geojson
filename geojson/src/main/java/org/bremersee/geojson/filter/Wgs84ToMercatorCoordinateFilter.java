@@ -16,11 +16,11 @@
 
 package org.bremersee.geojson.filter;
 
+import static java.util.Objects.hash;
 import static java.util.Objects.isNull;
 import static org.bremersee.geojson.filter.FilterConstants.EARTH_RADIUS_METERS;
 
 import java.io.Serializable;
-import java.util.Objects;
 import org.bremersee.geojson.crs.GeoJsonCrsConstants;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateFilter;
@@ -110,6 +110,6 @@ public class Wgs84ToMercatorCoordinateFilter implements CoordinateFilter, Serial
 
   @Override
   public int hashCode() {
-    return Objects.hash(earthRadiusInMeters);
+    return hash(earthRadiusInMeters);
   }
 }

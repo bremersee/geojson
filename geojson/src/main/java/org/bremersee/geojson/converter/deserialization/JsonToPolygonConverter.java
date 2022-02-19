@@ -16,10 +16,10 @@
 
 package org.bremersee.geojson.converter.deserialization;
 
+import static java.util.Objects.isNull;
 import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
 import static org.bremersee.geojson.GeoJsonConstants.POLYGON;
 import static org.bremersee.geojson.GeoJsonConstants.TYPE;
-import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,6 @@ import org.locationtech.jts.geom.CoordinateSequence;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.LinearRing;
 import org.locationtech.jts.geom.Polygon;
-import org.springframework.util.Assert;
 
 /**
  * The json to polygon converter.
@@ -52,7 +51,9 @@ class JsonToPolygonConverter extends AbstractJsonToGeometryConverter {
       ObjectToCoordinateSequenceConverter coordinateSequenceConverter) {
 
     super(geometryFactory);
-    Assert.notNull(coordinateSequenceConverter, "Coordinate converter must be present.");
+    if (isNull(coordinateSequenceConverter)) {
+      throw new IllegalArgumentException("Coordinate sequence converter must be present.");
+    }
     this.coordinateSequenceConverter = coordinateSequenceConverter;
   }
 
@@ -63,9 +64,13 @@ class JsonToPolygonConverter extends AbstractJsonToGeometryConverter {
    * @return the polygon
    */
   Polygon convert(Map<String, Object> source) {
-    Assert.isTrue(
-        source.get(TYPE).equals(POLYGON),
-        String.format("Source is not a %s: %s", POLYGON, source));
+    if (isNull(source)) {
+      return null;
+    }
+    if (!POLYGON.equals(source.get(TYPE))) {
+      throw new IllegalArgumentException(String
+          .format("Source is not a %s: %s", POLYGON, source));
+    }
     return convertCoordinates(source.get(COORDINATES));
   }
 
@@ -77,7 +82,7 @@ class JsonToPolygonConverter extends AbstractJsonToGeometryConverter {
    */
   Polygon convertCoordinates(Object source) {
     Polygon polygon;
-    if (isEmpty(source)) {
+    if (isNull(source)) {
       polygon = getGeometryFactory().createPolygon();
     } else {
       List<CoordinateSequence> list = new ArrayList<>();

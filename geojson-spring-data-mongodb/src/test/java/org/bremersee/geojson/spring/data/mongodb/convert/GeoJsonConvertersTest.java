@@ -16,12 +16,11 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Collection;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.junit.jupiter.api.Test;
-import org.locationtech.jts.geom.GeometryFactory;
 import org.springframework.core.convert.converter.Converter;
 
 /**
@@ -38,6 +37,7 @@ class GeoJsonConvertersTest {
   void getConvertersToRegister() {
     Collection<? extends Converter<?, ?>> converters = GeoJsonConverters
         .getConvertersToRegister(new GeoJsonGeometryFactory());
-    assertNotNull(converters);
+    assertThat(converters)
+        .isNotEmpty();
   }
 }

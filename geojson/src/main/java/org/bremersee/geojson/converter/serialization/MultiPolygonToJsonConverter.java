@@ -17,13 +17,13 @@
 package org.bremersee.geojson.converter.serialization;
 
 import static java.util.Collections.unmodifiableList;
+import static java.util.Objects.isNull;
 import static org.bremersee.geojson.GeoJsonConstants.MULTI_POLYGON;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.geom.Polygon;
-import org.springframework.util.Assert;
 
 /**
  * The type Multi polygon to json converter.
@@ -44,7 +44,9 @@ class MultiPolygonToJsonConverter extends AbstractGeometryToJsonConverter<MultiP
    */
   MultiPolygonToJsonConverter(PolygonToJsonConverter polygonConverter, boolean withBoundingBox) {
     super(withBoundingBox);
-    Assert.notNull(polygonConverter, "Polygon converter must be present.");
+    if (isNull(polygonConverter)) {
+      throw new IllegalArgumentException("Polygon converter must be present.");
+    }
     this.polygonConverter = polygonConverter;
   }
 

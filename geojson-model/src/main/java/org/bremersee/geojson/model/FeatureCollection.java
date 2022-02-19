@@ -16,21 +16,21 @@
 
 package org.bremersee.geojson.model;
 
-import static org.bremersee.geojson.GeoJsonConstants.FEATURE_COLLECTION;
 import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.util.List;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.bremersee.geojson.GeoJsonConstants;
 
 /**
  * A collection of features.
@@ -48,8 +48,11 @@ public class FeatureCollection implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  @JsonIgnore
-  private String type = FEATURE_COLLECTION;
+  @Schema(
+      description = "The feature collection type, must be 'FeatureCollection'.",
+      required = true)
+  @JsonProperty(value = TYPE, required = true)
+  private TypeEnum type = TypeEnum.FEATURE_COLLECTION;
 
   @JsonProperty("bbox")
   private BoundingBox bbox = null;
@@ -70,33 +73,6 @@ public class FeatureCollection implements Serializable {
 
     setBbox(bbox);
     setFeatures(features);
-  }
-
-  /**
-   * The feature collection type.
-   *
-   * @return type type
-   */
-  @Schema(
-      description = "The feature collection type, must be 'FeatureCollection'.",
-      required = true)
-  @JsonProperty(value = TYPE, required = true)
-  @NotNull
-  public String getType() {
-    return type;
-  }
-
-  /**
-   * Sets type.
-   *
-   * @param type the type
-   */
-  @JsonProperty(value = TYPE, required = true)
-  public void setType(String type) {
-    if (!FEATURE_COLLECTION.equals(type)) {
-      throw new IllegalArgumentException("Type must be 'FeatureCollection'.");
-    }
-    this.type = type;
   }
 
   /**
@@ -135,6 +111,44 @@ public class FeatureCollection implements Serializable {
    */
   public void setFeatures(List<Feature> features) {
     this.features = features;
+  }
+
+  /**
+   * The enum Type enum.
+   */
+  public enum TypeEnum {
+    /**
+     * Feature collection type enum.
+     */
+    FEATURE_COLLECTION(GeoJsonConstants.FEATURE_COLLECTION);
+
+    private final String value;
+
+    TypeEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return value;
+    }
+
+    /**
+     * From value type enum.
+     *
+     * @param value the value
+     * @return the type enum
+     */
+    @JsonCreator
+    public static TypeEnum fromValue(String value) {
+      if (GeoJsonConstants.FEATURE_COLLECTION.equals(value)) {
+        return FEATURE_COLLECTION;
+      }
+      throw new IllegalArgumentException(String
+          .format("Value '%s' must be '%s'.", value, GeoJsonConstants.FEATURE_COLLECTION));
+    }
+
   }
 
 }

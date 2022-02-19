@@ -16,13 +16,13 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.Arrays;
+import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.bson.Document;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.MultiPoint;
 import org.locationtech.jts.geom.Point;
@@ -32,15 +32,18 @@ import org.locationtech.jts.geom.Point;
  *
  * @author Christian Bremer
  */
+@ExtendWith(SoftAssertionsExtension.class)
 class MultiPointConverterTest {
 
   private static final GeoJsonGeometryFactory factory = new GeoJsonGeometryFactory();
 
   /**
    * Convert.
+   *
+   * @param softly the softly
    */
   @Test
-  void convert() {
+  void convert(SoftAssertions softly) {
     Point model0 = factory.createPoint(7., 8.);
     Point model1 = factory.createPoint(17., 18.);
     MultiPoint model = factory.createMultiPoint(Arrays.asList(model0, model1));
@@ -48,19 +51,19 @@ class MultiPointConverterTest {
     MultiPointToDocumentConverter toDocumentConverter = new MultiPointToDocumentConverter();
 
     Document document = toDocumentConverter.convert(model);
-    assertNotNull(document);
+    softly.assertThat(document)
+        .isNotNull();
 
     DocumentToMultiPointConverter toGeometryConverter = new DocumentToMultiPointConverter();
 
     MultiPoint actual = toGeometryConverter.convert(document);
-    assertNotNull(actual);
-    assertTrue(GeoJsonGeometryFactory.equals(model, actual));
+    softly.assertThat(GeoJsonGeometryFactory.equals(actual, model))
+        .isTrue();
 
     DocumentToGeometryConverter converter = new DocumentToGeometryConverter();
     Geometry actualGeometry = converter.convert(document);
-    assertNotNull(actualGeometry);
-    assertTrue(actualGeometry instanceof MultiPoint);
-    assertTrue(GeoJsonGeometryFactory.equals(actual, actualGeometry));
+    softly.assertThat(GeoJsonGeometryFactory.equals(actual, actualGeometry))
+        .isTrue();
   }
 
 }

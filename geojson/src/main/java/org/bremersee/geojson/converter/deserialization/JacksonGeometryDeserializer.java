@@ -17,7 +17,6 @@
 package org.bremersee.geojson.converter.deserialization;
 
 import static java.util.Objects.isNull;
-import static org.springframework.util.ObjectUtils.isEmpty;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -61,7 +60,7 @@ public class JacksonGeometryDeserializer extends StdDeserializer<Geometry> {
   @Override
   public Geometry deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
     Map<String, Object> map = jp.readValueAs(new MapTypeReference());
-    if (isEmpty(map)) {
+    if (isNull(map) || map.isEmpty()) {
       return null;
     }
     return geometryConverter.convert(map);

@@ -17,12 +17,12 @@
 package org.bremersee.geojson.converter.serialization;
 
 import static java.util.Collections.unmodifiableList;
+import static java.util.Objects.isNull;
 import static org.bremersee.geojson.GeoJsonConstants.POLYGON;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.locationtech.jts.geom.Polygon;
-import org.springframework.util.Assert;
 
 /**
  * The type Polygon to json converter.
@@ -49,7 +49,9 @@ class PolygonToJsonConverter extends AbstractGeometryToJsonConverter<Polygon> {
       boolean withBoundingBox) {
 
     super(withBoundingBox);
-    Assert.notNull(coordinateSequenceConverter, "Coordinate sequence converter must be present.");
+    if (isNull(coordinateSequenceConverter)) {
+      throw new IllegalArgumentException("Coordinate sequence converter must be present.");
+    }
     this.coordinateSequenceConverter = coordinateSequenceConverter;
   }
 

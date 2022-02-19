@@ -16,12 +16,12 @@
 
 package org.bremersee.geojson.model;
 
-import static org.bremersee.geojson.GeoJsonConstants.FEATURE;
-
 import java.math.BigDecimal;
 import java.util.List;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
+import org.bremersee.geojson.GeoJsonConstants;
+import org.bremersee.geojson.model.Feature.TypeEnum;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -32,29 +32,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @ExtendWith(SoftAssertionsExtension.class)
 class FeatureTest {
-
-  /**
-   * Gets type.
-   *
-   * @param softly the soft assertions
-   */
-  @Test
-  void getType(SoftAssertions softly) {
-    Feature model = new Feature();
-    model.setType(FEATURE);
-    softly.assertThat(model.getType())
-        .isEqualTo(FEATURE);
-    softly.assertThatThrownBy(() -> model.setType("illegal"))
-        .isInstanceOf(IllegalArgumentException.class);
-
-    softly.assertThat(model).isNotEqualTo(null);
-    softly.assertThat(model).isNotEqualTo(new Object());
-    softly.assertThat(model).isEqualTo(model);
-    softly.assertThat(model).isEqualTo(new Feature());
-    softly.assertThat(model.hashCode()).isEqualTo(new Feature().hashCode());
-
-    softly.assertThat(model.toString()).contains(FEATURE);
-  }
 
   /**
    * Gets id.
@@ -133,6 +110,21 @@ class FeatureTest {
     softly.assertThat(model.toBuilder().properties("value").build()).isEqualTo(model);
 
     softly.assertThat(model.toString()).contains("value");
+  }
+
+  /**
+   * Test type.
+   *
+   * @param softly the softly
+   */
+  @Test
+  void testType(SoftAssertions softly) {
+    softly.assertThat(TypeEnum.FEATURE.toString())
+        .isEqualTo(GeoJsonConstants.FEATURE);
+    softly.assertThat(TypeEnum.fromValue(GeoJsonConstants.FEATURE))
+        .isEqualTo(TypeEnum.FEATURE);
+    softly.assertThatThrownBy(() -> TypeEnum.fromValue("illegal"))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
 }

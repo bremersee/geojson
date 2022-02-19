@@ -16,16 +16,15 @@
 
 package org.bremersee.geojson.converter.deserialization;
 
+import static java.util.Objects.isNull;
 import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
 import static org.bremersee.geojson.GeoJsonConstants.POINT;
 import static org.bremersee.geojson.GeoJsonConstants.TYPE;
-import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.Map;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
-import org.springframework.util.Assert;
 
 /**
  * The json to point converter.
@@ -49,7 +48,9 @@ class JsonToPointConverter extends AbstractJsonToGeometryConverter {
       ObjectToCoordinateConverter coordinateConverter) {
 
     super(geometryFactory);
-    Assert.notNull(coordinateConverter, "Coordinate converter must be present.");
+    if (isNull(coordinateConverter)) {
+      throw new IllegalArgumentException("Coordinate converter must be present.");
+    }
     this.coordinateConverter = coordinateConverter;
   }
 
@@ -60,9 +61,13 @@ class JsonToPointConverter extends AbstractJsonToGeometryConverter {
    * @return the point
    */
   Point convert(Map<String, Object> source) {
-    Assert.isTrue(
-        source.get(TYPE).equals(POINT),
-        String.format("Source is not a %s: %s", POINT, source));
+    if (isNull(source)) {
+      return null;
+    }
+    if (!POINT.equals(source.get(TYPE))) {
+      throw new IllegalArgumentException(String
+          .format("Source is not a %s: %s", POINT, source));
+    }
     return convertCoordinates(source.get(COORDINATES));
   }
 
@@ -74,7 +79,7 @@ class JsonToPointConverter extends AbstractJsonToGeometryConverter {
    */
   Point convertCoordinates(Object source) {
     Coordinate coordinate;
-    if (isEmpty(source)) {
+    if (isNull(source)) {
       coordinate = null;
     } else {
       coordinate = coordinateConverter.convert(source);

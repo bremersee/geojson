@@ -16,13 +16,11 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.bremersee.geojson.spring.data.mongodb.convert.app.GeometryCollectionEntity;
 import org.bremersee.geojson.spring.data.mongodb.convert.app.GeometryCollectionEntityRepository;
@@ -32,6 +30,7 @@ import org.bremersee.geojson.spring.data.mongodb.convert.app.TestConfiguration;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryCollection;
 import org.locationtech.jts.geom.LineString;
@@ -67,9 +66,10 @@ import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
         "spring.mongodb.embedded.version=3.6.2"
     })
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public class ConverterTest {
+@ExtendWith(SoftAssertionsExtension.class)
+public class ConverterIntegrationTest {
 
-  private static final Logger log = LoggerFactory.getLogger(ConverterTest.class);
+  private static final Logger log = LoggerFactory.getLogger(ConverterIntegrationTest.class);
 
   private static final GeoJsonGeometryFactory factory = new GeoJsonGeometryFactory();
 
@@ -111,9 +111,11 @@ public class ConverterTest {
 
   /**
    * Test geometry collection.
+   *
+   * @param softly the softly
    */
   @Test
-  void testGeometryCollection() {
+  void testGeometryCollection(SoftAssertions softly) {
     Point model0 = factory.createPoint(7., 8.);
     LineString model1 = factory.createLineString(Arrays.asList(
         new Coordinate(2., 3.),
@@ -121,35 +123,45 @@ public class ConverterTest {
     GeometryCollection geometry = factory.createGeometryCollection(List.of(model0, model1));
     GeometryCollectionEntity entity = colRepository.save(new GeometryCollectionEntity(geometry));
     log.info("Saved: {}", entity);
-    assertNotNull(entity);
-    assertNotNull(entity.getId());
+    softly.assertThat(entity)
+        .isNotNull()
+        .extracting(GeometryCollectionEntity::getId)
+        .isNotNull();
+
     Optional<GeometryCollectionEntity> actual = colRepository.findById(entity.getId());
-    assertTrue(actual.isPresent());
-    assertEquals(entity, actual.get());
+    softly.assertThat(actual)
+        .hasValue(entity);
   }
 
   /**
    * Test line string.
+   *
+   * @param softly the softly
    */
   @Test
-  void testLineString() {
+  void testLineString(SoftAssertions softly) {
     LineString geometry = factory.createLineString(Arrays.asList(
         new Coordinate(2., 3.),
         new Coordinate(6., 7.)));
     GeometryEntity entity = repository.save(new GeometryEntity(geometry));
     log.info("Saved: {}", entity);
-    assertNotNull(entity);
-    assertNotNull(entity.getId());
+    softly.assertThat(entity)
+        .isNotNull()
+        .extracting(GeometryEntity::getId)
+        .isNotNull();
+
     Optional<GeometryEntity> actual = repository.findById(entity.getId());
-    assertTrue(actual.isPresent());
-    assertEquals(entity, actual.get());
+    softly.assertThat(actual)
+        .hasValue(entity);
   }
 
   /**
    * Test multi line string.
+   *
+   * @param softly the softly
    */
   @Test
-  void testMultiLineString() {
+  void testMultiLineString(SoftAssertions softly) {
     LineString model0 = factory.createLineString(Arrays.asList(
         new Coordinate(2., 3.),
         new Coordinate(6., 7.)));
@@ -161,35 +173,45 @@ public class ConverterTest {
         model1));
     GeometryEntity entity = repository.save(new GeometryEntity(geometry));
     log.info("Saved: {}", entity);
-    assertNotNull(entity);
-    assertNotNull(entity.getId());
+    softly.assertThat(entity)
+        .isNotNull()
+        .extracting(GeometryEntity::getId)
+        .isNotNull();
+
     Optional<GeometryEntity> actual = repository.findById(entity.getId());
-    assertTrue(actual.isPresent());
-    assertEquals(entity, actual.get());
+    softly.assertThat(actual)
+        .hasValue(entity);
   }
 
   /**
    * Test multi point.
+   *
+   * @param softly the softly
    */
   @Test
-  void testMultiPoint() {
+  void testMultiPoint(SoftAssertions softly) {
     Point model0 = factory.createPoint(7., 8.);
     Point model1 = factory.createPoint(17., 18.);
     MultiPoint geometry = factory.createMultiPoint(Arrays.asList(model0, model1));
     GeometryEntity entity = repository.save(new GeometryEntity(geometry));
     log.info("Saved: {}", entity);
-    assertNotNull(entity);
-    assertNotNull(entity.getId());
+    softly.assertThat(entity)
+        .isNotNull()
+        .extracting(GeometryEntity::getId)
+        .isNotNull();
+
     Optional<GeometryEntity> actual = repository.findById(entity.getId());
-    assertTrue(actual.isPresent());
-    assertEquals(entity, actual.get());
+    softly.assertThat(actual)
+        .hasValue(entity);
   }
 
   /**
    * Test multi polygon.
+   *
+   * @param softly the softly
    */
   @Test
-  void testMultiPolygon() {
+  void testMultiPolygon(SoftAssertions softly) {
     LinearRing ring0 = factory.createLinearRing(Arrays.asList(
         new Coordinate(2., 3.),
         new Coordinate(6., 4.),
@@ -205,33 +227,43 @@ public class ConverterTest {
     MultiPolygon geometry = factory.createMultiPolygon(Arrays.asList(model0, model1));
     GeometryEntity entity = repository.save(new GeometryEntity(geometry));
     log.info("Saved: {}", entity);
-    assertNotNull(entity);
-    assertNotNull(entity.getId());
+    softly.assertThat(entity)
+        .isNotNull()
+        .extracting(GeometryEntity::getId)
+        .isNotNull();
+
     Optional<GeometryEntity> actual = repository.findById(entity.getId());
-    assertTrue(actual.isPresent());
-    assertEquals(entity, actual.get());
+    softly.assertThat(actual)
+        .hasValue(entity);
   }
 
   /**
    * Test point.
+   *
+   * @param softly the softly
    */
   @Test
-  void testPoint() {
+  void testPoint(SoftAssertions softly) {
     Point geometry = factory.createPoint(2., 4.);
     GeometryEntity entity = repository.save(new GeometryEntity(geometry));
     log.info("Saved: {}", entity);
-    assertNotNull(entity);
-    assertNotNull(entity.getId());
+    softly.assertThat(entity)
+        .isNotNull()
+        .extracting(GeometryEntity::getId)
+        .isNotNull();
+
     Optional<GeometryEntity> actual = repository.findById(entity.getId());
-    assertTrue(actual.isPresent());
-    assertEquals(entity, actual.get());
+    softly.assertThat(actual)
+        .hasValue(entity);
   }
 
   /**
    * Test polygon.
+   *
+   * @param softly the softly
    */
   @Test
-  void testPolygon() {
+  void testPolygon(SoftAssertions softly) {
     LinearRing ring = factory.createLinearRing(Arrays.asList(
         new Coordinate(2., 3.),
         new Coordinate(6., 4.),
@@ -240,11 +272,14 @@ public class ConverterTest {
     Polygon geometry = factory.createPolygon(ring);
     GeometryEntity entity = repository.save(new GeometryEntity(geometry));
     log.info("Saved: {}", entity);
-    assertNotNull(entity);
-    assertNotNull(entity.getId());
+    softly.assertThat(entity)
+        .isNotNull()
+        .extracting(GeometryEntity::getId)
+        .isNotNull();
+
     Optional<GeometryEntity> actual = repository.findById(entity.getId());
-    assertTrue(actual.isPresent());
-    assertEquals(entity, actual.get());
+    softly.assertThat(actual)
+        .hasValue(entity);
   }
 
 }

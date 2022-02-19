@@ -18,6 +18,7 @@ package org.bremersee.geojson.converter.serialization;
 
 import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableMap;
+import static java.util.Objects.isNull;
 import static org.bremersee.geojson.GeoJsonConstants.BBOX;
 import static org.bremersee.geojson.GeoJsonConstants.GEOMETRIES;
 import static org.bremersee.geojson.GeoJsonConstants.GEOMETRY_COLLECTION;
@@ -40,16 +41,13 @@ import org.locationtech.jts.geom.MultiPoint;
 import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.lang.NonNull;
 
 /**
  * The geometry to json converter.
  *
  * @author Christian Bremer
  */
-public class GeometryToJsonConverter
-    implements Converter<Geometry, Map<String, Object>>, Serializable {
+public class GeometryToJsonConverter implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -100,8 +98,10 @@ public class GeometryToJsonConverter
     this.withBoundingBox = withBoundingBox;
   }
 
-  @Override
-  public Map<String, Object> convert(@NonNull Geometry source) {
+  public Map<String, Object> convert(Geometry source) {
+    if (isNull(source)) {
+      return null;
+    }
     if (source instanceof Point) {
       return pointConverter.convert((Point) source);
     }

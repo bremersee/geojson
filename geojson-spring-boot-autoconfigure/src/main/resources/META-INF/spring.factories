@@ -1,0 +1,7 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+\
+org.bremersee.geojson.boot.GeoJsonGeometryFactoryAutoConfiguration,\
+org.bremersee.geojson.boot.data.mongodb.GeoJsonMongoCustomConversionsProvider,\
+org.bremersee.geojson.boot.jackson.GeoJsonJackson2ObjectMapperBuilderCustomizer,\
+org.bremersee.geojson.boot.web.GeoJsonWebFluxConfigurer,\
+org.bremersee.geojson.boot.web.GeoJsonWebMvcConfigurer

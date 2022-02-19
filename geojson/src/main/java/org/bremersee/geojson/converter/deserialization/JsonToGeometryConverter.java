@@ -16,6 +16,7 @@
 
 package org.bremersee.geojson.converter.deserialization;
 
+import static java.util.Objects.isNull;
 import static org.bremersee.geojson.GeoJsonConstants.GEOMETRIES;
 import static org.bremersee.geojson.GeoJsonConstants.GEOMETRY_COLLECTION;
 import static org.bremersee.geojson.GeoJsonConstants.LINESTRING;
@@ -25,23 +26,19 @@ import static org.bremersee.geojson.GeoJsonConstants.MULTI_POLYGON;
 import static org.bremersee.geojson.GeoJsonConstants.POINT;
 import static org.bremersee.geojson.GeoJsonConstants.POLYGON;
 import static org.bremersee.geojson.GeoJsonConstants.TYPE;
-import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.lang.NonNull;
 
 /**
  * The json to geometry converter.
  *
  * @author Christian Bremer
  */
-public class JsonToGeometryConverter extends AbstractJsonToGeometryConverter
-    implements Converter<Map<String, Object>, Geometry> {
+public class JsonToGeometryConverter extends AbstractJsonToGeometryConverter {
 
   private static final long serialVersionUID = 1L;
 
@@ -93,8 +90,10 @@ public class JsonToGeometryConverter extends AbstractJsonToGeometryConverter
         polygonConverter);
   }
 
-  @Override
-  public Geometry convert(@NonNull Map<String, Object> source) {
+  public Geometry convert(Map<String, Object> source) {
+    if (isNull(source)) {
+      return null;
+    }
     String type = String.valueOf(source.get(TYPE));
     if (POINT.equals(type)) {
       return pointConverter.convert(source);
@@ -117,11 +116,11 @@ public class JsonToGeometryConverter extends AbstractJsonToGeometryConverter
     } else if (GEOMETRY_COLLECTION.equals(type)) {
       Geometry[] geometries;
       Object value = source.get(GEOMETRIES);
-      if (isEmpty(value)) {
+      if (isNull(value)) {
         geometries = new Geometry[0];
       } else {
         //noinspection unchecked
-        geometries = ((List<Map<String, Object>>) source.get(GEOMETRIES))
+        geometries = ((List<Map<String, Object>>) value)
             .stream()
             .map(this::convert)
             .filter(Objects::nonNull)

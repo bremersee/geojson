@@ -18,8 +18,8 @@ package org.bremersee.geojson.converter.deserialization;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import org.locationtech.jts.geom.Coordinate;
-import org.springframework.util.Assert;
 
 /**
  * The object to coordinate converter.
@@ -39,7 +39,9 @@ class ObjectToCoordinateConverter implements Serializable {
    * @return the coordinate
    */
   Coordinate convert(Object source) {
-    Assert.notNull(source, "Source of coordinate must be present.");
+    if (Objects.isNull(source)) {
+      throw new IllegalArgumentException("Coordinate must be present.");
+    }
     //noinspection unchecked
     List<Object> list = (List<Object>) source;
     Coordinate coordinate;
@@ -57,7 +59,7 @@ class ObjectToCoordinateConverter implements Serializable {
           doubleConverter.convert(list.get(0)),
           Double.NaN);
     } else {
-      coordinate = new Coordinate(Double.NaN, Double.NaN);
+      coordinate = null;
     }
     return coordinate;
   }

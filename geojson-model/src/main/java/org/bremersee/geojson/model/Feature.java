@@ -21,19 +21,19 @@ import static org.bremersee.geojson.GeoJsonConstants.FEATURE;
 import static org.bremersee.geojson.GeoJsonConstants.GEOMETRY;
 import static org.bremersee.geojson.GeoJsonConstants.ID;
 import static org.bremersee.geojson.GeoJsonConstants.PROPERTIES;
-import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.bremersee.geojson.GeoJsonConstants;
 
 /**
  * A Feature object represents a spatially bounded thing.
@@ -51,8 +51,9 @@ public class Feature implements Serializable {
 
   private static final long serialVersionUID = 2L;
 
-  @JsonIgnore
-  private String type = FEATURE;
+  @Schema(description = "The feature type, must be 'Feature'.", required = true)
+  @JsonProperty(value = FEATURE, required = true)
+  private TypeEnum type = TypeEnum.FEATURE;
 
   @JsonProperty(ID)
   private String id = null;
@@ -85,31 +86,6 @@ public class Feature implements Serializable {
     setBbox(bbox);
     setGeometry(geometry);
     setProperties(properties);
-  }
-
-  /**
-   * The feature type.
-   *
-   * @return type type
-   */
-  @Schema(description = "The feature type, must be 'Feature'.", required = true)
-  @JsonProperty(value = TYPE, required = true)
-  @NotNull
-  public String getType() {
-    return type;
-  }
-
-  /**
-   * Sets type.
-   *
-   * @param type the type
-   */
-  @JsonProperty(value = TYPE, required = true)
-  public void setType(String type) {
-    if (!FEATURE.equals(type)) {
-      throw new IllegalArgumentException("Type must be 'Feature'.");
-    }
-    this.type = type;
   }
 
   /**
@@ -186,6 +162,44 @@ public class Feature implements Serializable {
    */
   public void setProperties(Object properties) {
     this.properties = properties;
+  }
+
+  /**
+   * The feature type.
+   */
+  public enum TypeEnum {
+    /**
+     * Feature type enum.
+     */
+    FEATURE(GeoJsonConstants.FEATURE);
+
+    private final String value;
+
+    TypeEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return value;
+    }
+
+    /**
+     * From value.
+     *
+     * @param value the value
+     * @return the type enum
+     */
+    @JsonCreator
+    public static TypeEnum fromValue(String value) {
+      if (GeoJsonConstants.FEATURE.equals(value)) {
+        return FEATURE;
+      }
+      throw new IllegalArgumentException(String
+          .format("Value '%s' must be '%s'.", value, GeoJsonConstants.FEATURE));
+    }
+
   }
 
 }

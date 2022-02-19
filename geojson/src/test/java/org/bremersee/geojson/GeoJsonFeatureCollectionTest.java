@@ -17,6 +17,7 @@
 package org.bremersee.geojson;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.bremersee.geojson.GeoJsonConstants.FEATURE_COLLECTION;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,8 +44,8 @@ class GeoJsonFeatureCollectionTest {
    */
   @Test
   void getType() {
-    GeoJsonFeatureCollection<Point, Object> model = new GeoJsonFeatureCollection<>(null, null);
-    assertThat(model.getType()).isEqualTo(GeoJsonConstants.FEATURE_COLLECTION);
+    GeoJsonFeatureCollection<Point, Object> model = new GeoJsonFeatureCollection<>(false);
+    assertThat(model.getType()).isEqualTo(FEATURE_COLLECTION);
   }
 
   /**
@@ -77,9 +78,9 @@ class GeoJsonFeatureCollectionTest {
     GeoJsonFeature<Geometry, Object> f0 = new GeoJsonFeature<>(null, multiPoint, false, null);
     Point point = factory.createPoint(10., 10.);
     GeoJsonFeature<Geometry, Object> f1 = new GeoJsonFeature<>(null, point, false, null);
-    model = new GeoJsonFeatureCollection<>(value, List.of(f0, f1));
+    model = new GeoJsonFeatureCollection<>(FEATURE_COLLECTION, value, List.of(f0, f1));
     softly.assertThat(model)
-        .isEqualTo(new GeoJsonFeatureCollection<>(List.of(f0, f1), true));
+        .isEqualTo(new GeoJsonFeatureCollection<>(List.of(f0, f1), true, null));
 
     double[] illegal = new double[]{1., 1., 10.};
     softly.assertThatThrownBy(() -> new GeoJsonFeatureCollection<>(illegal, null))
@@ -110,6 +111,39 @@ class GeoJsonFeatureCollectionTest {
         .isNotEqualTo(new Object());
     softly.assertThat(model.toString())
         .contains(value.toString());
+  }
+
+  /**
+   * Add.
+   *
+   * @param softly the softly
+   */
+  @Test
+  void add(SoftAssertions softly) {
+    GeoJsonFeatureCollection<Geometry, Object> target = new GeoJsonFeatureCollection<>(
+        true);
+    Point point = factory.createPoint(10., 10.);
+    GeoJsonFeature<Geometry, Object> value = new GeoJsonFeature<>(null, point, false, null);
+    target.add(value);
+    softly.assertThat(target.getFeatures())
+        .containsExactly(value);
+  }
+
+  /**
+   * Add all.
+   *
+   * @param softly the softly
+   */
+  @Test
+  void addAll(SoftAssertions softly) {
+    GeoJsonFeatureCollection<Geometry, Object> target = new GeoJsonFeatureCollection<>(
+        true, (o1, o2) -> o1.getId().compareToIgnoreCase(o2.getId()));
+    Point point = factory.createPoint(10., 10.);
+    GeoJsonFeature<Geometry, Object> value0 = new GeoJsonFeature<>("0", point, false, null);
+    GeoJsonFeature<Geometry, Object> value1 = new GeoJsonFeature<>("1", point, false, null);
+    target.addAll(List.of(value1, value0));
+    softly.assertThat(target.getFeatures())
+        .containsExactly(value0, value1);
   }
 
 }

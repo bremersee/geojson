@@ -16,14 +16,14 @@
 
 package org.bremersee.geojson.model;
 
-import static org.bremersee.geojson.GeoJsonConstants.FEATURE_COLLECTION;
-
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
+import org.bremersee.geojson.GeoJsonConstants;
+import org.bremersee.geojson.model.FeatureCollection.TypeEnum;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -34,29 +34,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @ExtendWith(SoftAssertionsExtension.class)
 class FeatureCollectionTest {
-
-  /**
-   * Gets type.
-   *
-   * @param softly the soft assertions
-   */
-  @Test
-  void getType(SoftAssertions softly) {
-    FeatureCollection model = new FeatureCollection();
-    model.setType(FEATURE_COLLECTION);
-    softly.assertThat(model.getType())
-        .isEqualTo(FEATURE_COLLECTION);
-    softly.assertThatThrownBy(() -> model.setType("illegal"))
-        .isInstanceOf(IllegalArgumentException.class);
-
-    softly.assertThat(model).isNotEqualTo(null);
-    softly.assertThat(model).isNotEqualTo(new Object());
-    softly.assertThat(model).isEqualTo(model);
-    softly.assertThat(model).isEqualTo(new FeatureCollection());
-    softly.assertThat(model.hashCode()).isEqualTo(new FeatureCollection().hashCode());
-
-    softly.assertThat(model.toString()).contains(FEATURE_COLLECTION);
-  }
 
   /**
    * Gets bbox.
@@ -99,6 +76,21 @@ class FeatureCollectionTest {
     softly.assertThat(model.toBuilder().features(value).build()).isEqualTo(model);
 
     softly.assertThat(model.toString()).contains(value.toString());
+  }
+
+  /**
+   * Test type.
+   *
+   * @param softly the softly
+   */
+  @Test
+  void testType(SoftAssertions softly) {
+    softly.assertThat(TypeEnum.FEATURE_COLLECTION.toString())
+        .isEqualTo(GeoJsonConstants.FEATURE_COLLECTION);
+    softly.assertThat(TypeEnum.fromValue(GeoJsonConstants.FEATURE_COLLECTION))
+        .isEqualTo(TypeEnum.FEATURE_COLLECTION);
+    softly.assertThatThrownBy(() -> TypeEnum.fromValue("illegal"))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
 }

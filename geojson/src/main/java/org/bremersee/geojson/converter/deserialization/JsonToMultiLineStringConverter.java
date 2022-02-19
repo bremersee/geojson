@@ -16,17 +16,16 @@
 
 package org.bremersee.geojson.converter.deserialization;
 
+import static java.util.Objects.isNull;
 import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
 import static org.bremersee.geojson.GeoJsonConstants.MULTI_LINESTRING;
 import static org.bremersee.geojson.GeoJsonConstants.TYPE;
-import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.List;
 import java.util.Map;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.LineString;
 import org.locationtech.jts.geom.MultiLineString;
-import org.springframework.util.Assert;
 
 /**
  * The json to multi line string converter.
@@ -50,7 +49,9 @@ public class JsonToMultiLineStringConverter extends AbstractJsonToGeometryConver
       JsonToLineStringConverter lineStringConverter) {
 
     super(geometryFactory);
-    Assert.notNull(lineStringConverter, "LineString converter must be present.");
+    if (isNull(lineStringConverter)) {
+      throw new IllegalArgumentException("LineString converter must be present.");
+    }
     this.lineStringConverter = lineStringConverter;
   }
 
@@ -61,9 +62,13 @@ public class JsonToMultiLineStringConverter extends AbstractJsonToGeometryConver
    * @return the multi line string
    */
   MultiLineString convert(Map<String, Object> source) {
-    Assert.isTrue(
-        source.get(TYPE).equals(MULTI_LINESTRING),
-        String.format("Source is not a %s: %s", MULTI_LINESTRING, source));
+    if (isNull(source)) {
+      return null;
+    }
+    if (!MULTI_LINESTRING.equals(source.get(TYPE))) {
+      throw new IllegalArgumentException(String
+          .format("Source is not a %s: %s", MULTI_LINESTRING, source));
+    }
     return convertCoordinates(source.get(COORDINATES));
   }
 
@@ -75,7 +80,7 @@ public class JsonToMultiLineStringConverter extends AbstractJsonToGeometryConver
    */
   MultiLineString convertCoordinates(Object source) {
     //noinspection unchecked
-    List<Object> coordinates = isEmpty(source) ? List.of() : (List<Object>) source;
+    List<Object> coordinates = isNull(source) ? List.of() : (List<Object>) source;
     LineString[] lineStrings = coordinates.stream()
         .map(lineStringConverter::convertCoordinates)
         .toArray(LineString[]::new);

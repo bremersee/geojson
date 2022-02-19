@@ -17,13 +17,13 @@
 package org.bremersee.geojson.converter.serialization;
 
 import static java.util.Collections.unmodifiableList;
+import static java.util.Objects.isNull;
 import static org.bremersee.geojson.GeoJsonConstants.MULTI_LINESTRING;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.locationtech.jts.geom.LineString;
 import org.locationtech.jts.geom.MultiLineString;
-import org.springframework.util.Assert;
 
 /**
  * The type Multi line string to json converter.
@@ -47,7 +47,9 @@ class MultiLineStringToJsonConverter extends AbstractGeometryToJsonConverter<Mul
       boolean withBoundingBox) {
 
     super(withBoundingBox);
-    Assert.notNull(lineStringConverter, "Line string converter must not be present.");
+    if (isNull(lineStringConverter)) {
+      throw new IllegalArgumentException("Line string converter must be present.");
+    }
     this.lineStringConverter = lineStringConverter;
   }
 

@@ -53,10 +53,6 @@ class ObjectToCoordinateConverterTest {
         .isEqualTo(Double.NaN);
 
     softly.assertThat(target.convert(List.of()))
-        .extracting(Coordinate::getX)
-        .isEqualTo(Double.NaN);
-    softly.assertThat(target.convert(List.of()))
-        .extracting(Coordinate::getY)
-        .isEqualTo(Double.NaN);
+        .isNull();
   }
 }

@@ -16,17 +16,16 @@
 
 package org.bremersee.geojson.converter.deserialization;
 
+import static java.util.Objects.isNull;
 import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
 import static org.bremersee.geojson.GeoJsonConstants.MULTI_POINT;
 import static org.bremersee.geojson.GeoJsonConstants.TYPE;
-import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.List;
 import java.util.Map;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.MultiPoint;
 import org.locationtech.jts.geom.Point;
-import org.springframework.util.Assert;
 
 /**
  * The json to multi point converter.
@@ -50,7 +49,9 @@ class JsonToMultiPointConverter extends AbstractJsonToGeometryConverter {
       JsonToPointConverter pointConverter) {
 
     super(geometryFactory);
-    Assert.notNull(pointConverter, "Point converter must be present.");
+    if (isNull(pointConverter)) {
+      throw new IllegalArgumentException("Point converter must be present.");
+    }
     this.pointConverter = pointConverter;
   }
 
@@ -61,9 +62,13 @@ class JsonToMultiPointConverter extends AbstractJsonToGeometryConverter {
    * @return the multi point
    */
   MultiPoint convert(Map<String, Object> source) {
-    Assert.isTrue(
-        source.get(TYPE).equals(MULTI_POINT),
-        String.format("Source is not a %s: %s", MULTI_POINT, source));
+    if (isNull(source)) {
+      return null;
+    }
+    if (!MULTI_POINT.equals(source.get(TYPE))) {
+      throw new IllegalArgumentException(String
+          .format("Source is not a %s: %s", MULTI_POINT, source));
+    }
     return convertCoordinates(source.get(COORDINATES));
   }
 
@@ -75,7 +80,7 @@ class JsonToMultiPointConverter extends AbstractJsonToGeometryConverter {
    */
   MultiPoint convertCoordinates(Object source) {
     //noinspection unchecked
-    List<Object> coordinates = isEmpty(source) ? List.of() : (List<Object>) source;
+    List<Object> coordinates = isNull(source) ? List.of() : (List<Object>) source;
     Point[] points = coordinates.stream()
         .map(pointConverter::convertCoordinates)
         .toArray(Point[]::new);

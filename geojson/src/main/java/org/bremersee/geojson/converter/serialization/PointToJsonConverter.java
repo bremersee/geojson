@@ -16,10 +16,10 @@
 
 package org.bremersee.geojson.converter.serialization;
 
+import static java.util.Objects.isNull;
 import static org.bremersee.geojson.GeoJsonConstants.POINT;
 
 import org.locationtech.jts.geom.Point;
-import org.springframework.util.Assert;
 
 /**
  * The type Point to json converter.
@@ -43,7 +43,9 @@ class PointToJsonConverter extends AbstractGeometryToJsonConverter<Point> {
    */
   PointToJsonConverter(CoordinateToListConverter coordinateConverter, boolean withBoundingBox) {
     super(withBoundingBox);
-    Assert.notNull(coordinateConverter, "Coordinate converter must be present.");
+    if (isNull(coordinateConverter)) {
+      throw new IllegalArgumentException("Coordinate converter must be present.");
+    }
     this.coordinateConverter = coordinateConverter;
   }
 

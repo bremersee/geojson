@@ -48,6 +48,12 @@ public class BoundingBox extends ArrayList<BigDecimal> implements Serializable {
     super(coordinates);
   }
 
+  @Schema(hidden = true)
+  @Override
+  public boolean isEmpty() {
+    return super.isEmpty();
+  }
+
   /**
    * The bounding box as double array.
    *

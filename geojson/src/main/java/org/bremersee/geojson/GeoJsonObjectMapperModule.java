@@ -97,7 +97,9 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
    * @param withBoundingBox the with bounding box
    * @param useBigDecimal the use big decimal
    */
-  public GeoJsonObjectMapperModule(GeometryFactory geometryFactory, boolean withBoundingBox,
+  public GeoJsonObjectMapperModule(
+      GeometryFactory geometryFactory,
+      boolean withBoundingBox,
       boolean useBigDecimal) {
     super(
         TYPE_ID,
