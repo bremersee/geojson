@@ -14,15 +14,22 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson.boot.app;
+package org.bremersee.geojson.spring.boot;
 
-import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * The geometry entity repository.
- *
  * @author Christian Bremer
  */
-public interface GeometryEntityRepository extends ReactiveMongoRepository<GeometryEntity, String> {
+@ConfigurationProperties(prefix = "bremersee.geojson")
+@Data
+@NoArgsConstructor
+public class GeoJsonProperties {
+
+  private boolean useBigDecimal = false;
+
+  private boolean withBoundingBox = false;
 
 }

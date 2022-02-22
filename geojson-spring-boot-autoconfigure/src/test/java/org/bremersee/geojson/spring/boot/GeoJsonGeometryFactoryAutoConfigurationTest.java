@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson.boot;
+package org.bremersee.geojson.spring.boot;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson.boot.web;
+package org.bremersee.geojson.spring.boot.web;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;

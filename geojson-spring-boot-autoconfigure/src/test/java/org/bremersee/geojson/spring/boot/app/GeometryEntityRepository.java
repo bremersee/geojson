@@ -14,22 +14,15 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson.boot.app;
+package org.bremersee.geojson.spring.boot.app;
 
-import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 
 /**
- * The test configuration.
+ * The geometry entity repository.
  *
  * @author Christian Bremer
  */
-@SpringBootConfiguration
-@EnableAutoConfiguration
-@ComponentScan(basePackageClasses = {TestConfiguration.class})
-@EnableMongoRepositories(basePackageClasses = {GeometryEntityRepository.class})
-public class TestConfiguration {
+public interface GeometryEntityRepository extends ReactiveMongoRepository<GeometryEntity, String> {
 
 }

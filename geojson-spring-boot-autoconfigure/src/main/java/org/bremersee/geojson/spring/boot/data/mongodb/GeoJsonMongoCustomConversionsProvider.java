@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson.boot.data.mongodb;
+package org.bremersee.geojson.spring.boot.data.mongodb;
 
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.bremersee.common.boot.data.mongodb.MongoCustomConversionsProvider;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
-import org.bremersee.geojson.boot.GeoJsonGeometryFactoryAutoConfiguration;
+import org.bremersee.geojson.spring.boot.GeoJsonGeometryFactoryAutoConfiguration;
 import org.bremersee.geojson.spring.data.mongodb.convert.GeoJsonConverters;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -32,6 +32,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.util.ClassUtils;
 
 /**
+ * The geo json mongo custom conversions provider.
+ *
  * @author Christian Bremer
  */
 @ConditionalOnClass({GeoJsonConverters.class})
@@ -42,6 +44,11 @@ public class GeoJsonMongoCustomConversionsProvider implements MongoCustomConvers
 
   private final GeoJsonGeometryFactory geometryFactory;
 
+  /**
+   * Instantiates a new geo json mongo custom conversions provider.
+   *
+   * @param geometryFactory the geometry factory
+   */
   public GeoJsonMongoCustomConversionsProvider(
       ObjectProvider<GeoJsonGeometryFactory> geometryFactory) {
     this.geometryFactory = geometryFactory.getIfAvailable(GeoJsonGeometryFactory::new);

@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson.boot.data.mongodb;
+package org.bremersee.geojson.spring.boot.data.mongodb;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
-import org.assertj.core.api.Assertions;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.bremersee.geojson.spring.data.mongodb.convert.GeoJsonConverters;
 import org.junit.jupiter.api.Test;
@@ -58,7 +58,7 @@ class GeoJsonMongoCustomConversionsProviderTest {
   void getCustomConversions() {
     GeoJsonMongoCustomConversionsProvider target = newInstance();
     List<Converter<?, ?>> actual = target.getCustomConversions();
-    Assertions.assertThat(actual)
+    assertThat(actual)
         .isNotNull()
         .hasSize(GeoJsonConverters.getConvertersToRegister(new GeoJsonGeometryFactory()).size());
   }

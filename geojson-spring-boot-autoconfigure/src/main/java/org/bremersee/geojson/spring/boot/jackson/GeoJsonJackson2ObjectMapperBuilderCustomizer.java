@@ -14,38 +14,49 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson.boot.web;
+package org.bremersee.geojson.spring.boot.jackson;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
-import org.bremersee.geojson.boot.GeoJsonGeometryFactoryAutoConfiguration;
-import org.bremersee.geojson.converter.GeometryConverters;
+import org.bremersee.geojson.GeoJsonObjectMapperModule;
+import org.bremersee.geojson.spring.boot.GeoJsonGeometryFactoryAutoConfiguration;
+import org.bremersee.geojson.spring.boot.GeoJsonProperties;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
-import org.springframework.format.FormatterRegistry;
-import org.springframework.lang.NonNull;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.util.ClassUtils;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * @author Christian Bremer
  */
-@ConditionalOnClass({GeometryConverters.class})
-@ConditionalOnWebApplication(type = Type.SERVLET)
+@ConditionalOnWebApplication
+@ConditionalOnClass({
+    GeoJsonObjectMapperModule.class,
+    Jackson2ObjectMapperBuilder.class,
+    ObjectMapper.class})
 @Configuration
 @AutoConfigureAfter(GeoJsonGeometryFactoryAutoConfiguration.class)
+@EnableConfigurationProperties(GeoJsonProperties.class)
 @Slf4j
-public class GeoJsonWebMvcConfigurer implements WebMvcConfigurer {
+public class GeoJsonJackson2ObjectMapperBuilderCustomizer
+    implements Jackson2ObjectMapperBuilderCustomizer {
+
+  private final GeoJsonProperties properties;
 
   private final GeoJsonGeometryFactory geometryFactory;
 
-  public GeoJsonWebMvcConfigurer(ObjectProvider<GeoJsonGeometryFactory> geometryFactory) {
+  public GeoJsonJackson2ObjectMapperBuilderCustomizer(
+      GeoJsonProperties properties,
+      ObjectProvider<GeoJsonGeometryFactory> geometryFactory) {
+    this.properties = properties;
     this.geometryFactory = geometryFactory.getIfAvailable(GeoJsonGeometryFactory::new);
   }
 
@@ -57,14 +68,20 @@ public class GeoJsonWebMvcConfigurer implements WebMvcConfigurer {
     log.info("\n"
             + "*********************************************************************************\n"
             + "* {}\n"
+            + "*********************************************************************************\n"
+            + "* properties = {}\n"
             + "*********************************************************************************",
-        ClassUtils.getUserClass(getClass()).getSimpleName());
+        ClassUtils.getUserClass(getClass()).getSimpleName(), properties);
   }
 
   @Override
-  public void addFormatters(@NonNull FormatterRegistry registry) {
-    GeometryConverters.getConvertersToRegister(geometryFactory)
-        .forEach(registry::addConverter);
+  public void customize(Jackson2ObjectMapperBuilder jacksonObjectMapperBuilder) {
+    GeoJsonObjectMapperModule module = new GeoJsonObjectMapperModule(
+        geometryFactory,
+        properties.isWithBoundingBox(),
+        properties.isUseBigDecimal()
+    );
+    jacksonObjectMapperBuilder.postConfigurer(objectMapper -> objectMapper
+        .registerModule(module));
   }
-
 }

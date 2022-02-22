@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson.boot.jackson;
+package org.bremersee.geojson.spring.boot.jackson;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeast;
@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.function.Consumer;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
-import org.bremersee.geojson.boot.GeoJsonProperties;
+import org.bremersee.geojson.spring.boot.GeoJsonProperties;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
