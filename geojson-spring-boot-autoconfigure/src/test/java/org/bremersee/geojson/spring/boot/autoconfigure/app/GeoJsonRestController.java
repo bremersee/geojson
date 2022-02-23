@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson.spring.boot.app;
+package org.bremersee.geojson.spring.boot.autoconfigure.app;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

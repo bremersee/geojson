@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson.spring.boot.app;
+package org.bremersee.geojson.spring.boot.autoconfigure.app;
 
 import java.util.Objects;
 import org.bremersee.geojson.GeoJsonGeometryFactory;

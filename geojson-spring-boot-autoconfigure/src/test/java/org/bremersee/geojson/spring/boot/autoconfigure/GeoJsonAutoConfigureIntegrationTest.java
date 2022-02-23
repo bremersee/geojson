@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson.spring.boot;
+package org.bremersee.geojson.spring.boot.autoconfigure;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,9 +24,9 @@ import java.util.stream.Collectors;
 import org.bremersee.geojson.GeoJsonFeature;
 import org.bremersee.geojson.GeoJsonFeatureCollection;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
-import org.bremersee.geojson.spring.boot.app.GeometryEntity;
-import org.bremersee.geojson.spring.boot.app.GeometryEntityRepository;
-import org.bremersee.geojson.spring.boot.app.TestConfiguration;
+import org.bremersee.geojson.spring.boot.autoconfigure.app.GeometryEntity;
+import org.bremersee.geojson.spring.boot.autoconfigure.app.GeometryEntityRepository;
+import org.bremersee.geojson.spring.boot.autoconfigure.app.TestConfiguration;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;

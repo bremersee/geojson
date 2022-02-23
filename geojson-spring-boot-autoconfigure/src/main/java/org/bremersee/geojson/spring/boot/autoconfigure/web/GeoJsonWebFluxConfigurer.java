@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson.spring.boot.web;
+package org.bremersee.geojson.spring.boot.autoconfigure.web;
 
 import lombok.extern.slf4j.Slf4j;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
-import org.bremersee.geojson.spring.boot.GeoJsonGeometryFactoryAutoConfiguration;
+import org.bremersee.geojson.spring.boot.autoconfigure.GeoJsonGeometryFactoryAutoConfiguration;
 import org.bremersee.geojson.converter.GeometryConverters;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;

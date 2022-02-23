@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson.spring.boot.web;
+package org.bremersee.geojson.spring.boot.autoconfigure.web;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -30,17 +30,17 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
 
 /**
- * The geo json web flux configurer test.
+ * The geo json web mvc configurer test.
  *
  * @author Christian Bremer
  */
-class GeoJsonWebFluxConfigurerTest {
+class GeoJsonWebMvcConfigurerTest {
 
-  private GeoJsonWebFluxConfigurer newInstance() {
+  private GeoJsonWebMvcConfigurer newInstance() {
     //noinspection unchecked
     ObjectProvider<GeoJsonGeometryFactory> objectProvider = mock(ObjectProvider.class);
     when(objectProvider.getIfAvailable(any())).thenReturn(new GeoJsonGeometryFactory());
-    return new GeoJsonWebFluxConfigurer(objectProvider);
+    return new GeoJsonWebMvcConfigurer(objectProvider);
   }
 
   /**
@@ -48,7 +48,7 @@ class GeoJsonWebFluxConfigurerTest {
    */
   @Test
   void init() {
-    GeoJsonWebFluxConfigurer target = newInstance();
+    GeoJsonWebMvcConfigurer target = newInstance();
     target.init();
   }
 
@@ -57,7 +57,7 @@ class GeoJsonWebFluxConfigurerTest {
    */
   @Test
   void addFormatters() {
-    GeoJsonWebFluxConfigurer target = newInstance();
+    GeoJsonWebMvcConfigurer target = newInstance();
     FormatterRegistry formatterRegistry = mock(FormatterRegistry.class);
     target.addFormatters(formatterRegistry);
     int wantedNumberOfInvocations = GeometryConverters

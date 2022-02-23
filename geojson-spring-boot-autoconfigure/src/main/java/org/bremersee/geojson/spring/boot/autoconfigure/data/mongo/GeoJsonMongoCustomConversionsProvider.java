@@ -14,25 +14,45 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson.spring.boot;
+package org.bremersee.geojson.spring.boot.autoconfigure.data.mongo;
 
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.bremersee.spring.boot.autoconfigure.data.mongo.MongoCustomConversionsProvider;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
+import org.bremersee.geojson.spring.boot.autoconfigure.GeoJsonGeometryFactoryAutoConfiguration;
+import org.bremersee.geojson.spring.data.mongodb.convert.GeoJsonConverters;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.util.ClassUtils;
 
 /**
+ * The geo json mongo custom conversions provider.
+ *
  * @author Christian Bremer
  */
-@ConditionalOnClass({GeoJsonGeometryFactory.class})
+@ConditionalOnClass({GeoJsonConverters.class})
+@AutoConfigureAfter(GeoJsonGeometryFactoryAutoConfiguration.class)
 @Configuration
 @Slf4j
-public class GeoJsonGeometryFactoryAutoConfiguration {
+public class GeoJsonMongoCustomConversionsProvider implements MongoCustomConversionsProvider {
+
+  private final GeoJsonGeometryFactory geometryFactory;
+
+  /**
+   * Instantiates a new geo json mongo custom conversions provider.
+   *
+   * @param geometryFactory the geometry factory
+   */
+  public GeoJsonMongoCustomConversionsProvider(
+      ObjectProvider<GeoJsonGeometryFactory> geometryFactory) {
+    this.geometryFactory = geometryFactory.getIfAvailable(GeoJsonGeometryFactory::new);
+  }
 
   /**
    * Init.
@@ -46,10 +66,8 @@ public class GeoJsonGeometryFactoryAutoConfiguration {
         ClassUtils.getUserClass(getClass()).getSimpleName());
   }
 
-  @ConditionalOnMissingBean
-  @Bean
-  public GeoJsonGeometryFactory geoJsonGeometryFactory() {
-    return new GeoJsonGeometryFactory();
+  @Override
+  public List<Converter<?, ?>> getCustomConversions() {
+    return GeoJsonConverters.getConvertersToRegister(geometryFactory);
   }
-
 }

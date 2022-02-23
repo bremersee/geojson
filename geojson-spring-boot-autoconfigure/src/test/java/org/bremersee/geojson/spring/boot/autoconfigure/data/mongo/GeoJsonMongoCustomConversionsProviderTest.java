@@ -14,33 +14,32 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson.spring.boot.web;
+package org.bremersee.geojson.spring.boot.autoconfigure.data.mongo;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
-import org.bremersee.geojson.converter.GeometryConverters;
+import org.bremersee.geojson.spring.data.mongodb.convert.GeoJsonConverters;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.format.FormatterRegistry;
 
 /**
- * The geo json web mvc configurer test.
+ * The geo json mongo custom conversions' provider test.
  *
  * @author Christian Bremer
  */
-class GeoJsonWebMvcConfigurerTest {
+class GeoJsonMongoCustomConversionsProviderTest {
 
-  private GeoJsonWebMvcConfigurer newInstance() {
+  private GeoJsonMongoCustomConversionsProvider newInstance() {
     //noinspection unchecked
     ObjectProvider<GeoJsonGeometryFactory> objectProvider = mock(ObjectProvider.class);
     when(objectProvider.getIfAvailable(any())).thenReturn(new GeoJsonGeometryFactory());
-    return new GeoJsonWebMvcConfigurer(objectProvider);
+    return new GeoJsonMongoCustomConversionsProvider(objectProvider);
   }
 
   /**
@@ -48,22 +47,19 @@ class GeoJsonWebMvcConfigurerTest {
    */
   @Test
   void init() {
-    GeoJsonWebMvcConfigurer target = newInstance();
+    GeoJsonMongoCustomConversionsProvider target = newInstance();
     target.init();
   }
 
   /**
-   * Add formatters.
+   * Gets custom conversions.
    */
   @Test
-  void addFormatters() {
-    GeoJsonWebMvcConfigurer target = newInstance();
-    FormatterRegistry formatterRegistry = mock(FormatterRegistry.class);
-    target.addFormatters(formatterRegistry);
-    int wantedNumberOfInvocations = GeometryConverters
-        .getConvertersToRegister(new GeoJsonGeometryFactory())
-        .size();
-    verify(formatterRegistry, times(wantedNumberOfInvocations))
-        .addConverter(any(Converter.class));
+  void getCustomConversions() {
+    GeoJsonMongoCustomConversionsProvider target = newInstance();
+    List<Converter<?, ?>> actual = target.getCustomConversions();
+    assertThat(actual)
+        .isNotNull()
+        .hasSize(GeoJsonConverters.getConvertersToRegister(new GeoJsonGeometryFactory()).size());
   }
 }

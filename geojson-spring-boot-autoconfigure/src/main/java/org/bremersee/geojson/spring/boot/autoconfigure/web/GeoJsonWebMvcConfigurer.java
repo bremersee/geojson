@@ -14,43 +14,38 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson.spring.boot.data.mongodb;
+package org.bremersee.geojson.spring.boot.autoconfigure.web;
 
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.bremersee.common.boot.data.mongodb.MongoCustomConversionsProvider;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
-import org.bremersee.geojson.spring.boot.GeoJsonGeometryFactoryAutoConfiguration;
-import org.bremersee.geojson.spring.data.mongodb.convert.GeoJsonConverters;
+import org.bremersee.geojson.spring.boot.autoconfigure.GeoJsonGeometryFactoryAutoConfiguration;
+import org.bremersee.geojson.converter.GeometryConverters;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
-import org.springframework.core.convert.converter.Converter;
+import org.springframework.format.FormatterRegistry;
+import org.springframework.lang.NonNull;
 import org.springframework.util.ClassUtils;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * The geo json mongo custom conversions provider.
- *
  * @author Christian Bremer
  */
-@ConditionalOnClass({GeoJsonConverters.class})
-@AutoConfigureAfter(GeoJsonGeometryFactoryAutoConfiguration.class)
+@ConditionalOnClass({GeometryConverters.class})
+@ConditionalOnWebApplication(type = Type.SERVLET)
 @Configuration
+@AutoConfigureAfter(GeoJsonGeometryFactoryAutoConfiguration.class)
 @Slf4j
-public class GeoJsonMongoCustomConversionsProvider implements MongoCustomConversionsProvider {
+public class GeoJsonWebMvcConfigurer implements WebMvcConfigurer {
 
   private final GeoJsonGeometryFactory geometryFactory;
 
-  /**
-   * Instantiates a new geo json mongo custom conversions provider.
-   *
-   * @param geometryFactory the geometry factory
-   */
-  public GeoJsonMongoCustomConversionsProvider(
-      ObjectProvider<GeoJsonGeometryFactory> geometryFactory) {
+  public GeoJsonWebMvcConfigurer(ObjectProvider<GeoJsonGeometryFactory> geometryFactory) {
     this.geometryFactory = geometryFactory.getIfAvailable(GeoJsonGeometryFactory::new);
   }
 
@@ -67,7 +62,9 @@ public class GeoJsonMongoCustomConversionsProvider implements MongoCustomConvers
   }
 
   @Override
-  public List<Converter<?, ?>> getCustomConversions() {
-    return GeoJsonConverters.getConvertersToRegister(geometryFactory);
+  public void addFormatters(@NonNull FormatterRegistry registry) {
+    GeometryConverters.getConvertersToRegister(geometryFactory)
+        .forEach(registry::addConverter);
   }
+
 }

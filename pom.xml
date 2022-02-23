@@ -35,7 +35,7 @@
     <!--suppress UnresolvedMavenProperty -->
     <gh-pages-staging-dir>${maven.multiModuleProjectDirectory}/target/staging</gh-pages-staging-dir>
 
-    <common-autoconfigure.version>0.0.1-SNAPSHOT</common-autoconfigure.version>
+    <extended-spring.version>0.0.1-SNAPSHOT</extended-spring.version>
     <jts.version>1.18.2</jts.version>
   </properties>
 
@@ -93,8 +93,8 @@
     <dependencies>
       <dependency>
         <groupId>org.bremersee</groupId>
-        <artifactId>common-spring-boot-autoconfigure</artifactId>
-        <version>${common-autoconfigure.version}</version>
+        <artifactId>extended-spring-boot-autoconfigure</artifactId>
+        <version>${extended-spring.version}</version>
       </dependency>
       <dependency>
         <groupId>org.locationtech.jts</groupId>

@@ -14,40 +14,25 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson.spring.boot.web;
+package org.bremersee.geojson.spring.boot.autoconfigure;
 
 import lombok.extern.slf4j.Slf4j;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
-import org.bremersee.geojson.spring.boot.GeoJsonGeometryFactoryAutoConfiguration;
-import org.bremersee.geojson.converter.GeometryConverters;
-import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
-import org.springframework.format.FormatterRegistry;
-import org.springframework.lang.NonNull;
 import org.springframework.util.ClassUtils;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * @author Christian Bremer
  */
-@ConditionalOnClass({GeometryConverters.class})
-@ConditionalOnWebApplication(type = Type.SERVLET)
+@ConditionalOnClass({GeoJsonGeometryFactory.class})
 @Configuration
-@AutoConfigureAfter(GeoJsonGeometryFactoryAutoConfiguration.class)
 @Slf4j
-public class GeoJsonWebMvcConfigurer implements WebMvcConfigurer {
-
-  private final GeoJsonGeometryFactory geometryFactory;
-
-  public GeoJsonWebMvcConfigurer(ObjectProvider<GeoJsonGeometryFactory> geometryFactory) {
-    this.geometryFactory = geometryFactory.getIfAvailable(GeoJsonGeometryFactory::new);
-  }
+public class GeoJsonGeometryFactoryAutoConfiguration {
 
   /**
    * Init.
@@ -61,10 +46,10 @@ public class GeoJsonWebMvcConfigurer implements WebMvcConfigurer {
         ClassUtils.getUserClass(getClass()).getSimpleName());
   }
 
-  @Override
-  public void addFormatters(@NonNull FormatterRegistry registry) {
-    GeometryConverters.getConvertersToRegister(geometryFactory)
-        .forEach(registry::addConverter);
+  @ConditionalOnMissingBean
+  @Bean
+  public GeoJsonGeometryFactory geoJsonGeometryFactory() {
+    return new GeoJsonGeometryFactory();
   }
 
 }

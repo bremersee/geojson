@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package org.bremersee.geojson.spring.boot.jackson;
+package org.bremersee.geojson.spring.boot.autoconfigure.jackson;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.bremersee.geojson.GeoJsonObjectMapperModule;
-import org.bremersee.geojson.spring.boot.GeoJsonGeometryFactoryAutoConfiguration;
-import org.bremersee.geojson.spring.boot.GeoJsonProperties;
+import org.bremersee.geojson.spring.boot.autoconfigure.GeoJsonGeometryFactoryAutoConfiguration;
+import org.bremersee.geojson.spring.boot.autoconfigure.GeoJsonProperties;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
