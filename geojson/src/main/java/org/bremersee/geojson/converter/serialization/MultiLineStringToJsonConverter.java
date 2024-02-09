@@ -20,6 +20,7 @@ import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.isNull;
 import static org.bremersee.geojson.GeoJsonConstants.MULTI_LINESTRING;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import org.locationtech.jts.geom.LineString;
@@ -32,6 +33,7 @@ import org.locationtech.jts.geom.MultiLineString;
  */
 class MultiLineStringToJsonConverter extends AbstractGeometryToJsonConverter<MultiLineString> {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   private final LineStringToJsonConverter lineStringConverter;

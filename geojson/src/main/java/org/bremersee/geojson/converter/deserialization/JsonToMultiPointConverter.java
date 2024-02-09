@@ -21,6 +21,7 @@ import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
 import static org.bremersee.geojson.GeoJsonConstants.MULTI_POINT;
 import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 
+import java.io.Serial;
 import java.util.List;
 import java.util.Map;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -34,6 +35,7 @@ import org.locationtech.jts.geom.Point;
  */
 class JsonToMultiPointConverter extends AbstractJsonToGeometryConverter {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   private final JsonToPointConverter pointConverter;

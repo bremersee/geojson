@@ -19,6 +19,7 @@ package org.bremersee.geojson.model;
 import static java.util.Objects.isNull;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -30,12 +31,12 @@ import lombok.ToString;
  *
  * @author Christian Bremer
  */
-@SuppressWarnings("SameNameButDifferent")
 @Schema(description = "The first two elements are longitude and latitude.")
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class Position extends ArrayList<BigDecimal> implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   /**

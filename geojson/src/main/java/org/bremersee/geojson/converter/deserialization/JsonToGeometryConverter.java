@@ -27,6 +27,7 @@ import static org.bremersee.geojson.GeoJsonConstants.POINT;
 import static org.bremersee.geojson.GeoJsonConstants.POLYGON;
 import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 
+import java.io.Serial;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -40,6 +41,7 @@ import org.locationtech.jts.geom.GeometryFactory;
  */
 public class JsonToGeometryConverter extends AbstractJsonToGeometryConverter {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   private final JsonToPointConverter pointConverter;

@@ -22,6 +22,7 @@ import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,6 +58,7 @@ import org.locationtech.jts.geom.Polygon;
  */
 public class GeoJsonObjectMapperModule extends SimpleModule {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   /**

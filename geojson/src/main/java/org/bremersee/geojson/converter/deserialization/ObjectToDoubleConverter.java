@@ -18,6 +18,7 @@ package org.bremersee.geojson.converter.deserialization;
 
 import static java.util.Objects.isNull;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -28,6 +29,7 @@ import java.math.BigDecimal;
  */
 class ObjectToDoubleConverter implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   /**

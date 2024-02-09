@@ -16,6 +16,7 @@
 
 package org.bremersee.geojson.converter.deserialization;
 
+import java.io.Serial;
 import java.io.Serializable;
 import org.locationtech.jts.geom.GeometryFactory;
 
@@ -26,6 +27,7 @@ import org.locationtech.jts.geom.GeometryFactory;
  */
 abstract class AbstractJsonToGeometryConverter implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   private final GeometryFactory geometryFactory;

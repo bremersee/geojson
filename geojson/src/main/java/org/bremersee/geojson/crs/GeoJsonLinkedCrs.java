@@ -18,6 +18,7 @@ package org.bremersee.geojson.crs;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.io.Serial;
 
 /**
  * A link to the coordinate reference system (CRS) of a GeoJSON object.
@@ -31,6 +32,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("link")
 public class GeoJsonLinkedCrs extends AbstractGeoJsonCrs {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   /**
@@ -93,7 +95,7 @@ public class GeoJsonLinkedCrs extends AbstractGeoJsonCrs {
    */
   @JsonIgnore
   public void setHref(String href) {
-    if (href == null || href.trim().length() == 0) {
+    if (href == null || href.trim().isEmpty()) {
       getProperties().remove("href");
     } else {
       getProperties().put("href", href);
@@ -118,7 +120,7 @@ public class GeoJsonLinkedCrs extends AbstractGeoJsonCrs {
    */
   @JsonIgnore
   public void setType(String type) {
-    if (type == null || type.trim().length() == 0) {
+    if (type == null || type.trim().isEmpty()) {
       getProperties().remove("type");
     } else {
       getProperties().put("type", type);

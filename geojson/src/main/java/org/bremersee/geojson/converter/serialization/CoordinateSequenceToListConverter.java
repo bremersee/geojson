@@ -19,6 +19,7 @@ package org.bremersee.geojson.converter.serialization;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.isNull;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +32,10 @@ import org.locationtech.jts.geom.CoordinateSequence;
  *
  * @author Christian Bremer
  */
-@SuppressWarnings("SameNameButDifferent")
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 class CoordinateSequenceToListConverter implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   private final CoordinateToListConverter coordinateConverter;

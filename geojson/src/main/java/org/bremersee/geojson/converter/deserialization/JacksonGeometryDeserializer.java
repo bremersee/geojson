@@ -23,6 +23,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
+import java.io.Serial;
 import java.util.Map;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.locationtech.jts.geom.Geometry;
@@ -35,6 +36,7 @@ import org.locationtech.jts.geom.GeometryFactory;
  */
 public class JacksonGeometryDeserializer extends StdDeserializer<Geometry> {
 
+  @Serial
   private static final long serialVersionUID = 3L;
 
   private final JsonToGeometryConverter geometryConverter;

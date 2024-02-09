@@ -18,6 +18,7 @@ package org.bremersee.geojson.crs;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.io.Serial;
 
 /**
  * A reference to the coordinate reference system (CRS) of a GeoJSON object by it's name.
@@ -31,6 +32,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("name")
 public class GeoJsonNamedCrs extends AbstractGeoJsonCrs {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   /**
@@ -66,7 +68,7 @@ public class GeoJsonNamedCrs extends AbstractGeoJsonCrs {
    */
   @JsonIgnore
   public void setCrs(String crs) {
-    if (crs == null || crs.trim().length() == 0) {
+    if (crs == null || crs.trim().isEmpty()) {
       getProperties().remove("name");
     } else {
       getProperties().put("name", crs);

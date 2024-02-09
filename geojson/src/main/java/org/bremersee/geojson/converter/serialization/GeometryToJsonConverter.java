@@ -24,6 +24,7 @@ import static org.bremersee.geojson.GeoJsonConstants.GEOMETRIES;
 import static org.bremersee.geojson.GeoJsonConstants.GEOMETRY_COLLECTION;
 import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,6 +50,7 @@ import org.locationtech.jts.geom.Polygon;
  */
 public class GeometryToJsonConverter implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   private final PointToJsonConverter pointConverter;

@@ -23,6 +23,7 @@ import static org.bremersee.geojson.GeoJsonConstants.BBOX;
 import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
 import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -40,6 +41,7 @@ import org.locationtech.jts.geom.Geometry;
  */
 abstract class AbstractGeometryToJsonConverter<S extends Geometry> implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   private final boolean withBoundingBox;

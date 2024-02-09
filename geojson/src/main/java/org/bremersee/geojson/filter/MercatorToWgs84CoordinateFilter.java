@@ -21,6 +21,8 @@ import static java.util.Objects.nonNull;
 import static org.bremersee.geojson.filter.FilterConstants.EARTH_RADIUS_METERS;
 
 import java.util.Objects;
+import lombok.Getter;
+import lombok.Setter;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateFilter;
 
@@ -29,6 +31,8 @@ import org.locationtech.jts.geom.CoordinateFilter;
  *
  * @author Christian Bremer
  */
+@Getter
+@Setter
 public class MercatorToWgs84CoordinateFilter implements CoordinateFilter {
 
   private double earthRadiusInMeters = EARTH_RADIUS_METERS;
@@ -46,24 +50,6 @@ public class MercatorToWgs84CoordinateFilter implements CoordinateFilter {
    * @param earthRadiusInMeters the earth radius in meters
    */
   public MercatorToWgs84CoordinateFilter(double earthRadiusInMeters) {
-    this.earthRadiusInMeters = earthRadiusInMeters;
-  }
-
-  /**
-   * Returns the earth radius that is used for the transformation.
-   *
-   * @return the earth radius in meters
-   */
-  public double getEarthRadiusInMeters() {
-    return earthRadiusInMeters;
-  }
-
-  /**
-   * Sets the earth radius that is used for the transformation.
-   *
-   * @param earthRadiusInMeters the earth radius in meters
-   */
-  public void setEarthRadiusInMeters(double earthRadiusInMeters) {
     this.earthRadiusInMeters = earthRadiusInMeters;
   }
 

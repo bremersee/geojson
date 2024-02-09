@@ -19,6 +19,7 @@ package org.bremersee.geojson.converter.serialization;
 import static java.util.Objects.isNull;
 import static org.bremersee.geojson.GeoJsonConstants.LINESTRING;
 
+import java.io.Serial;
 import org.locationtech.jts.geom.LineString;
 
 /**
@@ -28,6 +29,7 @@ import org.locationtech.jts.geom.LineString;
  */
 class LineStringToJsonConverter extends AbstractGeometryToJsonConverter<LineString> {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   private final CoordinateSequenceToListConverter coordinateSequenceConverter;

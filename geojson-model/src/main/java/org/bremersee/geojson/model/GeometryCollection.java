@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -36,13 +38,14 @@ import lombok.ToString;
  *
  * @author Christian Bremer
  */
-@SuppressWarnings("SameNameButDifferent")
 @Schema(description = "GeoJSON GeometryCollection.")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Setter
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class GeometryCollection extends Geometry implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   @JsonProperty(GEOMETRIES)
@@ -76,15 +79,6 @@ public class GeometryCollection extends Geometry implements Serializable {
   @Schema(description = "The geometries.")
   public List<Geometry> getGeometries() {
     return geometries;
-  }
-
-  /**
-   * Sets geometries.
-   *
-   * @param geometries the geometries
-   */
-  public void setGeometries(List<Geometry> geometries) {
-    this.geometries = geometries;
   }
 
   @Schema(hidden = true)

@@ -19,6 +19,7 @@ package org.bremersee.geojson.converter.serialization;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.nonNull;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -36,6 +37,7 @@ import org.locationtech.jts.geom.Coordinate;
  */
 class CoordinateToListConverter implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   private static final int MAXIMUM_INTEGER_DIGITS = 17;

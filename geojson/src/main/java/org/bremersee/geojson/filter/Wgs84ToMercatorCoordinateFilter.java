@@ -20,7 +20,10 @@ import static java.util.Objects.hash;
 import static java.util.Objects.isNull;
 import static org.bremersee.geojson.filter.FilterConstants.EARTH_RADIUS_METERS;
 
+import java.io.Serial;
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 import org.bremersee.geojson.crs.GeoJsonCrsConstants;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateFilter;
@@ -30,8 +33,11 @@ import org.locationtech.jts.geom.CoordinateFilter;
  *
  * @author Christian Bremer
  */
+@Setter
+@Getter
 public class Wgs84ToMercatorCoordinateFilter implements CoordinateFilter, Serializable {
 
+  @Serial
   private static final long serialVersionUID = 2L;
 
   private double earthRadiusInMeters = EARTH_RADIUS_METERS;
@@ -49,24 +55,6 @@ public class Wgs84ToMercatorCoordinateFilter implements CoordinateFilter, Serial
    * @param earthRadiusInMeters the earth radius in meters
    */
   public Wgs84ToMercatorCoordinateFilter(double earthRadiusInMeters) {
-    this.earthRadiusInMeters = earthRadiusInMeters;
-  }
-
-  /**
-   * Returns the earth radius that is used for the transformation.
-   *
-   * @return the earth radius in meters
-   */
-  public double getEarthRadiusInMeters() {
-    return earthRadiusInMeters;
-  }
-
-  /**
-   * Sets the earth radius that is used for the transformation.
-   *
-   * @param earthRadiusInMeters the earth radius in meters
-   */
-  public void setEarthRadiusInMeters(double earthRadiusInMeters) {
     this.earthRadiusInMeters = earthRadiusInMeters;
   }
 

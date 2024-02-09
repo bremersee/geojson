@@ -23,12 +23,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
+import jakarta.validation.Valid;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
-import javax.validation.Valid;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.bremersee.geojson.GeoJsonConstants;
 
@@ -37,7 +40,6 @@ import org.bremersee.geojson.GeoJsonConstants;
  *
  * @author Christian Bremer
  */
-@SuppressWarnings("SameNameButDifferent")
 @Schema(description = "A collection of features.")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EqualsAndHashCode
@@ -46,17 +48,20 @@ import org.bremersee.geojson.GeoJsonConstants;
 @Valid
 public class FeatureCollection implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   @Schema(
       description = "The feature collection type, must be 'FeatureCollection'.",
-      required = true)
+      requiredMode = RequiredMode.REQUIRED)
   @JsonProperty(value = TYPE, required = true)
   private TypeEnum type = TypeEnum.FEATURE_COLLECTION;
 
+  @Setter
   @JsonProperty("bbox")
   private BoundingBox bbox = null;
 
+  @Setter
   @JsonProperty("features")
   private List<Feature> features = null;
 
@@ -86,15 +91,6 @@ public class FeatureCollection implements Serializable {
   }
 
   /**
-   * Sets bounding box.
-   *
-   * @param bbox the bbox
-   */
-  public void setBbox(BoundingBox bbox) {
-    this.bbox = bbox;
-  }
-
-  /**
    * Get features.
    *
    * @return features features
@@ -102,15 +98,6 @@ public class FeatureCollection implements Serializable {
   @Schema(description = "The features.")
   public List<Feature> getFeatures() {
     return features;
-  }
-
-  /**
-   * Sets features.
-   *
-   * @param features the features
-   */
-  public void setFeatures(List<Feature> features) {
-    this.features = features;
   }
 
   /**

@@ -36,7 +36,6 @@ import lombok.ToString;
  *
  * @author Christian Bremer
  */
-@SuppressWarnings("SameNameButDifferent")
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -76,7 +75,7 @@ public abstract class UnknownAware {
    */
   @JsonAnySetter
   public void unknown(String name, Object value) {
-    if (name == null || name.trim().length() == 0) {
+    if (name == null || name.trim().isEmpty()) {
       return;
     }
     if (unknown == null) {

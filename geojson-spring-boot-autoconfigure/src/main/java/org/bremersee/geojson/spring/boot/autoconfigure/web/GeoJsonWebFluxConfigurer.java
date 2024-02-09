@@ -18,15 +18,15 @@ package org.bremersee.geojson.spring.boot.autoconfigure.web;
 
 import lombok.extern.slf4j.Slf4j;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
-import org.bremersee.geojson.spring.boot.autoconfigure.GeoJsonGeometryFactoryAutoConfiguration;
 import org.bremersee.geojson.converter.GeometryConverters;
+import org.bremersee.geojson.spring.boot.autoconfigure.GeoJsonGeometryFactoryAutoConfiguration;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.lang.NonNull;
@@ -34,17 +34,24 @@ import org.springframework.util.ClassUtils;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 
 /**
+ * The GeoJSON web flux configurer.
+ *
  * @author Christian Bremer
  */
 @ConditionalOnClass({GeometryConverters.class})
 @ConditionalOnWebApplication(type = Type.REACTIVE)
-@Configuration
+@AutoConfiguration
 @AutoConfigureAfter(GeoJsonGeometryFactoryAutoConfiguration.class)
 @Slf4j
 public class GeoJsonWebFluxConfigurer implements WebFluxConfigurer {
 
   private final GeoJsonGeometryFactory geometryFactory;
 
+  /**
+   * Instantiates a new GeoJSON web flux configurer.
+   *
+   * @param geometryFactory the geometry factory
+   */
   public GeoJsonWebFluxConfigurer(ObjectProvider<GeoJsonGeometryFactory> geometryFactory) {
     this.geometryFactory = geometryFactory.getIfAvailable(GeoJsonGeometryFactory::new);
   }
@@ -54,10 +61,11 @@ public class GeoJsonWebFluxConfigurer implements WebFluxConfigurer {
    */
   @EventListener(ApplicationReadyEvent.class)
   public void init() {
-    log.info("\n"
-            + "*********************************************************************************\n"
-            + "* {}\n"
-            + "*********************************************************************************",
+    log.info("""
+
+            *********************************************************************************
+            * {}
+            *********************************************************************************""",
         ClassUtils.getUserClass(getClass()).getSimpleName());
   }
 

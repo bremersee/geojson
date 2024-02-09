@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -44,6 +45,7 @@ import java.util.TreeMap;
 })
 public class AbstractGeoJsonCrs implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   @Schema(description = "The properties.")
@@ -75,10 +77,9 @@ public class AbstractGeoJsonCrs implements Serializable {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof AbstractGeoJsonCrs)) {
+    if (!(o instanceof AbstractGeoJsonCrs that)) {
       return false;
     }
-    AbstractGeoJsonCrs that = (AbstractGeoJsonCrs) o;
     if (properties == that.properties) {
       return true;
     }

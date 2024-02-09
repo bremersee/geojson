@@ -16,6 +16,7 @@
 
 package org.bremersee.geojson;
 
+import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static org.bremersee.geojson.GeoJsonConstants.BBOX;
@@ -89,7 +90,7 @@ public class GeoJsonFeature<G extends Geometry, P> extends UnknownAware {
       @JsonProperty(BBOX) double[] bbox,
       @JsonProperty(GEOMETRY)
       @JsonDeserialize(using = JacksonGeometryDeserializer.class)
-          G geometry,
+      G geometry,
       @JsonProperty(PROPERTIES) P properties) {
 
     if (!FEATURE.equals(type)) {
@@ -151,7 +152,7 @@ public class GeoJsonFeature<G extends Geometry, P> extends UnknownAware {
    *
    * @return the type
    */
-  @Schema(description = "The feature type.", required = true, example = FEATURE)
+  @Schema(description = "The feature type.", requiredMode = REQUIRED, example = FEATURE)
   @JsonProperty(value = TYPE, required = true)
   public final String getType() {
     return FEATURE;
@@ -226,10 +227,9 @@ public class GeoJsonFeature<G extends Geometry, P> extends UnknownAware {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof GeoJsonFeature)) {
+    if (!(o instanceof GeoJsonFeature<?, ?> that)) {
       return false;
     }
-    GeoJsonFeature<?, ?> that = (GeoJsonFeature<?, ?>) o;
     return Objects.equals(getId(), that.getId())
         && GeoJsonGeometryFactory.equals(getGeometry(), that.getGeometry())
         && Arrays.equals(getBbox(), that.getBbox())

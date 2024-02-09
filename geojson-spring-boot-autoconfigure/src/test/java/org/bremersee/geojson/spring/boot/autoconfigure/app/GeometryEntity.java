@@ -17,6 +17,8 @@
 package org.bremersee.geojson.spring.boot.autoconfigure.app;
 
 import java.util.Objects;
+import lombok.Getter;
+import lombok.Setter;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.locationtech.jts.geom.Geometry;
 import org.springframework.data.annotation.Id;
@@ -29,6 +31,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
  *
  * @author Christian Bremer
  */
+@Setter
+@Getter
 @Document(collection = "geometry")
 @SuppressWarnings("unused")
 public class GeometryEntity {
@@ -51,42 +55,6 @@ public class GeometryEntity {
    * @param geometry the geometry
    */
   public GeometryEntity(Geometry geometry) {
-    this.geometry = geometry;
-  }
-
-  /**
-   * Gets id.
-   *
-   * @return the id
-   */
-  public String getId() {
-    return id;
-  }
-
-  /**
-   * Sets id.
-   *
-   * @param id the id
-   */
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  /**
-   * Gets geometry.
-   *
-   * @return the geometry
-   */
-  public Geometry getGeometry() {
-    return geometry;
-  }
-
-  /**
-   * Sets geometry.
-   *
-   * @param geometry the geometry
-   */
-  public void setGeometry(Geometry geometry) {
     this.geometry = geometry;
   }
 

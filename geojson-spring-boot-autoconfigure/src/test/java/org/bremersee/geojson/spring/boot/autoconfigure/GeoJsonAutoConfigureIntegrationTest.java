@@ -41,8 +41,17 @@ import org.locationtech.jts.geom.Polygon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 import reactor.core.publisher.Mono;
 
 /**
@@ -50,19 +59,24 @@ import reactor.core.publisher.Mono;
  *
  * @author Christian Bremer
  */
+@Testcontainers
 @SpringBootTest(
     classes = {TestConfiguration.class},
     webEnvironment = WebEnvironment.RANDOM_PORT,
     properties = {
         "spring.main.web-application-type=reactive",
-        "springdoc.packagesToScan=org.bremersee.geojson.boot.app",
-        "security.basic.enabled=false",
-        "spring.data.mongodb.uri=mongodb://localhost:27017/test",
-        "spring.data.mongodb.auto-index-creation=true",
-        "spring.mongodb.embedded.version=3.6.2"
+        "spring.data.mongodb.auto-index-creation=true"
     })
+@ComponentScan(basePackageClasses = {GeometryEntityRepository.class})
+@EnableMongoRepositories(basePackageClasses = {GeometryEntityRepository.class})
+@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class GeoJsonAutoConfigureIntegrationTest {
+
+  @Container
+  @ServiceConnection
+  static MongoDBContainer mongoDBContainer = new MongoDBContainer(DockerImageName
+      .parse("mongo:4.0.10"));
 
   /**
    * The Geometry factory.
@@ -81,22 +95,6 @@ public class GeoJsonAutoConfigureIntegrationTest {
    */
   @Autowired
   WebTestClient webClient;
-
-  /**
-   * Open api.
-   */
-  @Order(1)
-  @Test
-  void openApi() {
-    webClient
-        .get()
-        .uri("/v3/api-docs.yaml")
-        .exchange()
-        .expectStatus()
-        .isOk()
-        .expectBody(String.class)
-        .value(System.out::println);
-  }
 
   /**
    * Transform.

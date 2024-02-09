@@ -18,6 +18,7 @@ package org.bremersee.geojson.converter.deserialization;
 
 import static java.util.Objects.isNull;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import org.locationtech.jts.geom.Coordinate;
@@ -31,6 +32,7 @@ import org.locationtech.jts.geom.impl.CoordinateArraySequence;
  */
 class ObjectToCoordinateSequenceConverter implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   private final ObjectToCoordinateConverter coordinateConverter;

@@ -21,6 +21,7 @@ import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
 import static org.bremersee.geojson.GeoJsonConstants.MULTI_POLYGON;
 import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 
+import java.io.Serial;
 import java.util.List;
 import java.util.Map;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -34,6 +35,7 @@ import org.locationtech.jts.geom.Polygon;
  */
 class JsonToMultiPolygonConverter extends AbstractJsonToGeometryConverter {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   private final JsonToPolygonConverter polygonConverter;

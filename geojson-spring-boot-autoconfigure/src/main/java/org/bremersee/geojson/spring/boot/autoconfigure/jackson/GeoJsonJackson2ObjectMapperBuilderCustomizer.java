@@ -23,18 +23,20 @@ import org.bremersee.geojson.GeoJsonObjectMapperModule;
 import org.bremersee.geojson.spring.boot.autoconfigure.GeoJsonGeometryFactoryAutoConfiguration;
 import org.bremersee.geojson.spring.boot.autoconfigure.GeoJsonProperties;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.util.ClassUtils;
 
 /**
+ * The GeoJSON jackson 2 object mapper builder customizer.
+ *
  * @author Christian Bremer
  */
 @ConditionalOnWebApplication
@@ -42,7 +44,7 @@ import org.springframework.util.ClassUtils;
     GeoJsonObjectMapperModule.class,
     Jackson2ObjectMapperBuilder.class,
     ObjectMapper.class})
-@Configuration
+@AutoConfiguration
 @AutoConfigureAfter(GeoJsonGeometryFactoryAutoConfiguration.class)
 @EnableConfigurationProperties(GeoJsonProperties.class)
 @Slf4j
@@ -53,6 +55,12 @@ public class GeoJsonJackson2ObjectMapperBuilderCustomizer
 
   private final GeoJsonGeometryFactory geometryFactory;
 
+  /**
+   * Instantiates a new GeoJSON jackson 2 object mapper builder customizer.
+   *
+   * @param properties the properties
+   * @param geometryFactory the geometry factory
+   */
   public GeoJsonJackson2ObjectMapperBuilderCustomizer(
       GeoJsonProperties properties,
       ObjectProvider<GeoJsonGeometryFactory> geometryFactory) {
@@ -65,12 +73,13 @@ public class GeoJsonJackson2ObjectMapperBuilderCustomizer
    */
   @EventListener(ApplicationReadyEvent.class)
   public void init() {
-    log.info("\n"
-            + "*********************************************************************************\n"
-            + "* {}\n"
-            + "*********************************************************************************\n"
-            + "* properties = {}\n"
-            + "*********************************************************************************",
+    log.info("""
+
+            *********************************************************************************
+            * {}
+            *********************************************************************************
+            * properties = {}
+            *********************************************************************************""",
         ClassUtils.getUserClass(getClass()).getSimpleName(), properties);
   }
 

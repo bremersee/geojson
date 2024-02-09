@@ -16,6 +16,7 @@
 
 package org.bremersee.geojson.model;
 
+import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 import static org.bremersee.geojson.GeoJsonConstants.BBOX;
 import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
 import static org.bremersee.geojson.GeoJsonConstants.GEOMETRIES;
@@ -38,6 +39,9 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
@@ -45,10 +49,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.bremersee.geojson.GeoJsonConstants;
 
@@ -57,7 +62,6 @@ import org.bremersee.geojson.GeoJsonConstants;
  *
  * @author Christian Bremer
  */
-@SuppressWarnings("SameNameButDifferent")
 @Schema(description = "GeoJSON Geometry.")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = TYPE, visible = true)
 @JsonSubTypes({
@@ -76,17 +80,20 @@ import org.bremersee.geojson.GeoJsonConstants;
 @Valid
 public abstract class Geometry implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   /**
    * The type.
    */
+  @Setter(AccessLevel.PROTECTED)
   @JsonProperty(value = TYPE, required = true)
   TypeEnum type;
 
   /**
    * The bounding box.
    */
+  @Setter
   @JsonProperty(BBOX)
   @JsonInclude(Include.NON_EMPTY)
   BoundingBox bbox;
@@ -105,19 +112,10 @@ public abstract class Geometry implements Serializable {
    *
    * @return type type
    */
-  @Schema(description = "The geometry type.", required = true, example = LINESTRING)
+  @Schema(description = "The geometry type.", requiredMode = REQUIRED, example = LINESTRING)
   @NotNull
   public TypeEnum getType() {
     return type;
-  }
-
-  /**
-   * Sets type.
-   *
-   * @param type the type
-   */
-  protected void setType(TypeEnum type) {
-    this.type = type;
   }
 
   /**
@@ -128,15 +126,6 @@ public abstract class Geometry implements Serializable {
   @Schema(description = "The boundling box.")
   public BoundingBox getBbox() {
     return bbox;
-  }
-
-  /**
-   * Sets bbox.
-   *
-   * @param bbox the bbox
-   */
-  public void setBbox(BoundingBox bbox) {
-    this.bbox = bbox;
   }
 
   /**
@@ -168,6 +157,7 @@ public abstract class Geometry implements Serializable {
   /**
    * The geometry type.
    */
+  @Getter
   public enum TypeEnum {
 
     /**
@@ -218,24 +208,6 @@ public abstract class Geometry implements Serializable {
     @JsonValue
     public String toString() {
       return getGeometryType();
-    }
-
-    /**
-     * Gets geometry type.
-     *
-     * @return the geometry type
-     */
-    public String getGeometryType() {
-      return geometryType;
-    }
-
-    /**
-     * Gets geometry json value attribute.
-     *
-     * @return the geometry json value attribute
-     */
-    public String getGeometryJsonValueAttribute() {
-      return geometryJsonValueAttribute;
     }
 
     /**

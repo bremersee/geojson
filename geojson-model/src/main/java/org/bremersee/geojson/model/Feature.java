@@ -16,6 +16,7 @@
 
 package org.bremersee.geojson.model;
 
+import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 import static org.bremersee.geojson.GeoJsonConstants.BBOX;
 import static org.bremersee.geojson.GeoJsonConstants.FEATURE;
 import static org.bremersee.geojson.GeoJsonConstants.GEOMETRY;
@@ -27,11 +28,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
+import java.io.Serial;
 import java.io.Serializable;
-import javax.validation.Valid;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.bremersee.geojson.GeoJsonConstants;
 
@@ -40,7 +43,6 @@ import org.bremersee.geojson.GeoJsonConstants;
  *
  * @author Christian Bremer
  */
-@SuppressWarnings("SameNameButDifferent")
 @Schema(description = "A Feature object represents a spatially bounded thing.")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @EqualsAndHashCode
@@ -49,21 +51,26 @@ import org.bremersee.geojson.GeoJsonConstants;
 @Valid
 public class Feature implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 2L;
 
-  @Schema(description = "The feature type, must be 'Feature'.", required = true)
+  @Schema(description = "The feature type, must be 'Feature'.", requiredMode = REQUIRED)
   @JsonProperty(value = FEATURE, required = true)
   private TypeEnum type = TypeEnum.FEATURE;
 
+  @Setter
   @JsonProperty(ID)
   private String id = null;
 
+  @Setter
   @JsonProperty(BBOX)
   private BoundingBox bbox = null;
 
+  @Setter
   @JsonProperty(GEOMETRY)
   private Geometry geometry = null;
 
+  @Setter
   @JsonProperty(PROPERTIES)
   private Object properties = null;
 
@@ -99,15 +106,6 @@ public class Feature implements Serializable {
   }
 
   /**
-   * Sets id.
-   *
-   * @param id the id
-   */
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  /**
    * Get bounding box.
    *
    * @return bbox bbox
@@ -115,15 +113,6 @@ public class Feature implements Serializable {
   @Schema(description = "The bounding box.")
   public BoundingBox getBbox() {
     return bbox;
-  }
-
-  /**
-   * Sets bounding box.
-   *
-   * @param bbox the bbox
-   */
-  public void setBbox(BoundingBox bbox) {
-    this.bbox = bbox;
   }
 
   /**
@@ -137,15 +126,6 @@ public class Feature implements Serializable {
   }
 
   /**
-   * Sets geometry.
-   *
-   * @param geometry the geometry
-   */
-  public void setGeometry(Geometry geometry) {
-    this.geometry = geometry;
-  }
-
-  /**
    * The feature properties.
    *
    * @return properties properties
@@ -153,15 +133,6 @@ public class Feature implements Serializable {
   @Schema(description = "The feature properties.")
   public Object getProperties() {
     return properties;
-  }
-
-  /**
-   * Sets properties.
-   *
-   * @param properties the properties
-   */
-  public void setProperties(Object properties) {
-    this.properties = properties;
   }
 
   /**

@@ -18,19 +18,21 @@ package org.bremersee.geojson.spring.boot.autoconfigure;
 
 import lombok.extern.slf4j.Slf4j;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import org.springframework.util.ClassUtils;
 
 /**
+ * The GeoJSON geometry factory autoconfiguration.
+ *
  * @author Christian Bremer
  */
 @ConditionalOnClass({GeoJsonGeometryFactory.class})
-@Configuration
+@AutoConfiguration
 @Slf4j
 public class GeoJsonGeometryFactoryAutoConfiguration {
 
@@ -39,13 +41,19 @@ public class GeoJsonGeometryFactoryAutoConfiguration {
    */
   @EventListener(ApplicationReadyEvent.class)
   public void init() {
-    log.info("\n"
-            + "*********************************************************************************\n"
-            + "* {}\n"
-            + "*********************************************************************************",
+    log.info("""
+
+            *********************************************************************************
+            * {}
+            *********************************************************************************""",
         ClassUtils.getUserClass(getClass()).getSimpleName());
   }
 
+  /**
+   * Creates the GeoJSON geometry factory.
+   *
+   * @return the gGeoJSON geometry factory
+   */
   @ConditionalOnMissingBean
   @Bean
   public GeoJsonGeometryFactory geoJsonGeometryFactory() {

@@ -21,6 +21,7 @@ import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
 import static org.bremersee.geojson.GeoJsonConstants.LINESTRING;
 import static org.bremersee.geojson.GeoJsonConstants.TYPE;
 
+import java.io.Serial;
 import java.util.Map;
 import org.locationtech.jts.geom.CoordinateSequence;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -33,6 +34,7 @@ import org.locationtech.jts.geom.LineString;
  */
 class JsonToLineStringConverter extends AbstractJsonToGeometryConverter {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   private final ObjectToCoordinateSequenceConverter coordinateSequenceConverter;

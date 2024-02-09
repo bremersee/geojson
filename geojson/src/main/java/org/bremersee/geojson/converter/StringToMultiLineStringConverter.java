@@ -27,7 +27,6 @@ import org.springframework.lang.NonNull;
  *
  * @author Christian Bremer
  */
-@SuppressWarnings("SameNameButDifferent")
 @NoArgsConstructor
 public class StringToMultiLineStringConverter extends AbstractStringToGeometryConverter
     implements Converter<String, MultiLineString> {

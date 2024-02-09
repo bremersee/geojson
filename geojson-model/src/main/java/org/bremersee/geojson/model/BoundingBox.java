@@ -17,6 +17,7 @@
 package org.bremersee.geojson.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -30,13 +31,13 @@ import lombok.ToString;
  *
  * @author Christian Bremer
  */
-@SuppressWarnings("SameNameButDifferent")
 @Schema(description = "The bounding box of a geometry, feature or feature collection.")
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @NoArgsConstructor
 public class BoundingBox extends ArrayList<BigDecimal> implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   /**

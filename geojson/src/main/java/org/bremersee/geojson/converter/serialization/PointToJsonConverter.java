@@ -19,6 +19,7 @@ package org.bremersee.geojson.converter.serialization;
 import static java.util.Objects.isNull;
 import static org.bremersee.geojson.GeoJsonConstants.POINT;
 
+import java.io.Serial;
 import org.locationtech.jts.geom.Point;
 
 /**
@@ -28,6 +29,7 @@ import org.locationtech.jts.geom.Point;
  */
 class PointToJsonConverter extends AbstractGeometryToJsonConverter<Point> {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   /**

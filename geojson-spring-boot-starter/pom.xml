@@ -54,6 +54,11 @@
       <artifactId>geojson</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.bremersee</groupId>
+      <artifactId>geojson-spring-data-mongodb</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>org.junit.jupiter</groupId>

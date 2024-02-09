@@ -45,26 +45,29 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.IndexOperations;
 import org.springframework.data.mongodb.core.index.IndexResolver;
 import org.springframework.data.mongodb.core.index.MongoPersistentEntityIndexResolver;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * The converter test with embedded mongo.
  *
  * @author Christian Bremer
  */
+@Testcontainers
 @SpringBootTest(
     classes = {TestConfiguration.class},
-    webEnvironment = WebEnvironment.NONE,
-    properties = {
-        "security.basic.enabled=false",
-        "spring.data.mongodb.uri=mongodb://localhost:27017/test",
-        "spring.data.mongodb.auto-index-creation=false",
-        "spring.mongodb.embedded.version=3.6.2"
-    })
+    webEnvironment = WebEnvironment.NONE)
+@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @ExtendWith(SoftAssertionsExtension.class)
 public class ConverterIntegrationTest {
@@ -72,6 +75,11 @@ public class ConverterIntegrationTest {
   private static final Logger log = LoggerFactory.getLogger(ConverterIntegrationTest.class);
 
   private static final GeoJsonGeometryFactory factory = new GeoJsonGeometryFactory();
+
+  @Container
+  @ServiceConnection
+  static MongoDBContainer mongoDBContainer = new MongoDBContainer(DockerImageName
+      .parse("mongo:4.0.10"));
 
   /**
    * The repository.

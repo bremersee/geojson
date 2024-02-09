@@ -30,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -197,7 +198,7 @@ public class GeoJsonFeatureCollection<G extends Geometry, P> extends UnknownAwar
    */
   @Schema(
       description = "The feature collection type.",
-      required = true,
+      requiredMode = RequiredMode.REQUIRED,
       example = FEATURE_COLLECTION)
   @JsonProperty(value = TYPE, required = true)
   public final String getType() {

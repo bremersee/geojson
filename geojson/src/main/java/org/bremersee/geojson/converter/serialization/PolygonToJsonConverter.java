@@ -20,6 +20,7 @@ import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.isNull;
 import static org.bremersee.geojson.GeoJsonConstants.POLYGON;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import org.locationtech.jts.geom.Polygon;
@@ -31,6 +32,7 @@ import org.locationtech.jts.geom.Polygon;
  */
 class PolygonToJsonConverter extends AbstractGeometryToJsonConverter<Polygon> {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   /**

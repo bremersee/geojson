@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.bremersee</groupId>
     <artifactId>common-parent</artifactId>
-    <version>2.4.0</version>
+    <version>3.0.0-SNAPSHOT</version>
     <relativePath/>
   </parent>
 
@@ -35,8 +35,7 @@
     <!--suppress UnresolvedMavenProperty -->
     <gh-pages-staging-dir>${maven.multiModuleProjectDirectory}/target/staging</gh-pages-staging-dir>
 
-    <extended-spring.version>0.0.1-SNAPSHOT</extended-spring.version>
-    <jts.version>1.18.2</jts.version>
+    <jts.version>1.19.0</jts.version>
   </properties>
 
   <developers>
@@ -91,11 +90,6 @@
 
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>org.bremersee</groupId>
-        <artifactId>extended-spring-boot-autoconfigure</artifactId>
-        <version>${extended-spring.version}</version>
-      </dependency>
       <dependency>
         <groupId>org.locationtech.jts</groupId>
         <artifactId>jts-core</artifactId>

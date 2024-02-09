@@ -23,6 +23,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.bremersee.geojson.GeoJsonFeature;
 import org.bremersee.geojson.GeoJsonFeatureCollection;
 import org.bremersee.geojson.model.Feature;
@@ -44,6 +45,7 @@ import reactor.core.publisher.Mono;
  */
 @RestController
 @Tag(name = "geo-controller", description = "The GeoJSON API.")
+@Slf4j
 public class GeoJsonRestController {
 
   @Autowired
@@ -80,7 +82,11 @@ public class GeoJsonRestController {
       @RequestParam(name = "geometry") @Parameter(hidden = true) Geometry geometry,
       @RequestParam(name = "withBoundingBox") boolean withBoundingBox) {
 
-    return Mono.just(new GeoJsonFeature<>(id, geometry, withBoundingBox, null));
+    log.info("Got geometry: {}", geometry.toText());
+    GeoJsonFeature<Geometry, Object> transformed = new GeoJsonFeature<>(
+        id, geometry, withBoundingBox, null);
+    log.info("Transformed geometry: {}", transformed);
+    return Mono.just(transformed);
   }
 
   /**
