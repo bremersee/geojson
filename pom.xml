@@ -27,7 +27,6 @@
     <module>geojson</module>
     <module>geojson-spring-data-mongodb</module>
     <module>geojson-spring-boot-autoconfigure</module>
-    <module>geojson-spring-boot-starter</module>
   </modules>
 
   <properties>
