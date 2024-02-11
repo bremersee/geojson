@@ -19,6 +19,7 @@ package org.bremersee.geojson.spring.data.mongodb.convert;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
@@ -70,9 +71,8 @@ import org.testcontainers.utility.DockerImageName;
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @ExtendWith(SoftAssertionsExtension.class)
+@Slf4j
 public class ConverterIntegrationTest {
-
-  private static final Logger log = LoggerFactory.getLogger(ConverterIntegrationTest.class);
 
   private static final GeoJsonGeometryFactory factory = new GeoJsonGeometryFactory();
 
