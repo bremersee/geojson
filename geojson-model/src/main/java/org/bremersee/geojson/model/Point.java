@@ -26,6 +26,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -36,6 +37,7 @@ import lombok.ToString;
  */
 @Schema(description = "GeoJSON Point.")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
@@ -44,6 +46,10 @@ public class Point extends Geometry implements Serializable {
   @Serial
   private static final long serialVersionUID = 1L;
 
+  /**
+   * The coordinates.
+   */
+  @Schema(description = "The coordinates.")
   @JsonProperty(COORDINATES)
   private Position coordinates = null;
 
@@ -65,16 +71,6 @@ public class Point extends Geometry implements Serializable {
     super(bbox);
     setType(TypeEnum.POINT);
     this.coordinates = coordinates;
-  }
-
-  /**
-   * Get coordinates.
-   *
-   * @return the coordinates
-   */
-  @Schema(description = "The coordinates.")
-  public Position getCoordinates() {
-    return coordinates;
   }
 
   @Schema(hidden = true)

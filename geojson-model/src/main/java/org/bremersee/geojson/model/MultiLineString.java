@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.util.List;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -37,6 +38,7 @@ import lombok.ToString;
  */
 @Schema(description = "GeoJSON MultiLineString.")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
@@ -45,6 +47,10 @@ public class MultiLineString extends Geometry implements Serializable {
   @Serial
   private static final long serialVersionUID = 1L;
 
+  /**
+   * The coordinates.
+   */
+  @Schema(description = "The coordinates.")
   @JsonProperty(COORDINATES)
   private List<List<Position>> coordinates = null;
 
@@ -66,16 +72,6 @@ public class MultiLineString extends Geometry implements Serializable {
     super(bbox);
     setType(TypeEnum.MULTILINESTRING);
     this.coordinates = coordinates;
-  }
-
-  /**
-   * Get coordinates.
-   *
-   * @return the coordinates
-   */
-  @Schema(description = "The coordinates.")
-  public List<List<Position>> getCoordinates() {
-    return coordinates;
   }
 
   @Schema(hidden = true)

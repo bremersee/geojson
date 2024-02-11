@@ -39,8 +39,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -74,10 +72,10 @@ import org.bremersee.geojson.GeoJsonConstants;
     @JsonSubTypes.Type(value = Polygon.class, name = POLYGON),
 })
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
 @EqualsAndHashCode
 @ToString
 @NoArgsConstructor
-@Valid
 public abstract class Geometry implements Serializable {
 
   @Serial
@@ -87,6 +85,7 @@ public abstract class Geometry implements Serializable {
    * The type.
    */
   @Setter(AccessLevel.PROTECTED)
+  @Schema(description = "The geometry type.", requiredMode = REQUIRED, example = LINESTRING)
   @JsonProperty(value = TYPE, required = true)
   TypeEnum type;
 
@@ -94,6 +93,7 @@ public abstract class Geometry implements Serializable {
    * The bounding box.
    */
   @Setter
+  @Schema(description = "The boundling box.")
   @JsonProperty(BBOX)
   @JsonInclude(Include.NON_EMPTY)
   BoundingBox bbox;
@@ -105,27 +105,6 @@ public abstract class Geometry implements Serializable {
    */
   public Geometry(BoundingBox bbox) {
     this.bbox = bbox;
-  }
-
-  /**
-   * The geometry type.
-   *
-   * @return type type
-   */
-  @Schema(description = "The geometry type.", requiredMode = REQUIRED, example = LINESTRING)
-  @NotNull
-  public TypeEnum getType() {
-    return type;
-  }
-
-  /**
-   * Get bounding box.
-   *
-   * @return bbox bbox
-   */
-  @Schema(description = "The boundling box.")
-  public BoundingBox getBbox() {
-    return bbox;
   }
 
   /**

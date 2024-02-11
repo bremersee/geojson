@@ -24,12 +24,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
-import jakarta.validation.Valid;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
@@ -42,10 +42,10 @@ import org.bremersee.geojson.GeoJsonConstants;
  */
 @Schema(description = "A collection of features.")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
 @EqualsAndHashCode
 @ToString
 @NoArgsConstructor
-@Valid
 public class FeatureCollection implements Serializable {
 
   @Serial
@@ -57,11 +57,19 @@ public class FeatureCollection implements Serializable {
   @JsonProperty(value = TYPE, required = true)
   private TypeEnum type = TypeEnum.FEATURE_COLLECTION;
 
+  /**
+   * The bounding box.
+   */
   @Setter
+  @Schema(description = "The bounding box.")
   @JsonProperty("bbox")
   private BoundingBox bbox = null;
 
+  /**
+   * The features.
+   */
   @Setter
+  @Schema(description = "The features.")
   @JsonProperty("features")
   private List<Feature> features = null;
 
@@ -78,26 +86,6 @@ public class FeatureCollection implements Serializable {
 
     setBbox(bbox);
     setFeatures(features);
-  }
-
-  /**
-   * Get bounding box.
-   *
-   * @return bbox bbox
-   */
-  @Schema(description = "The bounding box.")
-  public BoundingBox getBbox() {
-    return bbox;
-  }
-
-  /**
-   * Get features.
-   *
-   * @return features features
-   */
-  @Schema(description = "The features.")
-  public List<Feature> getFeatures() {
-    return features;
   }
 
   /**

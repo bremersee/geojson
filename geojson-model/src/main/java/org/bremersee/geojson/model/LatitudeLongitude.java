@@ -24,6 +24,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.ToString;
 
 /**
@@ -33,6 +34,7 @@ import lombok.ToString;
  */
 @Schema(description = "WGS84 position with latitude and longitude.")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
 @EqualsAndHashCode(callSuper = false)
 @ToString
 public class LatitudeLongitude implements LatLonAware, Serializable {
@@ -41,9 +43,11 @@ public class LatitudeLongitude implements LatLonAware, Serializable {
   private static final long serialVersionUID = 1L;
 
   @Schema(description = "The latitude.")
+  @JsonProperty("latitude")
   private BigDecimal latitude;
 
   @Schema(description = "The longitude.")
+  @JsonProperty("longitude")
   private BigDecimal longitude;
 
   /**
@@ -72,15 +76,4 @@ public class LatitudeLongitude implements LatLonAware, Serializable {
     }
   }
 
-  @JsonProperty("latitude")
-  @Override
-  public BigDecimal getLatitude() {
-    return latitude;
-  }
-
-  @JsonProperty("longitude")
-  @Override
-  public BigDecimal getLongitude() {
-    return longitude;
-  }
 }

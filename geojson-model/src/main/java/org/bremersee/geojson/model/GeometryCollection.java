@@ -30,6 +30,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -40,6 +41,7 @@ import lombok.ToString;
  */
 @Schema(description = "GeoJSON GeometryCollection.")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
@@ -48,6 +50,10 @@ public class GeometryCollection extends Geometry implements Serializable {
   @Serial
   private static final long serialVersionUID = 1L;
 
+  /**
+   * The geometries.
+   */
+  @Schema(description = "The geometries.")
   @JsonProperty(GEOMETRIES)
   private List<Geometry> geometries;
 
@@ -69,16 +75,6 @@ public class GeometryCollection extends Geometry implements Serializable {
     super(bbox);
     setType(TypeEnum.GEOMETRYCOLLECTION);
     this.geometries = geometries;
-  }
-
-  /**
-   * Get geometries.
-   *
-   * @return geometries geometries
-   */
-  @Schema(description = "The geometries.")
-  public List<Geometry> getGeometries() {
-    return geometries;
   }
 
   @Schema(hidden = true)

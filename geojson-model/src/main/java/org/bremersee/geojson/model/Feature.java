@@ -28,11 +28,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.Valid;
 import java.io.Serial;
 import java.io.Serializable;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
@@ -45,10 +45,10 @@ import org.bremersee.geojson.GeoJsonConstants;
  */
 @Schema(description = "A Feature object represents a spatially bounded thing.")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
 @EqualsAndHashCode
 @ToString
 @NoArgsConstructor
-@Valid
 public class Feature implements Serializable {
 
   @Serial
@@ -58,19 +58,35 @@ public class Feature implements Serializable {
   @JsonProperty(value = FEATURE, required = true)
   private TypeEnum type = TypeEnum.FEATURE;
 
+  /**
+   * The identifier of this feature.
+   */
   @Setter
+  @Schema(description = "The identifier of this feature.")
   @JsonProperty(ID)
   private String id = null;
 
+  /**
+   * The bounding box.
+   */
   @Setter
+  @Schema(description = "The bounding box.")
   @JsonProperty(BBOX)
   private BoundingBox bbox = null;
 
+  /**
+   * The geometry.
+   */
   @Setter
+  @Schema(description = "The geometry.")
   @JsonProperty(GEOMETRY)
   private Geometry geometry = null;
 
+  /**
+   * The feature properties.
+   */
   @Setter
+  @Schema(description = "The feature properties.")
   @JsonProperty(PROPERTIES)
   private Object properties = null;
 
@@ -93,46 +109,6 @@ public class Feature implements Serializable {
     setBbox(bbox);
     setGeometry(geometry);
     setProperties(properties);
-  }
-
-  /**
-   * The identifier of this feature.
-   *
-   * @return id id
-   */
-  @Schema(description = "The identifier of this feature.")
-  public String getId() {
-    return id;
-  }
-
-  /**
-   * Get bounding box.
-   *
-   * @return bbox bbox
-   */
-  @Schema(description = "The bounding box.")
-  public BoundingBox getBbox() {
-    return bbox;
-  }
-
-  /**
-   * Get geometry.
-   *
-   * @return geometry geometry
-   */
-  @Schema(description = "The geometry.")
-  public Geometry getGeometry() {
-    return geometry;
-  }
-
-  /**
-   * The feature properties.
-   *
-   * @return properties properties
-   */
-  @Schema(description = "The feature properties.")
-  public Object getProperties() {
-    return properties;
   }
 
   /**
