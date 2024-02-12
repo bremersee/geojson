@@ -65,13 +65,13 @@ public class GeoJsonRestController {
       tags = {"geo-controller"},
       parameters = {
           @Parameter(name = "geometry",
-              description = "The page number starting with 0.",
+              description = "The geometry you want to transform into a feature",
               in = ParameterIn.QUERY,
               schema = @Schema(type = "string"))
       },
       responses = @ApiResponse(
           responseCode = "200",
-          description = "A list of domain groups.",
+          description = "The feature of the given geometry.",
           content = @Content(
               schema = @Schema(implementation = Feature.class))
       )
@@ -83,10 +83,10 @@ public class GeoJsonRestController {
       @RequestParam(name = "withBoundingBox") boolean withBoundingBox) {
 
     log.info("Got geometry: {}", geometry.toText());
-    GeoJsonFeature<Geometry, Object> transformed = new GeoJsonFeature<>(
+    GeoJsonFeature<Geometry, Object> feature = new GeoJsonFeature<>(
         id, geometry, withBoundingBox, null);
-    log.info("Transformed geometry: {}", transformed);
-    return Mono.just(transformed);
+    log.info("Transformed feature: {}", feature);
+    return Mono.just(feature);
   }
 
   /**
@@ -100,7 +100,7 @@ public class GeoJsonRestController {
       tags = {"geo-controller"},
       responses = @ApiResponse(
           responseCode = "200",
-          description = "A list of domain groups.",
+          description = "The test feature from the database.",
           content = @Content(
               schema = @Schema(implementation = FeatureCollection.class))
       )
@@ -128,7 +128,7 @@ public class GeoJsonRestController {
       tags = {"geo-controller"},
       responses = @ApiResponse(
           responseCode = "200",
-          description = "A list of domain groups.",
+          description = "The saved geometry as feature.",
           content = @Content(
               schema = @Schema(implementation = Feature.class))
       )
