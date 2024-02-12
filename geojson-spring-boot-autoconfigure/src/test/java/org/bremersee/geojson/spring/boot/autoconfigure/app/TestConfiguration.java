@@ -16,13 +16,9 @@
 
 package org.bremersee.geojson.spring.boot.autoconfigure.app;
 
-import org.bremersee.geojson.GeoJsonGeometryFactory;
-import org.bremersee.geojson.spring.data.mongodb.convert.GeoJsonConverters;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 /**
@@ -35,10 +31,5 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @ComponentScan(basePackageClasses = {TestConfiguration.class})
 @EnableMongoRepositories(basePackageClasses = {GeometryEntityRepository.class})
 public class TestConfiguration {
-
-  @Bean
-  public MongoCustomConversions mongoCustomConversions(GeoJsonGeometryFactory geometryFactory) {
-    return new MongoCustomConversions(GeoJsonConverters.getConvertersToRegister(geometryFactory));
-  }
 
 }

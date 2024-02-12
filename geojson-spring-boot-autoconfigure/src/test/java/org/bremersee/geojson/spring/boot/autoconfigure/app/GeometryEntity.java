@@ -34,7 +34,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @Getter
 @Document(collection = "geometry")
-@SuppressWarnings("unused")
 public class GeometryEntity {
 
   @Id
