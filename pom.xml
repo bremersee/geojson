@@ -34,7 +34,7 @@
     <!--suppress UnresolvedMavenProperty -->
     <gh-pages-staging-dir>${maven.multiModuleProjectDirectory}/target/staging</gh-pages-staging-dir>
 
-    <spring-extensions.version>0.0.1-SNAPSHOT</spring-extensions.version>
+    <spring-integration.version>0.0.1-SNAPSHOT</spring-integration.version>
     <jts.version>1.19.0</jts.version>
   </properties>
 
@@ -97,8 +97,8 @@
       </dependency>
       <dependency>
         <groupId>org.bremersee</groupId>
-        <artifactId>spring-extensions-boot-autoconfigure</artifactId>
-        <version>${spring-extensions.version}</version>
+        <artifactId>spring-integration-boot-autoconfigure</artifactId>
+        <version>${spring-integration.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
