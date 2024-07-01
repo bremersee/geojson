@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.bremersee.geojson.spring.boot.autoconfigure.GeoJsonGeometryFactoryAutoConfiguration;
 import org.bremersee.geojson.spring.data.mongodb.convert.GeoJsonConverters;
-import org.bremersee.spring.boot.autoconfigure.data.mongo.MongoCustomConversionsProvider;
+import org.bremersee.spring.data.mongodb.core.convert.MongoCustomConversionsProvider;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -33,7 +33,10 @@ import org.springframework.core.convert.converter.Converter;
  *
  * @author Christian Bremer
  */
-@ConditionalOnClass({GeoJsonGeometryFactory.class, GeoJsonConverters.class})
+@ConditionalOnClass(name = {
+    "org.bremersee.geojson.GeoJsonGeometryFactory",
+    "org.bremersee.geojson.spring.data.mongodb.convert.GeoJsonConverters"
+})
 @AutoConfigureAfter(GeoJsonGeometryFactoryAutoConfiguration.class)
 @AutoConfiguration
 @Slf4j

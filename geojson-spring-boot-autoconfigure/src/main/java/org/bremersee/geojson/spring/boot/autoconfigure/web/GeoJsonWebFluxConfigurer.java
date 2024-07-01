@@ -38,7 +38,7 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
  *
  * @author Christian Bremer
  */
-@ConditionalOnClass({GeometryConverters.class})
+@ConditionalOnClass(name = {"org.bremersee.geojson.converter.GeometryConverters"})
 @ConditionalOnWebApplication(type = Type.REACTIVE)
 @AutoConfiguration
 @AutoConfigureAfter(GeoJsonGeometryFactoryAutoConfiguration.class)

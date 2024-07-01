@@ -31,7 +31,7 @@ import org.springframework.util.ClassUtils;
  *
  * @author Christian Bremer
  */
-@ConditionalOnClass({GeoJsonGeometryFactory.class})
+@ConditionalOnClass(name = {"org.bremersee.geojson.GeoJsonGeometryFactory"})
 @AutoConfiguration
 @Slf4j
 public class GeoJsonGeometryFactoryAutoConfiguration {

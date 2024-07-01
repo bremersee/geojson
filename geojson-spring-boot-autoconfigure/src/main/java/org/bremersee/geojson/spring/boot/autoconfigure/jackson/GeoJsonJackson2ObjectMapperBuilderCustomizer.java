@@ -16,7 +16,6 @@
 
 package org.bremersee.geojson.spring.boot.autoconfigure.jackson;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.bremersee.geojson.GeoJsonObjectMapperModule;
@@ -40,10 +39,10 @@ import org.springframework.util.ClassUtils;
  * @author Christian Bremer
  */
 @ConditionalOnWebApplication
-@ConditionalOnClass({
-    GeoJsonObjectMapperModule.class,
-    Jackson2ObjectMapperBuilder.class,
-    ObjectMapper.class})
+@ConditionalOnClass(name = {
+    "org.bremersee.geojson.GeoJsonObjectMapperModule",
+    "org.springframework.http.converter.json.Jackson2ObjectMapperBuilder",
+    "com.fasterxml.jackson.databind.ObjectMapper"})
 @AutoConfiguration
 @AutoConfigureAfter(GeoJsonGeometryFactoryAutoConfiguration.class)
 @EnableConfigurationProperties(GeoJsonProperties.class)

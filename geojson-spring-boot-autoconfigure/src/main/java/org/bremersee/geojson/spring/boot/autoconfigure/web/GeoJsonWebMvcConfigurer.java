@@ -38,7 +38,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  *
  * @author Christian Bremer
  */
-@ConditionalOnClass({GeometryConverters.class})
+@ConditionalOnClass(name = {"org.bremersee.geojson.converter.GeometryConverters"})
 @ConditionalOnWebApplication(type = Type.SERVLET)
 @AutoConfiguration
 @AutoConfigureAfter(GeoJsonGeometryFactoryAutoConfiguration.class)
