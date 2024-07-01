@@ -16,6 +16,7 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
+import java.util.Objects;
 import org.bremersee.geojson.converter.serialization.GeometryToJsonConverter;
 import org.bson.Document;
 import org.locationtech.jts.geom.Geometry;
@@ -38,6 +39,19 @@ abstract class AbstractGeometryToDocumentConverter<G extends Geometry>
     Document document = new Document();
     document.putAll(geometryToJsonConverter.convert(geometry));
     return document;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    return o != null && getClass() == o.getClass();
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(getClass());
   }
 
 }
