@@ -40,17 +40,23 @@ public class LatLon implements LatLonAware, Serializable {
   @Serial
   private static final long serialVersionUID = 1L;
 
+  /**
+   * The latitude.
+   */
   @Schema(description = "The latitude.")
   private BigDecimal lat;
 
+  /**
+   * The longitude.
+   */
   @Schema(description = "The longitude.")
   private BigDecimal lon;
 
   /**
    * Instantiates a new lat lon.
    *
-   * @param lat the lat
-   * @param lon the lon
+   * @param lat the latitude
+   * @param lon the longitude
    */
   @JsonCreator
   public LatLon(

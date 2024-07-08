@@ -53,18 +53,39 @@ public class GeometryToJsonConverter implements Serializable {
   @Serial
   private static final long serialVersionUID = 1L;
 
+  /**
+   * The point converter.
+   */
   private final PointToJsonConverter pointConverter;
 
+  /**
+   * The Line string converter.
+   */
   private final LineStringToJsonConverter lineStringConverter;
 
+  /**
+   * The Polygon converter.
+   */
   private final PolygonToJsonConverter polygonConverter;
 
+  /**
+   * The Multi point converter.
+   */
   private final MultiPointToJsonConverter multiPointConverter;
 
+  /**
+   * The Multi line string converter.
+   */
   private final MultiLineStringToJsonConverter multiLineStringConverter;
 
+  /**
+   * The Multi polygon converter.
+   */
   private final MultiPolygonToJsonConverter multiPolygonConverter;
 
+  /**
+   * Specifies whether a bounding box should be generated or not.
+   */
   private final boolean withBoundingBox;
 
   /**
@@ -100,6 +121,12 @@ public class GeometryToJsonConverter implements Serializable {
     this.withBoundingBox = withBoundingBox;
   }
 
+  /**
+   * Convert map.
+   *
+   * @param source the source
+   * @return the map
+   */
   public Map<String, Object> convert(Geometry source) {
     if (isNull(source)) {
       return null;

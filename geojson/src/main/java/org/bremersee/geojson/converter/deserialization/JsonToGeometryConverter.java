@@ -44,16 +44,34 @@ public class JsonToGeometryConverter extends AbstractJsonToGeometryConverter {
   @Serial
   private static final long serialVersionUID = 1L;
 
+  /**
+   * The Point converter.
+   */
   private final JsonToPointConverter pointConverter;
 
+  /**
+   * The Line string converter.
+   */
   private final JsonToLineStringConverter lineStringConverter;
 
+  /**
+   * The Polygon converter.
+   */
   private final JsonToPolygonConverter polygonConverter;
 
+  /**
+   * The Multi point converter.
+   */
   private final JsonToMultiPointConverter multiPointConverter;
 
+  /**
+   * The Multi line string converter.
+   */
   private final JsonToMultiLineStringConverter multiLineStringConverter;
 
+  /**
+   * The Multi polygon converter.
+   */
   private final JsonToMultiPolygonConverter multiPolygonConverter;
 
   /**
@@ -92,6 +110,12 @@ public class JsonToGeometryConverter extends AbstractJsonToGeometryConverter {
         polygonConverter);
   }
 
+  /**
+   * Convert geometry.
+   *
+   * @param source the source
+   * @return the geometry
+   */
   public Geometry convert(Map<String, Object> source) {
     if (isNull(source)) {
       return null;

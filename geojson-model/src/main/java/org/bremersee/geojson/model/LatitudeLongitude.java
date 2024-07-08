@@ -42,10 +42,16 @@ public class LatitudeLongitude implements LatLonAware, Serializable {
   @Serial
   private static final long serialVersionUID = 1L;
 
+  /**
+   * The latitude.
+   */
   @Schema(description = "The latitude.")
   @JsonProperty("latitude")
   private BigDecimal latitude;
 
+  /**
+   * The longitude.
+   */
   @Schema(description = "The longitude.")
   @JsonProperty("longitude")
   private BigDecimal longitude;

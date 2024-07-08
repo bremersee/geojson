@@ -51,6 +51,9 @@ public class FeatureCollection implements Serializable {
   @Serial
   private static final long serialVersionUID = 1L;
 
+  /**
+   * The geo json type.
+   */
   @Schema(
       description = "The feature collection type, must be 'FeatureCollection'.",
       requiredMode = RequiredMode.REQUIRED)

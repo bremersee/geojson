@@ -54,6 +54,9 @@ public class Feature implements Serializable {
   @Serial
   private static final long serialVersionUID = 2L;
 
+  /**
+   * The geo json type.
+   */
   @Schema(description = "The feature type, must be 'Feature'.", requiredMode = REQUIRED)
   @JsonProperty(value = FEATURE, required = true)
   private TypeEnum type = TypeEnum.FEATURE;

@@ -38,6 +38,9 @@ public class JsonToMultiLineStringConverter extends AbstractJsonToGeometryConver
   @Serial
   private static final long serialVersionUID = 1L;
 
+  /**
+   * The line string converter.
+   */
   private final JsonToLineStringConverter lineStringConverter;
 
   /**

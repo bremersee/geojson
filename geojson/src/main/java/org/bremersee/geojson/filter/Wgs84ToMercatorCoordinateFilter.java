@@ -40,6 +40,9 @@ public class Wgs84ToMercatorCoordinateFilter implements CoordinateFilter, Serial
   @Serial
   private static final long serialVersionUID = 2L;
 
+  /**
+   * The earth radius in meters.
+   */
   private double earthRadiusInMeters = EARTH_RADIUS_METERS;
 
   /**

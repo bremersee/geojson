@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.bremersee</groupId>
     <artifactId>common-parent</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1</version>
     <relativePath/>
   </parent>
 
@@ -34,7 +34,7 @@
     <!--suppress UnresolvedMavenProperty -->
     <gh-pages-staging-dir>${maven.multiModuleProjectDirectory}/target/staging</gh-pages-staging-dir>
 
-    <spring-integration.version>0.0.1-SNAPSHOT</spring-integration.version>
+    <spring-integration.version>0.0.1</spring-integration.version>
     <jts.version>1.19.0</jts.version>
   </properties>
 

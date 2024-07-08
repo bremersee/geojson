@@ -39,6 +39,9 @@ public class JacksonGeometryDeserializer extends StdDeserializer<Geometry> {
   @Serial
   private static final long serialVersionUID = 3L;
 
+  /**
+   * The json to geometry converter.
+   */
   private final JsonToGeometryConverter geometryConverter;
 
   /**

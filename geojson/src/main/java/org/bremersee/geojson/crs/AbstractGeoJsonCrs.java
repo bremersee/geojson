@@ -48,6 +48,9 @@ public class AbstractGeoJsonCrs implements Serializable {
   @Serial
   private static final long serialVersionUID = 1L;
 
+  /**
+   * The properties.
+   */
   @Schema(description = "The properties.")
   @JsonProperty(value = "properties")
   private Map<String, Object> properties = new LinkedHashMap<>();
