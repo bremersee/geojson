@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JacksonGeometryDeserializer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON for JTS Topology Suite</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson.converter.deserialization</a> &gt; <span class="el_source">JacksonGeometryDeserializer.java</span></div><h1>JacksonGeometryDeserializer.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2015-2022 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.bremersee.geojson.converter.deserialization;
+
+import static java.util.Objects.isNull;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import java.io.IOException;
+import java.io.Serial;
+import java.util.Map;
+import org.bremersee.geojson.GeoJsonGeometryFactory;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
+
+/**
+ * A Jackson deserializer for a {@link Geometry}.
+ *
+ * @author Christian Bremer
+ */
+public class JacksonGeometryDeserializer extends StdDeserializer&lt;Geometry&gt; {
+
+  @Serial
+  private static final long serialVersionUID = 3L;
+
+  /**
+   * The json to geometry converter.
+   */
+  private final JsonToGeometryConverter geometryConverter;
+
+  /**
+   * Default constructor.
+   */
+  public JacksonGeometryDeserializer() {
+<span class="fc" id="L51">    this(new GeometryFactory());</span>
+<span class="fc" id="L52">  }</span>
+
+  /**
+   * Constructs a deserializer that uses the specified geometry factory.
+   *
+   * @param geometryFactory the geometry factory
+   */
+  public JacksonGeometryDeserializer(GeometryFactory geometryFactory) {
+<span class="fc" id="L60">    super(Geometry.class);</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">    GeometryFactory gf = isNull(geometryFactory) ? new GeoJsonGeometryFactory() : geometryFactory;</span>
+<span class="fc" id="L62">    this.geometryConverter = new JsonToGeometryConverter(gf);</span>
+<span class="fc" id="L63">  }</span>
+
+  @Override
+  public Geometry deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+<span class="fc" id="L67">    Map&lt;String, Object&gt; map = jp.readValueAs(new MapTypeReference());</span>
+<span class="pc bpc" id="L68" title="2 of 4 branches missed.">    if (isNull(map) || map.isEmpty()) {</span>
+<span class="nc" id="L69">      return null;</span>
+    }
+<span class="fc" id="L71">    return geometryConverter.convert(map);</span>
+  }
+
+  private static class MapTypeReference extends TypeReference&lt;Map&lt;String, Object&gt;&gt; {
+
+    private MapTypeReference() {
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

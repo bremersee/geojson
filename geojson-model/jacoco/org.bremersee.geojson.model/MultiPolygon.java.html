@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MultiPolygon.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON Simple Model</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson.model</a> &gt; <span class="el_source">MultiPolygon.java</span></div><h1>MultiPolygon.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2018-2022 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.bremersee.geojson.model;
+
+import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.List;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+/**
+ * GeoJSON MultiPolygon.
+ *
+ * @author Christian Bremer
+ */
+@Schema(description = &quot;GeoJSON MultiPolygon.&quot;)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class MultiPolygon extends Geometry implements Serializable {
+
+  @Serial
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * The coordinates.
+   */
+<span class="fc" id="L53">  @Schema(description = &quot;The coordinates.&quot;)</span>
+  @JsonProperty(COORDINATES)
+  private List&lt;List&lt;List&lt;Position&gt;&gt;&gt; coordinates = null;
+
+  /**
+   * Instantiates a new multi polygon.
+   */
+<span class="fc" id="L60">  public MultiPolygon() {</span>
+<span class="fc" id="L61">    setType(TypeEnum.MULTIPOLYGON);</span>
+<span class="fc" id="L62">  }</span>
+
+  /**
+   * Instantiates a new multi polygon.
+   *
+   * @param bbox the bbox
+   * @param coordinates the coordinates
+   */
+  @Builder(toBuilder = true)
+  public MultiPolygon(BoundingBox bbox, List&lt;List&lt;List&lt;Position&gt;&gt;&gt; coordinates) {
+<span class="fc" id="L72">    super(bbox);</span>
+<span class="fc" id="L73">    setType(TypeEnum.MULTIPOLYGON);</span>
+<span class="fc" id="L74">    this.coordinates = coordinates;</span>
+<span class="fc" id="L75">  }</span>
+
+  @Schema(hidden = true)
+  @JsonIgnore
+  @Override
+  Object getGeometryJsonValue() {
+<span class="fc" id="L81">    return getCoordinates();</span>
+  }
+
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DocumentToGeometryCollectionConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON for Spring Data MongoDB</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson.spring.data.mongodb.convert</a> &gt; <span class="el_source">DocumentToGeometryCollectionConverter.java</span></div><h1>DocumentToGeometryCollectionConverter.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2018-2020 the original author or authors.
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DocumentToGeometryCollectionConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON with JTS for Spring Data MongoDB</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson.spring.data.mongodb.convert</a> &gt; <span class="el_source">DocumentToGeometryCollectionConverter.java</span></div><h1>DocumentToGeometryCollectionConverter.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2018-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -16,16 +16,9 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import org.bson.Document;
-import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryCollection;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.springframework.data.convert.ReadingConverter;
-import org.springframework.util.Assert;
-import org.springframework.util.ObjectUtils;
 
 /**
  * The document to geometry collection converter.
@@ -36,40 +29,21 @@ import org.springframework.util.ObjectUtils;
 class DocumentToGeometryCollectionConverter
     extends AbstractDocumentToGeometryConverter&lt;GeometryCollection&gt; {
 
-  private final DocumentToGeometryConverter converter;
-
   /**
    * Instantiates a new Document to geometry collection converter.
    */
   DocumentToGeometryCollectionConverter() {
-<span class="fc" id="L45">    this(null);</span>
-<span class="fc" id="L46">  }</span>
+<span class="fc" id="L36">    super();</span>
+<span class="fc" id="L37">  }</span>
 
   /**
    * Instantiates a new document to geometry collection converter.
    *
    * @param geometryFactory the geometry factory
    */
-  DocumentToGeometryCollectionConverter(final GeometryFactory geometryFactory) {
-<span class="fc" id="L54">    super(geometryFactory);</span>
-<span class="fc" id="L55">    converter = new DocumentToGeometryConverter(geometryFactory);</span>
-<span class="fc" id="L56">  }</span>
-
-  @Override
-  GeometryCollection doConvert(final Document document) {
-<span class="fc" id="L60">    Assert.isTrue(ObjectUtils.nullSafeEquals(document.get(&quot;type&quot;), &quot;GeometryCollection&quot;),</span>
-<span class="fc" id="L61">        String.format(&quot;Cannot convert type '%s' to GeometryCollection.&quot;, document.get(&quot;type&quot;)));</span>
-
-<span class="fc" id="L63">    final List&lt;Geometry&gt; geometries = new ArrayList&lt;&gt;();</span>
-    //noinspection unchecked
-<span class="fc bfc" id="L65" title="All 2 branches covered.">    for (Map&lt;String, Object&gt; map : (List&lt;Map&lt;String, Object&gt;&gt;) document.get(&quot;geometries&quot;)) {</span>
-<span class="pc bpc" id="L66" title="1 of 2 branches missed.">      if (map != null) {</span>
-<span class="fc" id="L67">        geometries.add(converter.convert(new Document(map)));</span>
-      }
-<span class="fc" id="L69">    }</span>
-
-<span class="fc" id="L71">    return getConvertHelper().createGeometryCollection(geometries);</span>
-  }
+  DocumentToGeometryCollectionConverter(GeometryFactory geometryFactory) {
+<span class="fc" id="L45">    super(geometryFactory);</span>
+<span class="fc" id="L46">  }</span>
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

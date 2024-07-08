@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Feature.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON Simple Model</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson.model</a> &gt; <span class="el_source">Feature.java</span></div><h1>Feature.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2018-2022 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.bremersee.geojson.model;
+
+import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
+import static org.bremersee.geojson.GeoJsonConstants.BBOX;
+import static org.bremersee.geojson.GeoJsonConstants.FEATURE;
+import static org.bremersee.geojson.GeoJsonConstants.GEOMETRY;
+import static org.bremersee.geojson.GeoJsonConstants.ID;
+import static org.bremersee.geojson.GeoJsonConstants.PROPERTIES;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serial;
+import java.io.Serializable;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.bremersee.geojson.GeoJsonConstants;
+
+/**
+ * A Feature object represents a spatially bounded thing.
+ *
+ * @author Christian Bremer
+ */
+@Schema(description = &quot;A Feature object represents a spatially bounded thing.&quot;)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
+@EqualsAndHashCode
+@ToString
+@NoArgsConstructor
+public class Feature implements Serializable {
+
+  @Serial
+  private static final long serialVersionUID = 2L;
+
+  /**
+   * The geo json type.
+   */
+<span class="fc" id="L60">  @Schema(description = &quot;The feature type, must be 'Feature'.&quot;, requiredMode = REQUIRED)</span>
+  @JsonProperty(value = FEATURE, required = true)
+  private TypeEnum type = TypeEnum.FEATURE;
+
+  /**
+   * The identifier of this feature.
+   */
+<span class="fc" id="L67">  @Setter</span>
+  @Schema(description = &quot;The identifier of this feature.&quot;)
+  @JsonProperty(ID)
+  private String id = null;
+
+  /**
+   * The bounding box.
+   */
+<span class="fc" id="L75">  @Setter</span>
+  @Schema(description = &quot;The bounding box.&quot;)
+  @JsonProperty(BBOX)
+  private BoundingBox bbox = null;
+
+  /**
+   * The geometry.
+   */
+<span class="fc" id="L83">  @Setter</span>
+  @Schema(description = &quot;The geometry.&quot;)
+  @JsonProperty(GEOMETRY)
+  private Geometry geometry = null;
+
+  /**
+   * The feature properties.
+   */
+<span class="fc" id="L91">  @Setter</span>
+  @Schema(description = &quot;The feature properties.&quot;)
+  @JsonProperty(PROPERTIES)
+  private Object properties = null;
+
+  /**
+   * Instantiates a new feature.
+   *
+   * @param id the id
+   * @param bbox the bbox
+   * @param geometry the geometry
+   * @param properties the properties
+   */
+  @Builder(toBuilder = true)
+  public Feature(
+      String id,
+      BoundingBox bbox,
+      Geometry geometry,
+<span class="fc" id="L109">      Object properties) {</span>
+
+<span class="fc" id="L111">    setId(id);</span>
+<span class="fc" id="L112">    setBbox(bbox);</span>
+<span class="fc" id="L113">    setGeometry(geometry);</span>
+<span class="fc" id="L114">    setProperties(properties);</span>
+<span class="fc" id="L115">  }</span>
+
+  /**
+   * The feature type.
+   */
+<span class="fc" id="L120">  public enum TypeEnum {</span>
+    /**
+     * Feature type enum.
+     */
+<span class="fc" id="L124">    FEATURE(GeoJsonConstants.FEATURE);</span>
+
+    private final String value;
+
+<span class="fc" id="L128">    TypeEnum(String value) {</span>
+<span class="fc" id="L129">      this.value = value;</span>
+<span class="fc" id="L130">    }</span>
+
+    @Override
+    @JsonValue
+    public String toString() {
+<span class="fc" id="L135">      return value;</span>
+    }
+
+    /**
+     * From value.
+     *
+     * @param value the value
+     * @return the type enum
+     */
+    @JsonCreator
+    public static TypeEnum fromValue(String value) {
+<span class="fc bfc" id="L146" title="All 2 branches covered.">      if (GeoJsonConstants.FEATURE.equals(value)) {</span>
+<span class="fc" id="L147">        return FEATURE;</span>
+      }
+<span class="fc" id="L149">      throw new IllegalArgumentException(String</span>
+<span class="fc" id="L150">          .format(&quot;Value '%s' must be '%s'.&quot;, value, GeoJsonConstants.FEATURE));</span>
+    }
+
+  }
+
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

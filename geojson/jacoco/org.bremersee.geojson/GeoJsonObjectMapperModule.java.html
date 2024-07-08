@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GeoJsonObjectMapperModule.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson</a> &gt; <span class="el_source">GeoJsonObjectMapperModule.java</span></div><h1>GeoJsonObjectMapperModule.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2015-2020 the original author or authors.
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GeoJsonObjectMapperModule.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON for JTS Topology Suite</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson</a> &gt; <span class="el_source">GeoJsonObjectMapperModule.java</span></div><h1>GeoJsonObjectMapperModule.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2015-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -16,16 +16,20 @@
 
 package org.bremersee.geojson;
 
+import static java.util.Objects.isNull;
+
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import org.bremersee.geojson.converter.deserialization.JacksonGeometryDeserializer;
+import org.bremersee.geojson.converter.serialization.JacksonGeometrySerializer;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryCollection;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -37,8 +41,8 @@ import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
 /**
- * A Jackson JSON processor module that provides the processing (serialization and deserialization) of the following
- * types.
+ * A Jackson JSON processor module that provides the processing (serialization and deserialization)
+ * of the following types.
  * &lt;ul&gt;
  * &lt;li&gt;{@link Geometry}&lt;/li&gt;
  * &lt;li&gt;{@link Point}&lt;/li&gt;
@@ -54,105 +58,119 @@ import org.locationtech.jts.geom.Polygon;
  */
 public class GeoJsonObjectMapperModule extends SimpleModule {
 
+  @Serial
   private static final long serialVersionUID = 1L;
+
+  /**
+   * The constant TYPE_ID.
+   */
+<span class="fc" id="L67">  public static final String TYPE_ID = GeoJsonObjectMapperModule.class.getName();</span>
 
   /**
    * Default constructor.
    */
   public GeoJsonObjectMapperModule() {
-<span class="fc" id="L63">    this(null);</span>
-<span class="fc" id="L64">  }</span>
+<span class="fc" id="L73">    this(new GeometryFactory());</span>
+<span class="fc" id="L74">  }</span>
 
   /**
-   * Constructs a module with the specified geometry factory.
+   * Instantiates a new geo json object mapper module.
    *
    * @param geometryFactory the geometry factory
    */
-  public GeoJsonObjectMapperModule(final GeometryFactory geometryFactory) {
-<span class="fc" id="L72">    super(&quot;GeoJsonModule&quot;, getVersion(), getDeserializers(geometryFactory), getSerializers());</span>
-<span class="fc" id="L73">  }</span>
+  public GeoJsonObjectMapperModule(GeometryFactory geometryFactory) {
+<span class="fc" id="L82">    this(geometryFactory, false, false);</span>
+<span class="fc" id="L83">  }</span>
 
   /**
-   * Registers this module to the object mapper.
+   * Instantiates a new geo json object mapper module.
    *
-   * @param objectMapper the object mapper
+   * @param withBoundingBox with bounding box
+   * @param useBigDecimal the use big decimal
    */
-  public static void configure(final ObjectMapper objectMapper) {
-<span class="fc" id="L81">    configure(objectMapper, null);</span>
-<span class="fc" id="L82">  }</span>
+  public GeoJsonObjectMapperModule(boolean withBoundingBox, boolean useBigDecimal) {
+<span class="fc" id="L92">    this(new GeometryFactory(), withBoundingBox, useBigDecimal);</span>
+<span class="fc" id="L93">  }</span>
 
   /**
-   * Registers this module to the object mapper.
+   * Instantiates a new geo json object mapper module.
    *
-   * @param objectMapper the object mapper
    * @param geometryFactory the geometry factory
+   * @param withBoundingBox the with bounding box
+   * @param useBigDecimal the use big decimal
    */
-  public static void configure(
-      final ObjectMapper objectMapper,
-      final GeometryFactory geometryFactory) {
-<span class="pc bpc" id="L93" title="1 of 2 branches missed.">    if (objectMapper != null) {</span>
-<span class="fc" id="L94">      objectMapper.registerModule(new GeoJsonObjectMapperModule(geometryFactory));</span>
-    }
-<span class="fc" id="L96">  }</span>
+  public GeoJsonObjectMapperModule(
+      GeometryFactory geometryFactory,
+      boolean withBoundingBox,
+      boolean useBigDecimal) {
+<span class="fc" id="L106">    super(</span>
+        TYPE_ID,
+<span class="fc" id="L108">        getVersion(),</span>
+<span class="fc" id="L109">        getDeserializers(geometryFactory),</span>
+<span class="fc" id="L110">        getSerializers(withBoundingBox, useBigDecimal));</span>
+<span class="fc" id="L111">  }</span>
 
   private static Version getVersion() {
 
-<span class="fc" id="L100">    final int defaultMajor = 2;</span>
-<span class="fc" id="L101">    final int defaultMinor = 0;</span>
-<span class="fc" id="L102">    final int defaultPatchLevel = 8;</span>
-<span class="fc" id="L103">    final String defaultSnapshotInfo = &quot;SNAPSHOT&quot;;</span>
+<span class="fc" id="L115">    int defaultMajor = 3;</span>
+<span class="fc" id="L116">    int defaultMinor = 0;</span>
+<span class="fc" id="L117">    int defaultPatchLevel = 0;</span>
+<span class="fc" id="L118">    String defaultSnapshotInfo = &quot;SNAPSHOT&quot;;</span>
 
-<span class="fc" id="L105">    int major = defaultMajor;</span>
-<span class="fc" id="L106">    int minor = defaultMinor;</span>
-<span class="fc" id="L107">    int patchLevel = defaultPatchLevel;</span>
-<span class="fc" id="L108">    String snapshotInfo = defaultSnapshotInfo;</span>
+<span class="fc" id="L120">    int major = defaultMajor;</span>
+<span class="fc" id="L121">    int minor = defaultMinor;</span>
+<span class="fc" id="L122">    int patchLevel = defaultPatchLevel;</span>
+<span class="fc" id="L123">    String snapshotInfo = defaultSnapshotInfo;</span>
 
-<span class="fc" id="L110">    String version = GeoJsonObjectMapperModule.class.getPackage().getImplementationVersion();</span>
-<span class="pc bpc" id="L111" title="1 of 2 branches missed.">    if (version != null) {</span>
+<span class="fc" id="L125">    String version = GeoJsonObjectMapperModule.class.getPackage().getImplementationVersion();</span>
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">    if (version != null) {</span>
       try {
-<span class="nc" id="L113">        int i = version.indexOf('-');</span>
-<span class="nc bnc" id="L114" title="All 2 branches missed.">        if (i &lt; 0) {</span>
-<span class="nc" id="L115">          snapshotInfo = null;</span>
+<span class="nc" id="L128">        int i = version.indexOf('-');</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (i &lt; 0) {</span>
+<span class="nc" id="L130">          snapshotInfo = null;</span>
         } else {
-<span class="nc" id="L117">          snapshotInfo = version.substring(i + 1);</span>
-<span class="nc" id="L118">          String[] a = version.substring(0, i).split(Pattern.quote(&quot;.&quot;));</span>
-<span class="nc" id="L119">          major = Integer.parseInt(a[0]);</span>
-<span class="nc" id="L120">          minor = Integer.parseInt(a[1]);</span>
-<span class="nc" id="L121">          patchLevel = Integer.parseInt(a[2]);</span>
+<span class="nc" id="L132">          snapshotInfo = version.substring(i + 1);</span>
+<span class="nc" id="L133">          String[] a = version.substring(0, i).split(Pattern.quote(&quot;.&quot;));</span>
+<span class="nc" id="L134">          major = Integer.parseInt(a[0]);</span>
+<span class="nc" id="L135">          minor = Integer.parseInt(a[1]);</span>
+<span class="nc" id="L136">          patchLevel = Integer.parseInt(a[2]);</span>
         }
 
-<span class="nc" id="L124">      } catch (RuntimeException e) {</span>
-<span class="nc" id="L125">        major = defaultMajor;</span>
-<span class="nc" id="L126">        minor = defaultMinor;</span>
-<span class="nc" id="L127">        patchLevel = defaultPatchLevel;</span>
-<span class="nc" id="L128">        snapshotInfo = defaultSnapshotInfo;</span>
-<span class="nc" id="L129">      }</span>
+<span class="nc" id="L139">      } catch (RuntimeException e) {</span>
+<span class="nc" id="L140">        major = defaultMajor;</span>
+<span class="nc" id="L141">        minor = defaultMinor;</span>
+<span class="nc" id="L142">        snapshotInfo = defaultSnapshotInfo;</span>
+<span class="nc" id="L143">      }</span>
     }
 
-<span class="fc" id="L132">    return new Version(major, minor, patchLevel, snapshotInfo, &quot;org.bremersee&quot;,</span>
+<span class="fc" id="L146">    return new Version(major, minor, patchLevel, snapshotInfo, &quot;org.bremersee&quot;,</span>
         &quot;geojson&quot;);
   }
 
   private static Map&lt;Class&lt;?&gt;, JsonDeserializer&lt;?&gt;&gt; getDeserializers(
-      final GeometryFactory geometryFactory) {
-<span class="fc bfc" id="L138" title="All 2 branches covered.">    final GeometryFactory gf = geometryFactory == null ? new GeometryFactory() : geometryFactory;</span>
-<span class="fc" id="L139">    HashMap&lt;Class&lt;?&gt;, JsonDeserializer&lt;?&gt;&gt; map = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L140">    map.put(Geometry.class, new GeometryDeserializer(gf));</span>
-<span class="fc" id="L141">    map.put(Point.class, new GeometryDeserializer(gf));</span>
-<span class="fc" id="L142">    map.put(LineString.class, new GeometryDeserializer(gf));</span>
-<span class="fc" id="L143">    map.put(Polygon.class, new GeometryDeserializer(gf));</span>
-<span class="fc" id="L144">    map.put(MultiPoint.class, new GeometryDeserializer(gf));</span>
-<span class="fc" id="L145">    map.put(MultiLineString.class, new GeometryDeserializer(gf));</span>
-<span class="fc" id="L146">    map.put(MultiPolygon.class, new GeometryDeserializer(gf));</span>
-<span class="fc" id="L147">    map.put(GeometryCollection.class, new GeometryDeserializer(gf));</span>
-<span class="fc" id="L148">    return map;</span>
+      GeometryFactory geometryFactory) {
+
+<span class="pc bpc" id="L153" title="1 of 2 branches missed.">    GeometryFactory gf = isNull(geometryFactory)</span>
+<span class="nc" id="L154">        ? new GeoJsonGeometryFactory()</span>
+<span class="fc" id="L155">        : geometryFactory;</span>
+<span class="fc" id="L156">    HashMap&lt;Class&lt;?&gt;, JsonDeserializer&lt;?&gt;&gt; map = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L157">    map.put(Geometry.class, new JacksonGeometryDeserializer(gf));</span>
+<span class="fc" id="L158">    map.put(Point.class, new JacksonGeometryDeserializer(gf));</span>
+<span class="fc" id="L159">    map.put(LineString.class, new JacksonGeometryDeserializer(gf));</span>
+<span class="fc" id="L160">    map.put(Polygon.class, new JacksonGeometryDeserializer(gf));</span>
+<span class="fc" id="L161">    map.put(MultiPoint.class, new JacksonGeometryDeserializer(gf));</span>
+<span class="fc" id="L162">    map.put(MultiLineString.class, new JacksonGeometryDeserializer(gf));</span>
+<span class="fc" id="L163">    map.put(MultiPolygon.class, new JacksonGeometryDeserializer(gf));</span>
+<span class="fc" id="L164">    map.put(GeometryCollection.class, new JacksonGeometryDeserializer(gf));</span>
+<span class="fc" id="L165">    return map;</span>
   }
 
-  private static List&lt;JsonSerializer&lt;?&gt;&gt; getSerializers() {
-<span class="fc" id="L152">    ArrayList&lt;JsonSerializer&lt;?&gt;&gt; list = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L153">    list.add(new GeometrySerializer());</span>
-<span class="fc" id="L154">    return list;</span>
+  private static List&lt;JsonSerializer&lt;?&gt;&gt; getSerializers(boolean withBoundingBox,
+      boolean useBigDecimal) {
+<span class="fc" id="L170">    ArrayList&lt;JsonSerializer&lt;?&gt;&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L171">    list.add(new JacksonGeometrySerializer(withBoundingBox, useBigDecimal));</span>
+<span class="fc" id="L172">    return list;</span>
   }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

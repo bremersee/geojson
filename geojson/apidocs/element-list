@@ -1,3 +1,6 @@
 org.bremersee.geojson
-org.bremersee.geojson.model
-org.bremersee.geojson.utils
+org.bremersee.geojson.converter
+org.bremersee.geojson.converter.deserialization
+org.bremersee.geojson.converter.serialization
+org.bremersee.geojson.crs
+org.bremersee.geojson.filter

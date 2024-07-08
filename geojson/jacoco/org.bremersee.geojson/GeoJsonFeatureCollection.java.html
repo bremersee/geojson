@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GeoJsonFeatureCollection.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson</a> &gt; <span class="el_source">GeoJsonFeatureCollection.java</span></div><h1>GeoJsonFeatureCollection.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2015-2020 the original author or authors.
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GeoJsonFeatureCollection.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON for JTS Topology Suite</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson</a> &gt; <span class="el_source">GeoJsonFeatureCollection.java</span></div><h1>GeoJsonFeatureCollection.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2015-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -16,58 +16,281 @@
 
 package org.bremersee.geojson;
 
-import java.io.Serializable;
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+import static org.bremersee.geojson.GeoJsonConstants.BBOX;
+import static org.bremersee.geojson.GeoJsonConstants.FEATURES;
+import static org.bremersee.geojson.GeoJsonConstants.FEATURE_COLLECTION;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import org.bremersee.geojson.utils.GeometryUtils;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import org.bremersee.geojson.model.UnknownAware;
 import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryCollection;
-import org.locationtech.jts.geom.GeometryFactory;
 
 /**
  * A GeoJSON object with the type {@code FeatureCollection} is a feature collection object (see
  * &lt;a href=&quot;https://tools.ietf.org/html/rfc7946#section-3.3&quot;&gt;rfc7946 section 3.3&lt;/a&gt;).
  *
+ * @param &lt;G&gt; the geometry type parameter
+ * @param &lt;P&gt; the properties type parameter
  * @author Christian Bremer
  */
-public class GeoJsonFeatureCollection
-    extends AbstractGeoJsonFeatureCollection&lt;GeoJsonFeature&gt;
-    implements Serializable {
+@Schema(description = &quot;A GeoJSON object with type 'Feature'.&quot;)
+@JsonPropertyOrder({&quot;type&quot;, &quot;bbox&quot;, &quot;features&quot;})
+public class GeoJsonFeatureCollection&lt;G extends Geometry, P&gt; extends UnknownAware {
 
-  private static final long serialVersionUID = 2L;
+  @Schema(hidden = true)
+  @JsonIgnore
+  private final boolean withBoundingBox;
+
+  @Schema(hidden = true)
+  @JsonIgnore
+  private final Comparator&lt;GeoJsonFeature&lt;G, P&gt;&gt; comparator;
+
+  @Schema(description = &quot;The bounding box of the GeoJSON feature collection.&quot;)
+  @JsonInclude(Include.NON_EMPTY)
+  @JsonProperty(BBOX)
+  private double[] bbox;
+
+  @SuppressWarnings(&quot;DefaultAnnotationParam&quot;)
+  @Schema(description = &quot;The features the GeoJSON feature collection.&quot;)
+  @JsonInclude(Include.ALWAYS)
+  @JsonProperty(FEATURES)
+  private final List&lt;GeoJsonFeature&lt;G, P&gt;&gt; features;
 
   /**
-   * Default constructor.
-   */
-  public GeoJsonFeatureCollection() {
-<span class="fc" id="L44">    super();</span>
-<span class="fc" id="L45">  }</span>
-
-  /**
-   * Constructs a GeoJSON feature collection with the specified parameters.
+   * Instantiates a new Geo json feature collection.
    *
-   * @param features the GeoJSON features of the collection
-   * @param calculateBounds if &lt;code&gt;true&lt;/code&gt; the bounding box will be calculated otherwise the bounding box will
-   *     be &lt;code&gt;null&lt;/code&gt;
+   * @param bbox the bbox
+   * @param features the features
+   * @param comparator the comparator
    */
   public GeoJsonFeatureCollection(
-      final Collection&lt;? extends GeoJsonFeature&gt; features,
-<span class="fc" id="L56">      final boolean calculateBounds) {</span>
+      double[] bbox,
+      Collection&lt;? extends GeoJsonFeature&lt;G, P&gt;&gt; features,
+<span class="fc" id="L87">      Comparator&lt;GeoJsonFeature&lt;G, P&gt;&gt; comparator) {</span>
 
-<span class="pc bpc" id="L58" title="1 of 2 branches missed.">    if (features != null) {</span>
-<span class="fc" id="L59">      getFeatures().addAll(features);</span>
-<span class="fc bfc" id="L60" title="All 2 branches covered.">      if (calculateBounds) {</span>
-<span class="fc" id="L61">        List&lt;Geometry&gt; glist = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L62" title="All 2 branches covered.">        for (GeoJsonFeature f : features) {</span>
-<span class="fc" id="L63">          glist.add(f.getGeometry());</span>
-<span class="fc" id="L64">        }</span>
-<span class="fc" id="L65">        Geometry[] geometries = glist.toArray(new Geometry[0]);</span>
-<span class="fc" id="L66">        GeometryCollection gc = new GeometryCollection(geometries, new GeometryFactory());</span>
-<span class="fc" id="L67">        setBbox(GeometryUtils.getBoundingBox(gc));</span>
+<span class="pc bpc" id="L89" title="1 of 6 branches missed.">    if (isNull(bbox) || (bbox.length == 4) || (bbox.length == 6)) {</span>
+<span class="fc" id="L90">      this.bbox = bbox;</span>
+    } else {
+<span class="fc" id="L92">      throw new IllegalArgumentException(</span>
+          &quot;Bounding box must be null or must have a length of four or six.&quot;);
+    }
+<span class="fc" id="L95">    this.withBoundingBox = nonNull(this.bbox);</span>
+<span class="fc" id="L96">    this.comparator = comparator;</span>
+<span class="fc" id="L97">    this.features = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L98">    addAll(features);</span>
+<span class="fc" id="L99">  }</span>
+
+  /**
+   * Instantiates a new geo json feature collection.
+   *
+   * @param bbox the bbox
+   * @param features the features
+   */
+  public GeoJsonFeatureCollection(
+      double[] bbox,
+      Collection&lt;? extends GeoJsonFeature&lt;G, P&gt;&gt; features) {
+
+<span class="fc" id="L111">    this(bbox, features, null);</span>
+<span class="fc" id="L112">  }</span>
+
+  /**
+   * Instantiates a new Geo json feature collection.
+   *
+   * @param features the features
+   * @param calculateBounds the calculate bounds
+   */
+  public GeoJsonFeatureCollection(
+      Collection&lt;? extends GeoJsonFeature&lt;G, P&gt;&gt; features,
+      boolean calculateBounds) {
+
+<span class="fc" id="L124">    this(</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">        calculateBounds</span>
+<span class="fc" id="L126">            ? GeoJsonGeometryFactory.getBoundingBox(getGeometries((features)))</span>
+<span class="fc" id="L127">            : null,</span>
+        features,
+        null);
+<span class="fc" id="L130">  }</span>
+
+  /**
+   * Instantiates a new Geo json feature collection.
+   *
+   * @param features the features
+   * @param calculateBounds the calculate bounds
+   * @param comparator the comparator
+   */
+  public GeoJsonFeatureCollection(
+      Collection&lt;? extends GeoJsonFeature&lt;G, P&gt;&gt; features,
+      boolean calculateBounds, Comparator&lt;GeoJsonFeature&lt;G, P&gt;&gt; comparator) {
+
+<span class="fc" id="L143">    this(</span>
+<span class="pc bpc" id="L144" title="1 of 2 branches missed.">        calculateBounds</span>
+<span class="fc" id="L145">            ? GeoJsonGeometryFactory.getBoundingBox(getGeometries((features)))</span>
+<span class="pc" id="L146">            : null,</span>
+        features,
+        comparator);
+<span class="fc" id="L149">  }</span>
+
+  /**
+   * Instantiates a new Geo json feature collection.
+   *
+   * @param withBoundingBox the with bounding box
+   * @param comparator the comparator
+   */
+  public GeoJsonFeatureCollection(
+      boolean withBoundingBox,
+<span class="fc" id="L159">      Comparator&lt;GeoJsonFeature&lt;G, P&gt;&gt; comparator) {</span>
+
+<span class="fc" id="L161">    this.withBoundingBox = withBoundingBox;</span>
+<span class="fc" id="L162">    this.features = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L163">    this.comparator = comparator;</span>
+<span class="fc" id="L164">  }</span>
+
+  /**
+   * Instantiates a new geo json feature collection.
+   *
+   * @param withBoundingBox the with bounding box
+   */
+  public GeoJsonFeatureCollection(boolean withBoundingBox) {
+<span class="fc" id="L172">    this(withBoundingBox, null);</span>
+<span class="fc" id="L173">  }</span>
+
+  /**
+   * Instantiates a new geo json feature collection.
+   *
+   * @param type the type
+   * @param bbox the bbox
+   * @param features the features
+   */
+  @JsonCreator
+  GeoJsonFeatureCollection(
+      @JsonProperty(value = TYPE, required = true) String type,
+      @JsonProperty(BBOX) double[] bbox,
+      @JsonProperty(FEATURES) Collection&lt;? extends GeoJsonFeature&lt;G, P&gt;&gt; features) {
+
+<span class="fc" id="L188">    this(bbox, features, null);</span>
+<span class="pc bpc" id="L189" title="1 of 2 branches missed.">    if (!FEATURE_COLLECTION.equals(type)) {</span>
+<span class="nc" id="L190">      throw new IllegalArgumentException(String.format(&quot;Type must be '%s'.&quot;, FEATURE_COLLECTION));</span>
+    }
+<span class="fc" id="L192">  }</span>
+
+  /**
+   * Gets type.
+   *
+   * @return the type
+   */
+  @Schema(
+      description = &quot;The feature collection type.&quot;,
+      requiredMode = RequiredMode.REQUIRED,
+      example = FEATURE_COLLECTION)
+  @JsonProperty(value = TYPE, required = true)
+  public final String getType() {
+<span class="fc" id="L205">    return FEATURE_COLLECTION;</span>
+  }
+
+  /**
+   * Return the bounding box of the GeoJSON object or {@code null} if there is no such object (see
+   * &lt;a href=&quot;https://tools.ietf.org/html/rfc7946#section-5&quot;&gt;Bounding Box&lt;/a&gt;).
+   *
+   * @return the bounding box
+   */
+  @JsonIgnore
+  public double[] getBbox() {
+<span class="fc" id="L216">    return bbox;</span>
+  }
+
+  /**
+   * Gets features.
+   *
+   * @return the features
+   */
+  @JsonIgnore
+  public List&lt;GeoJsonFeature&lt;G, P&gt;&gt; getFeatures() {
+<span class="pc bpc" id="L226" title="1 of 2 branches missed.">    return isNull(features) ? List.of() : Collections.unmodifiableList(features);</span>
+  }
+
+  /**
+   * Add.
+   *
+   * @param feature the feature
+   */
+  public void add(GeoJsonFeature&lt;G, P&gt; feature) {
+<span class="pc bpc" id="L235" title="1 of 2 branches missed.">    if (nonNull(feature)) {</span>
+<span class="fc" id="L236">      addAll(List.of(feature));</span>
+    }
+<span class="fc" id="L238">  }</span>
+
+  /**
+   * Add all.
+   *
+   * @param features the features
+   */
+  public void addAll(Collection&lt;? extends GeoJsonFeature&lt;G, P&gt;&gt; features) {
+<span class="pc bpc" id="L246" title="1 of 4 branches missed.">    if (nonNull(features) &amp;&amp; !features.isEmpty()) {</span>
+<span class="fc" id="L247">      this.features.addAll(features);</span>
+<span class="fc bfc" id="L248" title="All 2 branches covered.">      if (withBoundingBox) {</span>
+<span class="fc" id="L249">        this.bbox = GeoJsonGeometryFactory.getBoundingBox(getGeometries(this.features));</span>
+      }
+<span class="fc bfc" id="L251" title="All 2 branches covered.">      if (nonNull(comparator)) {</span>
+<span class="fc" id="L252">        this.features.sort(this.comparator);</span>
       }
     }
-<span class="fc" id="L70">  }</span>
+<span class="fc" id="L255">  }</span>
 
+  @Override
+  public boolean equals(Object o) {
+<span class="fc bfc" id="L259" title="All 2 branches covered.">    if (this == o) {</span>
+<span class="fc" id="L260">      return true;</span>
+    }
+<span class="fc bfc" id="L262" title="All 2 branches covered.">    if (!(o instanceof GeoJsonFeatureCollection)) {</span>
+<span class="fc" id="L263">      return false;</span>
+    }
+<span class="fc" id="L265">    GeoJsonFeatureCollection&lt;?, ?&gt; that = (GeoJsonFeatureCollection&lt;?, ?&gt;) o;</span>
+<span class="pc bpc" id="L266" title="1 of 2 branches missed.">    return Arrays.equals(getBbox(), that.getBbox())</span>
+<span class="pc bpc" id="L267" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(getFeatures(), that.getFeatures());</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="fc" id="L272">    int result = Objects.hash(getFeatures());</span>
+<span class="fc" id="L273">    result = 31 * result + Arrays.hashCode(getBbox());</span>
+<span class="fc" id="L274">    return result;</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="fc" id="L279">    return &quot;GeoJsonFeatureCollection {&quot;</span>
+<span class="fc" id="L280">        + &quot;, features=&quot; + getFeatures()</span>
+<span class="fc" id="L281">        + &quot;, bbox=&quot; + Arrays.toString(getBbox())</span>
+<span class="fc" id="L282">        + &quot;, unknown=&quot; + unknown()</span>
+        + '}';
+  }
+
+  private static List&lt;Geometry&gt; getGeometries(Collection&lt;?&gt; features) {
+    //noinspection unchecked
+<span class="fc" id="L288">    return Optional.ofNullable(features)</span>
+<span class="fc" id="L289">        .stream()</span>
+<span class="fc" id="L290">        .flatMap(Collection::stream)</span>
+<span class="fc" id="L291">        .map(obj -&gt; ((GeoJsonFeature&lt;Geometry, ?&gt;) obj).getGeometry())</span>
+<span class="fc" id="L292">        .filter(Objects::nonNull)</span>
+<span class="fc" id="L293">        .collect(Collectors.toList());</span>
+  }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JsonToMultiLineStringConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON for JTS Topology Suite</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson.converter.deserialization</a> &gt; <span class="el_source">JsonToMultiLineStringConverter.java</span></div><h1>JsonToMultiLineStringConverter.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2022 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.bremersee.geojson.converter.deserialization;
+
+import static java.util.Objects.isNull;
+import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
+import static org.bremersee.geojson.GeoJsonConstants.MULTI_LINESTRING;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
+
+import java.io.Serial;
+import java.util.List;
+import java.util.Map;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.MultiLineString;
+
+/**
+ * The json to multi line string converter.
+ *
+ * @author Christian Bremer
+ */
+public class JsonToMultiLineStringConverter extends AbstractJsonToGeometryConverter {
+
+  @Serial
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * The line string converter.
+   */
+  private final JsonToLineStringConverter lineStringConverter;
+
+  /**
+   * Instantiates a new json to multi line string converter.
+   *
+   * @param geometryFactory the geometry factory
+   * @param lineStringConverter the line string converter
+   */
+  JsonToMultiLineStringConverter(
+      GeometryFactory geometryFactory,
+      JsonToLineStringConverter lineStringConverter) {
+
+<span class="fc" id="L56">    super(geometryFactory);</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">    if (isNull(lineStringConverter)) {</span>
+<span class="nc" id="L58">      throw new IllegalArgumentException(&quot;LineString converter must be present.&quot;);</span>
+    }
+<span class="fc" id="L60">    this.lineStringConverter = lineStringConverter;</span>
+<span class="fc" id="L61">  }</span>
+
+  /**
+   * Convert multi line string.
+   *
+   * @param source the source
+   * @return the multi line string
+   */
+  MultiLineString convert(Map&lt;String, Object&gt; source) {
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">    if (isNull(source)) {</span>
+<span class="nc" id="L71">      return null;</span>
+    }
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">    if (!MULTI_LINESTRING.equals(source.get(TYPE))) {</span>
+<span class="nc" id="L74">      throw new IllegalArgumentException(String</span>
+<span class="nc" id="L75">          .format(&quot;Source is not a %s: %s&quot;, MULTI_LINESTRING, source));</span>
+    }
+<span class="fc" id="L77">    return convertCoordinates(source.get(COORDINATES));</span>
+  }
+
+  /**
+   * Convert coordinates multi line string.
+   *
+   * @param source the source
+   * @return the multi line string
+   */
+  MultiLineString convertCoordinates(Object source) {
+    //noinspection unchecked
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">    List&lt;Object&gt; coordinates = isNull(source) ? List.of() : (List&lt;Object&gt;) source;</span>
+<span class="fc" id="L89">    LineString[] lineStrings = coordinates.stream()</span>
+<span class="fc" id="L90">        .map(lineStringConverter::convertCoordinates)</span>
+<span class="fc" id="L91">        .toArray(LineString[]::new);</span>
+<span class="fc" id="L92">    return getGeometryFactory().createMultiLineString(lineStrings);</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

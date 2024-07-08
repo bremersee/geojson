@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CoordinateToListConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON for JTS Topology Suite</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson.converter.serialization</a> &gt; <span class="el_source">CoordinateToListConverter.java</span></div><h1>CoordinateToListConverter.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2022 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.bremersee.geojson.converter.serialization;
+
+import static java.util.Collections.unmodifiableList;
+import static java.util.Objects.nonNull;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.regex.Pattern;
+import org.locationtech.jts.geom.Coordinate;
+
+/**
+ * The type Coordinate to list converter.
+ *
+ * @author Christian Bremer
+ */
+class CoordinateToListConverter implements Serializable {
+
+  @Serial
+  private static final long serialVersionUID = 1L;
+
+  private static final int MAXIMUM_INTEGER_DIGITS = 17;
+
+  private static final int MAXIMUM_FRACTION_DIGITS = 9;
+
+<span class="fc" id="L47">  private static final NumberFormat NUMBER_FORMAT = NumberFormat.getInstance(Locale.US);</span>
+
+<span class="fc" id="L49">  private static final NumberFormat TEST_NUMBER_FORMAT = NumberFormat.getInstance(Locale.US);</span>
+
+  static {
+<span class="fc" id="L52">    NUMBER_FORMAT.setMaximumFractionDigits(MAXIMUM_FRACTION_DIGITS);</span>
+<span class="fc" id="L53">    NUMBER_FORMAT.setMaximumIntegerDigits(MAXIMUM_INTEGER_DIGITS);</span>
+<span class="fc" id="L54">    NUMBER_FORMAT.setRoundingMode(RoundingMode.HALF_UP);</span>
+<span class="fc" id="L55">    NUMBER_FORMAT.setGroupingUsed(false);</span>
+
+<span class="fc" id="L57">    TEST_NUMBER_FORMAT.setMaximumFractionDigits(MAXIMUM_FRACTION_DIGITS + 1);</span>
+<span class="fc" id="L58">    TEST_NUMBER_FORMAT.setMaximumIntegerDigits(MAXIMUM_INTEGER_DIGITS + 1);</span>
+<span class="fc" id="L59">    TEST_NUMBER_FORMAT.setRoundingMode(RoundingMode.HALF_UP);</span>
+<span class="fc" id="L60">    TEST_NUMBER_FORMAT.setGroupingUsed(false);</span>
+<span class="fc" id="L61">  }</span>
+
+  private final boolean useBigDecimal;
+
+  /**
+   * Instantiates a new Coordinate to list converter.
+   *
+   * @param useBigDecimal the use big decimal
+   */
+<span class="fc" id="L70">  CoordinateToListConverter(boolean useBigDecimal) {</span>
+<span class="fc" id="L71">    this.useBigDecimal = useBigDecimal;</span>
+<span class="fc" id="L72">  }</span>
+
+  /**
+   * Convert list.
+   *
+   * @param source the source
+   * @return the list
+   */
+  List&lt;Number&gt; convert(Coordinate source) {
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">    int size = nonNull(source) ? 2 : 0;</span>
+<span class="fc" id="L82">    List&lt;Number&gt; list = new ArrayList&lt;&gt;(size);</span>
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">    if (size &gt; 0) {</span>
+<span class="fc" id="L84">      Number x = round(source.getX());</span>
+<span class="fc" id="L85">      Number y = round(source.getY());</span>
+<span class="pc bpc" id="L86" title="2 of 4 branches missed.">      if (nonNull(x) &amp;&amp; nonNull(y)) {</span>
+<span class="fc" id="L87">        list.add(x);</span>
+<span class="fc" id="L88">        list.add(y);</span>
+      }
+    }
+<span class="fc" id="L91">    return unmodifiableList(list);</span>
+  }
+
+  private Number round(double value) {
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">    if (Double.isNaN(value)) {</span>
+<span class="nc" id="L96">      return null;</span>
+    }
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">    if (formatValue(value)) {</span>
+<span class="nc" id="L99">      String strValue = NUMBER_FORMAT.format(value);</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">      return useBigDecimal ? new BigDecimal(strValue) : new BigDecimal(strValue).doubleValue();</span>
+    }
+<span class="fc bfc" id="L102" title="All 2 branches covered.">    return useBigDecimal ? BigDecimal.valueOf(value) : value;</span>
+  }
+
+  private boolean formatValue(final double value) {
+<span class="fc" id="L106">    String[] testValues = TEST_NUMBER_FORMAT.format(value).split(Pattern.quote(&quot;.&quot;));</span>
+<span class="pc bpc" id="L107" title="1 of 4 branches missed.">    return testValues[0].length() &gt; MAXIMUM_INTEGER_DIGITS</span>
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">        || (testValues.length &gt; 1 &amp;&amp; testValues[1].length() &gt; MAXIMUM_FRACTION_DIGITS);</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractGeometryToDocumentConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON for Spring Data MongoDB</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson.spring.data.mongodb.convert</a> &gt; <span class="el_source">AbstractGeometryToDocumentConverter.java</span></div><h1>AbstractGeometryToDocumentConverter.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2018-2020 the original author or authors.
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractGeometryToDocumentConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON with JTS for Spring Data MongoDB</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson.spring.data.mongodb.convert</a> &gt; <span class="el_source">AbstractGeometryToDocumentConverter.java</span></div><h1>AbstractGeometryToDocumentConverter.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2018-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,12 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
-import org.bremersee.geojson.utils.ConvertHelper;
+import java.util.Objects;
+import org.bremersee.geojson.converter.serialization.GeometryToJsonConverter;
 import org.bson.Document;
 import org.locationtech.jts.geom.Geometry;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.lang.NonNull;
 
 /**
  * The abstract geometry to document converter.
@@ -27,26 +29,30 @@ import org.springframework.core.convert.converter.Converter;
  * @param &lt;G&gt; the type parameter
  * @author Christian Bremer
  */
-<span class="fc" id="L30">abstract class AbstractGeometryToDocumentConverter&lt;G extends Geometry&gt;</span>
+<span class="fc" id="L32">abstract class AbstractGeometryToDocumentConverter&lt;G extends Geometry&gt;</span>
     implements Converter&lt;G, Document&gt; {
 
-<span class="fc" id="L33">  private final ConvertHelper convertHelper = new ConvertHelper();</span>
+<span class="fc" id="L35">  private final GeometryToJsonConverter geometryToJsonConverter = new GeometryToJsonConverter();</span>
 
-  /**
-   * Gets convert helper.
-   *
-   * @return the convert helper
-   */
-  ConvertHelper getConvertHelper() {
-<span class="fc" id="L41">    return convertHelper;</span>
+  @Override
+  public Document convert(@NonNull G geometry) {
+<span class="fc" id="L39">    Document document = new Document();</span>
+<span class="fc" id="L40">    document.putAll(geometryToJsonConverter.convert(geometry));</span>
+<span class="fc" id="L41">    return document;</span>
   }
 
   @Override
-  public Document convert(G geometry) {
-<span class="fc" id="L46">    final Document document = new Document();</span>
-<span class="fc" id="L47">    document.putAll(getConvertHelper().create(geometry));</span>
-<span class="fc" id="L48">    return document;</span>
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L46" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L47">      return true;</span>
+    }
+<span class="nc bnc" id="L49" title="All 4 branches missed.">    return o != null &amp;&amp; getClass() == o.getClass();</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="fc" id="L54">    return Objects.hashCode(getClass());</span>
   }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

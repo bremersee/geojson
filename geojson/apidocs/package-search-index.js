@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"org.bremersee.geojson"},{"l":"org.bremersee.geojson.model"},{"l":"org.bremersee.geojson.utils"}]
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"org.bremersee.geojson"},{"l":"org.bremersee.geojson.converter"},{"l":"org.bremersee.geojson.converter.deserialization"},{"l":"org.bremersee.geojson.converter.serialization"},{"l":"org.bremersee.geojson.crs"},{"l":"org.bremersee.geojson.filter"}];updateSearchResults();

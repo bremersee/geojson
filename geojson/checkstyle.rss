@@ -19,15 +19,15 @@ under the License.
 -->
 <rss version="0.91">
   <channel>
-    <title>GeoJSON - Checkstyle report</title>
+    <title>GeoJSON for JTS Topology Suite - Checkstyle report</title>
     <link>https://github.com/bremersee/geojson/geojson</link>
-    <description>GeoJSON - Checkstyle report</description>
+    <description>GeoJSON for JTS Topology Suite - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2022 bremersee.org</copyright>
+    <copyright>&#169;2015 - 2024 bremersee.org</copyright>
     <item>
-      <title>File: 35,
+      <title>File: 71,
              Errors: 0,
-             Warnings: 57,
+             Warnings: 0,
              Infos: 0
       </title>
             <link>https://github.com/bremersee/geojson/geojson/checkstyle.html</link>
@@ -46,7 +46,7 @@ under the License.
           <tbody>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.model.package-info.java">org/bremersee/geojson/model/package-info.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.StringToPointConverter.java">org/bremersee/geojson/converter/StringToPointConverter.java</a>
                 </td>
                 <td>
                   0
@@ -60,7 +60,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.model.LatitudeLongitudeTest.java">org/bremersee/geojson/model/LatitudeLongitudeTest.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.deserialization.ObjectToDoubleConverter.java">org/bremersee/geojson/converter/deserialization/ObjectToDoubleConverter.java</a>
                 </td>
                 <td>
                   0
@@ -74,21 +74,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.utils.GeometryUtils.java">org/bremersee/geojson/utils/GeometryUtils.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  45
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.model.LatitudeLongitude.java">org/bremersee/geojson/model/LatitudeLongitude.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.StringToMultiPointConverterTest.java">org/bremersee/geojson/converter/StringToMultiPointConverterTest.java</a>
                 </td>
                 <td>
                   0
@@ -102,7 +88,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.GeometryWrapperTest.java">org/bremersee/geojson/GeometryWrapperTest.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.AbstractStringToGeometryConverter.java">org/bremersee/geojson/converter/AbstractStringToGeometryConverter.java</a>
                 </td>
                 <td>
                   0
@@ -116,7 +102,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.model.LatLonAwareTest.java">org/bremersee/geojson/model/LatLonAwareTest.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.deserialization.JsonToPolygonConverter.java">org/bremersee/geojson/converter/deserialization/JsonToPolygonConverter.java</a>
                 </td>
                 <td>
                   0
@@ -130,7 +116,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.GeometryDeserializer.java">org/bremersee/geojson/GeometryDeserializer.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.StringToGeometryConverterTest.java">org/bremersee/geojson/converter/StringToGeometryConverterTest.java</a>
                 </td>
                 <td>
                   0
@@ -144,7 +130,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.utils.package-info.java">org/bremersee/geojson/utils/package-info.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.filter.SwapCoordinateFilter.java">org/bremersee/geojson/filter/SwapCoordinateFilter.java</a>
                 </td>
                 <td>
                   0
@@ -158,21 +144,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.AbstractGeoJsonFeature.java">org/bremersee/geojson/AbstractGeoJsonFeature.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.GeometrySerializer.java">org/bremersee/geojson/GeometrySerializer.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.GeometryConvertersTest.java">org/bremersee/geojson/converter/GeometryConvertersTest.java</a>
                 </td>
                 <td>
                   0
@@ -186,21 +158,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.model.LatLonAware.java">org/bremersee/geojson/model/LatLonAware.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.GeoJsonNamedCrsTest.java">org/bremersee/geojson/GeoJsonNamedCrsTest.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.deserialization.JacksonGeometryDeserializer.java">org/bremersee/geojson/converter/deserialization/JacksonGeometryDeserializer.java</a>
                 </td>
                 <td>
                   0
@@ -220,7 +178,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
                   0
@@ -228,7 +186,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.GeoJsonTests.java">org/bremersee/geojson/GeoJsonTests.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.deserialization.JsonToPointConverter.java">org/bremersee/geojson/converter/deserialization/JsonToPointConverter.java</a>
                 </td>
                 <td>
                   0
@@ -256,13 +214,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.GeoJsonFeature.java">org/bremersee/geojson/GeoJsonFeature.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.serialization.MultiPolygonToJsonConverter.java">org/bremersee/geojson/converter/serialization/MultiPolygonToJsonConverter.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
                   0
@@ -270,7 +228,133 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.utils.ConvertHelper.java">org/bremersee/geojson/utils/ConvertHelper.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.deserialization.JsonToPointConverterTest.java">org/bremersee/geojson/converter/deserialization/JsonToPointConverterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.crs.AbstractGeoJsonCrs.java">org/bremersee/geojson/crs/AbstractGeoJsonCrs.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.serialization.GeometryToJsonConverter.java">org/bremersee/geojson/converter/serialization/GeometryToJsonConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.deserialization.AbstractJsonToGeometryConverter.java">org/bremersee/geojson/converter/deserialization/AbstractJsonToGeometryConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.StringToLineStringConverter.java">org/bremersee/geojson/converter/StringToLineStringConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.filter.Wgs84ToMercatorCoordinateFilter.java">org/bremersee/geojson/filter/Wgs84ToMercatorCoordinateFilter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.deserialization.JsonToGeometryConverter.java">org/bremersee/geojson/converter/deserialization/JsonToGeometryConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.serialization.PointToJsonConverter.java">org/bremersee/geojson/converter/serialization/PointToJsonConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.serialization.CoordinateToListConverter.java">org/bremersee/geojson/converter/serialization/CoordinateToListConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.crs.GeoJsonLinkedCrs.java">org/bremersee/geojson/crs/GeoJsonLinkedCrs.java</a>
                 </td>
                 <td>
                   0
@@ -298,7 +382,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.GeoJsonNamedCrs.java">org/bremersee/geojson/GeoJsonNamedCrs.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.serialization.MultiLineStringToJsonConverter.java">org/bremersee/geojson/converter/serialization/MultiLineStringToJsonConverter.java</a>
                 </td>
                 <td>
                   0
@@ -312,7 +396,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.model.LatLonTest.java">org/bremersee/geojson/model/LatLonTest.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.GeometryConverters.java">org/bremersee/geojson/converter/GeometryConverters.java</a>
                 </td>
                 <td>
                   0
@@ -326,7 +410,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.utils.SwapCoordinateFilterTest.java">org/bremersee/geojson/utils/SwapCoordinateFilterTest.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.crs.GeoJsonCrsConstants.java">org/bremersee/geojson/crs/GeoJsonCrsConstants.java</a>
                 </td>
                 <td>
                   0
@@ -340,7 +424,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.GeoJsonLinkedCrs.java">org/bremersee/geojson/GeoJsonLinkedCrs.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.GeoJsonGeometryFactoryTest.java">org/bremersee/geojson/GeoJsonGeometryFactoryTest.java</a>
                 </td>
                 <td>
                   0
@@ -354,35 +438,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.utils.GeometryUtilsTest.java">org/bremersee/geojson/utils/GeometryUtilsTest.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.AbstractGeoJsonCrs.java">org/bremersee/geojson/AbstractGeoJsonCrs.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.utils.Wgs84ToMercatorCoordinateFilter.java">org/bremersee/geojson/utils/Wgs84ToMercatorCoordinateFilter.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.crs.GeoJsonLinkedCrsTest.java">org/bremersee/geojson/crs/GeoJsonLinkedCrsTest.java</a>
                 </td>
                 <td>
                   0
@@ -396,7 +452,483 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.utils.MercatorToWgs84CoordinateFilterTest.java">org/bremersee/geojson/utils/MercatorToWgs84CoordinateFilterTest.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.serialization.AbstractGeometryToJsonConverter.java">org/bremersee/geojson/converter/serialization/AbstractGeometryToJsonConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.StringToPolygonConverter.java">org/bremersee/geojson/converter/StringToPolygonConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.StringToLineStringConverterTest.java">org/bremersee/geojson/converter/StringToLineStringConverterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.StringToMultiPolygonConverter.java">org/bremersee/geojson/converter/StringToMultiPolygonConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.deserialization.JsonToLineStringConverter.java">org/bremersee/geojson/converter/deserialization/JsonToLineStringConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.serialization.JacksonGeometrySerializer.java">org/bremersee/geojson/converter/serialization/JacksonGeometrySerializer.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.filter.FilterConstants.java">org/bremersee/geojson/filter/FilterConstants.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.serialization.MultiPointToJsonConverter.java">org/bremersee/geojson/converter/serialization/MultiPointToJsonConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.StringToPolygonConverterTest.java">org/bremersee/geojson/converter/StringToPolygonConverterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.serialization.CoordinateSequenceToListConverter.java">org/bremersee/geojson/converter/serialization/CoordinateSequenceToListConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.StringToMultiPointConverter.java">org/bremersee/geojson/converter/StringToMultiPointConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.filter.MercatorToWgs84CoordinateFilterTest.java">org/bremersee/geojson/filter/MercatorToWgs84CoordinateFilterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.StringToGeometryCollectionConverterTest.java">org/bremersee/geojson/converter/StringToGeometryCollectionConverterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.deserialization.JsonToMultiPolygonConverter.java">org/bremersee/geojson/converter/deserialization/JsonToMultiPolygonConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.serialization.LineStringToJsonConverter.java">org/bremersee/geojson/converter/serialization/LineStringToJsonConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.GeoJsonGeometryFactory.java">org/bremersee/geojson/GeoJsonGeometryFactory.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.StringToMultiPolygonConverterTest.java">org/bremersee/geojson/converter/StringToMultiPolygonConverterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.StringToMultiLineStringConverter.java">org/bremersee/geojson/converter/StringToMultiLineStringConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.GeoJsonFeature.java">org/bremersee/geojson/GeoJsonFeature.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.crs.GeoJsonNamedCrsTest.java">org/bremersee/geojson/crs/GeoJsonNamedCrsTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.deserialization.ObjectToCoordinateConverter.java">org/bremersee/geojson/converter/deserialization/ObjectToCoordinateConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.crs.GeoJsonNamedCrs.java">org/bremersee/geojson/crs/GeoJsonNamedCrs.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.GeometryToStringConverter.java">org/bremersee/geojson/converter/GeometryToStringConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.deserialization.JsonToMultiPointConverter.java">org/bremersee/geojson/converter/deserialization/JsonToMultiPointConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.filter.Wgs84ToMercatorCoordinateFilterTest.java">org/bremersee/geojson/filter/Wgs84ToMercatorCoordinateFilterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.deserialization.ObjectToCoordinateConverterTest.java">org/bremersee/geojson/converter/deserialization/ObjectToCoordinateConverterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.deserialization.JsonToGeometryConverterTest.java">org/bremersee/geojson/converter/deserialization/JsonToGeometryConverterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.deserialization.ObjectToDoubleConverterTest.java">org/bremersee/geojson/converter/deserialization/ObjectToDoubleConverterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.deserialization.ObjectToCoordinateSequenceConverter.java">org/bremersee/geojson/converter/deserialization/ObjectToCoordinateSequenceConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.serialization.GeometryToJsonConverterTest.java">org/bremersee/geojson/converter/serialization/GeometryToJsonConverterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.deserialization.JsonToMultiLineStringConverter.java">org/bremersee/geojson/converter/deserialization/JsonToMultiLineStringConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.filter.SwapCoordinateFilterTest.java">org/bremersee/geojson/filter/SwapCoordinateFilterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.StringToMultiLineStringConverterTest.java">org/bremersee/geojson/converter/StringToMultiLineStringConverterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.filter.MercatorToWgs84CoordinateFilter.java">org/bremersee/geojson/filter/MercatorToWgs84CoordinateFilter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.StringToPointConverterTest.java">org/bremersee/geojson/converter/StringToPointConverterTest.java</a>
                 </td>
                 <td>
                   0
@@ -424,68 +956,12 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.AbstractGeoJsonFeatureCollection.java">org/bremersee/geojson/AbstractGeoJsonFeatureCollection.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.model.LatLon.java">org/bremersee/geojson/model/LatLon.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.GeoJsonLinkedCrsTest.java">org/bremersee/geojson/GeoJsonLinkedCrsTest.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.GeoJsonFeatureCollection.java">org/bremersee/geojson/GeoJsonFeatureCollection.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.utils.MercatorToWgs84CoordinateFilter.java">org/bremersee/geojson/utils/MercatorToWgs84CoordinateFilter.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
                   0
                 </td>
                 <td>
@@ -494,7 +970,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.utils.SwapCoordinateFilter.java">org/bremersee/geojson/utils/SwapCoordinateFilter.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.serialization.PolygonToJsonConverter.java">org/bremersee/geojson/converter/serialization/PolygonToJsonConverter.java</a>
                 </td>
                 <td>
                   0
@@ -508,13 +984,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.GeometryWrapper.java">org/bremersee/geojson/GeometryWrapper.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.StringToGeometryCollectionConverter.java">org/bremersee/geojson/converter/StringToGeometryCollectionConverter.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
                   0
@@ -522,7 +998,35 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.utils.Wgs84ToMercatorCoordinateFilterTest.java">org/bremersee/geojson/utils/Wgs84ToMercatorCoordinateFilterTest.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.GeoJsonObjectMapperModuleTest.java">org/bremersee/geojson/GeoJsonObjectMapperModuleTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.GeometryToStringConverterTest.java">org/bremersee/geojson/converter/GeometryToStringConverterTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson/checkstyle.html#org.bremersee.geojson.converter.StringToGeometryConverter.java">org/bremersee/geojson/converter/StringToGeometryConverter.java</a>
                 </td>
                 <td>
                   0

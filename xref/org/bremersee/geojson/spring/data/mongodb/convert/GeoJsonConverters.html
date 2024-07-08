@@ -7,7 +7,7 @@
 <body>
 <div id="overview"><a href="../../../../../../../../apidocs/org/bremersee/geojson/spring/data/mongodb/convert/GeoJsonConverters.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_comment">/*</em>
-<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * Copyright 2018-2020 the original author or authors.</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * Copyright 2018-2022 the original author or authors.</em>
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment"> *</em>
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * Licensed under the Apache License, Version 2.0 (the "License");</em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * you may not use this file except in compliance with the License.</em>
@@ -24,51 +24,50 @@
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>  
 <a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">package</strong> org.bremersee.geojson.spring.data.mongodb.convert;
 <a class="jxr_linenumber" name="L18" href="#L18">18</a>  
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> java.util.Arrays;
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> java.util.Collection;
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> org.locationtech.jts.geom.GeometryFactory;
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.springframework.core.convert.converter.Converter;
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>  
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <em class="jxr_javadoccomment"> * The geo json converters.</em>
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <em class="jxr_javadoccomment"> * @author Christian Bremer</em>
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> <strong class="jxr_keyword">class</strong> <a name="GeoJsonConverters" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/GeoJsonConverters.html#GeoJsonConverters">GeoJsonConverters</a> {
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>  
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>    <strong class="jxr_keyword">private</strong> <a name="GeoJsonConverters" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/GeoJsonConverters.html#GeoJsonConverters">GeoJsonConverters</a>() {
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>    }
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>  
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>    <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <em class="jxr_javadoccomment">   * Gets converters to register.</em>
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <em class="jxr_javadoccomment">   *</em>
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <em class="jxr_javadoccomment">   * @param geometryFactory the geometry factory (can be {@code null})</em>
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <em class="jxr_javadoccomment">   * @return the converters to register</em>
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> Collection&lt;Converter&lt;?, ?&gt;&gt; getConvertersToRegister(
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>        <strong class="jxr_keyword">final</strong> GeometryFactory geometryFactory) {
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>  
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>      <strong class="jxr_keyword">return</strong> Arrays.asList(
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>          <strong class="jxr_keyword">new</strong> <a name="DocumentToGeometryCollectionConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/DocumentToGeometryCollectionConverter.html#DocumentToGeometryCollectionConverter">DocumentToGeometryCollectionConverter</a>(geometryFactory),
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>          <strong class="jxr_keyword">new</strong> <a name="DocumentToGeometryConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/DocumentToGeometryConverter.html#DocumentToGeometryConverter">DocumentToGeometryConverter</a>(geometryFactory),
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>          <strong class="jxr_keyword">new</strong> <a name="DocumentToLineStringConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/DocumentToLineStringConverter.html#DocumentToLineStringConverter">DocumentToLineStringConverter</a>(geometryFactory),
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>          <strong class="jxr_keyword">new</strong> <a name="DocumentToMultiLineStringConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/DocumentToMultiLineStringConverter.html#DocumentToMultiLineStringConverter">DocumentToMultiLineStringConverter</a>(geometryFactory),
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>          <strong class="jxr_keyword">new</strong> <a name="DocumentToMultiPointConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/DocumentToMultiPointConverter.html#DocumentToMultiPointConverter">DocumentToMultiPointConverter</a>(geometryFactory),
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>          <strong class="jxr_keyword">new</strong> <a name="DocumentToMultiPolygonConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/DocumentToMultiPolygonConverter.html#DocumentToMultiPolygonConverter">DocumentToMultiPolygonConverter</a>(geometryFactory),
-<a class="jxr_linenumber" name="L50" href="#L50">50</a>          <strong class="jxr_keyword">new</strong> <a name="DocumentToPointConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/DocumentToPointConverter.html#DocumentToPointConverter">DocumentToPointConverter</a>(geometryFactory),
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>          <strong class="jxr_keyword">new</strong> <a name="DocumentToPolygonConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/DocumentToPolygonConverter.html#DocumentToPolygonConverter">DocumentToPolygonConverter</a>(geometryFactory),
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>          <strong class="jxr_keyword">new</strong> <a name="GeometryCollectionToDocumentConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/GeometryCollectionToDocumentConverter.html#GeometryCollectionToDocumentConverter">GeometryCollectionToDocumentConverter</a>(),
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>          <strong class="jxr_keyword">new</strong> <a name="LineStringToDocumentConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/LineStringToDocumentConverter.html#LineStringToDocumentConverter">LineStringToDocumentConverter</a>(),
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>          <strong class="jxr_keyword">new</strong> <a name="MultiLineStringToDocumentConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/MultiLineStringToDocumentConverter.html#MultiLineStringToDocumentConverter">MultiLineStringToDocumentConverter</a>(),
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>          <strong class="jxr_keyword">new</strong> <a name="MultiPointToDocumentConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/MultiPointToDocumentConverter.html#MultiPointToDocumentConverter">MultiPointToDocumentConverter</a>(),
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>          <strong class="jxr_keyword">new</strong> <a name="MultiPolygonToDocumentConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/MultiPolygonToDocumentConverter.html#MultiPolygonToDocumentConverter">MultiPolygonToDocumentConverter</a>(),
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>          <strong class="jxr_keyword">new</strong> <a name="PointToDocumentConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/PointToDocumentConverter.html#PointToDocumentConverter">PointToDocumentConverter</a>(),
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>          <strong class="jxr_keyword">new</strong> <a name="PolygonToDocumentConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/PolygonToDocumentConverter.html#PolygonToDocumentConverter">PolygonToDocumentConverter</a>()
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>      );
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>    }
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>  }
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> org.locationtech.jts.geom.GeometryFactory;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> org.springframework.core.convert.converter.Converter;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <em class="jxr_javadoccomment"> * The geo json converters.</em>
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <em class="jxr_javadoccomment"> * @author Christian Bremer</em>
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> <strong class="jxr_keyword">class</strong> <a name="GeoJsonConverters" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/GeoJsonConverters.html#GeoJsonConverters">GeoJsonConverters</a> {
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>    <strong class="jxr_keyword">private</strong> <a name="GeoJsonConverters" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/GeoJsonConverters.html#GeoJsonConverters">GeoJsonConverters</a>() {
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>    }
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>    <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <em class="jxr_javadoccomment">   * Gets converters to register.</em>
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <em class="jxr_javadoccomment">   *</em>
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <em class="jxr_javadoccomment">   * @param geometryFactory the geometry factory (can be {@code null})</em>
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <em class="jxr_javadoccomment">   * @return the converters to register</em>
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> List&lt;Converter&lt;?, ?&gt;&gt; getConvertersToRegister(
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>        GeometryFactory geometryFactory) {
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>      <strong class="jxr_keyword">return</strong> List.of(
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>          <strong class="jxr_keyword">new</strong> <a name="DocumentToGeometryCollectionConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/DocumentToGeometryCollectionConverter.html#DocumentToGeometryCollectionConverter">DocumentToGeometryCollectionConverter</a>(geometryFactory),
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>          <strong class="jxr_keyword">new</strong> <a name="DocumentToGeometryConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/DocumentToGeometryConverter.html#DocumentToGeometryConverter">DocumentToGeometryConverter</a>(geometryFactory),
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>          <strong class="jxr_keyword">new</strong> <a name="DocumentToLineStringConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/DocumentToLineStringConverter.html#DocumentToLineStringConverter">DocumentToLineStringConverter</a>(geometryFactory),
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>          <strong class="jxr_keyword">new</strong> <a name="DocumentToMultiLineStringConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/DocumentToMultiLineStringConverter.html#DocumentToMultiLineStringConverter">DocumentToMultiLineStringConverter</a>(geometryFactory),
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>          <strong class="jxr_keyword">new</strong> <a name="DocumentToMultiPointConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/DocumentToMultiPointConverter.html#DocumentToMultiPointConverter">DocumentToMultiPointConverter</a>(geometryFactory),
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>          <strong class="jxr_keyword">new</strong> <a name="DocumentToMultiPolygonConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/DocumentToMultiPolygonConverter.html#DocumentToMultiPolygonConverter">DocumentToMultiPolygonConverter</a>(geometryFactory),
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>          <strong class="jxr_keyword">new</strong> <a name="DocumentToPointConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/DocumentToPointConverter.html#DocumentToPointConverter">DocumentToPointConverter</a>(geometryFactory),
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>          <strong class="jxr_keyword">new</strong> <a name="DocumentToPolygonConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/DocumentToPolygonConverter.html#DocumentToPolygonConverter">DocumentToPolygonConverter</a>(geometryFactory),
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>          <strong class="jxr_keyword">new</strong> <a name="GeometryCollectionToDocumentConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/GeometryCollectionToDocumentConverter.html#GeometryCollectionToDocumentConverter">GeometryCollectionToDocumentConverter</a>(),
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>          <strong class="jxr_keyword">new</strong> <a name="LineStringToDocumentConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/LineStringToDocumentConverter.html#LineStringToDocumentConverter">LineStringToDocumentConverter</a>(),
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>          <strong class="jxr_keyword">new</strong> <a name="MultiLineStringToDocumentConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/MultiLineStringToDocumentConverter.html#MultiLineStringToDocumentConverter">MultiLineStringToDocumentConverter</a>(),
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>          <strong class="jxr_keyword">new</strong> <a name="MultiPointToDocumentConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/MultiPointToDocumentConverter.html#MultiPointToDocumentConverter">MultiPointToDocumentConverter</a>(),
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>          <strong class="jxr_keyword">new</strong> <a name="MultiPolygonToDocumentConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/MultiPolygonToDocumentConverter.html#MultiPolygonToDocumentConverter">MultiPolygonToDocumentConverter</a>(),
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>          <strong class="jxr_keyword">new</strong> <a name="PointToDocumentConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/PointToDocumentConverter.html#PointToDocumentConverter">PointToDocumentConverter</a>(),
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>          <strong class="jxr_keyword">new</strong> <a name="PolygonToDocumentConverter" href="../../../../../../../org/bremersee/geojson/spring/data/mongodb/convert/PolygonToDocumentConverter.html#PolygonToDocumentConverter">PolygonToDocumentConverter</a>()
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>      );
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>    }
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2022 <a href="https://bremersee.org">bremersee.org</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2015&#x2013;2024 <a href="https://bremersee.org">bremersee.org</a>. All rights reserved.</div>
 </body>
 </html>

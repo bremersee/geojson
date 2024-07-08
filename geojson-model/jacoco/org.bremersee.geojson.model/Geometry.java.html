@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Geometry.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON Simple Model</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson.model</a> &gt; <span class="el_source">Geometry.java</span></div><h1>Geometry.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2018-2022 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.bremersee.geojson.model;
+
+import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
+import static org.bremersee.geojson.GeoJsonConstants.BBOX;
+import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
+import static org.bremersee.geojson.GeoJsonConstants.GEOMETRIES;
+import static org.bremersee.geojson.GeoJsonConstants.GEOMETRY_COLLECTION;
+import static org.bremersee.geojson.GeoJsonConstants.LINESTRING;
+import static org.bremersee.geojson.GeoJsonConstants.MULTI_LINESTRING;
+import static org.bremersee.geojson.GeoJsonConstants.MULTI_POINT;
+import static org.bremersee.geojson.GeoJsonConstants.MULTI_POLYGON;
+import static org.bremersee.geojson.GeoJsonConstants.POINT;
+import static org.bremersee.geojson.GeoJsonConstants.POLYGON;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.bremersee.geojson.GeoJsonConstants;
+
+/**
+ * GeoJSON Geometry.
+ *
+ * @author Christian Bremer
+ */
+@Schema(description = &quot;GeoJSON Geometry.&quot;)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = TYPE, visible = true)
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = GeometryCollection.class, name = GEOMETRY_COLLECTION),
+    @JsonSubTypes.Type(value = MultiPoint.class, name = MULTI_POINT),
+    @JsonSubTypes.Type(value = MultiLineString.class, name = MULTI_LINESTRING),
+    @JsonSubTypes.Type(value = LineString.class, name = LINESTRING),
+    @JsonSubTypes.Type(value = MultiPolygon.class, name = MULTI_POLYGON),
+    @JsonSubTypes.Type(value = Point.class, name = POINT),
+    @JsonSubTypes.Type(value = Polygon.class, name = POLYGON),
+})
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
+@EqualsAndHashCode
+@ToString
+@NoArgsConstructor
+public abstract class Geometry implements Serializable {
+
+  @Serial
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * The type.
+   */
+  @Setter(AccessLevel.PROTECTED)
+  @Schema(description = &quot;The geometry type.&quot;, requiredMode = REQUIRED, example = LINESTRING)
+  @JsonProperty(value = TYPE, required = true)
+  TypeEnum type;
+
+  /**
+   * The bounding box.
+   */
+  @Setter
+  @Schema(description = &quot;The boundling box.&quot;)
+  @JsonProperty(BBOX)
+  @JsonInclude(Include.NON_EMPTY)
+  BoundingBox bbox;
+
+  /**
+   * Instantiates a new geometry.
+   *
+   * @param bbox the bbox
+   */
+<span class="fc" id="L106">  public Geometry(BoundingBox bbox) {</span>
+<span class="fc" id="L107">    this.bbox = bbox;</span>
+<span class="fc" id="L108">  }</span>
+
+  /**
+   * To json map.
+   *
+   * @return the map
+   */
+  public Map&lt;String, Object&gt; toJson() {
+<span class="fc" id="L116">    Map&lt;String, Object&gt; map = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L117">    map.put(TYPE, getType().getGeometryType());</span>
+<span class="fc" id="L118">    Optional.ofNullable(getBbox())</span>
+<span class="fc" id="L119">        .map(BoundingBox::toDoubleArray)</span>
+<span class="fc" id="L120">        .map(bb -&gt; Arrays.stream(bb).boxed().collect(Collectors.toList()))</span>
+<span class="fc" id="L121">        .ifPresent(bb -&gt; map.put(BBOX, bb));</span>
+<span class="fc" id="L122">    map.put(getType().geometryJsonValueAttribute, getGeometryJsonValue());</span>
+<span class="fc" id="L123">    return Collections.unmodifiableMap(map);</span>
+  }
+
+  /**
+   * Gets geometry json value for json attribute 'coordinates' or 'geometries'
+   * (GeometryCollection).
+   *
+   * @return the geometry json value
+   */
+  @Schema(hidden = true)
+  @JsonIgnore
+  abstract Object getGeometryJsonValue();
+
+  /**
+   * The geometry type.
+   */
+<span class="fc" id="L139">  @Getter</span>
+  public enum TypeEnum {
+
+    /**
+     * Point type enum.
+     */
+<span class="fc" id="L145">    POINT(GeoJsonConstants.POINT, COORDINATES),</span>
+
+    /**
+     * Multipoint type enum.
+     */
+<span class="fc" id="L150">    MULTIPOINT(MULTI_POINT, COORDINATES),</span>
+
+    /**
+     * Linestring type enum.
+     */
+<span class="fc" id="L155">    LINESTRING(GeoJsonConstants.LINESTRING, COORDINATES),</span>
+
+    /**
+     * Multilinestring type enum.
+     */
+<span class="fc" id="L160">    MULTILINESTRING(MULTI_LINESTRING, COORDINATES),</span>
+
+    /**
+     * Polygon type enum.
+     */
+<span class="fc" id="L165">    POLYGON(GeoJsonConstants.POLYGON, COORDINATES),</span>
+
+    /**
+     * Multipolygon type enum.
+     */
+<span class="fc" id="L170">    MULTIPOLYGON(MULTI_POLYGON, COORDINATES),</span>
+
+    /**
+     * Geometrycollection type enum.
+     */
+<span class="fc" id="L175">    GEOMETRYCOLLECTION(GEOMETRY_COLLECTION, GEOMETRIES);</span>
+
+    private final String geometryType;
+
+    private final String geometryJsonValueAttribute;
+
+<span class="fc" id="L181">    TypeEnum(String geometryType, String geometryJsonValueAttribute) {</span>
+<span class="fc" id="L182">      this.geometryType = geometryType;</span>
+<span class="fc" id="L183">      this.geometryJsonValueAttribute = geometryJsonValueAttribute;</span>
+<span class="fc" id="L184">    }</span>
+
+    @Override
+    @JsonValue
+    public String toString() {
+<span class="fc" id="L189">      return getGeometryType();</span>
+    }
+
+    /**
+     * From value type enum.
+     *
+     * @param geometryType the geometry type
+     * @return the type enum
+     */
+    @JsonCreator
+    public static TypeEnum fromGeometryType(String geometryType) {
+<span class="fc bfc" id="L200" title="All 2 branches covered.">      for (TypeEnum b : TypeEnum.values()) {</span>
+<span class="fc bfc" id="L201" title="All 2 branches covered.">        if (String.valueOf(b.geometryType).equals(geometryType)) {</span>
+<span class="fc" id="L202">          return b;</span>
+        }
+      }
+<span class="fc" id="L205">      return null;</span>
+    }
+  }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

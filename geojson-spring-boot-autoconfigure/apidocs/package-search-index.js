@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"org.bremersee.geojson.spring.boot.autoconfigure"},{"l":"org.bremersee.geojson.spring.boot.autoconfigure.data.mongo"},{"l":"org.bremersee.geojson.spring.boot.autoconfigure.jackson"},{"l":"org.bremersee.geojson.spring.boot.autoconfigure.web"}];updateSearchResults();

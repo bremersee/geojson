@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GeoJsonNamedCrs.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON for JTS Topology Suite</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson.crs</a> &gt; <span class="el_source">GeoJsonNamedCrs.java</span></div><h1>GeoJsonNamedCrs.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2015-2022 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.bremersee.geojson.crs;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.io.Serial;
+
+/**
+ * A reference to the coordinate reference system (CRS) of a GeoJSON object by it's name.
+ *
+ * &lt;p&gt;The specification of coordinate reference systems has been removed, see
+ * &lt;a href=&quot;https://tools.ietf.org/html/rfc7946#appendix-B&quot;&gt;rfc7946 appendix B&lt;/a&gt;,
+ * the &quot;crs&quot; member is no longer used.
+ *
+ * @author Christian Bremer
+ */
+@JsonTypeName(&quot;name&quot;)
+public class GeoJsonNamedCrs extends AbstractGeoJsonCrs {
+
+  @Serial
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * Default constructor.
+   */
+<span class="fc" id="L41">  public GeoJsonNamedCrs() {</span>
+<span class="fc" id="L42">  }</span>
+
+  /**
+   * Constructs a coordinate reference system (CRS) with it's name.
+   *
+   * @param crsName the name of the coordinate reference system (CRS)
+   */
+<span class="fc" id="L49">  public GeoJsonNamedCrs(String crsName) {</span>
+<span class="fc" id="L50">    setCrs(crsName);</span>
+<span class="fc" id="L51">  }</span>
+
+  /**
+   * Return the name of the coordinate reference system (CRS).
+   *
+   * @return the name of the coordinate reference system (CRS)
+   */
+  @JsonIgnore
+  public String getCrs() {
+<span class="fc" id="L60">    Object tmp = getProperties().get(&quot;name&quot;);</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">    return tmp == null ? null : tmp.toString();</span>
+  }
+
+  /**
+   * Set the name of the coordinate reference system (CRS).
+   *
+   * @param crs the name
+   */
+  @JsonIgnore
+  public void setCrs(String crs) {
+<span class="pc bpc" id="L71" title="1 of 4 branches missed.">    if (crs == null || crs.trim().isEmpty()) {</span>
+<span class="fc" id="L72">      getProperties().remove(&quot;name&quot;);</span>
+    } else {
+<span class="fc" id="L74">      getProperties().put(&quot;name&quot;, crs);</span>
+    }
+<span class="fc" id="L76">  }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

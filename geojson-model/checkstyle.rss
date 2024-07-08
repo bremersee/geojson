@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+<rss version="0.91">
+  <channel>
+    <title>GeoJSON Simple Model - Checkstyle report</title>
+    <link>https://github.com/bremersee/geojson/geojson-model</link>
+    <description>GeoJSON Simple Model - Checkstyle report</description>
+    <language>en-us</language>
+    <copyright>&#169;2015 - 2024 bremersee.org</copyright>
+    <item>
+      <title>File: 34,
+             Errors: 0,
+             Warnings: 0,
+             Infos: 0
+      </title>
+            <link>https://github.com/bremersee/geojson/geojson-model/checkstyle.html</link>
+      <description>
+        <p>Click <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html">here</a> for the full Checkstyle report.</p>
+
+        <table summary="Files" boder="1">
+          <thead>
+            <tr>
+              <th>Files</th>
+              <th style="width:30px;"><abbr title="Info">I</abbr></th>
+              <th style="width:30px;"><abbr title="Warning">W</abbr></th>
+              <th style="width:30px;"><abbr title="Error">E</abbr></th>
+            </tr>
+          </thead>
+          <tbody>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.package-info.java">org/bremersee/geojson/model/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.PositionTest.java">org/bremersee/geojson/model/PositionTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.LatitudeLongitudeTest.java">org/bremersee/geojson/model/LatitudeLongitudeTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.BoundingBoxTest.java">org/bremersee/geojson/model/BoundingBoxTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.UnknownAwareTest.java">org/bremersee/geojson/model/UnknownAwareTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.LineStringTest.java">org/bremersee/geojson/model/LineStringTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.GeometryCollection.java">org/bremersee/geojson/model/GeometryCollection.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.LatitudeLongitude.java">org/bremersee/geojson/model/LatitudeLongitude.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.LatLonAwareTest.java">org/bremersee/geojson/model/LatLonAwareTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.LineString.java">org/bremersee/geojson/model/LineString.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.PointTest.java">org/bremersee/geojson/model/PointTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.MultiPolygonTest.java">org/bremersee/geojson/model/MultiPolygonTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.LatLonAware.java">org/bremersee/geojson/model/LatLonAware.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.MultiLineString.java">org/bremersee/geojson/model/MultiLineString.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.GeoJsonConstants.java">org/bremersee/geojson/GeoJsonConstants.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.Feature.java">org/bremersee/geojson/model/Feature.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.GeometryTest.java">org/bremersee/geojson/model/GeometryTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.FeatureCollection.java">org/bremersee/geojson/model/FeatureCollection.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.GeometryCollectionTest.java">org/bremersee/geojson/model/GeometryCollectionTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.LatLonTest.java">org/bremersee/geojson/model/LatLonTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.MultiLineStringTest.java">org/bremersee/geojson/model/MultiLineStringTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.BoundingBox.java">org/bremersee/geojson/model/BoundingBox.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.UnknownAware.java">org/bremersee/geojson/model/UnknownAware.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.Geometry.java">org/bremersee/geojson/model/Geometry.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.MultiPolygon.java">org/bremersee/geojson/model/MultiPolygon.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.Point.java">org/bremersee/geojson/model/Point.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.Polygon.java">org/bremersee/geojson/model/Polygon.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.Position.java">org/bremersee/geojson/model/Position.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.MultiPointTest.java">org/bremersee/geojson/model/MultiPointTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.LatLon.java">org/bremersee/geojson/model/LatLon.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.PolygonTest.java">org/bremersee/geojson/model/PolygonTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.FeatureCollectionTest.java">org/bremersee/geojson/model/FeatureCollectionTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.MultiPoint.java">org/bremersee/geojson/model/MultiPoint.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-model/checkstyle.html#org.bremersee.geojson.model.FeatureTest.java">org/bremersee/geojson/model/FeatureTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                      </tbody>
+        </table>
+        
+      </description>
+    </item>
+  </channel>
+</rss>
+

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DocumentToMultiPolygonConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON for Spring Data MongoDB</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson.spring.data.mongodb.convert</a> &gt; <span class="el_source">DocumentToMultiPolygonConverter.java</span></div><h1>DocumentToMultiPolygonConverter.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2018-2020 the original author or authors.
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DocumentToMultiPolygonConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON with JTS for Spring Data MongoDB</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson.spring.data.mongodb.convert</a> &gt; <span class="el_source">DocumentToMultiPolygonConverter.java</span></div><h1>DocumentToMultiPolygonConverter.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2018-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,9 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
-import java.util.List;
-import org.bson.Document;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.MultiPolygon;
 import org.springframework.data.convert.ReadingConverter;
-import org.springframework.util.Assert;
-import org.springframework.util.ObjectUtils;
 
 /**
  * The document to multi polygon converter.
@@ -37,26 +33,17 @@ class DocumentToMultiPolygonConverter
    * Instantiates a new document to multi polygon converter.
    */
   DocumentToMultiPolygonConverter() {
-<span class="fc" id="L40">    this(null);</span>
-<span class="fc" id="L41">  }</span>
+<span class="fc" id="L36">    super();</span>
+<span class="fc" id="L37">  }</span>
 
   /**
    * Instantiates a new document to multi polygon converter.
    *
    * @param geometryFactory the geometry factory
    */
-  DocumentToMultiPolygonConverter(final GeometryFactory geometryFactory) {
-<span class="fc" id="L49">    super(geometryFactory);</span>
-<span class="fc" id="L50">  }</span>
-
-  @Override
-  MultiPolygon doConvert(final Document document) {
-<span class="fc" id="L54">    Assert.isTrue(ObjectUtils.nullSafeEquals(document.get(&quot;type&quot;), &quot;MultiPolygon&quot;),</span>
-<span class="fc" id="L55">        String.format(&quot;Cannot convert type '%s' to MultiPolygon.&quot;, document.get(&quot;type&quot;)));</span>
-    //noinspection unchecked
-<span class="fc" id="L57">    final List&lt;Object&gt; coordinates = (List&lt;Object&gt;) document.get(&quot;coordinates&quot;);</span>
-<span class="fc" id="L58">    return getConvertHelper().createMultiPolygon(coordinates);</span>
-  }
+  DocumentToMultiPolygonConverter(GeometryFactory geometryFactory) {
+<span class="fc" id="L45">    super(geometryFactory);</span>
+<span class="fc" id="L46">  }</span>
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

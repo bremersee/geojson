@@ -1,0 +1,4 @@
+org.bremersee.geojson.spring.boot.autoconfigure
+org.bremersee.geojson.spring.boot.autoconfigure.data.mongo
+org.bremersee.geojson.spring.boot.autoconfigure.jackson
+org.bremersee.geojson.spring.boot.autoconfigure.web

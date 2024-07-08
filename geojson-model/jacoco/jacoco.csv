@@ -1,0 +1,21 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+GeoJSON Simple Model,org.bremersee.geojson.model,Feature,0,30,0,0,0,11,0,1,0,1
+GeoJSON Simple Model,org.bremersee.geojson.model,LatLon,0,28,1,1,0,11,1,4,0,4
+GeoJSON Simple Model,org.bremersee.geojson.model,FeatureCollection,0,18,0,0,0,7,0,1,0,1
+GeoJSON Simple Model,org.bremersee.geojson.model,LatLonAware.BuilderImpl,0,45,0,2,0,14,0,8,0,7
+GeoJSON Simple Model,org.bremersee.geojson.model,MultiPoint,0,25,0,0,0,9,0,3,0,3
+GeoJSON Simple Model,org.bremersee.geojson.model,Geometry,0,51,0,0,0,11,0,4,0,4
+GeoJSON Simple Model,org.bremersee.geojson.model,Position,0,50,0,8,0,14,0,7,0,3
+GeoJSON Simple Model,org.bremersee.geojson.model,Geometry.TypeEnum,0,99,0,4,0,17,0,6,0,4
+GeoJSON Simple Model,org.bremersee.geojson.model,Polygon,0,25,0,0,0,9,0,3,0,3
+GeoJSON Simple Model,org.bremersee.geojson.model,LatitudeLongitude,0,22,1,1,0,9,1,2,0,2
+GeoJSON Simple Model,org.bremersee.geojson.model,UnknownAware,12,140,8,30,7,36,8,21,0,10
+GeoJSON Simple Model,org.bremersee.geojson.model,LineString,0,25,0,0,0,9,0,3,0,3
+GeoJSON Simple Model,org.bremersee.geojson.model,MultiPolygon,0,25,0,0,0,9,0,3,0,3
+GeoJSON Simple Model,org.bremersee.geojson.model,MultiLineString,0,25,0,0,0,9,0,3,0,3
+GeoJSON Simple Model,org.bremersee.geojson.model,GeometryCollection,0,27,0,0,0,12,0,3,0,3
+GeoJSON Simple Model,org.bremersee.geojson.model,LatLonAware,0,40,0,8,0,8,0,8,0,4
+GeoJSON Simple Model,org.bremersee.geojson.model,FeatureCollection.TypeEnum,0,43,0,2,0,10,0,5,0,4
+GeoJSON Simple Model,org.bremersee.geojson.model,Point,0,25,0,0,0,9,0,3,0,3
+GeoJSON Simple Model,org.bremersee.geojson.model,BoundingBox,3,39,1,5,1,11,2,4,1,2
+GeoJSON Simple Model,org.bremersee.geojson.model,Feature.TypeEnum,0,43,0,2,0,10,0,5,0,4

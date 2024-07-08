@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FeatureCollection.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON Simple Model</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson.model</a> &gt; <span class="el_source">FeatureCollection.java</span></div><h1>FeatureCollection.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2018-2022 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.bremersee.geojson.model;
+
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.List;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.bremersee.geojson.GeoJsonConstants;
+
+/**
+ * A collection of features.
+ *
+ * @author Christian Bremer
+ */
+@Schema(description = &quot;A collection of features.&quot;)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
+@EqualsAndHashCode
+@ToString
+@NoArgsConstructor
+public class FeatureCollection implements Serializable {
+
+  @Serial
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * The geo json type.
+   */
+<span class="fc" id="L57">  @Schema(</span>
+      description = &quot;The feature collection type, must be 'FeatureCollection'.&quot;,
+      requiredMode = RequiredMode.REQUIRED)
+  @JsonProperty(value = TYPE, required = true)
+  private TypeEnum type = TypeEnum.FEATURE_COLLECTION;
+
+  /**
+   * The bounding box.
+   */
+<span class="fc" id="L66">  @Setter</span>
+  @Schema(description = &quot;The bounding box.&quot;)
+  @JsonProperty(&quot;bbox&quot;)
+  private BoundingBox bbox = null;
+
+  /**
+   * The features.
+   */
+<span class="fc" id="L74">  @Setter</span>
+  @Schema(description = &quot;The features.&quot;)
+  @JsonProperty(&quot;features&quot;)
+  private List&lt;Feature&gt; features = null;
+
+  /**
+   * Instantiates a new Feature collection.
+   *
+   * @param bbox the bbox
+   * @param features the features
+   */
+  @Builder(toBuilder = true)
+  public FeatureCollection(
+      BoundingBox bbox,
+<span class="fc" id="L88">      List&lt;Feature&gt; features) {</span>
+
+<span class="fc" id="L90">    setBbox(bbox);</span>
+<span class="fc" id="L91">    setFeatures(features);</span>
+<span class="fc" id="L92">  }</span>
+
+  /**
+   * The enum Type enum.
+   */
+<span class="fc" id="L97">  public enum TypeEnum {</span>
+    /**
+     * Feature collection type enum.
+     */
+<span class="fc" id="L101">    FEATURE_COLLECTION(GeoJsonConstants.FEATURE_COLLECTION);</span>
+
+    private final String value;
+
+<span class="fc" id="L105">    TypeEnum(String value) {</span>
+<span class="fc" id="L106">      this.value = value;</span>
+<span class="fc" id="L107">    }</span>
+
+    @Override
+    @JsonValue
+    public String toString() {
+<span class="fc" id="L112">      return value;</span>
+    }
+
+    /**
+     * From value type enum.
+     *
+     * @param value the value
+     * @return the type enum
+     */
+    @JsonCreator
+    public static TypeEnum fromValue(String value) {
+<span class="fc bfc" id="L123" title="All 2 branches covered.">      if (GeoJsonConstants.FEATURE_COLLECTION.equals(value)) {</span>
+<span class="fc" id="L124">        return FEATURE_COLLECTION;</span>
+      }
+<span class="fc" id="L126">      throw new IllegalArgumentException(String</span>
+<span class="fc" id="L127">          .format(&quot;Value '%s' must be '%s'.&quot;, value, GeoJsonConstants.FEATURE_COLLECTION));</span>
+    }
+
+  }
+
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

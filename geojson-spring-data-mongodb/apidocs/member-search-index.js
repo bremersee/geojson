@@ -1,1 +1,1 @@
-memberSearchIndex = [{"p":"org.bremersee.geojson.spring.data.mongodb.convert","c":"GeoJsonConverters","l":"getConvertersToRegister(GeometryFactory)","url":"getConvertersToRegister(org.locationtech.jts.geom.GeometryFactory)"}]
+memberSearchIndex = [{"p":"org.bremersee.geojson.spring.data.mongodb.convert","c":"GeoJsonConverters","l":"getConvertersToRegister(GeometryFactory)","u":"getConvertersToRegister(org.locationtech.jts.geom.GeometryFactory)"}];updateSearchResults();

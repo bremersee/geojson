@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractGeoJsonCrs.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON for JTS Topology Suite</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson.crs</a> &gt; <span class="el_source">AbstractGeoJsonCrs.java</span></div><h1>AbstractGeoJsonCrs.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2015-2022 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.bremersee.geojson.crs;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.TreeMap;
+
+/**
+ * Abstract base class for the coordinate reference system (CRS) of a GeoJSON object.
+ *
+ * &lt;p&gt;The specification of coordinate reference systems has been removed, see
+ * &lt;a href=&quot;https://tools.ietf.org/html/rfc7946#appendix-B&quot;&gt;rfc7946 appendix B&lt;/a&gt;,
+ * the &quot;crs&quot; member is no longer used.
+ *
+ * @author Christian Bremer
+ */
+@Schema(description = &quot;The coordinate reference system (CRS) of a GeoJSON object.&quot;)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = &quot;type&quot;)
+@JsonSubTypes({
+    @Type(value = GeoJsonLinkedCrs.class, name = &quot;link&quot;),
+    @Type(value = GeoJsonNamedCrs.class, name = &quot;name&quot;)
+})
+<span class="fc" id="L46">public class AbstractGeoJsonCrs implements Serializable {</span>
+
+  @Serial
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * The properties.
+   */
+<span class="fc" id="L54">  @Schema(description = &quot;The properties.&quot;)</span>
+  @JsonProperty(value = &quot;properties&quot;)
+  private Map&lt;String, Object&gt; properties = new LinkedHashMap&lt;&gt;();
+
+  /**
+   * Properties that store information about the coordinate reference system (CRS).
+   *
+   * @return the properties that store information about the coordinate reference system (CRS)
+   */
+  protected final Map&lt;String, Object&gt; getProperties() {
+<span class="fc" id="L64">    return properties;</span>
+  }
+
+  /**
+   * Set the properties the properties that store information about the coordinate reference system
+   * (CRS).
+   *
+   * @param properties the properties that store information about the coordinate reference
+   *     system
+   */
+  protected final void setProperties(final Map&lt;String, Object&gt; properties) {
+<span class="fc" id="L75">    this.properties = Objects.requireNonNullElseGet(properties, LinkedHashMap::new);</span>
+<span class="fc" id="L76">  }</span>
+
+  @Override
+  public boolean equals(Object o) {
+<span class="fc bfc" id="L80" title="All 2 branches covered.">    if (this == o) {</span>
+<span class="fc" id="L81">      return true;</span>
+    }
+<span class="fc bfc" id="L83" title="All 2 branches covered.">    if (!(o instanceof AbstractGeoJsonCrs that)) {</span>
+<span class="fc" id="L84">      return false;</span>
+    }
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">    if (properties == that.properties) {</span>
+<span class="nc" id="L87">      return true;</span>
+    }
+<span class="pc bpc" id="L89" title="2 of 4 branches missed.">    if (properties == null || that.properties == null) {</span>
+<span class="nc" id="L90">      return false;</span>
+    }
+<span class="fc" id="L92">    return Objects.equals(new TreeMap&lt;&gt;(properties), new TreeMap&lt;&gt;(that.properties));</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="fc" id="L97">    return Objects.hash(properties);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="fc" id="L102">    return getClass().getSimpleName() + &quot; {&quot;</span>
+        + &quot;properties=&quot; + properties
+        + '}';
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -19,11 +19,11 @@ under the License.
 -->
 <rss version="0.91">
   <channel>
-    <title>GeoJSON for Spring Data MongoDB - Checkstyle report</title>
+    <title>GeoJSON with JTS for Spring Data MongoDB - Checkstyle report</title>
     <link>https://github.com/bremersee/geojson/geojson-spring-data-mongodb</link>
-    <description>GeoJSON for Spring Data MongoDB - Checkstyle report</description>
+    <description>GeoJSON with JTS for Spring Data MongoDB - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2022 bremersee.org</copyright>
+    <copyright>&#169;2015 - 2024 bremersee.org</copyright>
     <item>
       <title>File: 33,
              Errors: 0,
@@ -46,7 +46,7 @@ under the License.
           <tbody>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.GeometryCollectionConverterTest.java">org/bremersee/geojson/spring/data/mongodb/convert/GeometryCollectionConverterTest.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.LineStringConverterTest.java">org/bremersee/geojson/spring/data/mongodb/convert/LineStringConverterTest.java</a>
                 </td>
                 <td>
                   0
@@ -60,7 +60,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.LineStringConverterTest.java">org/bremersee/geojson/spring/data/mongodb/convert/LineStringConverterTest.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.GeometryCollectionConverterTest.java">org/bremersee/geojson/spring/data/mongodb/convert/GeometryCollectionConverterTest.java</a>
                 </td>
                 <td>
                   0
@@ -186,6 +186,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.ConverterIntegrationTest.java">org/bremersee/geojson/spring/data/mongodb/convert/ConverterIntegrationTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.DocumentToGeometryCollectionConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/DocumentToGeometryCollectionConverter.java</a>
                 </td>
                 <td>
@@ -200,7 +214,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.DocumentToMultiLineStringConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/DocumentToMultiLineStringConverter.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.MultiLineStringToDocumentConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/MultiLineStringToDocumentConverter.java</a>
                 </td>
                 <td>
                   0
@@ -214,7 +228,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.MultiLineStringToDocumentConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/MultiLineStringToDocumentConverter.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.DocumentToMultiLineStringConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/DocumentToMultiLineStringConverter.java</a>
                 </td>
                 <td>
                   0
@@ -298,7 +312,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.DocumentToPointConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/DocumentToPointConverter.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.AbstractGeometryToDocumentConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/AbstractGeometryToDocumentConverter.java</a>
                 </td>
                 <td>
                   0
@@ -312,7 +326,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.AbstractGeometryToDocumentConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/AbstractGeometryToDocumentConverter.java</a>
+                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.DocumentToPointConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/DocumentToPointConverter.java</a>
                 </td>
                 <td>
                   0
@@ -341,20 +355,6 @@ under the License.
                           <tr>
                 <td>
                   <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.LineStringToDocumentConverter.java">org/bremersee/geojson/spring/data/mongodb/convert/LineStringToDocumentConverter.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/bremersee/geojson/geojson-spring-data-mongodb/checkstyle.html#org.bremersee.geojson.spring.data.mongodb.convert.ConverterTest.java">org/bremersee/geojson/spring/data/mongodb/convert/ConverterTest.java</a>
                 </td>
                 <td>
                   0

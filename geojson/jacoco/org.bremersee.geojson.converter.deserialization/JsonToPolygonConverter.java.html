@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JsonToPolygonConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON for JTS Topology Suite</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson.converter.deserialization</a> &gt; <span class="el_source">JsonToPolygonConverter.java</span></div><h1>JsonToPolygonConverter.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2022 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.bremersee.geojson.converter.deserialization;
+
+import static java.util.Objects.isNull;
+import static org.bremersee.geojson.GeoJsonConstants.COORDINATES;
+import static org.bremersee.geojson.GeoJsonConstants.POLYGON;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
+
+import java.io.Serial;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import org.locationtech.jts.geom.CoordinateSequence;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.LinearRing;
+import org.locationtech.jts.geom.Polygon;
+
+/**
+ * The json to polygon converter.
+ *
+ * @author Christian Bremer
+ */
+class JsonToPolygonConverter extends AbstractJsonToGeometryConverter {
+
+  @Serial
+  private static final long serialVersionUID = 1L;
+
+  private final ObjectToCoordinateSequenceConverter coordinateSequenceConverter;
+
+  /**
+   * Instantiates a new json to polygon converter.
+   *
+   * @param geometryFactory the geometry factory
+   * @param coordinateSequenceConverter the coordinate sequence converter
+   */
+  JsonToPolygonConverter(
+      GeometryFactory geometryFactory,
+      ObjectToCoordinateSequenceConverter coordinateSequenceConverter) {
+
+<span class="fc" id="L55">    super(geometryFactory);</span>
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">    if (isNull(coordinateSequenceConverter)) {</span>
+<span class="nc" id="L57">      throw new IllegalArgumentException(&quot;Coordinate sequence converter must be present.&quot;);</span>
+    }
+<span class="fc" id="L59">    this.coordinateSequenceConverter = coordinateSequenceConverter;</span>
+<span class="fc" id="L60">  }</span>
+
+  /**
+   * Convert polygon.
+   *
+   * @param source the source
+   * @return the polygon
+   */
+  Polygon convert(Map&lt;String, Object&gt; source) {
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">    if (isNull(source)) {</span>
+<span class="nc" id="L70">      return null;</span>
+    }
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">    if (!POLYGON.equals(source.get(TYPE))) {</span>
+<span class="nc" id="L73">      throw new IllegalArgumentException(String</span>
+<span class="nc" id="L74">          .format(&quot;Source is not a %s: %s&quot;, POLYGON, source));</span>
+    }
+<span class="fc" id="L76">    return convertCoordinates(source.get(COORDINATES));</span>
+  }
+
+  /**
+   * Convert coordinates polygon.
+   *
+   * @param source the source
+   * @return the polygon
+   */
+  Polygon convertCoordinates(Object source) {
+    Polygon polygon;
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">    if (isNull(source)) {</span>
+<span class="nc" id="L88">      polygon = getGeometryFactory().createPolygon();</span>
+    } else {
+<span class="fc" id="L90">      List&lt;CoordinateSequence&gt; list = new ArrayList&lt;&gt;();</span>
+      //noinspection unchecked
+<span class="fc bfc" id="L92" title="All 2 branches covered.">      for (Object coordinates : (List&lt;Object&gt;) source) {</span>
+<span class="fc" id="L93">        list.add(coordinateSequenceConverter.convert(coordinates));</span>
+<span class="fc" id="L94">      }</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">      if (list.isEmpty()) {</span>
+<span class="nc" id="L96">        polygon = getGeometryFactory().createPolygon();</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">      } else if (list.size() == 1) {</span>
+<span class="fc" id="L98">        polygon = getGeometryFactory().createPolygon(list.get(0));</span>
+      } else {
+<span class="fc" id="L100">        GeometryFactory gf = getGeometryFactory();</span>
+<span class="fc" id="L101">        LinearRing[] holes = new LinearRing[list.size() - 1];</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">        for (int i = 1; i &lt; list.size(); i++) {</span>
+<span class="fc" id="L103">          holes[i - 1] = gf.createLinearRing(list.get(i));</span>
+        }
+<span class="fc" id="L105">        polygon = gf.createPolygon(gf.createLinearRing(list.get(0)), holes);</span>
+      }
+    }
+<span class="fc" id="L108">    return polygon;</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JsonToGeometryConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GeoJSON for JTS Topology Suite</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.geojson.converter.deserialization</a> &gt; <span class="el_source">JsonToGeometryConverter.java</span></div><h1>JsonToGeometryConverter.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2022 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.bremersee.geojson.converter.deserialization;
+
+import static java.util.Objects.isNull;
+import static org.bremersee.geojson.GeoJsonConstants.GEOMETRIES;
+import static org.bremersee.geojson.GeoJsonConstants.GEOMETRY_COLLECTION;
+import static org.bremersee.geojson.GeoJsonConstants.LINESTRING;
+import static org.bremersee.geojson.GeoJsonConstants.MULTI_LINESTRING;
+import static org.bremersee.geojson.GeoJsonConstants.MULTI_POINT;
+import static org.bremersee.geojson.GeoJsonConstants.MULTI_POLYGON;
+import static org.bremersee.geojson.GeoJsonConstants.POINT;
+import static org.bremersee.geojson.GeoJsonConstants.POLYGON;
+import static org.bremersee.geojson.GeoJsonConstants.TYPE;
+
+import java.io.Serial;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
+
+/**
+ * The json to geometry converter.
+ *
+ * @author Christian Bremer
+ */
+public class JsonToGeometryConverter extends AbstractJsonToGeometryConverter {
+
+  @Serial
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * The Point converter.
+   */
+  private final JsonToPointConverter pointConverter;
+
+  /**
+   * The Line string converter.
+   */
+  private final JsonToLineStringConverter lineStringConverter;
+
+  /**
+   * The Polygon converter.
+   */
+  private final JsonToPolygonConverter polygonConverter;
+
+  /**
+   * The Multi point converter.
+   */
+  private final JsonToMultiPointConverter multiPointConverter;
+
+  /**
+   * The Multi line string converter.
+   */
+  private final JsonToMultiLineStringConverter multiLineStringConverter;
+
+  /**
+   * The Multi polygon converter.
+   */
+  private final JsonToMultiPolygonConverter multiPolygonConverter;
+
+  /**
+   * Instantiates a new json to geometry converter.
+   */
+  public JsonToGeometryConverter() {
+<span class="fc" id="L81">    this(new GeometryFactory());</span>
+<span class="fc" id="L82">  }</span>
+
+  /**
+   * Instantiates a new json to geometry converter.
+   *
+   * @param geometryFactory the geometry factory
+   */
+  public JsonToGeometryConverter(GeometryFactory geometryFactory) {
+<span class="fc" id="L90">    super(geometryFactory);</span>
+<span class="fc" id="L91">    ObjectToCoordinateConverter coordinateConverter = new ObjectToCoordinateConverter();</span>
+<span class="fc" id="L92">    ObjectToCoordinateSequenceConverter coordinateSequenceConverter</span>
+        = new ObjectToCoordinateSequenceConverter(coordinateConverter);
+
+<span class="fc" id="L95">    pointConverter = new JsonToPointConverter(getGeometryFactory(), coordinateConverter);</span>
+<span class="fc" id="L96">    lineStringConverter = new JsonToLineStringConverter(</span>
+<span class="fc" id="L97">        getGeometryFactory(),</span>
+        coordinateSequenceConverter);
+<span class="fc" id="L99">    polygonConverter = new JsonToPolygonConverter(</span>
+<span class="fc" id="L100">        getGeometryFactory(),</span>
+        coordinateSequenceConverter);
+<span class="fc" id="L102">    multiPointConverter = new JsonToMultiPointConverter(</span>
+<span class="fc" id="L103">        getGeometryFactory(),</span>
+        pointConverter);
+<span class="fc" id="L105">    multiLineStringConverter = new JsonToMultiLineStringConverter(</span>
+<span class="fc" id="L106">        getGeometryFactory(),</span>
+        lineStringConverter);
+<span class="fc" id="L108">    multiPolygonConverter = new JsonToMultiPolygonConverter(</span>
+<span class="fc" id="L109">        getGeometryFactory(),</span>
+        polygonConverter);
+<span class="fc" id="L111">  }</span>
+
+  /**
+   * Convert geometry.
+   *
+   * @param source the source
+   * @return the geometry
+   */
+  public Geometry convert(Map&lt;String, Object&gt; source) {
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">    if (isNull(source)) {</span>
+<span class="nc" id="L121">      return null;</span>
+    }
+<span class="fc" id="L123">    String type = String.valueOf(source.get(TYPE));</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">    if (POINT.equals(type)) {</span>
+<span class="fc" id="L125">      return pointConverter.convert(source);</span>
+
+<span class="fc bfc" id="L127" title="All 2 branches covered.">    } else if (LINESTRING.equals(type)) {</span>
+<span class="fc" id="L128">      return lineStringConverter.convert(source);</span>
+
+<span class="fc bfc" id="L130" title="All 2 branches covered.">    } else if (POLYGON.equals(type)) {</span>
+<span class="fc" id="L131">      return polygonConverter.convert(source);</span>
+
+<span class="fc bfc" id="L133" title="All 2 branches covered.">    } else if (MULTI_POINT.equals(type)) {</span>
+<span class="fc" id="L134">      return multiPointConverter.convert(source);</span>
+
+<span class="fc bfc" id="L136" title="All 2 branches covered.">    } else if (MULTI_LINESTRING.equals(type)) {</span>
+<span class="fc" id="L137">      return multiLineStringConverter.convert(source);</span>
+
+<span class="fc bfc" id="L139" title="All 2 branches covered.">    } else if (MULTI_POLYGON.equals(type)) {</span>
+<span class="fc" id="L140">      return multiPolygonConverter.convert(source);</span>
+
+<span class="fc bfc" id="L142" title="All 2 branches covered.">    } else if (GEOMETRY_COLLECTION.equals(type)) {</span>
+      Geometry[] geometries;
+<span class="fc" id="L144">      Object value = source.get(GEOMETRIES);</span>
+<span class="fc bfc" id="L145" title="All 2 branches covered.">      if (isNull(value)) {</span>
+<span class="fc" id="L146">        geometries = new Geometry[0];</span>
+      } else {
+        //noinspection unchecked
+<span class="fc" id="L149">        geometries = ((List&lt;Map&lt;String, Object&gt;&gt;) value)</span>
+<span class="fc" id="L150">            .stream()</span>
+<span class="fc" id="L151">            .map(this::convert)</span>
+<span class="fc" id="L152">            .filter(Objects::nonNull)</span>
+<span class="fc" id="L153">            .toArray(Geometry[]::new);</span>
+      }
+<span class="fc" id="L155">      return getGeometryFactory().createGeometryCollection(geometries);</span>
+    }
+
+<span class="fc" id="L158">    throw new IllegalArgumentException(String.format(&quot;Illegal geometry: %s&quot;, source));</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
