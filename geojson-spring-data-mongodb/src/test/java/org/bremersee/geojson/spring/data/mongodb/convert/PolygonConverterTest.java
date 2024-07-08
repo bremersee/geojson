@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2020 the original author or authors.
+ * Copyright 2018-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,13 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.Arrays;
-import org.bremersee.geojson.utils.GeometryUtils;
+import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
+import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.bson.Document;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.LinearRing;
@@ -33,37 +33,41 @@ import org.locationtech.jts.geom.Polygon;
  *
  * @author Christian Bremer
  */
+@ExtendWith(SoftAssertionsExtension.class)
 class PolygonConverterTest {
+
+  private static final GeoJsonGeometryFactory factory = new GeoJsonGeometryFactory();
 
   /**
    * Convert.
+   *
+   * @param softly the softly
    */
   @Test
-  void convert() {
-    LinearRing ring = GeometryUtils.createLinearRing(Arrays.asList(
+  void convert(SoftAssertions softly) {
+    LinearRing ring = factory.createLinearRing(Arrays.asList(
         new Coordinate(2., 3.),
         new Coordinate(6., 4.),
         new Coordinate(6., 8.),
         new Coordinate(2., 3.)));
-    Polygon model = GeometryUtils.createPolygon(ring);
+    Polygon model = factory.createPolygon(ring);
 
     PolygonToDocumentConverter toDocumentConverter = new PolygonToDocumentConverter();
-    assertNotNull(toDocumentConverter.getConvertHelper());
 
     Document document = toDocumentConverter.convert(model);
-    assertNotNull(document);
+    softly.assertThat(document)
+        .isNotNull();
 
     DocumentToPolygonConverter toGeometryConverter = new DocumentToPolygonConverter();
 
     Polygon actual = toGeometryConverter.convert(document);
-    assertNotNull(actual);
-    assertTrue(GeometryUtils.equals(model, actual));
+    softly.assertThat(GeoJsonGeometryFactory.equals(actual, model))
+        .isTrue();
 
     DocumentToGeometryConverter converter = new DocumentToGeometryConverter();
     Geometry actualGeometry = converter.convert(document);
-    assertNotNull(actualGeometry);
-    assertTrue(actualGeometry instanceof Polygon);
-    assertTrue(GeometryUtils.equals(actual, actualGeometry));
+    softly.assertThat(GeoJsonGeometryFactory.equals(actual, actualGeometry))
+        .isTrue();
   }
 
 }

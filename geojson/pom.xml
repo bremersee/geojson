@@ -6,14 +6,14 @@
   <parent>
     <groupId>org.bremersee</groupId>
     <artifactId>geojson-parent</artifactId>
-    <version>2.4.1</version>
+    <version>3.0.0</version>
   </parent>
 
   <artifactId>geojson</artifactId>
 
-  <name>GeoJSON</name>
+  <name>GeoJSON for JTS Topology Suite</name>
   <description>
-    This project contains classes for reading and writing GeoJSON with the Jackson JSON Processor.
+    This project contains GeoJSON for the JTS Topology Suite.
   </description>
 
   <developers>
@@ -45,7 +45,16 @@
   <dependencies>
     <dependency>
       <groupId>org.bremersee</groupId>
-      <artifactId>common-model</artifactId>
+      <artifactId>geojson-model</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
     </dependency>
     <dependency>
       <groupId>org.locationtech.jts</groupId>
@@ -58,13 +67,13 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.fasterxml.jackson.datatype</groupId>
-      <artifactId>jackson-datatype-jdk8</artifactId>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.fasterxml.jackson.datatype</groupId>
-      <artifactId>jackson-datatype-jsr310</artifactId>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>

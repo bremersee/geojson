@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2020 the original author or authors.
+ * Copyright 2018-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,16 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
-import org.bremersee.geojson.utils.ConvertHelper;
+import static java.util.Objects.isNull;
+
+import java.util.Objects;
+import org.bremersee.geojson.GeoJsonGeometryFactory;
+import org.bremersee.geojson.converter.deserialization.JsonToGeometryConverter;
 import org.bson.Document;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.lang.NonNull;
 
 /**
  * The abstract document to geometry converter.
@@ -31,13 +36,13 @@ import org.springframework.core.convert.converter.Converter;
 abstract class AbstractDocumentToGeometryConverter<G extends Geometry>
     implements Converter<Document, G> {
 
-  private final ConvertHelper convertHelper;
+  private final JsonToGeometryConverter geometryConverter;
 
   /**
    * Instantiates a new abstract document to geometry converter.
    */
   AbstractDocumentToGeometryConverter() {
-    this(null);
+    this(new GeometryFactory());
   }
 
   /**
@@ -45,33 +50,28 @@ abstract class AbstractDocumentToGeometryConverter<G extends Geometry>
    *
    * @param geometryFactory the geometry factory
    */
-  AbstractDocumentToGeometryConverter(final GeometryFactory geometryFactory) {
-    this.convertHelper = new ConvertHelper(geometryFactory, false);
+  AbstractDocumentToGeometryConverter(GeometryFactory geometryFactory) {
+    GeometryFactory gf = isNull(geometryFactory)
+        ? new GeoJsonGeometryFactory()
+        : geometryFactory;
+    geometryConverter = new JsonToGeometryConverter(gf);
   }
 
-  /**
-   * Gets convert helper.
-   *
-   * @return the convert helper
-   */
-  ConvertHelper getConvertHelper() {
-    return convertHelper;
+  public G convert(@NonNull Document document) {
+    //noinspection unchecked
+    return (G) geometryConverter.convert(document);
   }
 
   @Override
-  public G convert(final Document document) {
-    if (!document.containsKey("type")) {
-      return null;
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-    return doConvert(document);
+    return o != null && getClass() == o.getClass();
   }
 
-  /**
-   * Do convert the geometry.
-   *
-   * @param document the document
-   * @return the geometry
-   */
-  abstract G doConvert(Document document);
-
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(getClass());
+  }
 }

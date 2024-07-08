@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2020 the original author or authors.
+ * Copyright 2018-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,16 +16,9 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import org.bson.Document;
-import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryCollection;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.springframework.data.convert.ReadingConverter;
-import org.springframework.util.Assert;
-import org.springframework.util.ObjectUtils;
 
 /**
  * The document to geometry collection converter.
@@ -36,13 +29,11 @@ import org.springframework.util.ObjectUtils;
 class DocumentToGeometryCollectionConverter
     extends AbstractDocumentToGeometryConverter<GeometryCollection> {
 
-  private final DocumentToGeometryConverter converter;
-
   /**
    * Instantiates a new Document to geometry collection converter.
    */
   DocumentToGeometryCollectionConverter() {
-    this(null);
+    super();
   }
 
   /**
@@ -50,25 +41,8 @@ class DocumentToGeometryCollectionConverter
    *
    * @param geometryFactory the geometry factory
    */
-  DocumentToGeometryCollectionConverter(final GeometryFactory geometryFactory) {
+  DocumentToGeometryCollectionConverter(GeometryFactory geometryFactory) {
     super(geometryFactory);
-    converter = new DocumentToGeometryConverter(geometryFactory);
-  }
-
-  @Override
-  GeometryCollection doConvert(final Document document) {
-    Assert.isTrue(ObjectUtils.nullSafeEquals(document.get("type"), "GeometryCollection"),
-        String.format("Cannot convert type '%s' to GeometryCollection.", document.get("type")));
-
-    final List<Geometry> geometries = new ArrayList<>();
-    //noinspection unchecked
-    for (Map<String, Object> map : (List<Map<String, Object>>) document.get("geometries")) {
-      if (map != null) {
-        geometries.add(converter.convert(new Document(map)));
-      }
-    }
-
-    return getConvertHelper().createGeometryCollection(geometries);
   }
 
 }

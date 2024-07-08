@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2020 the original author or authors.
+ * Copyright 2018-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,13 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.Arrays;
-import org.bremersee.geojson.utils.GeometryUtils;
+import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
+import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.bson.Document;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.LinearRing;
@@ -34,44 +34,48 @@ import org.locationtech.jts.geom.Polygon;
  *
  * @author Christian Bremer
  */
+@ExtendWith(SoftAssertionsExtension.class)
 class MultiPolygonConverterTest {
+
+  private static final GeoJsonGeometryFactory factory = new GeoJsonGeometryFactory();
 
   /**
    * Convert.
+   *
+   * @param softly the softly
    */
   @Test
-  void convert() {
-    LinearRing ring0 = GeometryUtils.createLinearRing(Arrays.asList(
+  void convert(SoftAssertions softly) {
+    LinearRing ring0 = factory.createLinearRing(Arrays.asList(
         new Coordinate(2., 3.),
         new Coordinate(6., 4.),
         new Coordinate(6., 8.),
         new Coordinate(2., 3.)));
-    Polygon model0 = GeometryUtils.createPolygon(ring0);
-    LinearRing ring1 = GeometryUtils.createLinearRing(Arrays.asList(
+    Polygon model0 = factory.createPolygon(ring0);
+    LinearRing ring1 = factory.createLinearRing(Arrays.asList(
         new Coordinate(12., 13.),
         new Coordinate(16., 14.),
         new Coordinate(16., 18.),
         new Coordinate(12., 13.)));
-    Polygon model1 = GeometryUtils.createPolygon(ring1);
-    MultiPolygon model = GeometryUtils.createMultiPolygon(Arrays.asList(model0, model1));
+    Polygon model1 = factory.createPolygon(ring1);
+    MultiPolygon model = factory.createMultiPolygon(Arrays.asList(model0, model1));
 
     MultiPolygonToDocumentConverter toDocumentConverter = new MultiPolygonToDocumentConverter();
-    assertNotNull(toDocumentConverter.getConvertHelper());
 
     Document document = toDocumentConverter.convert(model);
-    assertNotNull(document);
+    softly.assertThat(document)
+        .isNotNull();
 
     DocumentToMultiPolygonConverter toGeometryConverter = new DocumentToMultiPolygonConverter();
 
     MultiPolygon actual = toGeometryConverter.convert(document);
-    assertNotNull(actual);
-    assertTrue(GeometryUtils.equals(model, actual));
+    softly.assertThat(GeoJsonGeometryFactory.equals(actual, model))
+        .isTrue();
 
     DocumentToGeometryConverter converter = new DocumentToGeometryConverter();
     Geometry actualGeometry = converter.convert(document);
-    assertNotNull(actualGeometry);
-    assertTrue(actualGeometry instanceof MultiPolygon);
-    assertTrue(GeometryUtils.equals(actual, actualGeometry));
+    softly.assertThat(GeoJsonGeometryFactory.equals(actual, actualGeometry))
+        .isTrue();
   }
 
 }

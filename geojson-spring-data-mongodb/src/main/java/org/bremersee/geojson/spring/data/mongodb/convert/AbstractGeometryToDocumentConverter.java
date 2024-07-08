@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2020 the original author or authors.
+ * Copyright 2018-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,12 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
-import org.bremersee.geojson.utils.ConvertHelper;
+import java.util.Objects;
+import org.bremersee.geojson.converter.serialization.GeometryToJsonConverter;
 import org.bson.Document;
 import org.locationtech.jts.geom.Geometry;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.lang.NonNull;
 
 /**
  * The abstract geometry to document converter.
@@ -30,22 +32,26 @@ import org.springframework.core.convert.converter.Converter;
 abstract class AbstractGeometryToDocumentConverter<G extends Geometry>
     implements Converter<G, Document> {
 
-  private final ConvertHelper convertHelper = new ConvertHelper();
+  private final GeometryToJsonConverter geometryToJsonConverter = new GeometryToJsonConverter();
 
-  /**
-   * Gets convert helper.
-   *
-   * @return the convert helper
-   */
-  ConvertHelper getConvertHelper() {
-    return convertHelper;
+  @Override
+  public Document convert(@NonNull G geometry) {
+    Document document = new Document();
+    document.putAll(geometryToJsonConverter.convert(geometry));
+    return document;
   }
 
   @Override
-  public Document convert(G geometry) {
-    final Document document = new Document();
-    document.putAll(getConvertHelper().create(geometry));
-    return document;
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    return o != null && getClass() == o.getClass();
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(getClass());
   }
 
 }

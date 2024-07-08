@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2020 the original author or authors.
+ * Copyright 2018-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,11 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Collection;
+import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.junit.jupiter.api.Test;
-import org.locationtech.jts.geom.GeometryFactory;
 import org.springframework.core.convert.converter.Converter;
 
 /**
@@ -36,7 +36,8 @@ class GeoJsonConvertersTest {
   @Test
   void getConvertersToRegister() {
     Collection<? extends Converter<?, ?>> converters = GeoJsonConverters
-        .getConvertersToRegister(new GeometryFactory());
-    assertNotNull(converters);
+        .getConvertersToRegister(new GeoJsonGeometryFactory());
+    assertThat(converters)
+        .isNotEmpty();
   }
 }

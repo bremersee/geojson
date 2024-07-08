@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2020 the original author or authors.
+ * Copyright 2018-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,7 @@
 
 package org.bremersee.geojson.spring.data.mongodb.convert;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.springframework.core.convert.converter.Converter;
 
@@ -37,10 +36,10 @@ public abstract class GeoJsonConverters {
    * @param geometryFactory the geometry factory (can be {@code null})
    * @return the converters to register
    */
-  public static Collection<Converter<?, ?>> getConvertersToRegister(
-      final GeometryFactory geometryFactory) {
+  public static List<Converter<?, ?>> getConvertersToRegister(
+      GeometryFactory geometryFactory) {
 
-    return Arrays.asList(
+    return List.of(
         new DocumentToGeometryCollectionConverter(geometryFactory),
         new DocumentToGeometryConverter(geometryFactory),
         new DocumentToLineStringConverter(geometryFactory),

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 the original author or authors.
+ * Copyright 2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 package org.bremersee.geojson.spring.data.mongodb.convert.app;
 
 import java.util.Objects;
-import org.bremersee.geojson.utils.GeometryUtils;
+import org.bremersee.geojson.GeoJsonGeometryFactory;
 import org.locationtech.jts.geom.Geometry;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
@@ -99,7 +99,7 @@ public class GeometryEntity {
       return false;
     }
     GeometryEntity that = (GeometryEntity) o;
-    return Objects.equals(id, that.id) && GeometryUtils.equals(geometry, that.geometry);
+    return Objects.equals(id, that.id) && GeoJsonGeometryFactory.equals(geometry, that.geometry);
   }
 
   @Override

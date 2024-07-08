@@ -6,12 +6,12 @@
   <parent>
     <groupId>org.bremersee</groupId>
     <artifactId>geojson-parent</artifactId>
-    <version>2.4.1</version>
+    <version>3.0.0</version>
   </parent>
 
   <artifactId>geojson-spring-data-mongodb</artifactId>
 
-  <name>GeoJSON for Spring Data MongoDB</name>
+  <name>GeoJSON with JTS for Spring Data MongoDB</name>
   <description>
     This project contains converters for reading and writing GeoJSON from and into a MongoDB with
     Spring Data.
@@ -50,8 +50,8 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.springframework.data</groupId>
-      <artifactId>spring-data-mongodb</artifactId>
+      <groupId>org.bremersee</groupId>
+      <artifactId>spring-integration-data-mongodb</artifactId>
     </dependency>
     <dependency>
       <groupId>org.mongodb</groupId>
@@ -74,8 +74,26 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>de.flapdoodle.embed</groupId>
-      <artifactId>de.flapdoodle.embed.mongo</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-testcontainers</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>mongodb</artifactId>
+      <version>${testcontainers.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>testcontainers</artifactId>
+      <version>${testcontainers.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${testcontainers.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

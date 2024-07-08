@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 the original author or authors.
+ * Copyright 2015-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,16 +16,20 @@
 
 package org.bremersee.geojson;
 
+import static java.util.Objects.isNull;
+
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import org.bremersee.geojson.converter.deserialization.JacksonGeometryDeserializer;
+import org.bremersee.geojson.converter.serialization.JacksonGeometrySerializer;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryCollection;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -37,8 +41,8 @@ import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
 /**
- * A Jackson JSON processor module that provides the processing (serialization and deserialization) of the following
- * types.
+ * A Jackson JSON processor module that provides the processing (serialization and deserialization)
+ * of the following types.
  * <ul>
  * <li>{@link Geometry}</li>
  * <li>{@link Point}</li>
@@ -54,53 +58,64 @@ import org.locationtech.jts.geom.Polygon;
  */
 public class GeoJsonObjectMapperModule extends SimpleModule {
 
+  @Serial
   private static final long serialVersionUID = 1L;
+
+  /**
+   * The constant TYPE_ID.
+   */
+  public static final String TYPE_ID = GeoJsonObjectMapperModule.class.getName();
 
   /**
    * Default constructor.
    */
   public GeoJsonObjectMapperModule() {
-    this(null);
+    this(new GeometryFactory());
   }
 
   /**
-   * Constructs a module with the specified geometry factory.
+   * Instantiates a new geo json object mapper module.
    *
    * @param geometryFactory the geometry factory
    */
-  public GeoJsonObjectMapperModule(final GeometryFactory geometryFactory) {
-    super("GeoJsonModule", getVersion(), getDeserializers(geometryFactory), getSerializers());
+  public GeoJsonObjectMapperModule(GeometryFactory geometryFactory) {
+    this(geometryFactory, false, false);
   }
 
   /**
-   * Registers this module to the object mapper.
+   * Instantiates a new geo json object mapper module.
    *
-   * @param objectMapper the object mapper
+   * @param withBoundingBox with bounding box
+   * @param useBigDecimal the use big decimal
    */
-  public static void configure(final ObjectMapper objectMapper) {
-    configure(objectMapper, null);
+  public GeoJsonObjectMapperModule(boolean withBoundingBox, boolean useBigDecimal) {
+    this(new GeometryFactory(), withBoundingBox, useBigDecimal);
   }
 
   /**
-   * Registers this module to the object mapper.
+   * Instantiates a new geo json object mapper module.
    *
-   * @param objectMapper the object mapper
    * @param geometryFactory the geometry factory
+   * @param withBoundingBox the with bounding box
+   * @param useBigDecimal the use big decimal
    */
-  public static void configure(
-      final ObjectMapper objectMapper,
-      final GeometryFactory geometryFactory) {
-    if (objectMapper != null) {
-      objectMapper.registerModule(new GeoJsonObjectMapperModule(geometryFactory));
-    }
+  public GeoJsonObjectMapperModule(
+      GeometryFactory geometryFactory,
+      boolean withBoundingBox,
+      boolean useBigDecimal) {
+    super(
+        TYPE_ID,
+        getVersion(),
+        getDeserializers(geometryFactory),
+        getSerializers(withBoundingBox, useBigDecimal));
   }
 
   private static Version getVersion() {
 
-    final int defaultMajor = 2;
-    final int defaultMinor = 0;
-    final int defaultPatchLevel = 8;
-    final String defaultSnapshotInfo = "SNAPSHOT";
+    int defaultMajor = 3;
+    int defaultMinor = 0;
+    int defaultPatchLevel = 0;
+    String defaultSnapshotInfo = "SNAPSHOT";
 
     int major = defaultMajor;
     int minor = defaultMinor;
@@ -124,7 +139,6 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
       } catch (RuntimeException e) {
         major = defaultMajor;
         minor = defaultMinor;
-        patchLevel = defaultPatchLevel;
         snapshotInfo = defaultSnapshotInfo;
       }
     }
@@ -134,23 +148,27 @@ public class GeoJsonObjectMapperModule extends SimpleModule {
   }
 
   private static Map<Class<?>, JsonDeserializer<?>> getDeserializers(
-      final GeometryFactory geometryFactory) {
-    final GeometryFactory gf = geometryFactory == null ? new GeometryFactory() : geometryFactory;
+      GeometryFactory geometryFactory) {
+
+    GeometryFactory gf = isNull(geometryFactory)
+        ? new GeoJsonGeometryFactory()
+        : geometryFactory;
     HashMap<Class<?>, JsonDeserializer<?>> map = new HashMap<>();
-    map.put(Geometry.class, new GeometryDeserializer(gf));
-    map.put(Point.class, new GeometryDeserializer(gf));
-    map.put(LineString.class, new GeometryDeserializer(gf));
-    map.put(Polygon.class, new GeometryDeserializer(gf));
-    map.put(MultiPoint.class, new GeometryDeserializer(gf));
-    map.put(MultiLineString.class, new GeometryDeserializer(gf));
-    map.put(MultiPolygon.class, new GeometryDeserializer(gf));
-    map.put(GeometryCollection.class, new GeometryDeserializer(gf));
+    map.put(Geometry.class, new JacksonGeometryDeserializer(gf));
+    map.put(Point.class, new JacksonGeometryDeserializer(gf));
+    map.put(LineString.class, new JacksonGeometryDeserializer(gf));
+    map.put(Polygon.class, new JacksonGeometryDeserializer(gf));
+    map.put(MultiPoint.class, new JacksonGeometryDeserializer(gf));
+    map.put(MultiLineString.class, new JacksonGeometryDeserializer(gf));
+    map.put(MultiPolygon.class, new JacksonGeometryDeserializer(gf));
+    map.put(GeometryCollection.class, new JacksonGeometryDeserializer(gf));
     return map;
   }
 
-  private static List<JsonSerializer<?>> getSerializers() {
+  private static List<JsonSerializer<?>> getSerializers(boolean withBoundingBox,
+      boolean useBigDecimal) {
     ArrayList<JsonSerializer<?>> list = new ArrayList<>();
-    list.add(new GeometrySerializer());
+    list.add(new JacksonGeometrySerializer(withBoundingBox, useBigDecimal));
     return list;
   }
 
