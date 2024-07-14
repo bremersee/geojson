@@ -8,7 +8,7 @@ pipeline {
     DEPLOY = true
     SNAPSHOT_SITE = true
     RELEASE_SITE = true
-    DEPLOY_FEATURE = false
+    DEPLOY_FEATURE = true
   }
   tools {
     jdk 'jdk17'
@@ -47,6 +47,7 @@ pipeline {
           anyOf {
             branch 'develop'
             branch 'main'
+            branch 'bugfix/*'
           }
         }
       }
@@ -61,6 +62,7 @@ pipeline {
           anyOf {
             branch 'develop'
             branch 'feature/*'
+            branch 'bugfix/*'
           }
         }
       }
