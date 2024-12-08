@@ -34,8 +34,9 @@ pipeline {
       post {
         always {
           junit '**/surefire-reports/*.xml'
-          jacoco(
-              execPattern: '**/coverage-reports/*.exec'
+          recordCoverage(
+              tools: [[parser: 'JACOCO', pattern: '**/coverage-reports/*.exec']],
+              sourceCodeRetention: 'LAST_BUILD'
           )
         }
       }
@@ -100,14 +101,6 @@ pipeline {
       }
       steps {
         sh 'mvn -B -P feature,allow-features clean deploy'
-      }
-      post {
-        always {
-          junit '**/surefire-reports/*.xml'
-          jacoco(
-              execPattern: '**/coverage-reports/*.exec'
-          )
-        }
       }
     }
   }
